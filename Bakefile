@@ -1,7 +1,13 @@
-noop () { @default; @as "noop.txt"
+noop () { @as "noop.txt"
   set -x
 
   echo "NOOP"
+}
+
+# Install bake
+install () {
+  # TODO
+  echo "Run command \`export PATH=${__BAKE_BINS__}:\${PATH}\`"
 }
 
 # Run bash linting
@@ -15,13 +21,12 @@ lint () { @from "noop.txt"
   shellcheck --shell bash ${args+"${args[@]}"} ./Bakefile
 }
 
-# Install bake
-install () {
-  # TODO
-  echo "Run command \`export PATH=${__BAKE_BINS__}:\${PATH}\`"
-}
-
 tests () {
   # TODO: run test scenarios
   true
+}
+
+# Show this help
+help () { @default
+  bake:utils:list
 }

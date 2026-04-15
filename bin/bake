@@ -20,12 +20,13 @@ if [[ ${__BAKE_OPTION_SHIFT_COUNT__} -gt 0 ]]; then
   done
 fi
 
+source "${__BAKE_LIBS__}/utils.sh"
 source "${__BAKEFILE__}"
 
 bake:engine:load
 
 if [[ ${__BAKE_OPTION_LIST__} == true ]]; then
-  bake:engine:list
+  bake:utils:list
   exit 0
 fi
 
