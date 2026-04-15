@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+__BAKE__=$(realpath "$0")
+__BAKEFILE__=$(pwd)/Bakefile
+
+__BAKE_BINS__=$(dirname "${__BAKE__}")
+__BAKE_LIBS__=$(dirname "${__BAKE_BINS__}")/lib
+
+source "${__BAKE_LIBS__}/cli.sh"
+source "${__BAKE_LIBS__}/engine.sh"
+
+bake:cli:argparse "$@"
+
+# Shift bake option arguments to point to the first recipe to call
+if [[ ${__BAKE_OPTION_SHIFT_COUNT__} -gt 0 ]]; then
+  for i in $(seq 1 ${__BAKE_OPTION_SHIFT_COUNT__}); do
+    shift
+  done
+fi
+
+source "${__BAKEFILE__}"
+
+bake:engine:load
+
+if [[ ${__BAKE_OPTION_LIST__} == true ]]; then
+  bake:engine:list
+  exit 0
+fi
+
+if [[ $# -gt 0 ]]; then
+  while [[ $# -gt 0 ]]; do
+    # shellcheck disable=SC2086
+    bake:engine:exec $1
+
+    shift
+  done
+else
+  if [[ -n ${__BAKE_DEFAULT__:+x} ]]; then
+    # shellcheck disable=SC2086
+    bake:engine:exec ${__BAKE_DEFAULT__}
+  else
+    echo "Nothing to do!"
+    exit 1
+  fi
+fi

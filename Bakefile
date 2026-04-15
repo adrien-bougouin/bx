@@ -1,0 +1,26 @@
+noop () { @default; @as "noop.txt"
+  set -x
+
+  echo "NOOP"
+}
+
+# Run bash linting
+lint () { @from "noop.txt"
+  local args=("$@")
+  local sources=(./bin/bake ./lib/**)
+
+  set -x
+
+  shellcheck ${args+"${args[@]}"} "${sources[@]}"
+  shellcheck --shell bash ${args+"${args[@]}"} ./Bakefile
+}
+
+# Install bake
+install () {
+  # TODO
+  echo "Run command \`export PATH=${__BAKE_BINS__}:\${PATH}\`"
+}
+
+tests () {
+  # TODO: run test scenarios
+}
