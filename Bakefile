@@ -23,4 +23,5 @@ install () {
 
 tests () {
   # TODO: run test scenarios
+  true
 }
