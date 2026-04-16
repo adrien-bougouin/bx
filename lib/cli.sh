@@ -2,28 +2,31 @@
 
 __BAKE_OPTION_LIST__=false
 
-__BAKE_OPTION_SHIFT_COUNT__=0
-
 bake:cli:help () {
   echo "TODO: help"
 }
 
 bake:cli:argparse () {
-  while [[ "$#" -gt 0 ]] && [[ "$1" =~ ^- ]]; do
+  local shift_count=0
+
+  while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
       -f|--file|--bakefile)
         __BAKEFILE__=$(realpath "$2")
-        __BAKE_OPTION_SHIFT_COUNT__=$((__BAKE_OPTION_SHIFT_COUNT__+2))
+        shift_count=$((shift_count+2))
         shift
         ;;
+
       -l|--list)
         __BAKE_OPTION_LIST__=true
-        __BAKE_OPTION_SHIFT_COUNT__=$((__BAKE_OPTION_SHIFT_COUNT__+1))
+        shift_count=$((shift_count+1))
         ;;
+
       -h|--help)
         bake:cli:help
         exit
         ;;
+
       *)
         echo "Unknown option '$1'"
         exit 1
@@ -32,4 +35,6 @@ bake:cli:argparse () {
 
     shift
   done
+
+  echo ${shift_count}
 }

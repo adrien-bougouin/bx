@@ -11,11 +11,11 @@ __BAKE_LIBS__=$(dirname "${__BAKE_BINS__}")/lib
 source "${__BAKE_LIBS__}/cli.sh"
 source "${__BAKE_LIBS__}/engine.sh"
 
-bake:cli:argparse "$@"
+args_shift_count=$(bake:cli:argparse "$@")
 
 # Shift bake option arguments to point to the first recipe to call
-if [[ ${__BAKE_OPTION_SHIFT_COUNT__} -gt 0 ]]; then
-  for i in $(seq 1 ${__BAKE_OPTION_SHIFT_COUNT__}); do
+if [[ ${args_shift_count} -gt 0 ]]; then
+  for _ in $(seq 1 "${args_shift_count}"); do
     shift
   done
 fi

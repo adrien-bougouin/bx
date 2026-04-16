@@ -7,7 +7,7 @@ bake:engine:load () {
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
-    [[ "${recipe}" =~ ^bake: ]] && continue
+    [[ ${recipe} =~ ^bake: ]] && continue
 
     # Annotation functions #####################################################
     @default () { export __BAKE_DEFAULT__="${recipe}"; }
@@ -18,7 +18,7 @@ bake:engine:load () {
     ############################################################################
 
     # FIXME: extract first line and $(eval ...)
-    [[ "$(declare -f "${recipe}")" =~ "@default" ]] && __BAKE_DEFAULT__="${recipe}"
+    [[ $(declare -f "${recipe}") =~ "@default" ]] && __BAKE_DEFAULT__="${recipe}"
 
     __BAKE_RECIPES__+=("${recipe}")
   done < <(declare -F)
@@ -28,15 +28,6 @@ bake:engine:load () {
   @as      () { true; }
   @from    () { true; }
   ##############################################################################
-}
-
-bake:engine:list () {
-  [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return
-
-  echo "Recipes:"
-  for r in "${__BAKE_RECIPES__[@]}"; do
-    echo "- ${r}"
-  done
 }
 
 bake:engine:exec () {
