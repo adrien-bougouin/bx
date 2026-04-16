@@ -36,7 +36,7 @@ if [[ $# -gt 0 ]]; then
     shift
   done
 else
-  default="$(bake:engine:get_default)"
+  default="$(bake:engine:DEFAULT)"
 
   if [[ -n ${default} ]]; then
     # shellcheck disable=SC2086

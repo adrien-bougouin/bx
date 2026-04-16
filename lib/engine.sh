@@ -30,7 +30,7 @@ bake:engine:load () {
   ##############################################################################
 }
 
-bake:engine:get_default () {
+bake:engine:DEFAULT () {
   echo "${__BAKE_DEFAULT__}"
 }
 
