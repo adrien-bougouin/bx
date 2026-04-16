@@ -1,4 +1,4 @@
-noop () { @as "noop.txt"
+noop () { @default; @as "noop.txt"
   set -x
 
   echo "NOOP"
@@ -24,9 +24,4 @@ lint () { @from "noop.txt"
 tests () {
   # TODO: run test scenarios
   true
-}
-
-# Show this help
-help () { @default
-  bake:utils:list
 }

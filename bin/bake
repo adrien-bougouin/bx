@@ -36,9 +36,11 @@ if [[ $# -gt 0 ]]; then
     shift
   done
 else
-  if [[ -n ${__BAKE_DEFAULT__:+x} ]]; then
+  default="$(bake:engine:get_default)"
+
+  if [[ -n ${default} ]]; then
     # shellcheck disable=SC2086
-    bake:engine:exec ${__BAKE_DEFAULT__}
+    bake:engine:exec ${default}
   else
     echo "Nothing to do!"
     exit 1

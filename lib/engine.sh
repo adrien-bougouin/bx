@@ -30,6 +30,10 @@ bake:engine:load () {
   ##############################################################################
 }
 
+bake:engine:get_default () {
+  echo "${__BAKE_DEFAULT__}"
+}
+
 bake:engine:exec () {
   local recipe=$1
   local args=("${@:2}")
