@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-bake::engine::load () {
+bake::engine::load() {
   export __BAKE_RECIPES__=()
   export __BAKE_DEFAULT__=""
 
@@ -10,11 +10,11 @@ bake::engine::load () {
     [[ ${recipe} =~ ^bake: ]] && continue
 
     # Annotation functions #####################################################
-    @default () { export __BAKE_DEFAULT__="${recipe}"; }
+    @default() { export __BAKE_DEFAULT__="${recipe}"; }
 
-    @as () { true; }
+    @as() { true; }
 
-    @from () { true; }
+    @from() { true; }
     ############################################################################
 
     # FIXME: extract first line and $(eval ...)
@@ -24,16 +24,16 @@ bake::engine::load () {
   done < <(declare -F)
 
   # Annotation functions no longer needed ######################################
-  @default () { true; }
-  @as      () { true; }
-  @from    () { true; }
+  @default() { true; }
+  @as() { true; }
+  @from() { true; }
   ##############################################################################
 
   readonly __BAKE_RECIPES__
   readonly __BAKE_DEFAULT__
 }
 
-bake::engine::list () {
+bake::engine::list() {
   [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return
 
   echo "Recipes:"
@@ -42,7 +42,7 @@ bake::engine::list () {
   done
 }
 
-bake::engine::exec () {
+bake::engine::exec() {
   local recipe=$1
   local args=("${@:2}")
 

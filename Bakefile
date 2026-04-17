@@ -1,27 +1,39 @@
-noop () { @default; @as "noop.txt"
+readonly SOURCES=(./bin/bake ./src/**)
+
+noop() {
+  @default
+  @as "noop.txt"
   set -x
 
   echo "NOOP"
 }
 
 # Install bake
-install () {
+install() {
   # TODO
   echo "Run command \`export PATH=${__BAKE_BINS__}:\${PATH}\`"
 }
 
 # Run bash linting
-lint () { @from format
+lint() {
+  @from format
+
   local args=("$@")
-  local sources=(./bin/bake ./src/**)
 
   set -x
 
-  shellcheck ${args+"${args[@]}"} "${sources[@]}"
+  shellcheck ${args+"${args[@]}"} "${SOURCES[@]}"
   shellcheck --shell bash ${args+"${args[@]}"} ./Bakefile
 }
 
-tests () {
+format() {
+  set -x
+
+  # https://google.github.io/styleguide/shellguide.html
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" ./Bakefile
+}
+
+tests() {
   # TODO: run test scenarios
   true
 }

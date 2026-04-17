@@ -14,7 +14,7 @@ source "${__BAKE_SRCS__}/engine.sh"
 bake::cli::argparse "$@"
 
 # Shift bake option arguments to point to the first recipe to call
-for ((i=1; i<=__BAKE_ARGPARSE_SHIFT_COUNT__; i++)); do
+for ((i = 1; i <= __BAKE_ARGPARSE_SHIFT_COUNT__; i++)); do
   shift
 done
 

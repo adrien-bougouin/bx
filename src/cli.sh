@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-bake::cli::help () {
+bake::cli::help() {
   echo "TODO: help"
 }
 
-bake::cli::argparse () {
+bake::cli::argparse() {
   export __BAKE_ARGPARSE_SHIFT_COUNT__=0
 
   export __BAKE_OPTION_LIST__=false
@@ -12,18 +12,18 @@ bake::cli::argparse () {
 
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
-      -f|--file|--bakefile)
+      -f | --file | --bakefile)
         __BAKE_OPTION_BAKEFILE__=$(realpath "$2")
-        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__+2))
+        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 2))
         shift
         ;;
 
-      -l|--list)
+      -l | --list)
         __BAKE_OPTION_LIST__=true
-        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__+1))
+        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 1))
         ;;
 
-      -h|--help)
+      -h | --help)
         bake::cli::help
         exit
         ;;
