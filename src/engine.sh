@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-__BAKE_RECIPES__=()
-__BAKE_DEFAULT__=""
+bake::engine::load () {
+  export __BAKE_RECIPES__=()
+  export __BAKE_DEFAULT__=""
 
-bake:engine:load () {
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
@@ -28,13 +28,21 @@ bake:engine:load () {
   @as      () { true; }
   @from    () { true; }
   ##############################################################################
+
+  readonly __BAKE_RECIPES__
+  readonly __BAKE_DEFAULT__
 }
 
-bake:engine:DEFAULT () {
-  echo "${__BAKE_DEFAULT__}"
+bake::engine::list () {
+  [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return
+
+  echo "Recipes:"
+  for recipe in "${__BAKE_RECIPES__[@]}"; do
+    echo "- ${recipe}"
+  done
 }
 
-bake:engine:exec () {
+bake::engine::exec () {
   local recipe=$1
   local args=("${@:2}")
 

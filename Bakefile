@@ -11,9 +11,9 @@ install () {
 }
 
 # Run bash linting
-lint () { @from "noop.txt"
+lint () { @from format
   local args=("$@")
-  local sources=(./bin/bake ./lib/**)
+  local sources=(./bin/bake ./src/**)
 
   set -x
 
