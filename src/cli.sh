@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 bake::cli::help() {
   echo "TODO: help"

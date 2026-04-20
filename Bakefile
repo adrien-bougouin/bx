@@ -1,22 +1,20 @@
 readonly SOURCES=(./bin/bake ./src/**)
 
-noop() {
+noop() (
   @default
-  @as "noop.txt"
-  set -x
+  @file: "noop.txt"
 
   echo "NOOP"
-}
+)
 
 # Install bake
-install() {
-  # TODO
+install() (
   echo "Run command \`export PATH=${__BAKE_BINS__}:\${PATH}\`"
-}
+)
 
 # Run bash linting
-lint() {
-  @from format
+lint() (
+  @require: format
 
   local args=("$@")
 
@@ -24,16 +22,16 @@ lint() {
 
   shellcheck ${args+"${args[@]}"} "${SOURCES[@]}"
   shellcheck --shell bash ${args+"${args[@]}"} ./Bakefile
-}
+)
 
-format() {
+format() (
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
   shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" ./Bakefile
-}
+)
 
-tests() {
+tests() (
   # TODO: run test scenarios
   true
-}
+)

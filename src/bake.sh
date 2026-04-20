@@ -1,11 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set -euo pipefail
 
 __BAKE__="$(realpath "$0")"
 readonly __BAKE__
 
-__BAKE_SRCS__="$(dirname "$(dirname "${__BAKE__}")")/src"
+__BAKE_BINS__="$(dirname "${__BAKE__}")"
+readonly __BAKE_BINS__
+
+__BAKE_SRCS__="$(dirname "__BAKE_BINS__")/src"
 readonly __BAKE_SRCS__
 
 source "${__BAKE_SRCS__}/cli.sh"
