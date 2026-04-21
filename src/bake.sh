@@ -2,17 +2,17 @@
 
 set -euo pipefail
 
-__BAKE__="$(realpath "$0")"
+__BAKE_SRC_DIR__="$(dirname "$(realpath "$0")")"
+readonly __BAKE_SRC_DIR__
+
+__BAKE_BIN_DIR__="$(dirname "${__BAKE_SRC_DIR__}")/bin"
+readonly __BAKE_BIN_DIR__
+
+__BAKE__="${__BAKE_BIN_DIR__}/bake"
 readonly __BAKE__
 
-__BAKE_BINS__="$(dirname "${__BAKE__}")"
-readonly __BAKE_BINS__
-
-__BAKE_SRCS__="$(dirname "__BAKE_BINS__")/src"
-readonly __BAKE_SRCS__
-
-source "${__BAKE_SRCS__}/cli.sh"
-source "${__BAKE_SRCS__}/engine.sh"
+source "${__BAKE_SRC_DIR__}/cli.sh"
+source "${__BAKE_SRC_DIR__}/engine.sh"
 
 bake::cli::argparse "$@"
 

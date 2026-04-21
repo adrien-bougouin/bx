@@ -1,0 +1,3 @@
+recipe_1() { true; }
+
+recipe_2() { true; }

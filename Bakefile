@@ -9,7 +9,7 @@ noop() (
 
 # Install bake
 install() (
-  echo "Run command \`export PATH=${__BAKE_BINS__}:\${PATH}\`"
+  echo "Run command \`export PATH=${__BAKE_BIN_DIR__}:\${PATH}\`"
 )
 
 # Run bash linting
@@ -32,6 +32,11 @@ format() (
 )
 
 tests() (
-  # TODO: run test scenarios
-  true
+  PATH="${__BAKE_BIN_DIR__}:${PATH}"
+
+  cd test
+
+  for test in ./test_*.sh; do
+    bash "${test}"
+  done
 )
