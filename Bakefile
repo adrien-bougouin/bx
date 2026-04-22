@@ -1,4 +1,6 @@
-readonly SOURCES=(./bin/bake ./src/**)
+readonly SOURCES=(./bin/bake ./src/** ./test/run.sh)
+readonly TESTS=(./test/test_*.sh)
+readonly BAKEFILES=(./Bakefile ./**/Bakefile)
 
 noop() (
   @default
@@ -21,22 +23,19 @@ lint() (
   set -x
 
   shellcheck ${args+"${args[@]}"} "${SOURCES[@]}"
-  shellcheck --shell bash ${args+"${args[@]}"} ./Bakefile
+  shellcheck ${args+"${args[@]}"} "${TESTS[@]}"
+  shellcheck --shell bash ${args+"${args[@]}"} "${BAKEFILES[@]}"
 )
 
 format() (
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" ./Bakefile
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${TESTS[@]}" "${BAKEFILES[@]}"
 )
 
 tests() (
   PATH="${__BAKE_BIN_DIR__}:${PATH}"
 
-  cd test
-
-  for test in ./test_*.sh; do
-    bash "${test}"
-  done
+  cd test && ./run.sh ./test_*.sh
 )

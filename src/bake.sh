@@ -45,7 +45,7 @@ else
     # shellcheck disable=SC2086
     bake::engine::exec ${__BAKE_DEFAULT__}
   else
-    echo "Nothing to do!"
+    printf "Nothing to do!\n"
     exit 1
   fi
 fi

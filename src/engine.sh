@@ -32,9 +32,9 @@ bake::engine::load() {
 bake::engine::list() {
   [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return
 
-  echo "Recipes:"
+  printf "Recipes:\n"
   for recipe in "${__BAKE_RECIPES__[@]}"; do
-    echo "- ${recipe}"
+    printf -- "- %s\n" "${recipe}"
     declare -f "${recipe}"
   done
 }
@@ -43,7 +43,7 @@ bake::engine::exec() {
   local recipe=$1
   local args=("${@:2}")
 
-  printf "$(tput bold)%s%s$(tput sgr0)\n" "${recipe}" "${args+" ${args[*]}"}"
+  printf "%s%s%s%s\n" "$(tput bold)" "${recipe}" "${args+" ${args[*]}"}" "$(tput sgr0)"
 
   eval "${recipe}" "${args+"${args[@]}"}"
 }

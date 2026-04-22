@@ -1,7 +1,7 @@
 #!/bin/bash
 
 bake::cli::help() {
-  echo "TODO: help"
+  printf "TODO: help\n"
 }
 
 bake::cli::argparse() {
@@ -29,7 +29,7 @@ bake::cli::argparse() {
         ;;
 
       *)
-        echo "Unknown option '$1'"
+        printf "Unknown option '%s'\n" "$1"
         exit 1
         ;;
     esac
