@@ -27,14 +27,16 @@ assert_output() {
 
   if [[ ${expected} != "${actual}" ]]; then
     printf " %s[FAILED]%s\n" \
-      "$(tput "${TPUT_RED_FG_ARGS[@]}")" "$(tput "${TPUT_RESET_ARGS[@]}")"
+      "$(tput "${TPUT_RED_FG_ARGS[@]}")" \
+      "$(tput "${TPUT_RESET_ARGS[@]}")"
     printf "  Expected: %q\n" "${expected}"
     printf "  Actual:   %q\n" "${actual}"
 
     FAIL_COUNT=$((FAIL_COUNT + 1))
   else
     printf " %s[PASSED]%s\n" \
-      "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" "$(tput "${TPUT_RESET_ARGS[@]}")"
+      "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" \
+      "$(tput "${TPUT_RESET_ARGS[@]}")"
 
     PASS_COUNT=$((PASS_COUNT + 1))
   fi
@@ -50,8 +52,13 @@ while [[ $# -gt 0 ]]; do
 done
 
 printf "\n===== %s%d PASSED%s" \
-  "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" "${PASS_COUNT}" "$(tput "${TPUT_RESET_ARGS[@]}")"
+  "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" \
+  "${PASS_COUNT}" \
+  "$(tput "${TPUT_RESET_ARGS[@]}")"
+
 printf " - %s%d FAILED%s\n" \
-  "$(tput "${TPUT_RED_FG_ARGS[@]}")" "${FAIL_COUNT}" "$(tput "${TPUT_RESET_ARGS[@]}")"
+  "$(tput "${TPUT_RED_FG_ARGS[@]}")" \
+  "${FAIL_COUNT}" \
+  "$(tput "${TPUT_RESET_ARGS[@]}")"
 
 exit "${FAIL_COUNT}"
