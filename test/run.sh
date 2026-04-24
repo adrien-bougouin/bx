@@ -22,28 +22,27 @@ assert_output() {
   expected="$2"
   actual="$(eval "${command}")"
 
-  printf "\n%% "
-  printf "%s" "${command}"
-
   if [[ ${expected} != "${actual}" ]]; then
-    printf " %s[FAILED]%s\n" \
+    printf "%s[FAILED]%s %s\n" \
       "$(tput "${TPUT_RED_FG_ARGS[@]}")" \
-      "$(tput "${TPUT_RESET_ARGS[@]}")"
-    printf "  Expected: %q\n" "${expected}"
-    printf "  Actual:   %q\n" "${actual}"
+      "$(tput "${TPUT_RESET_ARGS[@]}")" \
+      "${command}"
+    printf "    Expected: %q\n" "${expected}"
+    printf "    Actual:   %q\n" "${actual}"
 
     FAIL_COUNT=$((FAIL_COUNT + 1))
   else
-    printf " %s[PASSED]%s\n" \
+    printf "%s[PASSED]%s %s\n" \
       "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" \
-      "$(tput "${TPUT_RESET_ARGS[@]}")"
+      "$(tput "${TPUT_RESET_ARGS[@]}")" \
+      "${command}"
 
     PASS_COUNT=$((PASS_COUNT + 1))
   fi
 }
 
 while [[ $# -gt 0 ]]; do
-  printf "===== %s\n" "$(realpath "$1")"
+  printf "===== %s\n\n" "$(realpath "$1")"
 
   source "$1"
   shift

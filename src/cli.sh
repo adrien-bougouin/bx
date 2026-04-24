@@ -13,8 +13,9 @@ bake::cli::help() {
 bake::cli::argparse() {
   export __BAKE_ARGPARSE_SHIFT_COUNT__=0
 
-  export __BAKE_OPTION_HELP__=false
   export __BAKE_OPTION_BAKEFILE__=""
+  export __BAKE_OPTION_HELP__=false
+  export __BAKE_OPTION_QUIET__=false
 
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
@@ -26,6 +27,11 @@ bake::cli::argparse() {
 
       -h | --help)
         __BAKE_OPTION_HELP__=true
+        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 1))
+        ;;
+
+      -s | --silent | -q | --quiet)
+        __BAKE_OPTION_QUIET__=true
         __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 1))
         ;;
 

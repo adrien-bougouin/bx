@@ -42,11 +42,13 @@ bake::engine::exec() {
   local recipe=$1
   local args=("${@:2}")
 
-  printf "%s%s%s%s\n" \
-    "$(tput bold)" \
-    "${recipe}" \
-    "${args+" ${args[*]}"}" \
-    "$(tput sgr0)"
+  if [[ ${__BAKE_OPTION_QUIET__} == "false" ]]; then
+    printf "%s%s%s%s\n" \
+      "$(tput bold)" \
+      "${recipe}" \
+      "${args+" ${args[*]}"}" \
+      "$(tput sgr0)"
+  fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
 }
