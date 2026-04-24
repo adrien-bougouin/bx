@@ -13,15 +13,15 @@ jobs:
       TERM: xterm-256color
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
       - uses: actions/setup-go@v5
         with:
           go-version: 'stable'
 
       - name: Install shfmt
-      - run: go install mvdan.cc/sh/v3/cmd/shfmt@latest
+        run: go install mvdan.cc/sh/v3/cmd/shfmt@latest
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
       - name: Check style
         run: |
