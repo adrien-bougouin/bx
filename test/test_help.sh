@@ -1,7 +1,7 @@
 #!/bin/bash
 
 assert_output "bake -f ./bakefiles/help_no_recipe.bakefile -h" "$(
-  cat <<-EXPECTED
+	cat <<-EXPECTED
 		Usage: bake [options] [recipe] ...
 
 		Options:
@@ -13,7 +13,7 @@ assert_output "bake -f ./bakefiles/help_no_recipe.bakefile -h" "$(
 )"
 
 assert_output "bake -f ./bakefiles/help.bakefile -h" "$(
-  cat <<-EXPECTED
+	cat <<-EXPECTED
 		Usage: bake [options] [recipe] ...
 
 		Options:
@@ -30,7 +30,7 @@ assert_output "bake -f ./bakefiles/help.bakefile -h" "$(
 )"
 
 assert_output "bake -f ./bakefiles/help.bakefile --help" "$(
-  cat <<-EXPECTED
+	cat <<-EXPECTED
 		Usage: bake [options] [recipe] ...
 
 		Options:
