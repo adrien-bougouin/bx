@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Check style
+        run: |
+          ./bin/bake lint
+          ./bin/bake format && git diff --exit-code
+
+      - name: Check tests
+        id: check-tests
+        run: |
+          echo '```' >> "${GITHUB_STEP_SUMMARY}"
+          ./bin/bake tests | tee "${GITHUB_STEP_SUMMARY}"
+          echo '```' >> "${GITHUB_STEP_SUMMARY}"
