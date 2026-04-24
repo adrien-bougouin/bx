@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TERM: xterm-256color
 
     steps:
       - name: Checkout repository
