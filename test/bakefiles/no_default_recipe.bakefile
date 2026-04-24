@@ -1,0 +1,11 @@
+recipe_1 () {
+  echo "Not default!"
+}
+
+recipe_2 () {
+  echo "Not default!"
+}
+
+recipe_3 () {
+  echo "Not default!"
+}
