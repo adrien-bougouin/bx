@@ -18,7 +18,7 @@ install() (
 lint() (
   @require: format
 
-  local args=("$@")
+  local args=("--exclude" "SC1090,SC1091,SC2329" "$@")
 
   set -x
 

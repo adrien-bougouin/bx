@@ -18,7 +18,7 @@ jobs:
 
       - name: Check style
         run: |
-          ./bin/bake "lint --rcfile .shellcheckrc"
+          ./bin/bake lint
           ./bin/bake format && git diff --exit-code
 
       - name: Check tests
