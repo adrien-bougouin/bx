@@ -56,7 +56,7 @@ assert_output() {
 }
 
 while [[ $# -gt 0 ]]; do
-  printf "===== %s\n\n" "$(realpath "$1")"
+  printf "========= %s\n\n" "$(realpath "$1")"
 
   source "$1"
   shift
@@ -64,7 +64,7 @@ while [[ $# -gt 0 ]]; do
   [[ $# -gt 0 ]] && printf "\n"
 done
 
-printf "\n===== %s%d PASSED%s" \
+printf "\n========= %s%d PASSED%s" \
   "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" \
   "${PASS_COUNT}" \
   "$(tput "${TPUT_RESET_ARGS[@]}")"
