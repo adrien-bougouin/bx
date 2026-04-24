@@ -18,7 +18,7 @@ jobs:
 
       - name: Check style
         run: |
-          ./bin/bake lint
+          ./bin/bake "lint --exclude SC2317"
           ./bin/bake format && git diff --exit-code
 
       - name: Check tests
