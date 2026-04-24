@@ -1,3 +1,3 @@
 # bake
 
-Make-ish bash-only build automation and task running tool.
+Bash-only make-ish build automation and task running tool.
