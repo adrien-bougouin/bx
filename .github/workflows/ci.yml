@@ -9,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TERM: ""
 
     steps:
       - uses: actions/setup-go@v5
