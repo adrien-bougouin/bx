@@ -3,7 +3,8 @@
 TPUT_BOLD=""
 TPUT_RESET=""
 
-if [[ -n ${TERM} ]]; then
+# BASH unset ${TERM} value is 'dumb'!
+if [[ ${TERM:-dumb} != "dumb" ]]; then
 	TPUT_BOLD="$(tput bold)"
 	TPUT_RESET="$(tput sgr0)"
 fi
