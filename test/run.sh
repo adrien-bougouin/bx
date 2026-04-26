@@ -32,8 +32,8 @@ assert_output() {
 
   if [[ ${expected} != "${actual}" ]]; then
     printf "%s[FAILED]%s  %s\n" \
-    "${__BAKE_TERM_RED_FG__}" \
-    "${__BAKE_TERM_RESET__}" \
+      "${__BAKE_TERM_RED_FG__}" \
+      "${__BAKE_TERM_RESET__}" \
       "${command}"
     printf "    Expected: %q\n" "${expected}"
     printf "    Actual:   %q\n" "${actual}"
@@ -41,8 +41,8 @@ assert_output() {
     FAIL_COUNT=$((FAIL_COUNT + 1))
   else
     printf "%s[PASSED]%s  %s\n" \
-    "${__BAKE_TERM_GREEN_FG__}" \
-    "${__BAKE_TERM_RESET__}" \
+      "${__BAKE_TERM_GREEN_FG__}" \
+      "${__BAKE_TERM_RESET__}" \
       "${command}"
 
     PASS_COUNT=$((PASS_COUNT + 1))

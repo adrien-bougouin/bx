@@ -4,8 +4,8 @@ TPUT_BOLD=""
 TPUT_RESET=""
 
 if [[ -n ${TERM} ]]; then
-  TPUT_BOLD="$(tput bold)"
-  TPUT_RESET="$(tput sgr0)"
+	TPUT_BOLD="$(tput bold)"
+	TPUT_RESET="$(tput sgr0)"
 fi
 
 assert_output "bake -f ./bakefiles/quiet.bakefile do-something" "$(
