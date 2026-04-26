@@ -35,7 +35,7 @@ format() (
   shfmt -ci -bn -s -w "${TESTS[@]}"
 )
 
-tests() (
+test() (
   PATH="${__BAKE_BIN_DIR__}:${PATH}"
 
   cd test && ./run.sh ./test_*.sh
