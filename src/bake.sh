@@ -4,7 +4,7 @@ set -euo pipefail
 
 readonly __BAKE_COMMAND__=bake
 
-__BAKE_SRC_DIR__="$(dirname "$(realpath "$0")")"
+__BAKE_SRC_DIR__="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 readonly __BAKE_SRC_DIR__
 
 __BAKE_BIN_DIR__="$(dirname "${__BAKE_SRC_DIR__}")/bin"
@@ -15,6 +15,7 @@ readonly __BAKE__
 
 readonly __BAKE_INDENT__="    "
 
+source "${__BAKE_SRC_DIR__}/term.sh"
 source "${__BAKE_SRC_DIR__}/cli.sh"
 source "${__BAKE_SRC_DIR__}/engine.sh"
 

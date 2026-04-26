@@ -1,27 +1,21 @@
 #!/bin/bash
 
-set +ex -o pipefail
+set +ex -uo pipefail
+
+TEST_DIRECTORY="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+source "${TEST_DIRECTORY}/../src/term.sh"
 
 PASS_COUNT=0
 FAIL_COUNT=0
 SKIP_COUNT=0
 
-TPUT_RESET_ARGS=(sgr0)
-TPUT_RED_FG_ARGS=(setaf 1)
-TPUT_GREEN_FG_ARGS=(setaf 2)
-TPUT_YELLOW_FG_ARGS=(setaf 3)
-
-readonly TPUT_RESET_ARGS
-readonly TPUT_RED_FG_ARGS
-readonly TPUT_GREEN_FG_ARGS
-readonly TPUT_YELLOW_FG_ARGS
-
 skip() {
   local command="$2"
 
   printf "%s[SKIPPED]%s %s\n" \
-    "$(tput "${TPUT_YELLOW_FG_ARGS[@]}")" \
-    "$(tput "${TPUT_RESET_ARGS[@]}")" \
+    "${__BAKE_TERM_YELLOW_FG__}" \
+    "${__BAKE_TERM_RESET__}" \
     "${command}"
 
   SKIP_COUNT=$((SKIP_COUNT + 1))
@@ -38,8 +32,8 @@ assert_output() {
 
   if [[ ${expected} != "${actual}" ]]; then
     printf "%s[FAILED]%s  %s\n" \
-      "$(tput "${TPUT_RED_FG_ARGS[@]}")" \
-      "$(tput "${TPUT_RESET_ARGS[@]}")" \
+    "${__BAKE_TERM_RED_FG__}" \
+    "${__BAKE_TERM_RESET__}" \
       "${command}"
     printf "    Expected: %q\n" "${expected}"
     printf "    Actual:   %q\n" "${actual}"
@@ -47,8 +41,8 @@ assert_output() {
     FAIL_COUNT=$((FAIL_COUNT + 1))
   else
     printf "%s[PASSED]%s  %s\n" \
-      "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" \
-      "$(tput "${TPUT_RESET_ARGS[@]}")" \
+    "${__BAKE_TERM_GREEN_FG__}" \
+    "${__BAKE_TERM_RESET__}" \
       "${command}"
 
     PASS_COUNT=$((PASS_COUNT + 1))
@@ -65,19 +59,19 @@ while [[ $# -gt 0 ]]; do
 done
 
 printf "\n========= %s%d PASSED%s" \
-  "$(tput "${TPUT_GREEN_FG_ARGS[@]}")" \
+  "${__BAKE_TERM_GREEN_FG__}" \
   "${PASS_COUNT}" \
-  "$(tput "${TPUT_RESET_ARGS[@]}")"
+  "${__BAKE_TERM_RESET__}"
 
 printf " - %s%d SKIPPED%s" \
-  "$(tput "${TPUT_YELLOW_FG_ARGS[@]}")" \
+  "${__BAKE_TERM_YELLOW_FG__}" \
   "${SKIP_COUNT}" \
-  "$(tput "${TPUT_RESET_ARGS[@]}")"
+  "${__BAKE_TERM_RESET__}"
 
 printf " - %s%d FAILED%s" \
-  "$(tput "${TPUT_RED_FG_ARGS[@]}")" \
+  "${__BAKE_TERM_RED_FG__}" \
   "${FAIL_COUNT}" \
-  "$(tput "${TPUT_RESET_ARGS[@]}")"
+  "${__BAKE_TERM_RESET__}"
 
 printf "\n"
 

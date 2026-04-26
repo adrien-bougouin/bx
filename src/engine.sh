@@ -44,10 +44,10 @@ bake::engine::exec() {
 
   if [[ ${__BAKE_OPTION_QUIET__} == "false" ]]; then
     printf "%s%s%s%s\n" \
-      "$(tput bold)" \
+      "${__BAKE_TERM_BOLD__}" \
       "${recipe}" \
       "${args+" ${args[*]}"}" \
-      "$(tput sgr0)"
+      "${__BAKE_TERM_RESET__}"
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
