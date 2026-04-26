@@ -32,5 +32,5 @@ jobs:
         id: check-tests
         run: |
           echo '```' >> "${GITHUB_STEP_SUMMARY}"
-          ./bin/bake tests | tee "${GITHUB_STEP_SUMMARY}"
+          ./bin/bake tests | tee -a "${GITHUB_STEP_SUMMARY}"
           echo '```' >> "${GITHUB_STEP_SUMMARY}"
