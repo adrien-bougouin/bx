@@ -1,0 +1,25 @@
+require() {
+  echo "- required"
+}
+
+require--with-args() {
+  echo "- required #$1"
+}
+
+one-dependent() {
+  @require: require
+
+  echo "- dependent"
+}
+
+multi-dependent() {
+  @require: require require require
+
+  echo "- dependent"
+}
+
+multi-dependent--with-args() {
+  @require: "require--with-args 1" "require--with-args 2" "require--with-args 3"
+
+  echo "- dependent"
+}
