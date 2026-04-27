@@ -1,6 +1,6 @@
 #!/bin/bash
 
-assert_output "bake -q -f ./bakefiles/no_default_recipe.bakefile" "$(
+assert_output "bake -q -f ./bakefiles/default_recipe__missing.bakefile" "$(
 	cat <<-EXPECTED
 		Nothing to do!
 	EXPECTED
@@ -12,7 +12,7 @@ assert_output "bake -q -f ./bakefiles/default_recipe.bakefile" "$(
 	EXPECTED
 )"
 
-skip assert_output "bake -q -f ./bakefiles/too_many_default_recipes.bakefile" "$(
+skip assert_output "bake -q -f ./bakefiles/default_recipe__multiple.bakefile" "$(
 	cat <<-EXPECTED
 		Nothing to do!
 	EXPECTED

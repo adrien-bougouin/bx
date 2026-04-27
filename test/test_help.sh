@@ -1,6 +1,6 @@
 #!/bin/bash
 
-assert_output "bake -f ./bakefiles/help_no_recipe.bakefile -h" "$(
+assert_output "bake -f ./bakefiles/help__no_recipe.bakefile -h" "$(
 	cat <<-EXPECTED
 		Usage: bake [options] [recipe] ...
 
