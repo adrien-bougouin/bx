@@ -45,4 +45,5 @@ jobs:
           echo '```' >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Skip check
-        run: [[ ${{ steps.test-run.outputs.skipped-count }} -le ${{ vars.MAX_SKIPS }} ]]
+        run: |
+          [[ ${{ steps.test-run.outputs.skipped-count }} -le ${{ vars.MAX_SKIPS }} ]]
