@@ -46,6 +46,7 @@ bake::cli::argparse() {
 
   readonly __BAKE_ARGPARSE_SHIFT_COUNT__
 
-  readonly __BAKE_OPTION_HELP__
   readonly __BAKE_OPTION_BAKEFILE__
+  readonly __BAKE_OPTION_HELP__
+  readonly __BAKE_OPTION_QUIET__
 }

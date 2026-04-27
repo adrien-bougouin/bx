@@ -9,7 +9,7 @@ export __BAKE_TERM_YELLOW_FG__=""
 export __BAKE_TERM_RESET__=""
 
 # BASH unset ${TERM} value is 'dumb'!
-if [[ ${TERM:-dumb} != "dumb" ]]; then
+if [[ $(command -v tput) ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
   __BAKE_TERM_BOLD__="$(tput bold)"
 
   __BAKE_TERM_RED_FG__="$(tput setaf 1)"
