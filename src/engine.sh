@@ -1,7 +1,9 @@
 #!/bin/bash
 
-export __BAKE_RECIPES__=()
 export __BAKE_DEFAULT__=""
+
+export __BAKE_RECIPES__=()
+export __BAKE_REQUIREMENTS__=()
 
 bake::engine::load() {
   while IFS='' read -r recipe_definition; do
@@ -9,19 +11,31 @@ bake::engine::load() {
 
     [[ ${recipe} =~ ^bake: ]] && continue
 
-    # TODO
+    local requirements=()
+
     # Annotations ##############################################################
-    @default() { true; }
-    @file:() { true; }
-    @require:() { true; }
+    @default() {
+      if [[ -z ${__BAKE_DEFAULT__} ]]; then
+        __BAKE_DEFAULT__="${recipe}"
+      else
+        # TODO
+        :
+      fi
+    }
+
+    @require:() {
+      requirements+=("$@")
+    }
     ############################################################################
 
-    # FIXME: extract first line and $(eval ...)
-    [[ $(declare -f "${recipe}") =~ "@default" ]] && __BAKE_DEFAULT__="${recipe}"
+    # TODO: validation (annotations only allowed at the beginning
+    # TODO: subshell support (sed -E 's/([()])/\1\n/g')--comment+test
+    eval "$(declare -f "${recipe}" \
+      | sed -E 's/([()])/\1\n/g' \
+      | grep "@default\|@require:")"
 
     # Disable annotations ######################################################
     @default() { true; }
-    @file:() { true; }
     @require:() { true; }
     ############################################################################
 

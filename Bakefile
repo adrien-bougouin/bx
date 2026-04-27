@@ -2,13 +2,6 @@ readonly SOURCES=(./bin/bake ./src/** ./test/run.sh)
 readonly TESTS=(./test/test_*.sh)
 readonly BAKEFILES=(./Bakefile ./**/Bakefile)
 
-noop() (
-  @default
-  @file: "noop.txt"
-
-  echo "NOOP"
-)
-
 # Install bake
 install() (
   echo "Run command \`export PATH=${__BAKE_BIN_DIR__}:\${PATH}\`"
