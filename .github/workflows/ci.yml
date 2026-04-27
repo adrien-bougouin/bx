@@ -42,7 +42,14 @@ jobs:
         run: |
           ./bin/bake -q test | tee output.log
 
-          counts=($(tail -n 1 output.log | sed -E 's/\x1b\[[0-9;]*m//g; s/\x1b\(B//g' | sed -E 's/^========= ([0-9]+) PASSED - ([0-9]+) SKIPPED - ([0-9]+) FAILED/\1 \2 \3/'))
+          counts=(
+            $(
+              tail -n 1 output.log \
+                | sed -E 's/\x1b\[[0-9;]*m//g; s/\x1b\(B//g' \
+                | sed -E 's/^========= ([0-9]+) PASSED - ([0-9]+) SKIPPED - ([0-9]+) FAILED/\1 \2 \3/'
+            )
+          )
+
           echo "passed-count=${counts[0]}" >> ${GITHUB_OUTPUT}
           echo "skipped-count=${counts[1]}" >> ${GITHUB_OUTPUT}
           echo "failed-count=${counts[2]}" >> ${GITHUB_OUTPUT}
