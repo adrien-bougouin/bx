@@ -9,8 +9,6 @@ install() (
 
 # Run bash linting
 lint() (
-  @require: format
-
   local args=("--exclude" "SC1090,SC1091,SC2329" "$@")
 
   set -x

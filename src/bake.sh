@@ -60,7 +60,7 @@ bake::engine::load
 if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
   bake::cli::help
 
-  [[ ${#__BAKE_RECIPES__} -gt 0 ]] && printf "\n"
+  [[ ${#__BAKE_RECIPES__[@]} -gt 0 ]] && printf "\n"
 
   bake::engine::list
 
