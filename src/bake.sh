@@ -16,7 +16,14 @@ readonly __BAKE__
 readonly __BAKE_INDENT__="    "
 
 bake::abort() {
-  printf "%s: %s.\n" "${__BAKE_COMMAND__}" "$1"
+  local capitalized_error="$(printf "${1:0:1}" | tr '[:lower:]' '[:upper:]')${1:1}"
+
+  printf "%s%s:%s %s!\n" \
+    "${__BAKE_TERM_BOLD__}" \
+    "${__BAKE_COMMAND__}" \
+    "${__BAKE_TERM_RESET__}" \
+    "${capitalized_error}"
+
   exit 1
 }
 
@@ -35,7 +42,7 @@ __BAKEFILE__="${__BAKE_OPTION_BAKEFILE__:-"$(pwd)/Bakefile"}"
 readonly __BAKEFILE__
 
 if [[ ! -f ${__BAKEFILE__} ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
-  bake::abort "No recipes"
+  bake::abort "no recipes"
 fi
 
 [[ -f ${__BAKEFILE__} ]] && source "${__BAKEFILE__}"
@@ -64,7 +71,6 @@ else
     # shellcheck disable=SC2086
     bake::engine::exec ${__BAKE_DEFAULT__}
   else
-    printf "Nothing to do!\n"
-    exit 1
+    bake::abort "nothing to do"
   fi
 fi

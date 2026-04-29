@@ -1,8 +1,8 @@
 #!/bin/bash
 
-assert_output "bake -q -f ./bakefiles/default_recipe__missing.bakefile" "$(
+assert_output "TERM= bake -q -f ./bakefiles/default_recipe__missing.bakefile" "$(
 	cat <<-EXPECTED
-		Nothing to do!
+		bake: Nothing to do!
 	EXPECTED
 )"
 
@@ -12,8 +12,8 @@ assert_output "bake -q -f ./bakefiles/default_recipe.bakefile" "$(
 	EXPECTED
 )"
 
-assert_output "bake -q -f ./bakefiles/default_recipe__multiple.bakefile" "$(
+assert_output "TERM= bake -q -f ./bakefiles/default_recipe__multiple.bakefile" "$(
 	cat <<-EXPECTED
-		bake: Too many default recipes.
+		bake: Too many default recipes!
 	EXPECTED
 )"

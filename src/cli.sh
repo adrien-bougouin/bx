@@ -36,7 +36,7 @@ bake::cli::argparse() {
         ;;
 
       *)
-        bake::abort "Unknown option '$1'"
+        bake::abort "unknown option '$1'"
         ;;
     esac
 

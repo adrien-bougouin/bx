@@ -20,7 +20,7 @@ bake::engine::load() {
       if [[ -z ${__BAKE_DEFAULT__} ]]; then
         __BAKE_DEFAULT__="${recipe}"
       else
-        bake::abort "Too many default recipes"
+        bake::abort "too many default recipes"
       fi
     }
 
