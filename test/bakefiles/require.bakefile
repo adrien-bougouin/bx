@@ -12,11 +12,23 @@ one-dependent() {
   echo "- dependent"
 }
 
+one-dependent--subprocess() (
+  @require: require
+
+  echo "- dependent"
+)
+
 multi-dependent() {
   @require: require require require
 
   echo "- dependent"
 }
+
+multi-dependent--subprocess() (
+  @require: require require require
+
+  echo "- dependent"
+)
 
 multi-dependent--with-args() {
   @require: "require--with-args 1" "require--with-args 2" "require--with-args 3"

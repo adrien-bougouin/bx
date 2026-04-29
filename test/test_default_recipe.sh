@@ -12,6 +12,12 @@ assert_output "bake -q -f ./bakefiles/default_recipe.bakefile" "$(
 	EXPECTED
 )"
 
+assert_output "bake -q -f ./bakefiles/default_recipe__subprocess.bakefile" "$(
+	cat <<-EXPECTED
+		Default subprocess recipe.
+	EXPECTED
+)"
+
 assert_output "TERM= bake -q -f ./bakefiles/default_recipe__multiple.bakefile" "$(
 	cat <<-EXPECTED
 		bake: Too many default recipes!
