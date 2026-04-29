@@ -29,9 +29,13 @@ bake::abort() {
   exit 1
 }
 
+################################################################################
+
 source "${__BAKE_SRC_DIR__}/term.sh"
 source "${__BAKE_SRC_DIR__}/cli.sh"
 source "${__BAKE_SRC_DIR__}/engine.sh"
+
+# argparse #####################################################################
 
 bake::cli::argparse "$@"
 
@@ -47,6 +51,8 @@ if [[ ! -f ${__BAKEFILE__} ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
   bake::abort "no recipes"
 fi
 
+# load #########################################################################
+
 [[ -f ${__BAKEFILE__} ]] && source "${__BAKEFILE__}"
 
 bake::engine::load
@@ -60,6 +66,8 @@ if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
 
   exit 0
 fi
+
+# exec #########################################################################
 
 if [[ $# -gt 0 ]]; then
   while [[ $# -gt 0 ]]; do

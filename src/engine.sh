@@ -72,7 +72,6 @@ bake::engine::_parse_recipe_annotations() {
   recipe="$1"
   recipe_annotations="$(declare -f "${recipe}" | grep "@default\|@require:")"
 
-  # TODO: add subprocess test
   # Strip subshell surroundings (e.g. '  (  @default;').
   recipe_annotations=$(
     printf "%s" "${recipe_annotations}" | sed -E 's/^ *\(//; s/\) *$//'
