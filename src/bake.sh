@@ -16,7 +16,9 @@ readonly __BAKE__
 readonly __BAKE_INDENT__="    "
 
 bake::abort() {
-  local capitalized_error="$(printf "${1:0:1}" | tr '[:lower:]' '[:upper:]')${1:1}"
+  local capitalized_error
+
+  capitalized_error="$(printf "%s" "${1:0:1}" | tr '[:lower:]' '[:upper:]')${1:1}"
 
   printf "%s%s:%s %s!\n" \
     "${__BAKE_TERM_BOLD__}" \
