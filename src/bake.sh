@@ -15,6 +15,11 @@ readonly __BAKE__
 
 readonly __BAKE_INDENT__="    "
 
+bake::abort() {
+  printf "%s: %s.\n" "${__BAKE_COMMAND__}" "$1"
+  exit 1
+}
+
 source "${__BAKE_SRC_DIR__}/term.sh"
 source "${__BAKE_SRC_DIR__}/cli.sh"
 source "${__BAKE_SRC_DIR__}/engine.sh"
@@ -30,8 +35,7 @@ __BAKEFILE__="${__BAKE_OPTION_BAKEFILE__:-"$(pwd)/Bakefile"}"
 readonly __BAKEFILE__
 
 if [[ ! -f ${__BAKEFILE__} ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
-  printf "%s: No recipes.\n" "${__BAKE_COMMAND__}"
-  exit 1
+  bake::abort "No recipes"
 fi
 
 [[ -f ${__BAKEFILE__} ]] && source "${__BAKEFILE__}"

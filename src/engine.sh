@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: rename recipes??? e.g. bake::recipes::load
+
 export __BAKE_DEFAULT__=""
 
 export __BAKE_RECIPES__=()
@@ -18,8 +20,7 @@ bake::engine::load() {
       if [[ -z ${__BAKE_DEFAULT__} ]]; then
         __BAKE_DEFAULT__="${recipe}"
       else
-        # TODO
-        :
+        bake::abort "Too many default recipes"
       fi
     }
 
@@ -29,18 +30,15 @@ bake::engine::load() {
     ############################################################################
 
     # TODO: validation (annotations only allowed at the beginning
-    # TODO: subshell support (sed -E 's/([()])/\1\n/g')--comment+test
-    eval "$(declare -f "${recipe}" \
-      | sed -E 's/([()])/\1\n/g' \
-      | grep "@default\|@require:")"
-
-    # Disable annotations ######################################################
-    @default() { true; }
-    @require:() { true; }
-    ############################################################################
+    eval "$(bake::engine::_parse_recipe_annotations "${recipe}")"
 
     __BAKE_RECIPES__+=("${recipe}")
   done < <(declare -F)
+
+  # Disable annotations ######################################################
+  @default() { true; }
+  @require:() { true; }
+  ############################################################################
 }
 
 bake::engine::list() {
@@ -65,4 +63,20 @@ bake::engine::exec() {
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
+}
+
+bake::engine::_parse_recipe_annotations() {
+  local recipe
+  local recipe_annotations
+
+  recipe="$1"
+  recipe_annotations="$(declare -f "${recipe}" | grep "@default\|@require:")"
+
+  # TODO: add subprocess test
+  # Strip subshell surroundings (e.g. '  (  @default;').
+  recipe_annotations=$(
+    printf "%s" "${recipe_annotations}" | sed -E 's/^ *\(//; s/\) *$//'
+  )
+
+  printf "%s" "${recipe_annotations}"
 }
