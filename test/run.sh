@@ -2,7 +2,11 @@
 
 set +ex -uo pipefail
 
-TEST_DIRECTORY="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+TEST_DIRECTORY="$(dirname "${BASH_SOURCE[0]}")"
+readonly TEST_DIRECTORY
+
+__BAKEFILES__="${TEST_DIRECTORY}/bakefiles"
+readonly __BAKEFILES__
 
 source "${TEST_DIRECTORY}/../src/term.sh"
 
@@ -50,7 +54,7 @@ assert_output() {
 }
 
 while [[ $# -gt 0 ]]; do
-  printf "========= %s\n\n" "$(realpath "$1")"
+  printf "========= %s\n\n" "$1"
 
   source "$1"
   shift

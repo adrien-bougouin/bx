@@ -1,24 +1,24 @@
 #!/bin/bash
 
-assert_output "TERM= bake -q -f ./bakefiles/default_recipe__missing.bakefile" "$(
+assert_output "TERM= bake -q -f '${__BAKEFILES__}/default_recipe__missing.bakefile'" "$(
 	cat <<-EXPECTED
 		bake: Nothing to do!
 	EXPECTED
 )"
 
-assert_output "bake -q -f ./bakefiles/default_recipe.bakefile" "$(
+assert_output "bake -q -f '${__BAKEFILES__}/default_recipe.bakefile'" "$(
 	cat <<-EXPECTED
 		Default recipe.
 	EXPECTED
 )"
 
-assert_output "bake -q -f ./bakefiles/default_recipe__subprocess.bakefile" "$(
+assert_output "bake -q -f '${__BAKEFILES__}/default_recipe__subprocess.bakefile'" "$(
 	cat <<-EXPECTED
 		Default subprocess recipe.
 	EXPECTED
 )"
 
-assert_output "TERM= bake -q -f ./bakefiles/default_recipe__multiple.bakefile" "$(
+assert_output "TERM= bake -q -f '${__BAKEFILES__}/default_recipe__multiple.bakefile'" "$(
 	cat <<-EXPECTED
 		bake: Too many default recipes!
 	EXPECTED

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-CURRENT_DIRECTORY="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+DIRECTORY="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-assert_output "bake -q which-bakefile" "$(
+assert_output "cd '${DIRECTORY}' && bake -q which-bakefile" "$(
 	cat <<-EXPECTED
-		${CURRENT_DIRECTORY}/Bakefile
+		${DIRECTORY}/Bakefile
 	EXPECTED
 )"

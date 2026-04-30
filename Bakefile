@@ -29,5 +29,5 @@ format() (
 test() (
   PATH="${__BAKE_BIN_DIR__}:${PATH}"
 
-  cd test && ./run.sh ./test_*.sh
+  ./test/run.sh ./test/test_*.sh
 )
