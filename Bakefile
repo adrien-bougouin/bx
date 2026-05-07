@@ -22,7 +22,8 @@ format() (
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${BAKEFILES[@]}"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}"
+  shfmt -i 2 -ci -bn -s -w "${BAKEFILES[@]}"
   shfmt -ci -bn -s -w "${TESTS[@]}"
 )
 
