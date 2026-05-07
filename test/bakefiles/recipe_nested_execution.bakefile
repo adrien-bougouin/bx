@@ -1,0 +1,8 @@
+r-exec() {
+  echo "Executing '$1'"
+  bake::engine::exec "$1"
+}
+
+r-executed() {
+  echo "- r-executed"
+}

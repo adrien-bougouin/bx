@@ -1,13 +1,13 @@
-recipe_1 () (
+recipe_1() (
   echo "Not default!"
 )
 
-recipe_2 () (
+recipe_2() (
   @default
 
   echo "Default subprocess recipe."
 )
 
-recipe_3 () (
+recipe_3() (
   echo "Not default!"
 )

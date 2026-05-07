@@ -6,7 +6,7 @@ three() {
   local times=${1:-1}
 
   local i
-  for((i=0; i<times; i++)); do
+  for ((i = 0; i < times; i++)); do
     printf "3"
   done
 }

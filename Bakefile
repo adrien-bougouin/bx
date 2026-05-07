@@ -1,6 +1,6 @@
 readonly SOURCES=(./bin/bake ./src/** ./test/run.sh)
 readonly TESTS=(./test/test_*.sh)
-readonly BAKEFILES=(./Bakefile ./**/Bakefile)
+readonly BAKEFILES=(./Bakefile ./test/bakefiles/*.bakefile)
 
 # Install bake
 install() (
@@ -29,5 +29,5 @@ format() (
 test() (
   PATH="${__BAKE_BIN_DIR__}:${PATH}"
 
-  ./test/run.sh ./test/test_*.sh
+  ./test/run.sh "${TESTS[@]}"
 )
