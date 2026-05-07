@@ -1,6 +1,6 @@
-readonly SOURCES=(./bin/bake ./src/** ./test/run.sh)
-readonly TESTS=(./test/test_*.sh)
-readonly BAKEFILES=(./Bakefile ./test/bakefiles/*.bakefile)
+readonly SOURCES=(./bin/bake ./src/** ./tests/run.sh)
+readonly TESTS=(./tests/test_*.sh)
+readonly BAKEFILES=(./Bakefile ./tests/bakefiles/*.bakefile)
 
 # Install bake
 install() (
@@ -26,8 +26,8 @@ format() (
   shfmt -ci -bn -s -w "${TESTS[@]}"
 )
 
-test() (
+tests() (
   PATH="${__BAKE_BIN_DIR__}:${PATH}"
 
-  ./test/run.sh "${TESTS[@]}"
+  ./tests/run.sh "${TESTS[@]}"
 )
