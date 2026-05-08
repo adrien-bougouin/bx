@@ -1,13 +1,16 @@
 #!/bin/bash
 
 bake::cli::help() {
-  printf "Usage: %s [options] [recipe] ...\n\n" "${__BAKE_COMMAND__}"
+  local program_name=$1
+  local indent="$2"
+
+  printf "Usage: %s [options] [recipe] ...\n\n" "${program_name}"
 
   printf "Options:\n"
-  printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${__BAKE_INDENT__}"
-  printf "%s   Read FILE as a bakefile.\n" "${__BAKE_INDENT__}"
-  printf "%s-h, --help\n" "${__BAKE_INDENT__}"
-  printf "%s   Show this help.\n" "${__BAKE_INDENT__}"
+  printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${indent}"
+  printf "%s   Read FILE as a bakefile.\n" "${indent}"
+  printf "%s-h, --help\n" "${indent}"
+  printf "%s   Show this help.\n" "${indent}"
 }
 
 bake::cli::argparse() {

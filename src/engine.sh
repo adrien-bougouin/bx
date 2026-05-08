@@ -51,14 +51,20 @@ bake::engine::load() {
   @default() { true; }
   @require:() { true; }
   ############################################################################
+
+  readonly __BAKE_DEFAULT__
+  readonly __BAKE_RECIPES__
+  readonly __BAKE_REQUIREMENTS__
 }
 
 bake::engine::list() {
   [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return
 
+  local indent="$1"
+
   printf "Available recipes:\n"
   for recipe in "${__BAKE_RECIPES__[@]}"; do
-    printf "%s%s\n" "${__BAKE_INDENT__}" "${recipe}"
+    printf "%s%s\n" "${indent}" "${recipe}"
   done
 }
 

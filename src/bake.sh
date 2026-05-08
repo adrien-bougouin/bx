@@ -2,18 +2,20 @@
 
 set -euo pipefail
 
-readonly __BAKE_COMMAND__=bake
-
 __BAKE_SRC_DIR__="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 readonly __BAKE_SRC_DIR__
 
-__BAKE_BIN_DIR__="$(dirname "${__BAKE_SRC_DIR__}")/bin"
-readonly __BAKE_BIN_DIR__
+source "${__BAKE_SRC_DIR__}/term.sh"
+source "${__BAKE_SRC_DIR__}/cli.sh"
+source "${__BAKE_SRC_DIR__}/engine.sh"
 
-__BAKE__="${__BAKE_BIN_DIR__}/${__BAKE_COMMAND__}"
-readonly __BAKE__
+################################################################################
 
-readonly __BAKE_INDENT__="    "
+__BAKE_COMMAND_NAME__=bake
+__BAKE_INDENT__="    "
+
+readonly __BAKE_COMMAND_NAME
+readonly __BAKE_INDENT__
 
 bake::abort() {
   local capitalized_error
@@ -22,18 +24,12 @@ bake::abort() {
 
   printf "%s%s:%s %s!\n" \
     "${__BAKE_TERM_BOLD__}" \
-    "${__BAKE_COMMAND__}" \
+    "${__BAKE_COMMAND_NAME__}" \
     "${__BAKE_TERM_RESET__}" \
     "${capitalized_error}"
 
   exit 1
 }
-
-################################################################################
-
-source "${__BAKE_SRC_DIR__}/term.sh"
-source "${__BAKE_SRC_DIR__}/cli.sh"
-source "${__BAKE_SRC_DIR__}/engine.sh"
 
 # argparse #####################################################################
 
@@ -58,11 +54,11 @@ fi
 bake::engine::load
 
 if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
-  bake::cli::help
+  bake::cli::help "${__BAKE_COMMAND_NAME__}" "${__BAKE_INDENT__}"
 
   [[ ${#__BAKE_RECIPES__[@]} -gt 0 ]] && printf "\n"
 
-  bake::engine::list
+  bake::engine::list "${__BAKE_INDENT__}"
 
   exit 0
 fi

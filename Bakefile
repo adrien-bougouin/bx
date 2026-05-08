@@ -1,10 +1,16 @@
-readonly SOURCES=(./bin/bake ./src/** ./tests/run.sh)
-readonly TESTS=(./tests/test_*.sh)
-readonly BAKEFILES=(./Bakefile ./tests/bakefiles/*.bakefile)
+BIN_DIR="$(realpath ./bin)"
+SOURCES=(./bin/bake ./src/** ./tests/run.sh)
+TESTS=(./tests/test_*.sh)
+BAKEFILES=(./Bakefile ./tests/bakefiles/*.bakefile)
+
+readonly BIN_DIR
+readonly SOURCES
+readonly TESTS
+readonly BAKEFILES
 
 # Install bake
 install() (
-  echo "Run command \`export PATH=${__BAKE_BIN_DIR__}:\${PATH}\`"
+  echo "Run command \`export PATH=${BIN_DIR}:\${PATH}\`"
 )
 
 # Run bash linting
@@ -28,7 +34,7 @@ format() (
 )
 
 tests() (
-  PATH="${__BAKE_BIN_DIR__}:${PATH}"
+  PATH="${BIN_DIR}:${PATH}"
 
   ./tests/run.sh "${TESTS[@]}"
 )
