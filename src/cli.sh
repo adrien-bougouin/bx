@@ -1,24 +1,17 @@
 #!/bin/bash
 
-bake::cli::help() {
-  local program_name=$1
-  local indent="$2"
+export __BAKE_ARGPARSE_SHIFT_COUNT_
 
-  printf "Usage: %s [options] [recipe] ...\n\n" "${program_name}"
+export __BAKE_OPTION_BAKEFILE__
+export __BAKE_OPTION_HELP__
+export __BAKE_OPTION_QUIET__
 
-  printf "Options:\n"
-  printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${indent}"
-  printf "%s   Read FILE as a bakefile.\n" "${indent}"
-  printf "%s-h, --help\n" "${indent}"
-  printf "%s   Show this help.\n" "${indent}"
-}
+bake::cli::init() {
+  __BAKE_ARGPARSE_SHIFT_COUNT__=0
 
-bake::cli::argparse() {
-  export __BAKE_ARGPARSE_SHIFT_COUNT__=0
-
-  export __BAKE_OPTION_BAKEFILE__=""
-  export __BAKE_OPTION_HELP__=false
-  export __BAKE_OPTION_QUIET__=false
+  __BAKE_OPTION_BAKEFILE__=""
+  __BAKE_OPTION_HELP__=false
+  __BAKE_OPTION_QUIET__=false
 
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
@@ -51,4 +44,17 @@ bake::cli::argparse() {
   readonly __BAKE_OPTION_BAKEFILE__
   readonly __BAKE_OPTION_HELP__
   readonly __BAKE_OPTION_QUIET__
+}
+
+bake::cli::help() {
+  local program_name=$1
+  local indent="$2"
+
+  printf "Usage: %s [options] [recipe] ...\n\n" "${program_name}"
+
+  printf "Options:\n"
+  printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${indent}"
+  printf "%s   Read FILE as a bakefile.\n" "${indent}"
+  printf "%s-h, --help\n" "${indent}"
+  printf "%s   Show this help.\n" "${indent}"
 }

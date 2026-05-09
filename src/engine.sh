@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# TODO: rename recipes??? e.g. bake::recipes::load
+export __BAKE_DEFAULT__
 
-export __BAKE_DEFAULT__=""
+export __BAKE_RECIPES__
+export __BAKE_REQUIREMENTS__
 
-export __BAKE_RECIPES__=()
-export __BAKE_REQUIREMENTS__=()
+bake::engine::init() {
+  __BAKE_DEFAULT__=""
 
-bake::engine::load() {
+  __BAKE_RECIPES__=()
+  __BAKE_REQUIREMENTS__=()
+
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
@@ -121,10 +124,11 @@ bake::engine::_parse_recipe_annotations() {
   local recipe_annotations
 
   recipe="$1"
-  recipe_annotations="$(declare -f "${recipe}" | grep "@default\|@require:")"
+  recipe_annotations="$(declare -f "${recipe}" | grep "bake::main\|@default\|@require:")"
 
   # Strip subshell surroundings (e.g. '  (  @default;').
   recipe_annotations=$(
+    # FIXME: avoid using sed, use built-in bash string substitution instead
     printf "%s" "${recipe_annotations}" | sed -E 's/^ *\(//; s/\) *$//'
   )
 
