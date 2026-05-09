@@ -71,11 +71,11 @@ bake::recipes::print_list() {
   done
 }
 
-bake::recipes::exec() {
+bake::recipes::exec_recipe() {
   local recipe=$1
   local args=("${@:2}")
 
-  bake::recipes::exec_requirements "${recipe}"
+  bake::recipes::_exec_recipe_requirements "${recipe}"
 
   if [[ ${__BAKE_OPTION_QUIET__} == "false" ]]; then
     printf "%s%s%s%s\n" \
@@ -88,7 +88,7 @@ bake::recipes::exec() {
   eval "${recipe}" "${args+"${args[@]}"}"
 }
 
-bake::recipes::exec_requirements() {
+bake::recipes::_exec_recipe_requirements() {
   local recipe=$1
 
   local scan_index=0
@@ -102,7 +102,7 @@ bake::recipes::exec_requirements() {
     fi
 
     if [[ ${scan_mode} == "EXEC" ]]; then
-      bake::recipes::exec "${requirement}"
+      bake::recipes::exec_recipe "${requirement}"
       continue
     fi
 

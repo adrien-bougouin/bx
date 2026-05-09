@@ -66,14 +66,14 @@ bake::main() (
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
-      bake::recipes::exec $1
+      bake::recipes::exec_recipe $1
 
       shift
     done
   else
     if [[ -n ${__BAKE_DEFAULT__} ]]; then
       # shellcheck disable=SC2086
-      bake::recipes::exec ${__BAKE_DEFAULT__}
+      bake::recipes::exec_recipe ${__BAKE_DEFAULT__}
     else
       bake::abort "nothing to do"
     fi
