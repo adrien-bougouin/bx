@@ -41,8 +41,8 @@ assert_output "bake -q -f '${__BAKEFILES__}/require.bakefile' multi-dependent--w
 	EXPECTED
 )"
 
-assert_output "TERM= bake -q -f '${__BAKEFILES__}/require__cyclic.bakefile' cyclicly-dependent" "$(
+assert_output "TERM= bake -q -f '${__BAKEFILES__}/require__circular.bakefile' circular-dependent" "$(
 	cat <<-EXPECTED
-		bake: Cyclic dependency for recipe 'cyclicly-dependent'!
+		bake: Circular requirement for recipe 'circular-dependent'!
 	EXPECTED
 )"

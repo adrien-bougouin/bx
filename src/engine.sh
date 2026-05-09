@@ -32,7 +32,7 @@ bake::engine::init() {
         local components=("${requirement}")
 
         if [[ ${components[0]} == "${recipe}" ]]; then
-          bake::abort "cyclic dependency for recipe '${recipe}'"
+          bake::abort "circular requirement for recipe '${recipe}'"
         fi
       done
 

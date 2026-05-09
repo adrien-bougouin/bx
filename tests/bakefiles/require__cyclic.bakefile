@@ -1,5 +1,0 @@
-cyclicly-dependent() {
-  @require: cyclicly-dependent
-
-  echo "- cyclicly-dependent"
-}
