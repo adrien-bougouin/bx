@@ -5,7 +5,7 @@ export __BAKE_DEFAULT__
 export __BAKE_RECIPES__
 export __BAKE_REQUIREMENTS__
 
-bake::engine::init() {
+bake::recipes::init() {
   __BAKE_DEFAULT__=""
 
   __BAKE_RECIPES__=()
@@ -41,7 +41,7 @@ bake::engine::init() {
     ############################################################################
 
     # TODO: validation (annotations only allowed at the beginning
-    eval "$(bake::engine::_parse_recipe_annotations "${recipe}")"
+    eval "$(bake::recipes::_parse_recipe_annotations "${recipe}")"
 
     __BAKE_RECIPES__+=("${recipe}")
 
@@ -60,7 +60,7 @@ bake::engine::init() {
   readonly __BAKE_REQUIREMENTS__
 }
 
-bake::engine::list() {
+bake::recipes::print_list() {
   [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return
 
   local indent="$1"
@@ -71,11 +71,11 @@ bake::engine::list() {
   done
 }
 
-bake::engine::exec() {
+bake::recipes::exec() {
   local recipe=$1
   local args=("${@:2}")
 
-  bake::engine::exec_requirements "${recipe}"
+  bake::recipes::exec_requirements "${recipe}"
 
   if [[ ${__BAKE_OPTION_QUIET__} == "false" ]]; then
     printf "%s%s%s%s\n" \
@@ -88,7 +88,7 @@ bake::engine::exec() {
   eval "${recipe}" "${args+"${args[@]}"}"
 }
 
-bake::engine::exec_requirements() {
+bake::recipes::exec_requirements() {
   local recipe=$1
 
   local scan_index=0
@@ -102,7 +102,7 @@ bake::engine::exec_requirements() {
     fi
 
     if [[ ${scan_mode} == "EXEC" ]]; then
-      bake::engine::exec "${requirement}"
+      bake::recipes::exec "${requirement}"
       continue
     fi
 
@@ -119,7 +119,7 @@ bake::engine::exec_requirements() {
   done
 }
 
-bake::engine::_parse_recipe_annotations() {
+bake::recipes::_parse_recipe_annotations() {
   local recipe
   local recipe_annotations
 

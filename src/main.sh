@@ -8,7 +8,7 @@ bake::main() (
 
   source "${src_dir}/term.sh"
   source "${src_dir}/cli.sh"
-  source "${src_dir}/engine.sh"
+  source "${src_dir}/recipes.sh"
 
   ##############################################################################
 
@@ -49,14 +49,14 @@ bake::main() (
 
   [[ -f ${bakefile} ]] && source "${bakefile}"
 
-  bake::engine::init
+  bake::recipes::init
 
   if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
-    bake::cli::help "${command_name}" "${text_indent}"
+    bake::cli::print_help "${command_name}" "${text_indent}"
 
     [[ ${#__BAKE_RECIPES__[@]} -gt 0 ]] && printf "\n"
 
-    bake::engine::list "${text_indent}"
+    bake::recipes::print_list "${text_indent}"
 
     exit 0
   fi
@@ -66,14 +66,14 @@ bake::main() (
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
-      bake::engine::exec $1
+      bake::recipes::exec $1
 
       shift
     done
   else
     if [[ -n ${__BAKE_DEFAULT__} ]]; then
       # shellcheck disable=SC2086
-      bake::engine::exec ${__BAKE_DEFAULT__}
+      bake::recipes::exec ${__BAKE_DEFAULT__}
     else
       bake::abort "nothing to do"
     fi

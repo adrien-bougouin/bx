@@ -46,7 +46,7 @@ bake::cli::init() {
   readonly __BAKE_OPTION_QUIET__
 }
 
-bake::cli::help() {
+bake::cli::print_help() {
   local program_name=$1
   local indent="$2"
 
