@@ -3,31 +3,42 @@
 bake::main() (
   set -euo pipefail
 
-  local src_dir
-  src_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+  __BAKE_BAKEFILE__=
 
-  source "${src_dir}/string.sh"
-  source "${src_dir}/term.sh"
+  local SRC_DIR
 
-  source "${src_dir}/cli.sh"
-  source "${src_dir}/recipes.sh"
+  local COMMAND_NAME="bake"
+  local TEXT_INDENT="    "
 
-  ##############################################################################
+  SRC_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+  readonly SRC_DIR
 
-  local command_name=bake
-  local text_indent="    "
+  readonly COMMAND_NAME
+  readonly TEXT_INDENT
+
+  source "${SRC_DIR}/string.sh"
+  source "${SRC_DIR}/term.sh"
+
+  source "${SRC_DIR}/cli.sh"
+  source "${SRC_DIR}/recipes.sh"
+
+  bake::print_help() {
+    bake::cli::print_help "${COMMAND_NAME}" "${TEXT_INDENT}"
+
+    [[ ${#__BAKE_RECIPES__[@]} -gt 0 ]] && printf "\n"
+
+    bake::recipes::print_list "${TEXT_INDENT}"
+  }
 
   bake::abort() {
     bake::term::stderr "%s %s!\n" \
-      "${__BAKE_TERM_BOLD__}${command_name}:${__BAKE_TERM_RESET__}" \
+      "${__BAKE_TERM_BOLD__}${COMMAND_NAME}:${__BAKE_TERM_RESET__}" \
       "$(bake::string::capitalize "${1}")"
 
     exit 1
   }
 
   # Parse CLI options ##########################################################
-
-  local bakefile
 
   bake::cli::init "$@"
 
@@ -36,29 +47,21 @@ bake::main() (
     shift
   done
 
-  bakefile="${__BAKE_OPTION_BAKEFILE__:-"$(pwd)/Bakefile"}"
+  __BAKE_BAKEFILE__="${__BAKE_OPTION_BAKEFILE__:-"$(pwd)/Bakefile"}"
+  readonly __BAKE_BAKEFILE__
 
-  if [[ ! -f ${bakefile} ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
+  if [[ ! -f ${__BAKE_BAKEFILE__} ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
     bake::abort "no recipes"
   fi
 
-  # Load recipes ###############################################################
+  ##############################################################################
 
-  [[ -f ${bakefile} ]] && source "${bakefile}"
-
-  bake::recipes::init
+  bake::recipes::init "${__BAKE_BAKEFILE__}"
 
   if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
-    bake::cli::print_help "${command_name}" "${text_indent}"
-
-    [[ ${#__BAKE_RECIPES__[@]} -gt 0 ]] && printf "\n"
-
-    bake::recipes::print_list "${text_indent}"
-
+    bake::print_help
     exit 0
   fi
-
-  # Execute requested recipes ##################################################
 
   # TODO: bake::recipes::exec
   if [[ $# -gt 0 ]]; then

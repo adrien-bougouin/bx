@@ -6,6 +6,9 @@ export __BAKE_RECIPES__
 export __BAKE_REQUIREMENTS__
 
 bake::recipes::init() {
+  local bakefile="$1"
+  [[ -f ${bakefile} ]] && source "${bakefile}"
+
   __BAKE_DEFAULT__=""
 
   __BAKE_RECIPES__=()

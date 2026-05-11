@@ -3,10 +3,10 @@
 set +ex -uo pipefail
 
 TEST_DIRECTORY="$(dirname "${BASH_SOURCE[0]}")"
-readonly TEST_DIRECTORY
+__TEST_BAKEFILES__="${TEST_DIRECTORY}/bakefiles"
 
-__BAKEFILES__="${TEST_DIRECTORY}/bakefiles"
-readonly __BAKEFILES__
+readonly TEST_DIRECTORY
+readonly __TEST_BAKEFILES__
 
 source "${TEST_DIRECTORY}/../src/term.sh"
 
