@@ -26,3 +26,8 @@ readonly __BAKE_TERM_GREEN_FG__
 readonly __BAKE_TERM_YELLOW_FG__
 
 readonly __BAKE_TERM_RESET__
+
+bake::term::stderr() {
+  # shellcheck disable=SC2059
+  printf "$1" "${@:2}" >&2
+}

@@ -19,11 +19,7 @@ bake::main() (
     local capitalized_error
     capitalized_error="$(printf "%s" "${1:0:1}" | tr '[:lower:]' '[:upper:]')${1:1}"
 
-    printf "%s%s:%s %s!\n" \
-      "${__BAKE_TERM_BOLD__}" \
-      "${command_name}" \
-      "${__BAKE_TERM_RESET__}" \
-      "${capitalized_error}"
+    bake::term::stderr "%s\n" "${__BAKE_TERM_BOLD__}${command_name}:${__BAKE_TERM_RESET__} ${capitalized_error}!"
 
     exit 1
   }

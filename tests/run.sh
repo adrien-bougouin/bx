@@ -17,37 +17,72 @@ SKIP_COUNT=0
 skip() {
   local command="$2"
 
-  printf "%s[SKIPPED]%s %s\n" \
-    "${__BAKE_TERM_YELLOW_FG__}" \
-    "${__BAKE_TERM_RESET__}" \
-    "${command}"
+  printf "%s\n" "${__BAKE_TERM_YELLOW_FG__}[FAILED]${__BAKE_TERM_RESET__} ${command}"
 
   SKIP_COUNT=$((SKIP_COUNT + 1))
 }
 
-assert_output() {
+assert_stdout() {
   local command
   local expected
-  local actual
+  local actual_stdout
+  local actual_stderr
 
   command="$1"
   expected="$2"
-  actual="$(eval "${command}")"
 
-  if [[ ${expected} != "${actual}" ]]; then
-    printf "%s[FAILED]%s  %s\n" \
-      "${__BAKE_TERM_RED_FG__}" \
-      "${__BAKE_TERM_RESET__}" \
-      "${command}"
-    printf "    Expected: %q\n" "${expected}"
-    printf "    Actual:   %q\n" "${actual}"
+  {
+    IFS=$'\n' read -r -d '' actual_stderr
+    IFS=$'\n' read -r -d '' actual_stdout
+  } < <((printf '\0%s\0' "$(eval "${command}")" 1>&2) 2>&1)
+
+  if [[ ${actual_stderr} != "" ]]; then
+    printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+    printf "    Expected [stderr]: %q\n" ""
+    printf "    Actual   [stderr]: %q\n" "${actual_stderr}"
+
+    FAIL_COUNT=$((FAIL_COUNT + 1))
+  elif [[ ${expected} != "${actual_stdout}" ]]; then
+    printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+    printf "    Expected [stdout]: %q\n" "${expected}"
+    printf "    Actual   [stdout]: %q\n" "${actual_stdout}"
 
     FAIL_COUNT=$((FAIL_COUNT + 1))
   else
-    printf "%s[PASSED]%s  %s\n" \
-      "${__BAKE_TERM_GREEN_FG__}" \
-      "${__BAKE_TERM_RESET__}" \
-      "${command}"
+    printf "%s\n" "${__BAKE_TERM_GREEN_FG__}[PASSED]${__BAKE_TERM_RESET__}  ${command}"
+
+    PASS_COUNT=$((PASS_COUNT + 1))
+  fi
+}
+
+assert_stderr() {
+  local command
+  local expected
+  local actual_stdout
+  local actual_stderr
+
+  command="$1"
+  expected="$2"
+
+  {
+    IFS=$'\n' read -r -d '' actual_stderr
+    IFS=$'\n' read -r -d '' actual_stdout
+  } < <((printf '\0%s\0' "$(eval "${command}")" 1>&2) 2>&1)
+
+  if [[ ${actual_stdout} != "" ]]; then
+    printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+    printf "    Expected [stdout]: %q\n" ""
+    printf "    Actual   [stdout]: %q\n" "${actual_stdout}"
+
+    FAIL_COUNT=$((FAIL_COUNT + 1))
+  elif [[ ${expected} != "${actual_stderr}" ]]; then
+    printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+    printf "    Expected [stderr]: %q\n" "${expected}"
+    printf "    Actual   [stderr]: %q\n" "${actual_stderr}"
+
+    FAIL_COUNT=$((FAIL_COUNT + 1))
+  else
+    printf "%s\n" "${__BAKE_TERM_GREEN_FG__}[PASSED]${__BAKE_TERM_RESET__}  ${command}"
 
     PASS_COUNT=$((PASS_COUNT + 1))
   fi
@@ -62,21 +97,8 @@ while [[ $# -gt 0 ]]; do
   [[ $# -gt 0 ]] && printf "\n"
 done
 
-printf "\n========= %s%d PASSED%s" \
-  "${__BAKE_TERM_GREEN_FG__}" \
-  "${PASS_COUNT}" \
-  "${__BAKE_TERM_RESET__}"
-
-printf " - %s%d SKIPPED%s" \
-  "${__BAKE_TERM_YELLOW_FG__}" \
-  "${SKIP_COUNT}" \
-  "${__BAKE_TERM_RESET__}"
-
-printf " - %s%d FAILED%s" \
-  "${__BAKE_TERM_RED_FG__}" \
-  "${FAIL_COUNT}" \
-  "${__BAKE_TERM_RESET__}"
-
-printf "\n"
+printf "\n========= %s" "${__BAKE_TERM_GREEN_FG__}${PASS_COUNT} PASSED${__BAKE_TERM_RESET__}"
+printf " - %s" "${__BAKE_TERM_YELLOW_FG__}${SKIP_COUNT} SKIPPED${__BAKE_TERM_RESET__}"
+printf " - %s\n" "${__BAKE_TERM_RED_FG__}${FAIL_COUNT} FAILED${__BAKE_TERM_RESET__}"
 
 exit "${FAIL_COUNT}"

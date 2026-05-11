@@ -9,32 +9,32 @@ if [[ ${TERM:-dumb} != "dumb" ]]; then
 	TPUT_RESET="$(tput sgr0)"
 fi
 
-assert_output "bake -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
+assert_stdout "bake -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
 	cat <<-EXPECTED
 		${TPUT_BOLD}do-something${TPUT_RESET}
 		Done!
 	EXPECTED
 )"
 
-assert_output "bake -s -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
+assert_stdout "bake -s -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
 	cat <<-EXPECTED
 		Done!
 	EXPECTED
 )"
 
-assert_output "bake --silent -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
+assert_stdout "bake --silent -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
 	cat <<-EXPECTED
 		Done!
 	EXPECTED
 )"
 
-assert_output "bake -q -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
+assert_stdout "bake -q -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
 	cat <<-EXPECTED
 		Done!
 	EXPECTED
 )"
 
-assert_output "bake --quiet -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
+assert_stdout "bake --quiet -f '${__BAKEFILES__}/quiet.bakefile' do-something" "$(
 	cat <<-EXPECTED
 		Done!
 	EXPECTED
