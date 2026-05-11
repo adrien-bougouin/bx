@@ -6,7 +6,9 @@ bake::main() (
   local src_dir
   src_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
+  source "${src_dir}/string.sh"
   source "${src_dir}/term.sh"
+
   source "${src_dir}/cli.sh"
   source "${src_dir}/recipes.sh"
 
@@ -16,10 +18,9 @@ bake::main() (
   local text_indent="    "
 
   bake::abort() {
-    local capitalized_error
-    capitalized_error="$(printf "%s" "${1:0:1}" | tr '[:lower:]' '[:upper:]')${1:1}"
-
-    bake::term::stderr "%s\n" "${__BAKE_TERM_BOLD__}${command_name}:${__BAKE_TERM_RESET__} ${capitalized_error}!"
+    bake::term::stderr "%s %s!\n" \
+      "${__BAKE_TERM_BOLD__}${command_name}:${__BAKE_TERM_RESET__}" \
+      "$(bake::string::capitalize "${1}")"
 
     exit 1
   }
@@ -59,6 +60,7 @@ bake::main() (
 
   # Execute requested recipes ##################################################
 
+  # TODO: bake::recipes::exec
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
