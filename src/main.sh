@@ -80,3 +80,5 @@ bake::main() (
     fi
   fi
 )
+
+bake::main "$@"

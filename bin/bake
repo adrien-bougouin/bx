@@ -1,5 +1,3 @@
 #!/bin/bash
 
-source "$(dirname "$(dirname "$0")")/src/main.sh"
-
-bake::main "$@"
+"$(dirname "$(dirname "$0")")/src/main.sh" "$@"

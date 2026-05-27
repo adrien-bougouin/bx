@@ -1,5 +1,5 @@
 BIN_DIR="$(realpath ./bin)"
-SOURCES=(./bin/bake ./src/** ./tests/run.sh)
+SOURCES=(./bin/bake ./src/** ./tests/main.sh)
 TESTS=(./tests/test_*.sh)
 BAKEFILES=(./Bakefile ./tests/bakefiles/*.bakefile)
 
@@ -36,5 +36,5 @@ format() (
 tests() (
   PATH="${BIN_DIR}:${PATH}"
 
-  ./tests/run.sh "${TESTS[@]}"
+  ./tests/main.sh "${TESTS[@]}"
 )
