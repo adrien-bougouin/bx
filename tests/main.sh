@@ -3,26 +3,32 @@
 bake::tests::main() (
   set +ex -uo pipefail
 
-  local TEST_DIRECTORY
+  local __TEST_BAKEFILES__
 
-  TEST_DIRECTORY="$(dirname "${BASH_SOURCE[0]}")"
-  readonly TEST_DIRECTORY
+  local SRC_DIR
+  local TESTS_DIR
 
-  __TEST_BAKEFILES__="${TEST_DIRECTORY}/bakefiles"
+  TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
+  SRC_DIR="${TESTS_DIR}/../src"
+
+  readonly SRC_DIR
+  readonly TESTS_DIR
+
+  __TEST_BAKEFILES__="${TESTS_DIR}/bakefiles"
   readonly __TEST_BAKEFILES__
 
-  source "${TEST_DIRECTORY}/../src/term.sh"
+  source "${SRC_DIR}/term.sh"
 
-  local PASS_COUNT=0
-  local FAIL_COUNT=0
-  local SKIP_COUNT=0
+  local pass_count=0
+  local fail_count=0
+  local skip_count=0
 
   skip() {
     local command="$2"
 
     printf "%s\n" "${__BAKE_TERM_YELLOW_FG__}[FAILED]${__BAKE_TERM_RESET__} ${command}"
 
-    SKIP_COUNT=$((SKIP_COUNT + 1))
+    skip_count=$((skip_count + 1))
   }
 
   assert_stdout() {
@@ -44,17 +50,17 @@ bake::tests::main() (
       printf "    Expected [stderr]: %q\n" ""
       printf "    Actual   [stderr]: %q\n" "${actual_stderr}"
 
-      FAIL_COUNT=$((FAIL_COUNT + 1))
+      fail_count=$((fail_count + 1))
     elif [[ ${expected} != "${actual_stdout}" ]]; then
       printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
       printf "    Expected [stdout]: %q\n" "${expected}"
       printf "    Actual   [stdout]: %q\n" "${actual_stdout}"
 
-      FAIL_COUNT=$((FAIL_COUNT + 1))
+      fail_count=$((fail_count + 1))
     else
       printf "%s\n" "${__BAKE_TERM_GREEN_FG__}[PASSED]${__BAKE_TERM_RESET__}  ${command}"
 
-      PASS_COUNT=$((PASS_COUNT + 1))
+      pass_count=$((pass_count + 1))
     fi
   }
 
@@ -77,17 +83,17 @@ bake::tests::main() (
       printf "    Expected [stdout]: %q\n" ""
       printf "    Actual   [stdout]: %q\n" "${actual_stdout}"
 
-      FAIL_COUNT=$((FAIL_COUNT + 1))
+      fail_count=$((fail_count + 1))
     elif [[ ${expected} != "${actual_stderr}" ]]; then
       printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
       printf "    Expected [stderr]: %q\n" "${expected}"
       printf "    Actual   [stderr]: %q\n" "${actual_stderr}"
 
-      FAIL_COUNT=$((FAIL_COUNT + 1))
+      fail_count=$((fail_count + 1))
     else
       printf "%s\n" "${__BAKE_TERM_GREEN_FG__}[PASSED]${__BAKE_TERM_RESET__}  ${command}"
 
-      PASS_COUNT=$((PASS_COUNT + 1))
+      pass_count=$((pass_count + 1))
     fi
   }
 
@@ -100,11 +106,11 @@ bake::tests::main() (
     [[ $# -gt 0 ]] && printf "\n"
   done
 
-  printf "\n========= %s" "${__BAKE_TERM_GREEN_FG__}${PASS_COUNT} PASSED${__BAKE_TERM_RESET__}"
-  printf " - %s" "${__BAKE_TERM_YELLOW_FG__}${SKIP_COUNT} SKIPPED${__BAKE_TERM_RESET__}"
-  printf " - %s\n" "${__BAKE_TERM_RED_FG__}${FAIL_COUNT} FAILED${__BAKE_TERM_RESET__}"
+  printf "\n========= %s" "${__BAKE_TERM_GREEN_FG__}${pass_count} PASSED${__BAKE_TERM_RESET__}"
+  printf " - %s" "${__BAKE_TERM_YELLOW_FG__}${skip_count} SKIPPED${__BAKE_TERM_RESET__}"
+  printf " - %s\n" "${__BAKE_TERM_RED_FG__}${fail_count} FAILED${__BAKE_TERM_RESET__}"
 
-  exit "${FAIL_COUNT}"
+  exit "${fail_count}"
 )
 
 if [[ $# -gt 0 ]]; then
