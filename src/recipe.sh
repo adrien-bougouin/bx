@@ -1,60 +1,39 @@
 #!/bin/bash
 
-export __BAKE_DEFAULT__
+__BAKE_RECIPE_DIR__="$(dirname "${BASH_SOURCE[0]}")/recipe"
+readonly __BAKE_RECIPE_DIR__
+
+source "${__BAKE_RECIPE_DIR__}/annotation.sh"
 
 export __BAKE_RECIPES__
-export __BAKE_REQUIREMENTS__
 
 bake::recipes::init() {
   local bakefile="$1"
   [[ -f ${bakefile} ]] && source "${bakefile}"
 
-  __BAKE_DEFAULT__=""
-
   __BAKE_RECIPES__=()
-  __BAKE_REQUIREMENTS__=()
 
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
     [[ ${recipe} =~ ^bake: ]] && continue
+    # FIXME: use annotation function check
+    [[ ${recipe} =~ @default ]] && continue
+    [[ ${recipe} =~ @require: ]] && continue
 
-    local requirements=()
-
-    # Annotations ##############################################################
-    @default() {
-      if [[ -z ${__BAKE_DEFAULT__} ]]; then
-        __BAKE_DEFAULT__="${recipe}"
-      else
-        bake::abort "too many default recipes"
-      fi
-    }
-
-    @require:() {
-      for requirement in "$@"; do
-        local components=("${requirement}")
-
-        if [[ ${components[0]} == "${recipe}" ]]; then
-          bake::abort "circular requirement for recipe '${recipe}'"
-        fi
-      done
-
-      requirements+=("$@")
-    }
-    ############################################################################
-
+    bake::progress::set_parsing "${recipe}"
+    # TODO: do it in annotation file
+    __BAKE_REQUIREMENTS__+=("${recipe}")
     # TODO: validation (annotations only allowed at the beginning
-    eval "$(bake::recipes::_parse_recipe_annotations "${recipe}")"
+    # eval "$(bake::recipe::parse_annotations "${recipe}")"
+    eval "$(bake::recipe::parse_annotations "${recipe}")"
+    # TODO: do it in annotation file
+    __BAKE_REQUIREMENTS__+=("--")
 
     __BAKE_RECIPES__+=("${recipe}")
-
-    if [[ ${#requirements[@]} -gt 0 ]]; then
-      __BAKE_REQUIREMENTS__+=("${recipe}" "${requirements[@]}" "--")
-    fi
   done < <(declare -F)
 
   # Disable annotations ######################################################
-  @default() { true; }
   @require:() { true; }
   ############################################################################
 
@@ -78,6 +57,7 @@ bake::recipes::exec_recipe() {
   local recipe=$1
   local args=("${@:2}")
 
+  bake::progress::set_executing "${recipe}"
   bake::recipes::_exec_recipe_requirements "${recipe}"
 
   if [[ ${__BAKE_OPTION_QUIET__} == "false" ]]; then
@@ -120,20 +100,4 @@ bake::recipes::_exec_recipe_requirements() {
       scan_mode="SKIP"
     fi
   done
-}
-
-bake::recipes::_parse_recipe_annotations() {
-  local recipe
-  local recipe_annotations
-
-  recipe="$1"
-  recipe_annotations="$(declare -f "${recipe}" | grep "bake::main\|@default\|@require:")"
-
-  # Strip subshell surroundings (e.g. '  (  @default;').
-  recipe_annotations=$(
-    # FIXME: avoid using sed, use built-in bash string substitution instead
-    printf "%s" "${recipe_annotations}" | sed -E 's/^ *\(//; s/\) *$//'
-  )
-
-  printf "%s" "${recipe_annotations}"
 }

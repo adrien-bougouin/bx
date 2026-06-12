@@ -19,8 +19,9 @@ bake::main() (
   source "${SRC_DIR}/string.sh"
   source "${SRC_DIR}/term.sh"
 
+  source "${SRC_DIR}/progress.sh"
   source "${SRC_DIR}/cli.sh"
-  source "${SRC_DIR}/recipes.sh"
+  source "${SRC_DIR}/recipe.sh"
 
   bake::print_help() {
     bake::cli::print_help "${COMMAND_NAME}" "${TEXT_INDENT}"
