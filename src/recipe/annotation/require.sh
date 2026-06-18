@@ -18,7 +18,7 @@ __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__=""
     fi
 
     local last_index
-    last_index=$((${#__BAKE_RECIPE_REQUIREMENTS__[@]}-1))
+    last_index=$((${#__BAKE_RECIPE_REQUIREMENTS__[@]} - 1))
 
     if [[ ${__BAKE_RECIPE_REQUIREMENTS__[${last_index}]} == "--" ]]; then
       __BAKE_RECIPE_REQUIREMENTS__+=("${recipe}")
@@ -39,10 +39,10 @@ __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__=""
 bake::recipe::exec_requirements() {
   local recipe=$1
 
-  local scan_index=1 # Skip the first "--"
+  local scan_index=1     # Skip the first "--"
   local scan_mode="SEEK" # SEEK, SKIP, EXEC
 
-  for ((; scan_index < ${#__BAKE_RECIPE_REQUIREMENTS__[@]}; scan_index++)); do
+  for (( ; scan_index < ${#__BAKE_RECIPE_REQUIREMENTS__[@]}; scan_index++)); do
     local requirement="${__BAKE_RECIPE_REQUIREMENTS__[${scan_index}]}"
 
     if [[ ${scan_mode} == "SEEK" ]] && [[ ${requirement} == "${recipe}" ]]; then
