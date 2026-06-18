@@ -6,7 +6,7 @@ __BAKE_RECIPE_DEFAULT__=""
 
 @default() {
   if bake::progress::is_parsing; then
-    if [[ ! -z $(bake::recipe::default) ]]; then
+    if [[ -n $(bake::recipe::default) ]]; then
       bake::abort "too many default recipes"
     fi
 
