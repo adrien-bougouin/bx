@@ -1,6 +1,6 @@
 r-exec() {
   echo "Executing '$1'"
-  bake::recipes::exec_recipe "$1"
+  bake::recipe::exec "$1"
 }
 
 r-executed() {

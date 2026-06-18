@@ -18,7 +18,19 @@ assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/default_recipe__subprocess.bake
 	EXPECTED
 )"
 
+assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/default_recipe__with_arguments.bakefile'" "$(
+	cat <<-EXPECTED
+		Default recipe: \$1=arg1 - \$2=arg2
+	EXPECTED
+)"
+
 assert_stderr "TERM= bake -q -f '${__TEST_BAKEFILES__}/default_recipe__multiple.bakefile'" "$(
+	cat <<-EXPECTED
+		bake: Too many default recipes!
+	EXPECTED
+)"
+
+assert_stderr "TERM= bake -q -f '${__TEST_BAKEFILES__}/default_recipe__multiple_with_arguments.bakefile'" "$(
 	cat <<-EXPECTED
 		bake: Too many default recipes!
 	EXPECTED

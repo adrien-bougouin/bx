@@ -26,9 +26,9 @@ bake::main() (
   bake::print_help() {
     bake::cli::print_help "${COMMAND_NAME}" "${TEXT_INDENT}"
 
-    [[ ${#__BAKE_RECIPES__[@]} -gt 0 ]] && printf "\n"
+    [[ $(bake::recipe_count) -gt 0 ]] && printf "\n"
 
-    bake::recipes::print_list "${TEXT_INDENT}"
+    bake::print_recipe_list "${TEXT_INDENT}"
   }
 
   bake::abort() {
@@ -57,7 +57,7 @@ bake::main() (
 
   ##############################################################################
 
-  bake::recipes::init "${__BAKE_BAKEFILE__}"
+  bake::load_recipes "${__BAKE_BAKEFILE__}"
 
   if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
     bake::print_help
@@ -68,14 +68,14 @@ bake::main() (
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
-      bake::recipes::exec_recipe $1
+      bake::recipe::exec $1
 
       shift
     done
   else
-    if [[ -n ${__BAKE_DEFAULT__} ]]; then
-      # shellcheck disable=SC2086
-      bake::recipes::exec_recipe ${__BAKE_DEFAULT__}
+    if [[ -n $(bake::recipe::default) ]]; then
+      # shellcheck disable=SC2086,SC2046
+      bake::recipe::exec $(bake::recipe::default)
     else
       bake::abort "nothing to do"
     fi

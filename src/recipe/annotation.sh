@@ -4,8 +4,10 @@ __BAKE_ANNOTATION_DIR__="$(dirname "${BASH_SOURCE[0]}")/annotation"
 readonly __BAKE_ANNOTATION_DIR__
 
 __BAKE_ANNOTATIONS__=()
+
 source "${__BAKE_ANNOTATION_DIR__}/default.sh"
 source "${__BAKE_ANNOTATION_DIR__}/require.sh"
+
 readonly __BAKE_ANNOTATIONS__
 
 bake::recipe::parse_annotations() {
