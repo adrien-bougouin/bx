@@ -3,30 +3,32 @@
 bake::main() (
   set -euo pipefail
 
-  __BAKE_BAKEFILE__=
+  local __BAKE_SRC_DIR__
 
-  local SRC_DIR
+  __BAKE_SRC_DIR__="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+  readonly __BAKE_SRC_DIR__
+
+  source "${__BAKE_SRC_DIR__}/string.sh"
+  source "${__BAKE_SRC_DIR__}/term.sh"
+
+  source "${__BAKE_SRC_DIR__}/progress.sh"
+  source "${__BAKE_SRC_DIR__}/cli.sh"
+  source "${__BAKE_SRC_DIR__}/recipe.sh"
+
+  ##############################################################################
+
+  __BAKE_BAKEFILE__=
 
   local COMMAND_NAME="bake"
   local TEXT_INDENT="    "
 
-  SRC_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-  readonly SRC_DIR
-
   readonly COMMAND_NAME
   readonly TEXT_INDENT
-
-  source "${SRC_DIR}/string.sh"
-  source "${SRC_DIR}/term.sh"
-
-  source "${SRC_DIR}/progress.sh"
-  source "${SRC_DIR}/cli.sh"
-  source "${SRC_DIR}/recipe.sh"
 
   bake::print_help() {
     bake::cli::print_help "${COMMAND_NAME}" "${TEXT_INDENT}"
 
-    [[ $(bake::recipe_count) -gt 0 ]] && printf "\n"
+    [[ $(bake::get_recipe_count) -gt 0 ]] && printf "\n"
 
     bake::print_recipe_list "${TEXT_INDENT}"
   }
@@ -73,9 +75,9 @@ bake::main() (
       shift
     done
   else
-    if [[ -n $(bake::recipe::default) ]]; then
+    if [[ -n $(bake::get_default_recipe) ]]; then
       # shellcheck disable=SC2086,SC2046
-      bake::recipe::exec $(bake::recipe::default)
+      bake::recipe::exec $(bake::get_default_recipe)
     else
       bake::abort "nothing to do"
     fi

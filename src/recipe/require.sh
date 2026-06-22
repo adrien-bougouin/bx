@@ -1,10 +1,10 @@
 #!/bin/bash
 
-__BAKE_ANNOTATIONS__+=("@require:")
-
 __BAKE_RECIPE_REQUIREMENTS__=()
 
 __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__=""
+
+bake::register_recipe_annotation "@require:"
 
 @require:() {
   if bake::progress::is_parsing; then

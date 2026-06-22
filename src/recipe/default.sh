@@ -1,24 +1,24 @@
 #!/bin/bash
 
-__BAKE_ANNOTATIONS__+=("@default")
-
 __BAKE_RECIPE_DEFAULT__=""
+
+bake::register_recipe_annotation "@default"
 
 @default() {
   if bake::progress::is_parsing; then
-    if [[ -n $(bake::recipe::default) ]]; then
+    if [[ -n $(bake::get_default_recipe) ]]; then
       bake::abort "too many default recipes"
     fi
 
-    bake::recipe::set_default "$(bake::progress::recipe)"
+    bake::set_default_recipe "$(bake::progress::recipe)"
   fi
 }
 
-bake::recipe::default() {
+bake::get_default_recipe() {
   echo "${__BAKE_RECIPE_DEFAULT__}"
 }
 
-bake::recipe::set_default() {
+bake::set_default_recipe() {
   if [[ $# -gt 1 ]]; then
     bake::abort "too many default recipes"
   fi

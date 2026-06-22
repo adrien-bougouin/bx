@@ -1,11 +1,11 @@
 #!/bin/bash
 
-__BAKE_RECIPE_DIR__="$(dirname "${BASH_SOURCE[0]}")/recipe"
-readonly __BAKE_RECIPE_DIR__
+__BAKE_SRC_RECIPE_DIR__="$(dirname "${BASH_SOURCE[0]}")/recipe"
+readonly __BAKE_SRC_RECIPE_DIR__
 
-source "${__BAKE_RECIPE_DIR__}/annotation.sh"
-# TODO: source "${__BAKE_RECIPE_DIR__}/default.sh"
-# TODO: source "${__BAKE_RECIPE_DIR__}/require.sh"
+source "${__BAKE_SRC_RECIPE_DIR__}/annotation.sh"
+source "${__BAKE_SRC_RECIPE_DIR__}/default.sh"
+source "${__BAKE_SRC_RECIPE_DIR__}/require.sh"
 
 __BAKE_RECIPES__=()
 
@@ -18,13 +18,10 @@ bake::load_recipes() {
     local recipe="${recipe_definition#"declare -f "}"
 
     [[ ${recipe} =~ ^bake: ]] && continue
-    # FIXME: use annotation function check
-    [[ ${recipe} =~ @default ]] && continue
-    [[ ${recipe} =~ @require: ]] && continue
+    bake::is_recipe_annotation "${recipe}" && continue
 
     bake::progress::set_parsing "${recipe}"
-    # TODO: validation (annotations only allowed at the beginning
-    eval "$(bake::recipe::parse_annotations "${recipe}")"
+    bake::recipe::load_annotations "${recipe}"
 
     __BAKE_RECIPES__+=("${recipe}")
   done < <(declare -F)
@@ -32,12 +29,12 @@ bake::load_recipes() {
   readonly __BAKE_RECIPES__
 }
 
-bake::recipe_count() {
+bake::get_recipe_count() {
   echo "${#__BAKE_RECIPES__[@]}"
 }
 
 bake::print_recipe_list() {
-  [[ $(bake::recipe_count) -eq 0 ]] && return
+  [[ $(bake::get_recipe_count) -eq 0 ]] && return
 
   local indent="$1"
 

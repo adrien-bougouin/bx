@@ -1,28 +1,41 @@
 #!/bin/bash
 
-__BAKE_ANNOTATION_DIR__="$(dirname "${BASH_SOURCE[0]}")/annotation"
-readonly __BAKE_ANNOTATION_DIR__
+__BAKE_RECIPE_ANNOTATIONS__=()
 
-__BAKE_ANNOTATIONS__=()
+bake::register_recipe_annotation() {
+  __BAKE_RECIPE_ANNOTATIONS__+=("$1")
+}
 
-source "${__BAKE_ANNOTATION_DIR__}/default.sh"
-source "${__BAKE_ANNOTATION_DIR__}/require.sh"
+bake::is_recipe_annotation() {
+  [[ ${#__BAKE_RECIPE_ANNOTATIONS__[@]} -eq 0 ]] && return 1
 
-readonly __BAKE_ANNOTATIONS__
+  local candidate
+  local annotation
 
-bake::recipe::parse_annotations() {
+  candidate="$1"
+
+  for annotation in "${__BAKE_RECIPE_ANNOTATIONS__[@]}"; do
+    [[ ${candidate} =~ ${annotation} ]] && return 0
+  done
+
+  return 1
+}
+
+# TODO: validation (annotations only allowed at the beginning
+bake::recipe::load_annotations() {
   local recipe
   local recipe_annotations
 
   recipe="$1"
   # TODO: use __BAKE__ANNOTATIONS__
-  recipe_annotations="$(declare -f "${recipe}" | grep "@default\|@require:")"
+  # FIXME: avoid using grep
+  recipe_annotations="$(declare -f "${recipe}" | grep "@default\|@require:")" || true
 
   # Strip subshell surroundings (e.g. '  (  @default;').
   recipe_annotations=$(
     # FIXME: avoid using sed, use built-in bash string substitution instead
     printf "%s" "${recipe_annotations}" | sed -E 's/^ *\(//; s/\) *$//'
-  )
+  ) || true
 
-  printf "%s" "${recipe_annotations}"
+  eval "${recipe_annotations}"
 }
