@@ -36,7 +36,7 @@ bake::register_recipe_annotation "@require:"
   fi
 }
 
-bake::recipe::exec_requirements() {
+bake::recipe::execute_requirements() {
   local recipe=$1
 
   local scan_index=1     # Skip the first "--"
@@ -56,7 +56,7 @@ bake::recipe::exec_requirements() {
     fi
 
     if [[ ${scan_mode} == "EXEC" ]] && [[ ${requirement} != "--" ]]; then
-      bake::recipe::exec "${requirement}"
+      bake::recipe::execute "${requirement}"
       continue
     fi
 

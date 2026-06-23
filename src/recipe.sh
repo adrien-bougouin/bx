@@ -1,11 +1,8 @@
 #!/bin/bash
 
-__BAKE_SRC_RECIPE_DIR__="$(dirname "${BASH_SOURCE[0]}")/recipe"
-readonly __BAKE_SRC_RECIPE_DIR__
-
-source "${__BAKE_SRC_RECIPE_DIR__}/annotation.sh"
-source "${__BAKE_SRC_RECIPE_DIR__}/default.sh"
-source "${__BAKE_SRC_RECIPE_DIR__}/require.sh"
+source "${__BAKE_SRC_PATH__}/recipe/annotation.sh"
+source "${__BAKE_SRC_PATH__}/recipe/default.sh"
+source "${__BAKE_SRC_PATH__}/recipe/require.sh"
 
 __BAKE_RECIPES__=()
 
@@ -29,12 +26,12 @@ bake::load_recipes() {
   readonly __BAKE_RECIPES__
 }
 
-bake::get_recipe_count() {
+bake::recipe_count() {
   echo "${#__BAKE_RECIPES__[@]}"
 }
 
 bake::print_recipe_list() {
-  [[ $(bake::get_recipe_count) -eq 0 ]] && return
+  [[ $(bake::recipe_count) -eq 0 ]] && return
 
   local indent="$1"
 
@@ -44,12 +41,30 @@ bake::print_recipe_list() {
   done
 }
 
-bake::recipe::exec() {
+bake::execute_recipes() {
+  if [[ $# -gt 0 ]]; then
+    while [[ $# -gt 0 ]]; do
+      # shellcheck disable=SC2086
+      bake::recipe::execute $1
+
+      shift
+    done
+  else
+    if [[ -n $(bake::default_recipe) ]]; then
+      # shellcheck disable=SC2086,SC2046
+      bake::recipe::execute $(bake::default_recipe)
+    else
+      bake::abort "nothing to do"
+    fi
+  fi
+}
+
+bake::recipe::execute() {
   local recipe=$1
   local args=("${@:2}")
 
   bake::progress::set_executing "${recipe}"
-  bake::recipe::exec_requirements "${recipe}"
+  bake::recipe::execute_requirements "${recipe}"
 
   if [[ ${__BAKE_OPTION_QUIET__} == "false" ]]; then
     printf "%s%s%s%s\n" \
