@@ -66,7 +66,7 @@ bake::recipe::execute() {
   bake::progress::set_executing "${recipe}"
   bake::recipe::execute_requirements "${recipe}"
 
-  if [[ ${__BAKE_OPTION_QUIET__} == "false" ]]; then
+  if ! bake::options::quiet; then
     printf "%s%s%s%s\n" \
       "${__BAKE_TERM_BOLD__}" \
       "${recipe}" \

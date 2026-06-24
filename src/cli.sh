@@ -1,16 +1,8 @@
 #!/bin/bash
 
-export __BAKE_ARGPARSE_SHIFT_COUNT_
-
-export __BAKE_OPTION_HELP__
-export __BAKE_OPTION_QUIET__
+export __BAKE_ARGPARSE_SHIFT_COUNT__=0
 
 bake::cli::init() {
-  __BAKE_ARGPARSE_SHIFT_COUNT__=0
-
-  __BAKE_OPTION_HELP__=false
-  __BAKE_OPTION_QUIET__=false
-
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
       -f | --file | --bakefile)
@@ -21,12 +13,14 @@ bake::cli::init() {
         ;;
 
       -h | --help)
-        __BAKE_OPTION_HELP__=true
+        bake::options::enable_help
+
         __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 1))
         ;;
 
       -s | --silent | -q | --quiet)
-        __BAKE_OPTION_QUIET__=true
+        bake::options::enable_quiet
+
         __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 1))
         ;;
 
@@ -39,9 +33,6 @@ bake::cli::init() {
   done
 
   readonly __BAKE_ARGPARSE_SHIFT_COUNT__
-
-  readonly __BAKE_OPTION_HELP__
-  readonly __BAKE_OPTION_QUIET__
 }
 
 bake::cli::print_help() {

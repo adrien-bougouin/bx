@@ -15,6 +15,7 @@ bake::main() (
   source "${__BAKE_SRC_PATH__}/string.sh"
   source "${__BAKE_SRC_PATH__}/term.sh"
 
+  source "${__BAKE_SRC_PATH__}/options.sh"
   source "${__BAKE_SRC_PATH__}/progress.sh"
   source "${__BAKE_SRC_PATH__}/bakefile.sh"
   source "${__BAKE_SRC_PATH__}/recipe.sh"
@@ -54,7 +55,10 @@ bake::main() (
     shift
   done
 
-  if [[ ! -f $(bake::bakefile) ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
+  # TODO:
+  #   - Test: no bakefile - help option - show help
+  #   - Test: no bakefile - no help option - show 'no recipes'
+  if [[ ! -f $(bake::bakefile) ]] && ! bake::options::help; then
     bake::abort "no recipes"
   fi
 
@@ -62,7 +66,7 @@ bake::main() (
 
   bake::load_recipes "$(bake::bakefile)"
 
-  if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
+  if bake::options::help; then
     bake::print_help
     exit 0
   fi
