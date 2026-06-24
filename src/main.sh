@@ -7,7 +7,7 @@ bake::main() (
   local __BAKE_SRC_PATH__
 
   __BAKE_WORKING_DIRECTORY__="$(pwd)"
-  __BAKE_SRC_PATH__="$(realpath "${BASH_SOURCE[0]%/*}")"
+  __BAKE_SRC_PATH__="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
   readonly __BAKE_WORKING_DIRECTORY__
   readonly __BAKE_SRC_PATH__
