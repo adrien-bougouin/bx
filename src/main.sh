@@ -48,10 +48,10 @@ bake::main() (
 
   # Parse CLI options ##########################################################
 
-  bake::cli::init "$@"
+  bake::cli::parse_options "$@"
 
   # Shift bake option arguments to point to the first recipe to call
-  for ((i = 1; i <= __BAKE_ARGPARSE_SHIFT_COUNT__; i++)); do
+  for ((i = 1; i <= $(bake::cli::options_offset); i++)); do
     shift
   done
 
@@ -67,6 +67,7 @@ bake::main() (
   bake::load_recipes "$(bake::bakefile)"
 
   if bake::options::help; then
+    # TODO: unfold bake::print_help
     bake::print_help
     exit 0
   fi

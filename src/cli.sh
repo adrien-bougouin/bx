@@ -1,27 +1,27 @@
 #!/bin/bash
 
-export __BAKE_ARGPARSE_SHIFT_COUNT__=0
+__BAKE_CLI_OPTIONS_OFFSET__=0
 
-bake::cli::init() {
+bake::cli::parse_options() {
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
       -f | --file | --bakefile)
         bake::set_bakefile "$(realpath "$2")"
         shift
 
-        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 2))
+        __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 2))
         ;;
 
       -h | --help)
         bake::options::enable_help
 
-        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 1))
+        __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
         ;;
 
       -s | --silent | -q | --quiet)
         bake::options::enable_quiet
 
-        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 1))
+        __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
         ;;
 
       *)
@@ -32,7 +32,11 @@ bake::cli::init() {
     shift
   done
 
-  readonly __BAKE_ARGPARSE_SHIFT_COUNT__
+  readonly __BAKE_CLI_OPTIONS_OFFSET__
+}
+
+bake::cli::options_offset() {
+  printf "%d" "${__BAKE_CLI_OPTIONS_OFFSET__}"
 }
 
 bake::cli::print_help() {
