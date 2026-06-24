@@ -15,7 +15,7 @@ bake::register_recipe_annotation "@default"
 }
 
 bake::default_recipe() {
-  echo "${__BAKE_RECIPE_DEFAULT__}"
+  printf "%s" "${__BAKE_RECIPE_DEFAULT__}"
 }
 
 bake::set_default_recipe() {

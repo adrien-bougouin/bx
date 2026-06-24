@@ -3,20 +3,25 @@
 bake::main() (
   set -euo pipefail
 
+  local __BAKE_WORKING_DIRECTORY__
   local __BAKE_SRC_PATH__
-  __BAKE_SRC_PATH__="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+  __BAKE_WORKING_DIRECTORY__="$(pwd)"
+  __BAKE_SRC_PATH__="$(realpath "${BASH_SOURCE[0]%/*}")"
+
+  readonly __BAKE_WORKING_DIRECTORY__
   readonly __BAKE_SRC_PATH__
 
   source "${__BAKE_SRC_PATH__}/string.sh"
   source "${__BAKE_SRC_PATH__}/term.sh"
 
   source "${__BAKE_SRC_PATH__}/progress.sh"
-  source "${__BAKE_SRC_PATH__}/cli.sh"
+  source "${__BAKE_SRC_PATH__}/bakefile.sh"
   source "${__BAKE_SRC_PATH__}/recipe.sh"
 
-  ##############################################################################
+  source "${__BAKE_SRC_PATH__}/cli.sh"
 
-  __BAKE_BAKEFILE__=
+  ##############################################################################
 
   local COMMAND_NAME="bake"
   local TEXT_INDENT="    "
@@ -49,16 +54,13 @@ bake::main() (
     shift
   done
 
-  __BAKE_BAKEFILE__="${__BAKE_OPTION_BAKEFILE__:-"$(pwd)/Bakefile"}"
-  readonly __BAKE_BAKEFILE__
-
-  if [[ ! -f ${__BAKE_BAKEFILE__} ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
+  if [[ ! -f $(bake::bakefile) ]] && [[ ${__BAKE_OPTION_HELP__} != true ]]; then
     bake::abort "no recipes"
   fi
 
   ##############################################################################
 
-  bake::load_recipes "${__BAKE_BAKEFILE__}"
+  bake::load_recipes "$(bake::bakefile)"
 
   if [[ ${__BAKE_OPTION_HELP__} == true ]]; then
     bake::print_help

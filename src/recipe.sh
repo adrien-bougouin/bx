@@ -27,7 +27,7 @@ bake::load_recipes() {
 }
 
 bake::recipe_count() {
-  echo "${#__BAKE_RECIPES__[@]}"
+  printf "%d" "${#__BAKE_RECIPES__[@]}"
 }
 
 bake::print_recipe_list() {

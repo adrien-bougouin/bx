@@ -16,7 +16,7 @@ bake::progress::set_executing() {
 }
 
 bake::progress::recipe() {
-  echo "${__BAKE_PROGRESS_RECIPE__}"
+  printf "%s" "${__BAKE_PROGRESS_RECIPE__}"
 }
 
 bake::progress::is_parsing() {

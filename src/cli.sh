@@ -2,23 +2,22 @@
 
 export __BAKE_ARGPARSE_SHIFT_COUNT_
 
-export __BAKE_OPTION_BAKEFILE__
 export __BAKE_OPTION_HELP__
 export __BAKE_OPTION_QUIET__
 
 bake::cli::init() {
   __BAKE_ARGPARSE_SHIFT_COUNT__=0
 
-  __BAKE_OPTION_BAKEFILE__=""
   __BAKE_OPTION_HELP__=false
   __BAKE_OPTION_QUIET__=false
 
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
       -f | --file | --bakefile)
-        __BAKE_OPTION_BAKEFILE__=$(realpath "$2")
-        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 2))
+        bake::set_bakefile "$(realpath "$2")"
         shift
+
+        __BAKE_ARGPARSE_SHIFT_COUNT__=$((__BAKE_ARGPARSE_SHIFT_COUNT__ + 2))
         ;;
 
       -h | --help)
@@ -41,7 +40,6 @@ bake::cli::init() {
 
   readonly __BAKE_ARGPARSE_SHIFT_COUNT__
 
-  readonly __BAKE_OPTION_BAKEFILE__
   readonly __BAKE_OPTION_HELP__
   readonly __BAKE_OPTION_QUIET__
 }
