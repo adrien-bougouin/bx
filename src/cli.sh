@@ -40,14 +40,11 @@ bake::cli::options_offset() {
 }
 
 bake::cli::print_help() {
-  local program_name=$1
-  local indent="$2"
-
-  printf "Usage: %s [options] [recipe] ...\n\n" "${program_name}"
+  printf "Usage: %s [options] [recipe] ...\n\n" "${__BAKE_CONSTANT_COMMAND_NAME__}"
 
   printf "Options:\n"
-  printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${indent}"
-  printf "%s   Read FILE as a bakefile.\n" "${indent}"
-  printf "%s-h, --help\n" "${indent}"
-  printf "%s   Show this help.\n" "${indent}"
+  printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s   Read FILE as a bakefile.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s-h, --help\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s   Show this help.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
 }

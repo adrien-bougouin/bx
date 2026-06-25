@@ -20,17 +20,13 @@ bake::progress::recipe() {
 }
 
 bake::progress::is_parsing() {
-  if [[ ${__BAKE_PROGRESS_STATUS__} == "parsing" ]]; then
-    return 0
-  else
-    return 1
-  fi
+  [[ ${__BAKE_PROGRESS_STATUS__} == "parsing" ]] && return "${__BAKE_CONSTANT_TRUE__}"
+
+  return "${__BAKE_CONSTANT_FALSE__}"
 }
 
 bake::progress::is_executing() {
-  if [[ ${__BAKE_PROGRESS_STATUS__} == "executing" ]]; then
-    return 0
-  else
-    return 1
-  fi
+  [[ ${__BAKE_PROGRESS_STATUS__} == "executing" ]] && return "${__BAKE_CONSTANT_TRUE__}"
+
+  return "${__BAKE_CONSTANT_FALSE__}"
 }

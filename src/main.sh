@@ -15,6 +15,7 @@ bake::main() (
   source "${__BAKE_SRC_PATH__}/string.sh"
   source "${__BAKE_SRC_PATH__}/term.sh"
 
+  source "${__BAKE_SRC_PATH__}/constants.sh"
   source "${__BAKE_SRC_PATH__}/options.sh"
   source "${__BAKE_SRC_PATH__}/progress.sh"
   source "${__BAKE_SRC_PATH__}/bakefile.sh"
@@ -26,15 +27,9 @@ bake::main() (
 
   ##############################################################################
 
-  local COMMAND_NAME="bake"
-  local TEXT_INDENT="    "
-
-  readonly COMMAND_NAME
-  readonly TEXT_INDENT
-
   bake::abort() {
     bake::term::stderr "%s %s!\n" \
-      "${__BAKE_TERM_BOLD__}${COMMAND_NAME}:${__BAKE_TERM_RESET__}" \
+      "${__BAKE_TERM_BOLD__}${__BAKE_CONSTANT_COMMAND_NAME__}:${__BAKE_TERM_RESET__}" \
       "$(bake::string::capitalize "${1}")"
 
     exit 1
@@ -61,11 +56,11 @@ bake::main() (
   bake::recipes::load "$(bake::bakefile)"
 
   if bake::options::help; then
-    bake::cli::print_help "${COMMAND_NAME}" "${TEXT_INDENT}"
+    bake::cli::print_help
 
     [[ $(bake::recipes::count) -gt 0 ]] && printf "\n"
 
-    bake::recipes::print_list "${TEXT_INDENT}"
+    bake::recipes::print_list
 
     exit 0
   fi

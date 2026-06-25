@@ -29,11 +29,9 @@ bake::recipes::count() {
 bake::recipes::print_list() {
   [[ $(bake::recipes::count) -eq 0 ]] && return
 
-  local indent="$1"
-
   printf "Available recipes:\n"
   for recipe in "${__BAKE_RECIPES__[@]}"; do
-    printf "%s%s\n" "${indent}" "${recipe}"
+    printf "%s%s\n" "${__BAKE_CONSTANT_TEXT_INDENT__}" "${recipe}"
   done
 }
 
