@@ -12,7 +12,7 @@ bake::main() (
   readonly __BAKE_WORKING_DIRECTORY__
   readonly __BAKE_SRC_PATH__
 
-  source "${__BAKE_SRC_PATH__}/string.sh"
+  source "${__BAKE_SRC_PATH__}/utils.sh"
   source "${__BAKE_SRC_PATH__}/term.sh"
 
   source "${__BAKE_SRC_PATH__}/constants.sh"
@@ -30,7 +30,7 @@ bake::main() (
   bake::abort() {
     bake::term::stderr "%s %s!\n" \
       "${__BAKE_TERM_BOLD__}${__BAKE_CONSTANT_COMMAND_NAME__}:${__BAKE_TERM_RESET__}" \
-      "$(bake::string::capitalize "${1}")"
+      "$(bake::utils::string::capitalize "${1}")"
 
     exit 1
   }
@@ -55,6 +55,8 @@ bake::main() (
 
   bake::recipes::load "$(bake::bakefile)"
 
+  # Show help ##################################################################
+
   if bake::options::help; then
     bake::cli::print_help
 
@@ -64,6 +66,8 @@ bake::main() (
 
     exit 0
   fi
+
+  ##############################################################################
 
   bake::recipes::execute "$@"
 )
