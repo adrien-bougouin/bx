@@ -4,7 +4,7 @@ __BAKE_RECIPE_REQUIREMENTS__=()
 
 __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__=""
 
-bake::register_recipe_annotation "@require:"
+bake::annotations::register "@require:"
 
 @require:() {
   if bake::progress::is_parsing; then

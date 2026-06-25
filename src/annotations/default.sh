@@ -2,7 +2,7 @@
 
 __BAKE_RECIPE_DEFAULT__=""
 
-bake::register_recipe_annotation "@default"
+bake::annotations::register "@default"
 
 @default() {
   if bake::progress::is_parsing; then

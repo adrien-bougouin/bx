@@ -18,7 +18,9 @@ bake::main() (
   source "${__BAKE_SRC_PATH__}/options.sh"
   source "${__BAKE_SRC_PATH__}/progress.sh"
   source "${__BAKE_SRC_PATH__}/bakefile.sh"
+  source "${__BAKE_SRC_PATH__}/annotations.sh"
   source "${__BAKE_SRC_PATH__}/recipe.sh"
+  source "${__BAKE_SRC_PATH__}/recipes.sh"
 
   source "${__BAKE_SRC_PATH__}/cli.sh"
 
@@ -29,14 +31,6 @@ bake::main() (
 
   readonly COMMAND_NAME
   readonly TEXT_INDENT
-
-  bake::print_help() {
-    bake::cli::print_help "${COMMAND_NAME}" "${TEXT_INDENT}"
-
-    [[ $(bake::recipe_count) -gt 0 ]] && printf "\n"
-
-    bake::print_recipe_list "${TEXT_INDENT}"
-  }
 
   bake::abort() {
     bake::term::stderr "%s %s!\n" \
@@ -64,15 +58,19 @@ bake::main() (
 
   ##############################################################################
 
-  bake::load_recipes "$(bake::bakefile)"
+  bake::recipes::load "$(bake::bakefile)"
 
   if bake::options::help; then
-    # TODO: unfold bake::print_help
-    bake::print_help
+    bake::cli::print_help "${COMMAND_NAME}" "${TEXT_INDENT}"
+
+    [[ $(bake::recipes::count) -gt 0 ]] && printf "\n"
+
+    bake::recipes::print_list "${TEXT_INDENT}"
+
     exit 0
   fi
 
-  bake::execute_recipes "$@"
+  bake::recipes::execute "$@"
 )
 
 bake::main "$@"

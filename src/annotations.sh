@@ -1,20 +1,20 @@
 #!/bin/bash
 
-__BAKE_RECIPE_ANNOTATIONS__=()
+__BAKE_ANNOTATIONS__=()
 
-bake::register_recipe_annotation() {
-  __BAKE_RECIPE_ANNOTATIONS__+=("$1")
+bake::annotations::register() {
+  __BAKE_ANNOTATIONS__+=("$1")
 }
 
-bake::is_recipe_annotation() {
-  [[ ${#__BAKE_RECIPE_ANNOTATIONS__[@]} -eq 0 ]] && return 1
+bake::annotations::include() {
+  [[ ${#__BAKE_ANNOTATIONS__[@]} -eq 0 ]] && return 1
 
   local candidate
   local annotation
 
   candidate="$1"
 
-  for annotation in "${__BAKE_RECIPE_ANNOTATIONS__[@]}"; do
+  for annotation in "${__BAKE_ANNOTATIONS__[@]}"; do
     [[ ${candidate} =~ ${annotation} ]] && return 0
   done
 
@@ -39,3 +39,6 @@ bake::recipe::load_annotations() {
 
   eval "${recipe_annotations}"
 }
+
+source "${__BAKE_SRC_PATH__}/annotations/default.sh"
+source "${__BAKE_SRC_PATH__}/annotations/require.sh"
