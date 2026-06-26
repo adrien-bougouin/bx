@@ -17,7 +17,7 @@ bake::main() (
 
   source "${__BAKE_SRC_PATH__}/constants.sh"
   source "${__BAKE_SRC_PATH__}/options.sh"
-  source "${__BAKE_SRC_PATH__}/progress.sh"
+  source "${__BAKE_SRC_PATH__}/state.sh"
   source "${__BAKE_SRC_PATH__}/bakefile.sh"
   source "${__BAKE_SRC_PATH__}/annotations.sh"
   source "${__BAKE_SRC_PATH__}/recipe.sh"

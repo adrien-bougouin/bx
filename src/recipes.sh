@@ -13,7 +13,7 @@ bake::recipes::load() {
     [[ ${recipe} =~ ^bake: ]] && continue
     bake::annotations::include "${recipe}" && continue
 
-    bake::progress::set_parsing "${recipe}"
+    bake::state::set_parsing "${recipe}"
     bake::recipe::load_annotations "${recipe}"
 
     __BAKE_RECIPES__+=("${recipe}")

@@ -4,7 +4,7 @@ bake::recipe::execute() {
   local recipe=$1
   local args=("${@:2}")
 
-  bake::progress::set_executing "${recipe}"
+  bake::state::set_executing "${recipe}"
   bake::recipe::execute_requirements "${recipe}"
 
   if ! bake::options::quiet; then

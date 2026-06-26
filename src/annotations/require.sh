@@ -7,9 +7,9 @@ __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__=""
 bake::annotations::register "@require:"
 
 @require:() {
-  if bake::progress::is_parsing; then
+  if bake::state::is_parsing; then
     local recipe
-    recipe="$(bake::progress::recipe)"
+    recipe="$(bake::state::current_recipe)"
 
     if [[ ${recipe} != "${__BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__}" ]]; then
       __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__="${recipe}"
