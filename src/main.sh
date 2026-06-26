@@ -28,8 +28,8 @@ bake::main() (
   ##############################################################################
 
   bake::abort() {
-    bake::term::stderr "%s %s!\n" \
-      "${__BAKE_TERM_BOLD__}${__BAKE_CONSTANT_COMMAND_NAME__}:${__BAKE_TERM_RESET__}" \
+    bake::term::stderrf "%s %s!\n" \
+      "$(bake::term::style::bold)${__BAKE_CONSTANT_COMMAND_NAME__}:$(bake::term::style::clear)" \
       "$(bake::utils::string::capitalize "${1}")"
 
     exit 1

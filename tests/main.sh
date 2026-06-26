@@ -26,7 +26,7 @@ bake::tests::main() (
   skip() {
     local command="$2"
 
-    printf "%s\n" "${__BAKE_TERM_YELLOW_FG__}[FAILED]${__BAKE_TERM_RESET__} ${command}"
+    printf "%s\n" "$(bake::term::style::yellow_fg)[FAILED]$(bake::term::style::clear) ${command}"
 
     skip_count=$((skip_count + 1))
   }
@@ -46,19 +46,19 @@ bake::tests::main() (
     } < <((printf '\0%s\0' "$(eval "${command}")" 1>&2) 2>&1)
 
     if [[ ${actual_stderr} != "" ]]; then
-      printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+      printf "%s\n" "$(bake::term::style::red_fg)[FAILED]$(bake::term::style::clear)  ${command}"
       printf "    Expected [stderr]: %q\n" ""
       printf "    Actual   [stderr]: %q\n" "${actual_stderr}"
 
       fail_count=$((fail_count + 1))
     elif [[ ${expected} != "${actual_stdout}" ]]; then
-      printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+      printf "%s\n" "$(bake::term::style::red_fg)[FAILED]$(bake::term::style::clear)  ${command}"
       printf "    Expected [stdout]: %q\n" "${expected}"
       printf "    Actual   [stdout]: %q\n" "${actual_stdout}"
 
       fail_count=$((fail_count + 1))
     else
-      printf "%s\n" "${__BAKE_TERM_GREEN_FG__}[PASSED]${__BAKE_TERM_RESET__}  ${command}"
+      printf "%s\n" "$(bake::term::style::green_fg)[PASSED]$(bake::term::style::clear)  ${command}"
 
       pass_count=$((pass_count + 1))
     fi
@@ -79,19 +79,19 @@ bake::tests::main() (
     } < <((printf '\0%s\0' "$(eval "${command}")" 1>&2) 2>&1)
 
     if [[ ${actual_stdout} != "" ]]; then
-      printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+      printf "%s\n" "$(bake::term::style::red_fg)[FAILED]$(bake::term::style::clear)  ${command}"
       printf "    Expected [stdout]: %q\n" ""
       printf "    Actual   [stdout]: %q\n" "${actual_stdout}"
 
       fail_count=$((fail_count + 1))
     elif [[ ${expected} != "${actual_stderr}" ]]; then
-      printf "%s\n" "${__BAKE_TERM_RED_FG__}[FAILED]${__BAKE_TERM_RESET__}  ${command}"
+      printf "%s\n" "$(bake::term::style::red_fg)[FAILED]$(bake::term::style::clear)  ${command}"
       printf "    Expected [stderr]: %q\n" "${expected}"
       printf "    Actual   [stderr]: %q\n" "${actual_stderr}"
 
       fail_count=$((fail_count + 1))
     else
-      printf "%s\n" "${__BAKE_TERM_GREEN_FG__}[PASSED]${__BAKE_TERM_RESET__}  ${command}"
+      printf "%s\n" "$(bake::term::style::green_fg)[PASSED]$(bake::term::style::clear)  ${command}"
 
       pass_count=$((pass_count + 1))
     fi
@@ -106,9 +106,9 @@ bake::tests::main() (
     [[ $# -gt 0 ]] && printf "\n"
   done
 
-  printf "\n========= %s" "${__BAKE_TERM_GREEN_FG__}${pass_count} PASSED${__BAKE_TERM_RESET__}"
-  printf " - %s" "${__BAKE_TERM_YELLOW_FG__}${skip_count} SKIPPED${__BAKE_TERM_RESET__}"
-  printf " - %s\n" "${__BAKE_TERM_RED_FG__}${fail_count} FAILED${__BAKE_TERM_RESET__}"
+  printf "\n========= %s" "$(bake::term::style::green_fg)${pass_count} PASSED$(bake::term::style::clear)"
+  printf " - %s" "$(bake::term::style::yellow_fg)${skip_count} SKIPPED$(bake::term::style::clear)"
+  printf " - %s\n" "$(bake::term::style::red_fg)${fail_count} FAILED$(bake::term::style::clear)"
 
   exit "${fail_count}"
 )

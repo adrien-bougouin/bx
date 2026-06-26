@@ -9,10 +9,10 @@ bake::recipe::execute() {
 
   if ! bake::options::quiet; then
     printf "%s%s%s%s\n" \
-      "${__BAKE_TERM_BOLD__}" \
+      "$(bake::term::style::bold)" \
       "${recipe}" \
       "${args+" ${args[*]}"}" \
-      "${__BAKE_TERM_RESET__}"
+      "$(bake::term::style::clear)"
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
