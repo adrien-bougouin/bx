@@ -2,7 +2,7 @@
 
 __BAKE_RECIPES__=()
 
-bake::recipes::load() {
+bake::recipes::_load() {
   local bakefile="$1"
 
   [[ -f ${bakefile} ]] && source "${bakefile}"
@@ -11,10 +11,10 @@ bake::recipes::load() {
     local recipe="${recipe_definition#"declare -f "}"
 
     [[ ${recipe} =~ ^bake: ]] && continue
-    bake::annotations::include "${recipe}" && continue
+    bake::_annotations::_include "${recipe}" && continue
 
-    bake::state::set_parsing "${recipe}"
-    bake::recipe::load_annotations "${recipe}"
+    bake::_state::_set_parsing "${recipe}"
+    bake::recipe::_load_annotations "${recipe}"
 
     __BAKE_RECIPES__+=("${recipe}")
   done < <(declare -F)
@@ -22,12 +22,12 @@ bake::recipes::load() {
   readonly __BAKE_RECIPES__
 }
 
-bake::recipes::count() {
+bake::recipes::_count() {
   printf "%d" "${#__BAKE_RECIPES__[@]}"
 }
 
 bake::recipes::print_list() {
-  [[ $(bake::recipes::count) -eq 0 ]] && return
+  [[ $(bake::recipes::_count) -eq 0 ]] && return
 
   printf "Available recipes:\n"
   for recipe in "${__BAKE_RECIPES__[@]}"; do
@@ -44,9 +44,9 @@ bake::recipes::execute() {
       shift
     done
   else
-    if [[ -n $(bake::default_recipe) ]]; then
+    if [[ -n $(bake::recipes::default) ]]; then
       # shellcheck disable=SC2086,SC2046
-      bake::recipe::execute $(bake::default_recipe)
+      bake::recipe::execute $(bake::recipes::default)
     else
       bake::abort "nothing to do"
     fi

@@ -4,12 +4,12 @@ __BAKE_RECIPE_REQUIREMENTS__=()
 
 __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__=""
 
-bake::annotations::register "@require:"
+bake::_annotations::_register "@require:"
 
 @require:() {
-  if bake::state::is_parsing; then
+  if bake::_state::_is_parsing; then
     local recipe
-    recipe="$(bake::state::current_recipe)"
+    recipe="$(bake::_state::_current_recipe)"
 
     if [[ ${recipe} != "${__BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__}" ]]; then
       __BAKE_RECIPE_REQUIREMENTS_LAST_SEEN_RECIPE__="${recipe}"
@@ -36,7 +36,7 @@ bake::annotations::register "@require:"
   fi
 }
 
-bake::recipe::execute_requirements() {
+bake::recipe::_execute_requirements() {
   local recipe=$1
 
   local scan_index=1     # Skip the first "--"

@@ -6,6 +6,6 @@ bake::bakefile() {
   printf "%s" "${__BAKE_BAKEFILE__:-"${__BAKE_WORKING_DIRECTORY__}/Bakefile"}"
 }
 
-bake::set_bakefile() {
+bake::_set_bakefile() {
   __BAKE_BAKEFILE__="$1"
 }

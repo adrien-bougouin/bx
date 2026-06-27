@@ -2,11 +2,11 @@
 
 __BAKE_ANNOTATIONS__=()
 
-bake::annotations::register() {
+bake::_annotations::_register() {
   __BAKE_ANNOTATIONS__+=("$1")
 }
 
-bake::annotations::include() {
+bake::_annotations::_include() {
   [[ ${#__BAKE_ANNOTATIONS__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
 
   local candidate
@@ -22,7 +22,7 @@ bake::annotations::include() {
 }
 
 # TODO: validation (annotations only allowed at the beginning
-bake::recipe::load_annotations() {
+bake::recipe::_load_annotations() {
   local recipe
   local recipe_annotations
 

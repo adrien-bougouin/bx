@@ -4,8 +4,8 @@ bake::recipe::execute() {
   local recipe=$1
   local args=("${@:2}")
 
-  bake::state::set_executing "${recipe}"
-  bake::recipe::execute_requirements "${recipe}"
+  bake::_state::_set_executing "${recipe}"
+  bake::recipe::_execute_requirements "${recipe}"
 
   if ! bake::options::quiet; then
     printf "%s%s%s%s\n" \

@@ -1,4 +1,4 @@
-bake::set_default_recipe "recipe_2 arg1 arg2"
+bake::recipes::set_default "recipe_2 arg1 arg2"
 
 recipe_1() {
   echo "Not default!"

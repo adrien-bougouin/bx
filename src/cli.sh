@@ -2,11 +2,11 @@
 
 __BAKE_CLI_OPTIONS_OFFSET__=0
 
-bake::cli::parse_options() {
+bake::_cli::_parse_options() {
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
       -f | --file | --bakefile)
-        bake::set_bakefile "$(realpath "$2")"
+        bake::_set_bakefile "$(realpath "$2")"
         shift
 
         __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 2))
@@ -35,11 +35,11 @@ bake::cli::parse_options() {
   readonly __BAKE_CLI_OPTIONS_OFFSET__
 }
 
-bake::cli::options_offset() {
+bake::_cli::_options_offset() {
   printf "%d" "${__BAKE_CLI_OPTIONS_OFFSET__}"
 }
 
-bake::cli::print_help() {
+bake::_cli::print_help() {
   printf "Usage: %s [options] [recipe] ...\n\n" "${__BAKE_CONSTANT_COMMAND_NAME__}"
 
   printf "Options:\n"

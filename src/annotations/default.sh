@@ -2,23 +2,23 @@
 
 __BAKE_RECIPE_DEFAULT__=""
 
-bake::annotations::register "@default"
+bake::_annotations::_register "@default"
 
 @default() {
-  if bake::state::is_parsing; then
-    if [[ -n $(bake::default_recipe) ]]; then
+  if bake::_state::_is_parsing; then
+    if [[ -n $(bake::recipes::default) ]]; then
       bake::abort "too many default recipes"
     fi
 
-    bake::set_default_recipe "$(bake::state::current_recipe)"
+    bake::recipes::set_default "$(bake::_state::_current_recipe)"
   fi
 }
 
-bake::default_recipe() {
+bake::recipes::default() {
   printf "%s" "${__BAKE_RECIPE_DEFAULT__}"
 }
 
-bake::set_default_recipe() {
+bake::recipes::set_default() {
   if [[ $# -gt 1 ]]; then
     bake::abort "too many default recipes"
   fi
