@@ -1,29 +1,20 @@
 #!/bin/bash
 
-assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/require.bakefile' one-dependent" "$(
+assert_stdout "bake -q -f '${__TEST_BAKEFILES_PATH__}/require.bakefile' one-dependent" "$(
 	cat <<-EXPECTED
 		- required
 		- dependent
 	EXPECTED
 )"
 
-assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/require.bakefile' one-dependent--subprocess" "$(
+assert_stdout "bake -q -f '${__TEST_BAKEFILES_PATH__}/require.bakefile' one-dependent--subprocess" "$(
 	cat <<-EXPECTED
 		- required
 		- dependent
 	EXPECTED
 )"
 
-assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/require.bakefile' multi-dependent" "$(
-	cat <<-EXPECTED
-		- required
-		- required
-		- required
-		- dependent
-	EXPECTED
-)"
-
-assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/require.bakefile' multi-dependent--subprocess" "$(
+assert_stdout "bake -q -f '${__TEST_BAKEFILES_PATH__}/require.bakefile' multi-dependent" "$(
 	cat <<-EXPECTED
 		- required
 		- required
@@ -32,7 +23,16 @@ assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/require.bakefile' multi-depende
 	EXPECTED
 )"
 
-assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/require.bakefile' multi-dependent--with-args" "$(
+assert_stdout "bake -q -f '${__TEST_BAKEFILES_PATH__}/require.bakefile' multi-dependent--subprocess" "$(
+	cat <<-EXPECTED
+		- required
+		- required
+		- required
+		- dependent
+	EXPECTED
+)"
+
+assert_stdout "bake -q -f '${__TEST_BAKEFILES_PATH__}/require.bakefile' multi-dependent--with-args" "$(
 	cat <<-EXPECTED
 		- required #1
 		- required #2
@@ -41,7 +41,7 @@ assert_stdout "bake -q -f '${__TEST_BAKEFILES__}/require.bakefile' multi-depende
 	EXPECTED
 )"
 
-assert_stderr "TERM= bake -q -f '${__TEST_BAKEFILES__}/require__circular.bakefile' circular-dependent" "$(
+assert_stderr "TERM= bake -q -f '${__TEST_BAKEFILES_PATH__}/require__circular.bakefile' circular-dependent" "$(
 	cat <<-EXPECTED
 		bake: Circular requirement for recipe 'circular-dependent'!
 	EXPECTED

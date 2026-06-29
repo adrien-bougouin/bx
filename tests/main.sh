@@ -1,23 +1,21 @@
 #!/bin/bash
 
 bake::tests::main() (
-  set +ex -uo pipefail
+  set -euo pipefail
 
-  local __TEST_BAKEFILES__
+  local __BAKE_SRC_PATH__
+  local __TEST_PATH__
+  local __TEST_BAKEFILES_PATH__
 
-  local SRC_DIR
-  local TESTS_DIR
+  __TEST_PATH__="$(dirname "${BASH_SOURCE[0]}")"
+  __BAKE_SRC_PATH__="${__TEST_PATH__}/../src"
+  __TEST_BAKEFILES_PATH__="${__TEST_PATH__}/bakefiles"
 
-  TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
-  SRC_DIR="${TESTS_DIR}/../src"
+  readonly __BAKE_SRC_PATH__
+  readonly __TEST_PATH__
+  readonly __TEST_BAKEFILES_PATH__
 
-  readonly SRC_DIR
-  readonly TESTS_DIR
-
-  __TEST_BAKEFILES__="${TESTS_DIR}/bakefiles"
-  readonly __TEST_BAKEFILES__
-
-  source "${SRC_DIR}/term.sh"
+  source "${__BAKE_SRC_PATH__}/term.sh"
 
   local pass_count=0
   local fail_count=0
