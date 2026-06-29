@@ -1,8 +1,10 @@
 BIN_DIR="$(realpath ./bin)"
 # shellcheck disable=SC2207
-SOURCES=(./bin/bake $(find ./src -name "*.sh") ./tests/main.sh)
-TESTS=(./tests/test_*.sh)
-BAKEFILES=(./Bakefile ./tests/bakefiles/*.bakefile)
+SOURCES=(./bin/bake $(find ./src -name "*.sh") ./tests/*.sh)
+# shellcheck disable=SC2207
+TESTS=($(find ./tests/cases -name "test_*.sh"))
+# shellcheck disable=SC2207
+BAKEFILES=(./Bakefile $(find ./tests/bakefiles -name "Bakefile") $(find ./tests/bakefiles -name "*.bakefile"))
 
 readonly BIN_DIR
 readonly SOURCES

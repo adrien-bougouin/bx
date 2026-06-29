@@ -1,3 +1,0 @@
-which-bakefile() {
-  echo "$(bake::bakefile)"
-}

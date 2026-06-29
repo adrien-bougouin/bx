@@ -1,6 +1,6 @@
 #!/bin/bash
 
-assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/help__no_recipe.bakefile' -h" "$(
+assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/options/help__no_recipe.bakefile' -h" "$(
 	cat <<-EXPECTED
 		Usage: bake [options] [recipe] ...
 
@@ -12,7 +12,7 @@ assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/help__no_recipe.bakefile' -h"
 	EXPECTED
 )"
 
-assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/help.bakefile' -h" "$(
+assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/options/help.bakefile' -h" "$(
 	cat <<-EXPECTED
 		Usage: bake [options] [recipe] ...
 
@@ -29,7 +29,7 @@ assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/help.bakefile' -h" "$(
 	EXPECTED
 )"
 
-assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/help.bakefile' --help" "$(
+assert_stdout "bake -f '${__TEST_BAKEFILES_PATH__}/options/help.bakefile' --help" "$(
 	cat <<-EXPECTED
 		Usage: bake [options] [recipe] ...
 
