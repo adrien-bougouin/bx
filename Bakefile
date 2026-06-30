@@ -1,19 +1,21 @@
-BIN_DIR="$(realpath ./bin)"
+BIN_PATH="$(realpath ./bin)"
+readonly BIN_PATH
+
 # shellcheck disable=SC2207
 SOURCES=(./bin/bake $(find ./src -name "*.sh") ./tests/*.sh)
+readonly SOURCES
+
 # shellcheck disable=SC2207
 TESTS=($(find ./tests/cases -name "test_*.sh"))
+readonly TESTS
+
 # shellcheck disable=SC2207
 BAKEFILES=(./Bakefile $(find ./tests/bakefiles -name "Bakefile") $(find ./tests/bakefiles -name "*.bakefile"))
-
-readonly BIN_DIR
-readonly SOURCES
-readonly TESTS
 readonly BAKEFILES
 
 # Install bake
 install() (
-  echo "Run command \`export PATH=${BIN_DIR}:\${PATH}\`"
+  echo "Run command \`export PATH=${BIN_PATH}:\${PATH}\`"
 )
 
 # Run bash linting
@@ -37,7 +39,7 @@ format() (
 )
 
 tests() (
-  PATH="${BIN_DIR}:${PATH}"
+  PATH="${BIN_PATH}:${PATH}"
 
   ./tests/main.sh "${TESTS[@]}"
 )
