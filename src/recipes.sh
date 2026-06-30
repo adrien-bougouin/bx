@@ -38,15 +38,17 @@ bake::recipes::print_list() {
 bake::recipes::execute() {
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
-      # shellcheck disable=SC2086
-      bake::recipe::execute $1
+      local recipe="$1"
+
+      bake::recipe::execute "${recipe[@]}"
 
       shift
     done
   else
     if [[ -n $(bake::recipes::default) ]]; then
-      # shellcheck disable=SC2086,SC2046
-      bake::recipe::execute $(bake::recipes::default)
+      local recipe=("$(bake::recipes::default)")
+
+      bake::recipe::execute "${recipe[@]}"
     else
       bake::abort "nothing to do"
     fi

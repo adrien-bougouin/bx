@@ -6,7 +6,7 @@ bake::_annotations::_register "@default"
 
 @default() {
   if bake::_state::_is_parsing; then
-    if [[ -n $(bake::recipes::default) ]]; then
+    if [[ -n "$(bake::recipes::default)" ]]; then
       bake::abort "too many default recipes"
     fi
 

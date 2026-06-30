@@ -1,7 +1,7 @@
 #!/bin/bash
 
 bake::recipe::execute() {
-  local recipe=$1
+  local recipe="$1"
   local args=("${@:2}")
 
   bake::_state::_set_executing "${recipe}"

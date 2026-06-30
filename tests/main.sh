@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bake::tests::main() (
+bake::tests::main() {
   set -euo pipefail
 
   local __BAKE_SRC_PATH__
@@ -109,7 +109,7 @@ bake::tests::main() (
   printf " - %s\n" "$(bake::term::style::red_fg)${fail_count} FAILED$(bake::term::style::clear)"
 
   exit "${fail_count}"
-)
+}
 
 if [[ $# -gt 0 ]]; then
   bake::tests::main "$@"

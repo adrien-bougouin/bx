@@ -8,7 +8,7 @@ __BAKE_TERM_STYLE_GREEN_FG__=""
 __BAKE_TERM_STYLE_YELLOW_FG__=""
 
 # BASH unset ${TERM} value is 'dumb'!
-if [[ $(command -v tput) ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
+if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
   __BAKE_TERM_STYLE_CLEAR__="$(tput sgr0)"
   __BAKE_TERM_STYLE_BOLD__="$(tput bold)"
 
@@ -18,7 +18,7 @@ if [[ $(command -v tput) ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
 fi
 
 readonly __BAKE_TERM_STYLE_CLEAR__
-readonly __BAKE_TERM__STYLE_BOLD__
+readonly __BAKE_TERM_STYLE_BOLD__
 
 readonly __BAKE_TERM_STYLE_RED_FG__
 readonly __BAKE_TERM_STYLE_GREEN_FG__

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bake::main() (
+bake::main() {
   set -euo pipefail
 
   local __BAKE_WORKING_DIRECTORY__
@@ -39,8 +39,13 @@ bake::main() (
 
   bake::_cli::_parse_options "$@"
 
+  local cli_options_offset
+  local i_offset=1
+
+  cli_options_offset="$(bake::_cli::_options_offset)"
+
   # Shift bake option arguments to point to the first recipe to call
-  for ((i = 1; i <= $(bake::_cli::_options_offset); i++)); do
+  for ((i_offset = 1; i_offset <= cli_options_offset; i_offset++)); do
     shift
   done
 
@@ -70,6 +75,6 @@ bake::main() (
   ##############################################################################
 
   bake::recipes::execute "$@"
-)
+}
 
 bake::main "$@"

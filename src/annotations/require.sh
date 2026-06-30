@@ -25,7 +25,7 @@ bake::_annotations::_register "@require:"
     fi
 
     for requirement in "$@"; do
-      local components=("${requirement}")
+      local components="${requirement}"
 
       if [[ ${components[0]} == "${recipe}" ]]; then
         bake::abort "circular requirement for recipe '${recipe}'"
@@ -37,7 +37,7 @@ bake::_annotations::_register "@require:"
 }
 
 bake::recipe::_execute_requirements() {
-  local recipe=$1
+  local recipe="$1"
 
   local scan_index=1     # Skip the first "--"
   local scan_mode="SEEK" # SEEK, SKIP, EXEC
