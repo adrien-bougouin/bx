@@ -32,10 +32,9 @@ bake::recipe::_load_annotations() {
   recipe_annotations="$(declare -f "${recipe}" | grep "@default\|@require:")" || true
 
   # Strip subshell surroundings (e.g. '  (  @default;').
-  recipe_annotations=$(
-    # FIXME: avoid using sed, use built-in bash string substitution instead
-    printf "%s" "${recipe_annotations}" | sed -E 's/^ *\(//; s/\) *$//'
-  ) || true
+  recipe_annotations="$(bake::utils::string::trim "${recipe_annotations}" " ")"
+  recipe_annotations="${recipe_annotations/#\(/}"
+  recipe_annotations="${recipe_annotations/%\)/}"
 
   eval "${recipe_annotations}"
 }
