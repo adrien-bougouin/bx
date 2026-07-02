@@ -41,5 +41,5 @@ format() (
 tests() (
   PATH="${BIN_PATH}:${PATH}"
 
-  ./tests/main.sh "${TESTS[@]}"
+  ./tests/main.sh "${1:-"${TESTS[@]}"}"
 )

@@ -19,8 +19,8 @@ bake::utils::string::trim() {
   until [[ ${previous_trim} == "${last_trim}" ]]; do
     previous_trim="${last_trim}"
 
-    last_trim="${last_trim/#"${pattern}"/}"
-    last_trim="${last_trim/%"${pattern}"/}"
+    last_trim="${last_trim#"${pattern}"}"
+    last_trim="${last_trim%"${pattern}"}"
   done
 
   printf "%s" "${last_trim}"

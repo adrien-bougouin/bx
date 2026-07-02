@@ -15,7 +15,7 @@ bake::_annotations::_include() {
   candidate="$1"
 
   for annotation in "${__BAKE_ANNOTATIONS__[@]}"; do
-    [[ ${candidate} =~ ${annotation} ]] && return "${__BAKE_CONSTANT_TRUE__}"
+    [[ ${candidate} == "${annotation}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
   done
 
   return "${__BAKE_CONSTANT_FALSE__}"
@@ -24,19 +24,26 @@ bake::_annotations::_include() {
 # TODO: validation (annotations only allowed at the beginning
 bake::recipe::_load_annotations() {
   local recipe
-  local recipe_annotations
 
   recipe="$1"
-  # TODO: use __BAKE__ANNOTATIONS__
-  # FIXME: avoid using grep
-  recipe_annotations="$(declare -f "${recipe}" | grep "@default\|@require:")" || true
 
-  # Strip subshell surroundings (e.g. '  (  @default;').
-  recipe_annotations="$(bake::utils::string::trim "${recipe_annotations}" " ")"
-  recipe_annotations="${recipe_annotations/#\(/}"
-  recipe_annotations="${recipe_annotations/%\)/}"
+  local line
+  while IFS='' read -r line; do
+    line="$(bake::utils::string::trim "${line}" " ")"
+    # Strip subshell surroundings (e.g. '(  @default;').
+    line="${line#\(}"
+    line="${line%\)}"
 
-  eval "${recipe_annotations}"
+    local line_head
+
+    line_head="$(bake::utils::string::trim "${line}" " ")"
+    line_head="${line_head%% *}"
+    line_head="${line_head%;}"
+
+    bake::_annotations::_include "${line_head}" || continue
+
+    eval "${line}"
+  done < <(declare -f "${recipe}")
 }
 
 source "${__BAKE_SRC_PATH__}/annotations/default.sh"
