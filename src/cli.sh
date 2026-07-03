@@ -6,7 +6,7 @@ bake::_cli::_parse_options() {
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
     case "$1" in
       -f | --file | --bakefile)
-        bake::_set_bakefile "$(realpath "$2")"
+        bake::_set_bakefile "$2"
         shift
 
         __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 2))

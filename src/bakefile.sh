@@ -7,5 +7,11 @@ bake::bakefile() {
 }
 
 bake::_set_bakefile() {
-  __BAKE_BAKEFILE__="$1"
+  local input_bakefile
+  local absolute_bakefile
+
+  input_bakefile="$1"
+  absolute_bakefile="$(realpath "${input_bakefile}" 2>/dev/null || true)"
+
+  __BAKE_BAKEFILE__="${absolute_bakefile:-"${input_bakefile}"}"
 }

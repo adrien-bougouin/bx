@@ -49,7 +49,6 @@ bake::main() {
   done
 
   # TODO:
-  #   - Test: no bakefile - help option - show help
   #   - Test: no bakefile - no help option - show 'no recipes'
   if [[ ! -f $(bake::bakefile) ]] && ! bake::options::help; then
     bake::abort "no recipes"
