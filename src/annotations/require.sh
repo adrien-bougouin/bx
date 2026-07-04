@@ -25,7 +25,8 @@ bake::_annotations::_register "@require:"
     fi
 
     for requirement in "$@"; do
-      local components="${requirement}"
+      # shellcheck disable=SC2206
+      local components=(${requirement})
 
       if [[ ${components[0]} == "${recipe}" ]]; then
         bake::abort "circular requirement for recipe '${recipe}'"

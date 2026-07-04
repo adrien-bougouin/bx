@@ -38,9 +38,8 @@ bake::recipes::print_list() {
 bake::recipes::execute() {
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
-      local recipe="$1"
-
-      bake::recipe::execute "${recipe[@]}"
+      # shellcheck disable=SC2086
+      bake::recipe::execute $1
 
       shift
     done
