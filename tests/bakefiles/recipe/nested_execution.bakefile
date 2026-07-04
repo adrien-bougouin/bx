@@ -3,6 +3,10 @@ r-exec() {
   bake::recipe::execute "$1"
 }
 
+r-quiet-exec() {
+  bake::recipe::execute "$1"
+}
+
 r-executed() {
   echo "- r-executed"
 }

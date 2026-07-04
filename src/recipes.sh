@@ -35,6 +35,21 @@ bake::recipes::print_list() {
   done
 }
 
+bake::recipes::include() {
+  [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
+
+  local candidate
+  local recipe
+
+  recipe="$1"
+
+  for candidate in "${__BAKE_RECIPES__[@]}"; do
+    [[ ${candidate} == "${recipe}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
+  done
+
+  return "${__BAKE_CONSTANT_FALSE__}"
+}
+
 bake::recipes::execute() {
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
@@ -45,9 +60,12 @@ bake::recipes::execute() {
     done
   else
     if [[ -n $(bake::recipes::default) ]]; then
-      local recipe=("$(bake::recipes::default)")
+      local default_recipe
 
-      bake::recipe::execute "${recipe[@]}"
+      default_recipe="$(bake::recipes::default)"
+
+      # shellcheck disable=SC2086
+      bake::recipe::execute ${default_recipe}
     else
       bake::abort "nothing to do"
     fi

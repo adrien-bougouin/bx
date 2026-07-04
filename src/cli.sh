@@ -24,6 +24,11 @@ bake::_cli::_parse_options() {
         __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
         ;;
 
+      --)
+        __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
+        break
+        ;;
+
       *)
         bake::abort "unknown option '$1'"
         ;;

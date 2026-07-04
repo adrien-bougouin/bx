@@ -57,7 +57,8 @@ bake::recipe::_execute_requirements() {
     fi
 
     if [[ ${scan_mode} == "EXEC" ]] && [[ ${requirement} != "--" ]]; then
-      bake::recipe::execute "${requirement}"
+      # shellcheck disable=SC2086
+      bake::recipe::execute ${requirement}
       continue
     fi
 

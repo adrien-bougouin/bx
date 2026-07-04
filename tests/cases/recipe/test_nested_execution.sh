@@ -8,3 +8,9 @@ assert_stdout "TERM= bake -f '${__TEST_BAKEFILES_PATH__}/recipe/nested_execution
 		- r-executed
 	EXPECTED
 )"
+
+assert_stderr "TERM= bake -f '${__TEST_BAKEFILES_PATH__}/recipe/nested_execution.bakefile' -q 'r-quiet-exec missing'" "$(
+	cat <<-EXPECTED
+		bake: No recipe 'missing'!
+	EXPECTED
+)"
