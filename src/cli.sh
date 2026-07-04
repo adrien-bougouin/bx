@@ -45,11 +45,13 @@ bake::_cli::_options_offset() {
 }
 
 bake::_cli::print_help() {
-  printf "Usage: %s [options] [recipe] ...\n\n" "${__BAKE_CONSTANT_COMMAND_NAME__}"
+  printf "Usage: %s [options] [--] [recipe] ...\n\n" "${__BAKE_CONSTANT_COMMAND_NAME__}"
 
   printf "Options:\n"
   printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s   Read FILE as a bakefile.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s-h, --help\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s   Show this help.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s-s, --silent, -q, --quiet\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s   Do not display the executed recipe name and arguments.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
 }
