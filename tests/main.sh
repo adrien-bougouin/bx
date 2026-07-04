@@ -24,7 +24,7 @@ bake::tests::main() {
   skip() {
     local command="$2"
 
-    printf "%s\n" "$(bake::term::style::yellow_fg)[FAILED]$(bake::term::style::clear) ${command}"
+    printf "%s\n" "$(bake::term::style::yellow_fg)[SKIPPED]$(bake::term::style::clear) ${command}"
 
     skip_count=$((skip_count + 1))
   }
