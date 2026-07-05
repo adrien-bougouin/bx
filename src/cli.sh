@@ -18,6 +18,12 @@ bake::_cli::_parse_options() {
         __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
         ;;
 
+      -l | --list)
+        bake::options::enable_list
+
+        __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
+        ;;
+
       -s | --silent | -q | --quiet)
         bake::options::enable_quiet
 
@@ -52,6 +58,8 @@ bake::_cli::print_help() {
   printf "%s   Read FILE as a bakefile.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s-h, --help\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s   Show this help.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s-l, --list\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s   Show the available recipes.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s-s, --silent, -q, --quiet\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s   Do not display the executed recipe name and arguments.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
 }

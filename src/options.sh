@@ -1,6 +1,7 @@
 #!/bin/bash
 
 __BAKE_OPTION_HELP__="${__BAKE_CONSTANT_FALSE__}"
+__BAKE_OPTION_LIST__="${__BAKE_CONSTANT_FALSE__}"
 __BAKE_OPTION_QUIET__="${__BAKE_CONSTANT_FALSE__}"
 
 bake::options::help() {
@@ -9,6 +10,14 @@ bake::options::help() {
 
 bake::options::enable_help() {
   __BAKE_OPTION_HELP__="${__BAKE_CONSTANT_TRUE__}"
+}
+
+bake::options::list() {
+  return "${__BAKE_OPTION_LIST__}"
+}
+
+bake::options::enable_list() {
+  __BAKE_OPTION_LIST__="${__BAKE_CONSTANT_TRUE__}"
 }
 
 bake::options::quiet() {

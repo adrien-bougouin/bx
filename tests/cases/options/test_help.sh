@@ -9,6 +9,8 @@ HELP_MESSAGE="$(
 		       Read FILE as a bakefile.
 		    -h, --help
 		       Show this help.
+		    -l, --list
+		       Show the available recipes.
 		    -s, --silent, -q, --quiet
 		       Do not display the executed recipe name and arguments.
 	HELP

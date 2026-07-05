@@ -50,7 +50,7 @@ bake::main() {
 
   # TODO:
   #   - Test: no bakefile - no help option - show 'no recipes'
-  if [[ ! -f $(bake::bakefile) ]] && ! bake::options::help; then
+  if [[ ! -f $(bake::bakefile) ]] && ! bake::options::help && ! bake::options::list; then
     bake::abort "no recipes"
   fi
 
@@ -65,6 +65,10 @@ bake::main() {
 
     [[ $(bake::recipes::_count) -gt 0 ]] && printf "\n"
 
+    bake::recipes::print_list
+
+    exit 0
+  elif bake::options::list; then
     bake::recipes::print_list
 
     exit 0
