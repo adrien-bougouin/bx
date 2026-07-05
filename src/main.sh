@@ -48,9 +48,7 @@ bake::main() {
     shift
   done
 
-  # TODO:
-  #   - Test: no bakefile - no help option - show 'no recipes'
-  if [[ ! -f $(bake::bakefile) ]] && ! bake::options::help && ! bake::options::list; then
+  if [[ ! -f $(bake::bakefile) ]] && ! bake::options::version && ! bake::options::help && ! bake::options::list; then
     bake::abort "no recipes"
   fi
 
@@ -60,7 +58,13 @@ bake::main() {
 
   # Show help ##################################################################
 
-  if bake::options::help; then
+  if bake::options::version; then
+    printf "%s %s\n" \
+      "$(bake::term::style::bold)${__BAKE_CONSTANT_COMMAND_NAME__}:$(bake::term::style::clear)" \
+      "${__BAKE_CONSTANT_VERSION__}"
+
+    exit 0
+  elif bake::options::help; then
     bake::_cli::print_help
 
     [[ $(bake::recipes::_count) -gt 0 ]] && printf "\n"

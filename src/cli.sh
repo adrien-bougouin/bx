@@ -30,6 +30,12 @@ bake::_cli::_parse_options() {
         __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
         ;;
 
+      -v | --version)
+        bake::options::enable_version
+
+        __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
+        ;;
+
       --)
         __BAKE_CLI_OPTIONS_OFFSET__=$((__BAKE_CLI_OPTIONS_OFFSET__ + 1))
         break
@@ -62,4 +68,6 @@ bake::_cli::print_help() {
   printf "%s   Show the available recipes.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s-s, --silent, -q, --quiet\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
   printf "%s   Do not display the executed recipe name and arguments.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s-v, --version\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+  printf "%s   Show version.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
 }

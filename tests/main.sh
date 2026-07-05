@@ -16,6 +16,7 @@ bake::tests::main() {
   readonly __TEST_BAKEFILES_PATH__
 
   source "${__BAKE_SRC_PATH__}/term.sh"
+  source "${__BAKE_SRC_PATH__}/constants.sh"
 
   local pass_count=0
   local fail_count=0

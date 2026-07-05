@@ -13,6 +13,8 @@ HELP_MESSAGE="$(
 		       Show the available recipes.
 		    -s, --silent, -q, --quiet
 		       Do not display the executed recipe name and arguments.
+		    -v, --version
+		       Show version.
 	HELP
 )"
 
