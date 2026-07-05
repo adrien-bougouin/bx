@@ -36,7 +36,11 @@ tests() {
 ```
 
 ## Installation
-TODO
+Clone this repository, then run:
+
+```shell
+./bin/bake install
+```
 
 ## Features
 
@@ -44,14 +48,14 @@ TODO
 Call recipes in one go.
 
 ```shell
-$ bake format lint tests
+bake format lint tests
 ```
 
 ### Recipe arguments
 Pass arguments to recipes just like any other command.
 
 ```shell
-$ bake format "lint --exclude SC2313" tests
+bake format "lint --exclude SC2313" tests
 ```
 
 ### Default recipe (`@default`)

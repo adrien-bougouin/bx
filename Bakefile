@@ -11,7 +11,55 @@ BAKEFILES=(./Bakefile $(find ./tests/bakefiles -name "Bakefile") $(find ./tests/
 
 # Install bake
 install() (
-  echo "Run command \`export PATH=${BIN_PATH}:\${PATH}\`"
+  if command -v "${__BAKE_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
+    echo "bake is already installed!" >&2
+
+    exit 1
+  fi
+
+  local shell
+  local config_path
+  local config_content
+  local apply_instruction
+
+  shell="$(basename "${SHELL}")"
+
+  case "${shell}" in
+    sh | dash)
+      config_path="${HOME}/.profile"
+      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
+      ;;
+
+    bash | zsh)
+      config_path="${HOME}/.${shell}rc"
+      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
+      ;;
+
+    fish)
+      config_path="${HOME}/.config/fish/config.fish"
+      config_content="fish_add_path ${BIN_PATH}"
+      apply_instruction="fish_add_path \"${BIN_PATH}\""
+      ;;
+
+    *)
+      echo "Installing to shell '${shell}' is not supported!" >&2
+
+      exit 1
+      ;;
+  esac
+
+  if ! grep -qsxF "${config_content}" "${config_path}" 2>/dev/null; then
+    printf "\n%s" "${config_content}" >>"${config_path}"
+  fi
+
+  cat <<-INFO
+		${__BAKE_CONSTANT_COMMAND_NAME__} is installed in ${config_path}
+
+		Run this in your terminal to use ${__BAKE_CONSTANT_COMMAND_NAME__} right now:
+		  ${apply_instruction}
+	INFO
 )
 
 # Run bash linting
@@ -38,4 +86,5 @@ tests() (
   PATH="${BIN_PATH}:${PATH}"
 
   ./tests/main.sh "${1:-"${TESTS[@]}"}"
+
 )
