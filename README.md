@@ -2,6 +2,108 @@
 
 [![CI](https://github.com/adrien-bougouin/bake/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bake/actions/workflows/ci.yml)
 
-`bake` is a `bash` configurable `make`-like build automation and task running tool.
+`bake` is a `bash` configurable build automation and task running tool.
 
-Write your build system or task runner using only `bash`; use it like you would with `make`.
+Write **recipes** in `bash`; run them like you would with `make`.
+
+```bash
+# file: Bakefile
+
+BIN_PATH="$(realpath ./bin)"
+
+SOURCES=(./bin/bake $(find ./src -name "*.sh"))
+TESTS=($(find ./tests/cases -name "test_*.sh"))
+
+lint() {
+  local args=("--exclude" "SC1090,SC1091,SC2329" "$@")
+
+  set -x
+
+  shellcheck ${args+"${args[@]}"} "${SOURCES[@]}"
+}
+
+format() {
+  set -x
+
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}"
+}
+
+tests() {
+  PATH="${BIN_PATH}:${PATH}"
+
+  ./tests/main.sh "${1:-"${TESTS[@]}"}"
+}
+```
+
+## Installation
+TODO
+
+## Features
+
+### Recipe chaining
+Call recipes in one go.
+
+```shell
+$ bake format lint tests
+```
+
+### Recipe arguments
+Pass arguments to recipes just like any other command.
+
+```shell
+$ bake format "lint --exclude SC2313" tests
+```
+
+### Default recipe (`@default`)
+Set which recipe to execute when calling `bake` without explicit recipe.
+
+Use the `@default` annotation (recommended), or call `bake::recipes::set_default` (when calling the default with arguments).
+
+```bash
+# file: Bakefile
+
+my_recipe() {
+  @default
+
+  # ...
+}
+```
+
+```bash
+# file: Bakefile
+
+bake::recipes::set_default 'my_recipe --some-option'
+
+my_recipe() {
+  # ...
+}
+```
+
+### Recipe pre-conditions (`@require: ...`)
+List recipes that must be executed before the current recipe.
+
+Use the `@require:` annotation to set one or more recipes to execute before the current recipe. Recipe arguments are also supported.
+
+```bash
+# file: Bakefile
+
+format() {
+  # ...
+}
+
+lint() {
+  local args=("$@")
+
+  # ...
+}
+
+tests() {
+  # ...
+}
+
+my_recipe() {
+  @require: format 'lint --some-lint-option' tests
+
+  # ...
+}
+```
