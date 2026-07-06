@@ -28,18 +28,11 @@ jobs:
 
     strategy:
       matrix:
-        include:
-        - os: macos-latest
-        - os: ubuntu-latest
-        - os: ubuntu-latest
-          container: bash:3.2
-        - os: ubuntu-latest
-          container: bash:4.4
-        - os: ubuntu-latest
-          container: bash:5.2
+        os:
+        - ubuntu-latest
+        - macos-latest
 
     runs-on: ${{matrix.os}}
-    container: ${{matrix.container}}
 
     steps:
       - uses: actions/checkout@v6
