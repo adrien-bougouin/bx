@@ -1,5 +1,0 @@
-circular-dependent() {
-  @require: circular-dependent
-
-  echo "- circular-dependent"
-}

@@ -4,8 +4,9 @@ bake::recipe::execute() {
   local recipe="$1"
   local args=("${@:2}")
 
-  bake::recipes::include "${recipe}" \
-    || bake::abort "no recipe '${recipe}${args+" ${args[*]}"}'"
+  local recipe_with_args="${recipe}${args+" ${args[*]}"}"
+
+  bake::recipes::include "${recipe}" || bake::abort "no recipe '${recipe_with_args}'"
 
   bake::_state::_set_executing "${recipe}"
 
