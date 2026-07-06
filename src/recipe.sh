@@ -8,7 +8,6 @@ bake::recipe::execute() {
     || bake::abort "no recipe '${recipe}${args+" ${args[*]}"}'"
 
   bake::_state::_set_executing "${recipe}"
-  bake::recipe::_execute_requirements "${recipe}"
 
   if ! bake::options::quiet; then
     printf "%s%s%s%s\n" \
