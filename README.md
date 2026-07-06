@@ -64,7 +64,7 @@ Set which recipe to execute when calling `bake` without explicit recipe.
 Use the `@default` annotation (recommended), or call `bake::recipes::set_default` (when calling the default with arguments).
 
 ```bash
-# file: Bakefile
+# Bakefile
 
 my_recipe() {
   @default
@@ -74,7 +74,7 @@ my_recipe() {
 ```
 
 ```bash
-# file: Bakefile
+# Bakefile
 
 bake::recipes::set_default 'my_recipe --some-option'
 
@@ -89,7 +89,7 @@ List recipes that must be executed before the current recipe.
 Use the `@require:` annotation to set one or more recipes to execute before the current recipe. Recipe arguments are also supported.
 
 ```bash
-# file: Bakefile
+# Bakefile
 
 format() {
   # ...
