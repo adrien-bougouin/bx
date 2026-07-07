@@ -67,7 +67,7 @@ bake::recipes::execute() {
       # shellcheck disable=SC2086
       bake::recipe::execute ${default_recipe}
     else
-      bake::abort "nothing to do"
+      bake::abort "Nothing to do!"
     fi
   fi
 }

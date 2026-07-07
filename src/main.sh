@@ -16,6 +16,7 @@ bake::main() {
   source "${__BAKE_SRC_PATH__}/term.sh"
 
   source "${__BAKE_SRC_PATH__}/constants.sh"
+  source "${__BAKE_SRC_PATH__}/display.sh"
   source "${__BAKE_SRC_PATH__}/options.sh"
   source "${__BAKE_SRC_PATH__}/state.sh"
   source "${__BAKE_SRC_PATH__}/bakefile.sh"
@@ -28,9 +29,7 @@ bake::main() {
   ##############################################################################
 
   bake::abort() {
-    bake::term::stderrf "%s %s!\n" \
-      "$(bake::term::style::bold)${__BAKE_CONSTANT_COMMAND_NAME__}:$(bake::term::style::clear)" \
-      "$(bake::utils::string::capitalize "${1}")"
+    bake::display::error "$1"
 
     exit 1
   }
@@ -49,7 +48,7 @@ bake::main() {
   done
 
   if [[ ! -f $(bake::bakefile) ]] && ! bake::options::version && ! bake::options::help && ! bake::options::list; then
-    bake::abort "no recipes"
+    bake::abort "No recipes!"
   fi
 
   ##############################################################################
@@ -59,9 +58,7 @@ bake::main() {
   # Show help ##################################################################
 
   if bake::options::version; then
-    printf "%s %s\n" \
-      "$(bake::term::style::bold)${__BAKE_CONSTANT_COMMAND_NAME__}:$(bake::term::style::clear)" \
-      "${__BAKE_CONSTANT_VERSION__}"
+    bake::display::info "${__BAKE_CONSTANT_VERSION__}"
 
     exit 0
   elif bake::options::help; then

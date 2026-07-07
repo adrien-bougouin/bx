@@ -1,14 +1,5 @@
 #!/bin/bash
 
-bake::utils::string::capitalize() {
-  local head="${1:0:1}"
-  local tail="${1:1}"
-
-  printf "%s%s" \
-    "$(printf "%s" "${head}" | tr '[:lower:]' '[:upper:]')" \
-    "${tail}"
-}
-
 bake::utils::string::trim() {
   local input="$1"
   local pattern="$2"

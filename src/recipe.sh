@@ -6,16 +6,12 @@ bake::recipe::execute() {
 
   local recipe_with_args="${recipe}${args+" ${args[*]}"}"
 
-  bake::recipes::include "${recipe}" || bake::abort "no recipe '${recipe_with_args}'"
+  bake::recipes::include "${recipe}" || bake::abort "No recipe '${recipe_with_args}'!"
 
   bake::_state::_set_executing "${recipe}"
 
   if ! bake::options::quiet; then
-    printf "%s%s%s%s\n" \
-      "$(bake::term::style::bold)" \
-      "${recipe}" \
-      "${args+" ${args[*]}"}" \
-      "$(bake::term::style::clear)"
+    bake::display::info "${recipe}${args+" ${args[*]}"}" ""
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"

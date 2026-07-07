@@ -7,7 +7,7 @@ bake::_annotations::_register "@default"
 @default() {
   if bake::_state::_is_parsing; then
     if [[ -n "$(bake::recipes::default)" ]]; then
-      bake::abort "too many default recipes"
+      bake::abort "Too many default recipes!"
     fi
 
     bake::recipes::set_default "$(bake::_state::_current_recipe)"
@@ -20,7 +20,7 @@ bake::recipes::default() {
 
 bake::recipes::set_default() {
   if [[ $# -gt 1 ]]; then
-    bake::abort "too many default recipes"
+    bake::abort "Too many default recipes!"
   fi
 
   __BAKE_RECIPE_DEFAULT__="$1"

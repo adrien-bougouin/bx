@@ -24,11 +24,6 @@ readonly __BAKE_TERM_STYLE_RED_FG__
 readonly __BAKE_TERM_STYLE_GREEN_FG__
 readonly __BAKE_TERM_STYLE_YELLOW_FG__
 
-bake::term::stderrf() {
-  # shellcheck disable=SC2059
-  printf "$1" "${@:2}" >&2
-}
-
 bake::term::style::clear() {
   printf "%s" "${__BAKE_TERM_STYLE_CLEAR__}"
 }
