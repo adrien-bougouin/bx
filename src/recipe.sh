@@ -19,4 +19,5 @@ bake::recipe::execute() {
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
+  # TODO: reset set flags
 }
