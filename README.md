@@ -20,12 +20,14 @@ lint() {
   set -x
 
   shellcheck ${args+"${args[@]}"} "${SOURCES[@]}"
+  shellcheck ${args+"${args[@]}"} "${TESTS[@]}"
 }
 
 format() {
   set -x
 
   shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}"
+  shfmt -ci -bn -s -w "${TESTS[@]}"
 }
 
 tests() {
