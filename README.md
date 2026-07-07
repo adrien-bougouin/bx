@@ -19,8 +19,8 @@ lint() {
 
   set -x
 
-  shellcheck ${args+"${args[@]}"} "${SOURCES[@]}"
-  shellcheck ${args+"${args[@]}"} "${TESTS[@]}"
+  shellcheck "${args[@]}" "${SOURCES[@]}"
+  shellcheck "${args[@]}" "${TESTS[@]}"
 }
 
 format() {
