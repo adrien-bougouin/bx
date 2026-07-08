@@ -6,11 +6,14 @@
 
 ################################################################################
 # Print an error message to stderr.
+#
 # Usage:
 #   bake::display::error [topic] message
+#
 # Arguments:
 #   topic   - Topic label. If omitted, defaults to the command name.
 #   message - The message text.
+#
 # Outputs:
 #   Writes formatted message to stderr.
 ################################################################################
@@ -20,11 +23,14 @@ bake::display::error() {
 
 ################################################################################
 # Print an info message to stdout.
+#
 # Usage:
 #   bake::display::info [topic] message
+#
 # Arguments:
 #   topic   - Topic label. If omitted, defaults to the command name.
 #   message - The message text.
+#
 # Outputs:
 #   Writes formatted message to stdout.
 ################################################################################
@@ -34,14 +40,18 @@ bake::display::info() {
 
 ################################################################################
 # Format and print a message with an optional bold topic prefix.
+#
 # Usage:
 #   bake::display::_stdout [topic] message
+#
 # Globals:
 #   __BAKE_CONSTANT_COMMAND_NAME__ - used as default topic when no topic is
 #                                    provided.
+#
 # Arguments:
 #   topic   - Topic label. If omitted, defaults to the command name.
 #   message - The message text.
+#
 # Outputs:
 #   Writes formatted message to stdout.
 ################################################################################
