@@ -34,28 +34,12 @@ bake::main() {
     exit 1
   }
 
-  # Parse CLI options ##########################################################
-
-  bake::_cli::_parse_options "$@"
-
-  local cli_options_offset
-  cli_options_offset="$(bake::_cli::_options_offset)"
-
-  # Shift bake option arguments to point to the first recipe to call
-  local i_offset
-  for ((i_offset = 1; i_offset <= cli_options_offset; i_offset++)); do
-    shift
-  done
-
-  if [[ ! -f $(bake::bakefile) ]] && ! bake::options::version && ! bake::options::help && ! bake::options::list; then
-    bake::abort "No recipes!"
-  fi
-
   ##############################################################################
 
-  bake::recipes::_load "$(bake::bakefile)"
+  local positional_arguments
 
-  # Show help ##################################################################
+  bake::_cli::_parse_options positional_arguments "$@"
+  bake::recipes::_load "$(bake::bakefile)"
 
   if bake::options::version; then
     bake::display::info "${__BAKE_CONSTANT_VERSION__}"
@@ -73,11 +57,11 @@ bake::main() {
     bake::recipes::print_list
 
     exit 0
+  elif [[ $(bake::recipes::_count) -eq 0 ]]; then
+    bake::abort "No recipes!"
   fi
 
-  ##############################################################################
-
-  bake::recipes::execute "$@"
+  bake::recipes::execute ${positional_arguments+"${positional_arguments[@]}"}
 }
 
 bake::main "$@"
