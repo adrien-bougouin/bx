@@ -29,7 +29,7 @@ bake::main() {
   ##############################################################################
 
   bake::abort() {
-    bake::display::error "$1"
+    bake::display::error "${__BAKE_CONSTANT_COMMAND_NAME__}" "$1"
 
     exit 1
   }
@@ -42,7 +42,7 @@ bake::main() {
   bake::recipes::_load "$(bake::bakefile)"
 
   if bake::options::version; then
-    bake::display::info "${__BAKE_CONSTANT_VERSION__}"
+    bake::display::info "${__BAKE_CONSTANT_COMMAND_NAME__}" "${__BAKE_CONSTANT_VERSION__}"
 
     exit 0
   elif bake::options::help; then

@@ -47,23 +47,26 @@ bake::_cli::_parse_options() {
 #
 # Globals:
 #   __BAKE_CONSTANT_COMMAND_NAME__ - command name displayed in the usage line.
-#   __BAKE_CONSTANT_TEXT_INDENT__  - indent prefix for each option line.
 #
 # Outputs:
 #   Writes formatted help text to stdout.
 ################################################################################
 bake::_cli::print_help() {
-  printf "Usage: %s [options] [--] [recipe] ...\n\n" "${__BAKE_CONSTANT_COMMAND_NAME__}"
+  bake::display::info "$(
+    cat <<-HELP
+			Usage: ${__BAKE_CONSTANT_COMMAND_NAME__} [options] [--] [recipe] ...
 
-  printf "Options:\n"
-  printf "%s-f FILE, --file FILE, --bakefile FILE\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s   Read FILE as a bakefile.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s-h, --help\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s   Show this help.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s-l, --list\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s   Show the available recipes.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s-s, --silent, -q, --quiet\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s   Do not display the executed recipe name and arguments.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s-v, --version\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
-  printf "%s   Show version.\n" "${__BAKE_CONSTANT_TEXT_INDENT__}"
+			Options:
+			{{indent}}-f FILE, --file FILE, --bakefile FILE
+			{{indent}}   Read FILE as a bakefile.
+			{{indent}}-h, --help
+			{{indent}}   Show this help.
+			{{indent}}-l, --list
+			{{indent}}   Show the available recipes.
+			{{indent}}-s, --silent, -q, --quiet
+			{{indent}}   Do not display the executed recipe name and arguments.
+			{{indent}}-v, --version
+			{{indent}}   Show version.
+		HELP
+  )"
 }
