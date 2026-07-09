@@ -1,13 +1,7 @@
 BIN_PATH="$(realpath ./bin)"
 
 # shellcheck disable=SC2207
-SOURCES=(./bin/bake $(find ./src -name "*.sh") ./tests/*.sh)
-
-# shellcheck disable=SC2207
-TESTS=($(find ./tests/cases -name "test_*.sh"))
-
-# shellcheck disable=SC2207
-BAKEFILES=(./Bakefile $(find ./tests/bakefiles -name "Bakefile") $(find ./tests/bakefiles -name "*.bakefile"))
+SOURCES=(./bin/bake $(find ./src -name "*.sh"))
 
 # Install bake
 install() (
@@ -64,27 +58,56 @@ install() (
 
 # Run bash linting
 lint() (
-  local args=("--exclude" "SC1090,SC1091,SC2329" "$@")
+  local args=("--exclude" "SC1090,SC1091,SC2030,SC2031,SC2329" "$@")
 
   set -x
 
-  shellcheck ${args+"${args[@]}"} "${SOURCES[@]}"
-  shellcheck ${args+"${args[@]}"} "${TESTS[@]}"
-  shellcheck --shell bash ${args+"${args[@]}"} "${BAKEFILES[@]}"
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" Bakefile
 )
 
 format() (
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}"
-  shfmt -i 2 -ci -bn -s -w "${BAKEFILES[@]}"
-  shfmt -ci -bn -s -w "${TESTS[@]}"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" Bakefile
 )
 
-tests() (
-  PATH="${BIN_PATH}:${PATH}"
-
-  ./tests/main.sh "${1:-"${TESTS[@]}"}"
-
+todo-list() (
+  bake::recipes::execute 'features-check --tags="@skip or @fixme or @todo"'
 )
+
+features-check() (
+  _cucumber-env
+
+  export PATH="${BIN_PATH}:${PATH}"
+
+  local args=("$@")
+
+  set -x
+
+  bundle exec cucumber --no-source ${args+"${args[@]}"}
+)
+
+cucumber-lint() (
+  _cucumber-env
+
+  local args=("$@")
+
+  set -x
+
+  bundle exec rubocop ${args+"${args[@]}"}
+)
+
+_cucumber-env() {
+  RBENV_VERSION="$(cat ./features/.ruby-version)"
+  BUNDLE_GEMFILE="$(pwd)/features/Gemfile"
+  CUCUMBER_PUBLISH_QUIET="true"
+  RUBOCOP_OPTS="--config $(pwd)/features/.rubocop.yml"
+
+  export RBENV_VERSION
+  export BUNDLE_GEMFILE
+  export CUCUMBER_PUBLISH_QUIET
+  export RUBOCOP_OPTS
+
+  (set -x && bundle install >/dev/null)
+}

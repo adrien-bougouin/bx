@@ -1,3 +1,0 @@
-count-args() {
-  echo "$# argument(s)"
-}

@@ -1,7 +1,0 @@
-recipe() {
-  @default
-}
-
-recipe--subprocess() (
-  @require: recipe
-)
