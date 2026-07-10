@@ -9,6 +9,7 @@ bake::recipe::execute() {
   bake::recipes::include "${recipe}" || bake::abort "No recipe '${recipe_with_args}'!"
 
   bake::_state::_set_executing "${recipe}"
+  bake::recipe::_execute_requirements "${recipe}"
 
   if ! bake::options::quiet; then
     bake::display::info "${recipe}${args+" ${args[*]}"}" ""
