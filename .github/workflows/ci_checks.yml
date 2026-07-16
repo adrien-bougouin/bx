@@ -20,7 +20,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         env:
-          BUNDLE_GEMFILE="$(pwd)/features/Gemfile"
+          BUNDLE_GEMFILE: "./features/Gemfile"
         with:
           ruby-version: '4.0.5'
           bundler-cache: true
@@ -47,7 +47,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         env:
-          BUNDLE_GEMFILE="$(pwd)/features/Gemfile"
+          BUNDLE_GEMFILE: "./features/Gemfile"
         with:
           ruby-version: '4.0.5'
           bundler-cache: true
