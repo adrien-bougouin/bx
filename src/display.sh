@@ -72,6 +72,7 @@ bake::display::_stdout() {
     topic="$1"
     message="$2"
   else
+    topic=""
     message="$1"
   fi
 
