@@ -22,17 +22,13 @@ jobs:
         with:
           path: ~/.local/bin
           key: shfmt-${{ runner.os }}-${{ env.SHFMT_VERSION }}
-
       - name: Install shfmt
         if: steps.cache-shfmt.outputs.cache-hit != 'true'
         run: |
           mkdir -p ${HOME}/.local/bin
-
           curl -fsSL -o ${HOME}/.local/bin/shfmt \
             "https://github.com/mvdan/sh/releases/download/v${SHFMT_VERSION}/shfmt_v${SHFMT_VERSION}_linux_amd64"
-
           chmod +x ${HOME}/.local/bin/shfmt
-
       - name: Add shfmt to PATH
         run: echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
 
