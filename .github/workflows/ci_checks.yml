@@ -14,9 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - run: echo "module mvdan.cc/sh/v3/cmd/shfmt@latest > ./go.mod"
       - uses: actions/setup-go@v5
         with:
           go-version: 'stable'
+          cache: true
 
       - uses: ruby/setup-ruby@v1
         env:
@@ -24,8 +26,6 @@ jobs:
         with:
           ruby-version: '4.0.5'
           bundler-cache: true
-
-      - run: go install mvdan.cc/sh/v3/cmd/shfmt@latest
 
       - run: ./bin/bake format && git diff --exit-code
       - run: ./bin/bake "lint --exclude SC2317"
