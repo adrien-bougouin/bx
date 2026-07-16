@@ -5,8 +5,7 @@ Feature: CLI--Help
       ```bash
       ```
     When running `bake` with arguments "<HELP OPTION>"
-    Then bake does not error out
-    And bake displays
+    Then bake displays
       """
       Usage: bake [options] [--] [recipe] ...
 
@@ -22,6 +21,7 @@ Feature: CLI--Help
           -v, --version
              Show version.
       """
+    And bake does not error out
 
     Examples:
       | HELP OPTION |
