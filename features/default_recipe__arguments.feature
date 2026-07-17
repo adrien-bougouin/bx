@@ -14,12 +14,12 @@ Feature: Default Recipe--Arguments
       }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays
+    Then `bake` displays
       """
       <EXECUTED RECIPE>
       <RECIPE OUTPUT>
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | RECIPE ARGUMENT    | EXECUTED RECIPE            | RECIPE OUTPUT            |
@@ -36,8 +36,8 @@ Feature: Default Recipe--Arguments
       default-recipe-2() { :; }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays nothing
-    And bake errors out with message "<ERROR>"
+    Then `bake` displays nothing
+    And `bake` errors out with message "<ERROR>"
 
     Examples:
       | RECIPE ARGUMENT                | ERROR                           |

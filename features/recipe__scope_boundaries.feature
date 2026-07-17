@@ -22,11 +22,11 @@ Feature: Recipe--Scope Boundaries
       )
       ```
     When running `bake` with arguments "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
-    Then bake displays
+    Then `bake` displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | MUTATION RECIPE           | DISPLAY RECIPE           | FINAL GLOBAL VALUE |

@@ -8,11 +8,11 @@ Feature: CLI--Quiet
       }
       ```
     When running `bake` with arguments "<QUIET OPTION> recipe"
-    Then bake displays
+    Then `bake` displays
       """
       Recipe was executed!!!
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | QUIET OPTION |

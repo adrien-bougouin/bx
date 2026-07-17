@@ -13,14 +13,14 @@ Feature: Recipe Requirement--Arguments
       }
       ```
     When running `bake` with arguments "recipe-with-requirement"
-    Then bake displays
+    Then `bake` displays
       """
       pre-recipe arg-1 arg-2
       $#=2, $1=arg-1, $2=arg-2
       recipe-with-requirement
       $#=0
       """
-    And bake does not error out
+    And `bake` does not error out
 
   Scenario Outline: Run `bake` for a recipe that requires one of multiple recipes with arguments
     Given the Bakefile
@@ -50,7 +50,7 @@ Feature: Recipe Requirement--Arguments
       }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays
+    Then `bake` displays
       """
       pre-recipe-1
       $#=0
@@ -61,7 +61,7 @@ Feature: Recipe Requirement--Arguments
       <RECIPE ARGUMENT>
       $#=0
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | RECIPE ARGUMENT                 |

@@ -8,12 +8,12 @@ Feature: Bakefile
       }
       ```
     When running `bake` with arguments "<BAKEFILE ARGUMENT> which-bakefile"
-    Then bake displays
+    Then `bake` displays
       """
       which-bakefile
       default
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | BAKEFILE ARGUMENT |
@@ -40,12 +40,12 @@ Feature: Bakefile
       }
       ```
     When running `bake` with arguments "<BAKEFILE ARGUMENT> which-bakefile"
-    Then bake displays
+    Then `bake` displays
       """
       which-bakefile
       <EXECUTED BAKEFILE>
       """
-    Then bake does not error out
+    Then `bake` does not error out
 
     Examples:
       | BAKEFILE ARGUMENT                       | EXECUTED BAKEFILE            |
@@ -58,6 +58,6 @@ Feature: Bakefile
   Scenario: Run `bake` without a Bakefile
     Given no Bakefile
     When running `bake` with arguments "some-recipe"
-    Then bake displays nothing
+    Then `bake` displays nothing
     # TODO: This is not a good error message for this situation
-    And bake errors out with message "bake: No recipes!"
+    And `bake` errors out with message "bake: No recipes!"

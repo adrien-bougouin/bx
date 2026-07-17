@@ -14,7 +14,7 @@ Feature: Recipe--Nested Execution
       )
       ```
     When running `bake` with arguments "complex-recipe"
-    Then bake displays
+    Then `bake` displays
       """
       complex-recipe
       Pre-processing...
@@ -22,7 +22,7 @@ Feature: Recipe--Nested Execution
       <NESTED RECIPE OUTPUT>
       Post-processing...
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | NESTED RECIPE ARGUMENTS     | EXECUTED NESTED RECIPE    | NESTED RECIPE OUTPUT     |
@@ -51,7 +51,7 @@ Feature: Recipe--Nested Execution
       )
       ```
     When running `bake` with arguments "complex-recipe"
-    Then bake displays
+    Then `bake` displays
       """
       complex-recipe
       Pre-processing...
@@ -63,7 +63,7 @@ Feature: Recipe--Nested Execution
       'simple-recipe-3' execution: $#=0, $1=, $2=
       Post-processing...
       """
-    And bake does not error out
+    And `bake` does not error out
 
   Scenario: Run `bake` to execute a recipe that involves another missing recipe mid-execution
     Given the Bakefile
@@ -75,9 +75,9 @@ Feature: Recipe--Nested Execution
       }
       ```
     When running `bake` with arguments "complex-recipe"
-    Then bake displays
+    Then `bake` displays
       """
       complex-recipe
       Pre-processing...
       """
-    And bake errors out with message "bake: No recipe 'missing'!"
+    And `bake` errors out with message "bake: No recipe 'missing'!"

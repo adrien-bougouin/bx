@@ -8,12 +8,12 @@ Feature: Recipe Requirement
       recipe-with-requirement() { @require: pre-recipe; }
       ```
     When running `bake` with arguments "recipe-with-requirement"
-    Then bake displays
+    Then `bake` displays
       """
       pre-recipe
       recipe-with-requirement
       """
-    And bake does not error out
+    And `bake` does not error out
 
   Scenario Outline: Run `bake` for a recipe that requires multiple recipes
     Given the Bakefile
@@ -32,13 +32,13 @@ Feature: Recipe Requirement
       }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays
+    Then `bake` displays
       """
       pre-recipe-1
       pre-recipe-2
       <RECIPE ARGUMENT>
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | RECIPE ARGUMENT                 |
@@ -65,11 +65,11 @@ Feature: Recipe Requirement
       }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays
+    Then `bake` displays
       """
       <EXECUTED RECIPES>
       """
-    And bake errors out with message "<ERROR>"
+    And `bake` errors out with message "<ERROR>"
 
     Examples:
       | RECIPE ARGUMENT                 | EXECUTED RECIPES | ERROR                      |

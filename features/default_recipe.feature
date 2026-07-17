@@ -8,11 +8,11 @@ Feature: Default Recipe
       default-recipe() { @default; }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays
+    Then `bake` displays
       """
       <EXECUTED RECIPE>
       """
-    And bake does not error out
+    And `bake` does not error out
 
     Examples:
       | RECIPE ARGUMENT    | EXECUTED RECIPE    |
@@ -25,11 +25,11 @@ Feature: Default Recipe
       non-default-recipe() { :; }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays
+    Then `bake` displays
       """
       <EXECUTED RECIPE>
       """
-      And bake errors out with message "<ERROR>"
+      And `bake` errors out with message "<ERROR>"
 
     Examples:
       | RECIPE ARGUMENT    | EXECUTED RECIPE    | ERROR                |
@@ -44,8 +44,8 @@ Feature: Default Recipe
       default-recipe-2() { @default; }
       ```
     When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then bake displays nothing
-    And bake errors out with message "<ERROR>"
+    Then `bake` displays nothing
+    And `bake` errors out with message "<ERROR>"
 
     Examples:
       | RECIPE ARGUMENT  | ERROR                           |

@@ -8,8 +8,8 @@ Feature: Default Recipe--Subprocess
       default-recipe() ( @default; )
       ```
     When running `bake` with no arguments
-    Then bake displays
+    Then `bake` displays
       """
       default-recipe
       """
-    And bake does not error out
+    And `bake` does not error out

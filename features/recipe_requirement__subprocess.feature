@@ -8,9 +8,9 @@ Feature: Recipe Requirement--Subprocess
       recipe-with-requirement() ( @require: pre-recipe; )
       ```
     When running `bake` with arguments "recipe-with-requirement"
-    Then bake displays
+    Then `bake` displays
       """
       pre-recipe
       recipe-with-requirement
       """
-    And bake does not error out
+    And `bake` does not error out
