@@ -1,8 +1,8 @@
 Feature: Bakefile
 
   A Bakefile is the configuration file used by `bake`. Everything in a Bakefile
-  is valid Bash 3.2+ code; Bash functions of a Bakefile are considered recipes
-  and can be executed on demand by `bake`.
+  is valid Bash 3.2+ code where functions are treated as recipes. Running
+  `bake <recipe-name>` invokes the corresponding function.
 
   Scenario Outline: Run `bake` with the default Bakefile
     Given the Bakefile at "Bakefile"
