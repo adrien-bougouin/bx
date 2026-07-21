@@ -1,5 +1,8 @@
 Feature: Recipe
 
+  A recipe is a set of instructions invokable with `bake`. A recipe is declared
+  in a Bakefile as a Bash function.
+
   Background:
     Given the Bakefile
       ```bash
