@@ -1,30 +1,30 @@
 Feature: Bakefile
 
-  A Bakefile is the configuration file used by `bake`. Everything in a Bakefile
-  is valid Bash 3.2+ code where functions are treated as recipes. Running
+  A Bakefile is the configuration file used by Bake. Everything in a Bakefile is
+  valid Bash 3.2+ code where functions are treated as recipes. Executing
   `bake <recipe-name>` invokes the corresponding function.
 
-  Scenario Outline: Run `bake` with the default Bakefile
+  Scenario Outline: Execute Bake with the default Bakefile
     Given the Bakefile at "Bakefile"
       ```bash
       which-bakefile() {
         echo "default"
       }
       ```
-    When running `bake` with arguments "<BAKEFILE ARGUMENT> which-bakefile"
-    Then `bake` displays
+    When executing Bake with arguments "<BAKEFILE ARGUMENT> which-bakefile"
+    Then Bake displays
       """
       which-bakefile
       default
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | BAKEFILE ARGUMENT |
       |                   |
       | -f Bakefile       |
 
-  Scenario Outline: Run `bake` with a specific Bakefile
+  Scenario Outline: Execute Bake with a specific Bakefile
     Given the Bakefile at "Bakefile"
       ```bash
       which-bakefile() {
@@ -43,13 +43,13 @@ Feature: Bakefile
         echo "another_alternative.bakefile"
       }
       ```
-    When running `bake` with arguments "<BAKEFILE ARGUMENT> which-bakefile"
-    Then `bake` displays
+    When executing Bake with arguments "<BAKEFILE ARGUMENT> which-bakefile"
+    Then Bake displays
       """
       which-bakefile
       <EXECUTED BAKEFILE>
       """
-    Then `bake` does not error out
+    Then Bake does not error out
 
     Examples:
       | BAKEFILE ARGUMENT                       | EXECUTED BAKEFILE            |
@@ -59,9 +59,9 @@ Feature: Bakefile
       | --bakefile another_alternative.bakefile | another_alternative.bakefile |
 
   @fixme
-  Scenario: Run `bake` without a Bakefile
+  Scenario: Execute Bake without a Bakefile
     Given no Bakefile
-    When running `bake` with arguments "some-recipe"
-    Then `bake` displays nothing
+    When executing Bake with arguments "some-recipe"
+    Then Bake displays nothing
     # TODO: This is not a good error message for this situation
-    And `bake` errors out with message "bake: No recipes!"
+    And Bake errors out with message "bake: No recipes!"

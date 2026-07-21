@@ -1,10 +1,10 @@
-# `bake`
+# Bake
 
 [![CI Checks](https://github.com/adrien-bougouin/bake/actions/workflows/ci_checks.yml/badge.svg)](https://github.com/adrien-bougouin/bake/actions/workflows/ci_checks.yml)
 
-`bake` is a `bash` configurable build automation and task running tool.
+Bake is a Bash configurable build automation and task invocation tool.
 
-Write **recipes** in `bash`; run them like you would with `make`.
+Write **recipes** in Bash 3.2+; invoke them like you would with Make.
 
 ```bash
 # file: Bakefile
@@ -38,7 +38,7 @@ tests() {
 ```
 
 ## Installation
-Clone this repository, then run:
+Clone this repository, then execute:
 
 ```shell
 ./bin/bake install
@@ -47,7 +47,7 @@ Clone this repository, then run:
 ## Features
 
 ### Recipe chaining
-Call recipes in one go.
+Invoke recipes in one go.
 
 ```shell
 bake format lint tests
@@ -61,9 +61,9 @@ bake format "lint --exclude SC2313" tests
 ```
 
 ### Default recipe (`@default`)
-Set which recipe to execute when calling `bake` without explicit recipe.
+Set which recipe to invoke when executing Bake without an explicit recipe.
 
-Use the `@default` annotation (recommended), or call `bake::recipes::set_default` (when calling the default with arguments).
+Use the annotation `@default` (recommended), or use the function `bake::recipes::set_default` (for invoking the default recipe with arguments).
 
 ```bash
 # Bakefile
@@ -86,9 +86,9 @@ my_recipe() {
 ```
 
 ### Recipe pre-conditions (`@require: ...`)
-List recipes that must be executed before the current recipe.
+List recipes that must be invoked before the current recipe.
 
-Use the `@require:` annotation to set one or more recipes to execute before the current recipe. Recipe arguments are also supported.
+Use the annotation `@require:` to set one or more recipes to invoke before the current recipe. Recipe arguments are also supported.
 
 ```bash
 # Bakefile

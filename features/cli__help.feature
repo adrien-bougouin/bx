@@ -1,11 +1,11 @@
 Feature: CLI--Help
 
-  Scenario Outline: Ask `bake` for help when there are no recipes to document
+  Scenario Outline: Ask Bake for help when there are no recipes to document
     Given the Bakefile
       ```bash
       ```
-    When running `bake` with arguments "<HELP OPTION>"
-    Then `bake` displays
+    When executing Bake with arguments "<HELP OPTION>"
+    Then Bake displays
       """
       Usage: bake [options] [--] [recipe] ...
 
@@ -21,22 +21,22 @@ Feature: CLI--Help
           -v, --version
              Show version.
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | HELP OPTION |
       | -h          |
       | --help      |
 
-  Scenario Outline: Ask `bake` for help when there are recipes to document
+  Scenario Outline: Ask Bake for help when there are recipes to document
     Given the Bakefile
       ```bash
       recipe-1() { :; }
 
       recipe-2() { :; }
       ```
-    When running `bake` with arguments "<HELP OPTION>"
-    Then `bake` displays
+    When executing Bake with arguments "<HELP OPTION>"
+    Then Bake displays
       """
       Usage: bake [options] [--] [recipe] ...
 
@@ -56,7 +56,7 @@ Feature: CLI--Help
           recipe-1
           recipe-2
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | HELP OPTION |

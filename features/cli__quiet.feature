@@ -1,18 +1,18 @@
 Feature: CLI--Quiet
 
-  Scenario Outline: Run `bake` in quiet mode
+  Scenario Outline: Execute Bake in quiet mode
     Given the Bakefile
       ```bash
       recipe() {
         echo "Recipe was executed!!!"
       }
       ```
-    When running `bake` with arguments "<QUIET OPTION> recipe"
-    Then `bake` displays
+    When executing Bake with arguments "<QUIET OPTION> recipe"
+    Then Bake displays
       """
       Recipe was executed!!!
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | QUIET OPTION |

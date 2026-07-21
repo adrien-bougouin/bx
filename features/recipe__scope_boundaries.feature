@@ -1,6 +1,6 @@
 Feature: Recipe--Scope Boundaries
 
-  Scenario Outline: Run `bake` to execute recipes manipulating a global variable
+  Scenario Outline: Execute Bake to invoke recipes manipulating a global variable
     Given the Bakefile
       ```bash
       GLOBAL="default-value"
@@ -21,12 +21,12 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When running `bake` with arguments "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
-    Then `bake` displays
+    When executing Bake with arguments "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
+    Then Bake displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | MUTATION RECIPE           | DISPLAY RECIPE           | FINAL GLOBAL VALUE |

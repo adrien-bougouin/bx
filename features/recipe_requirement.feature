@@ -1,21 +1,21 @@
 Feature: Recipe Requirement
 
-  Scenario: Run `bake` for a recipe that requires another one
+  Scenario: Execute Bake to invoke a recipe that requires another one
     Given the Bakefile
       ```bash
       pre-recipe() { :; }
 
       recipe-with-requirement() { @require: pre-recipe; }
       ```
-    When running `bake` with arguments "recipe-with-requirement"
-    Then `bake` displays
+    When executing Bake with arguments "recipe-with-requirement"
+    Then Bake displays
       """
       pre-recipe
       recipe-with-requirement
       """
-    And `bake` does not error out
+    And Bake does not error out
 
-  Scenario Outline: Run `bake` for a recipe that requires multiple recipes
+  Scenario Outline: Execute Bake to invoke a recipe that requires multiple recipes
     Given the Bakefile
       ```bash
       pre-recipe-1() { :; }
@@ -31,21 +31,21 @@ Feature: Recipe Requirement
         @require: pre-recipe-1  pre-recipe-2
       }
       ```
-    When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then `bake` displays
+    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    Then Bake displays
       """
       pre-recipe-1
       pre-recipe-2
       <RECIPE ARGUMENT>
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | RECIPE ARGUMENT                 |
       | recipe-with-requirements        |
       | recipe-with-inline-requirements |
 
-  Scenario Outline: Run `bake` for a recipe that requires a missing recipe
+  Scenario Outline: Execute Bake to invoke a recipe that requires a missing recipe
     Given the Bakefile
       ```bash
       pre-recipe-1() { :; }
@@ -64,12 +64,12 @@ Feature: Recipe Requirement
         @require: pre-recipe-1  missing pre-recipe-2
       }
       ```
-    When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then `bake` displays
+    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    Then Bake displays
       """
       <EXECUTED RECIPES>
       """
-    And `bake` errors out with message "<ERROR>"
+    And Bake errors out with message "<ERROR>"
 
     Examples:
       | RECIPE ARGUMENT                 | EXECUTED RECIPES | ERROR                      |

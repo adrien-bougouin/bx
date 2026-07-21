@@ -12,22 +12,22 @@ Feature: Recipe--Arguments
       }
       ```
 
-  Scenario: Run `bake` to execute a recipe with arguments
-    When running `bake` with arguments "'do-something arg-1 arg-2'"
-    Then `bake` displays
+  Scenario: Execute Bake to invoke a recipe with arguments
+    When executing Bake with arguments "'do-something arg-1 arg-2'"
+    Then Bake displays
       """
       do-something arg-1 arg-2
       'do-something' execution: $#=2, $1=arg-1, $2=arg-2
       """
-    And `bake` does not error out
+    And Bake does not error out
 
-  Scenario: Run `bake` to execute multiple recipes
-    When running `bake` with arguments "'do-something arg-1 arg-2' 'do-something-else arg-3 arg-4'"
-    Then `bake` displays
+  Scenario: Execute Bake to invoke multiple recipes
+    When executing Bake with arguments "'do-something arg-1 arg-2' 'do-something-else arg-3 arg-4'"
+    Then Bake displays
       """
       do-something arg-1 arg-2
       'do-something' execution: $#=2, $1=arg-1, $2=arg-2
       do-something-else arg-3 arg-4
       'do-something-else' execution: $#=2, $1=arg-3, $2=arg-4
       """
-    And `bake` does not error out
+    And Bake does not error out

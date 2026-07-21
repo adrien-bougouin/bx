@@ -1,6 +1,6 @@
 Feature: Recipe Requirement--Arguments
 
-  Scenario: Run `bake` for a recipe that requires another one with arguments
+  Scenario: Execute Bake to invoke a recipe that requires another one with arguments
     Given the Bakefile
       ```bash
       pre-recipe() {
@@ -12,17 +12,17 @@ Feature: Recipe Requirement--Arguments
         echo "\$#=$#"
       }
       ```
-    When running `bake` with arguments "recipe-with-requirement"
-    Then `bake` displays
+    When executing Bake with arguments "recipe-with-requirement"
+    Then Bake displays
       """
       pre-recipe arg-1 arg-2
       $#=2, $1=arg-1, $2=arg-2
       recipe-with-requirement
       $#=0
       """
-    And `bake` does not error out
+    And Bake does not error out
 
-  Scenario Outline: Run `bake` for a recipe that requires one of multiple recipes with arguments
+  Scenario Outline: Execute Bake to invoke a recipe that requires one of multiple recipes with arguments
     Given the Bakefile
       ```bash
       pre-recipe-1() {
@@ -49,8 +49,8 @@ Feature: Recipe Requirement--Arguments
         echo "\$#=$#"
       }
       ```
-    When running `bake` with arguments "<RECIPE ARGUMENT>"
-    Then `bake` displays
+    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    Then Bake displays
       """
       pre-recipe-1
       $#=0
@@ -61,7 +61,7 @@ Feature: Recipe Requirement--Arguments
       <RECIPE ARGUMENT>
       $#=0
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | RECIPE ARGUMENT                 |

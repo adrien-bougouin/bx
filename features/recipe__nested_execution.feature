@@ -1,6 +1,6 @@
 Feature: Recipe--Nested Execution
 
-  Scenario Outline: Run `bake` to execute a recipe that involves another recipe mid-execution
+  Scenario Outline: Execute Bake to invoke a recipe that invokes another recipe mid-execution
     Given the Bakefile
       ```bash
       complex-recipe() {
@@ -13,8 +13,8 @@ Feature: Recipe--Nested Execution
         echo "\$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
       ```
-    When running `bake` with arguments "complex-recipe"
-    Then `bake` displays
+    When executing Bake with arguments "complex-recipe"
+    Then Bake displays
       """
       complex-recipe
       Pre-processing...
@@ -22,14 +22,14 @@ Feature: Recipe--Nested Execution
       <NESTED RECIPE OUTPUT>
       Post-processing...
       """
-    And `bake` does not error out
+    And Bake does not error out
 
     Examples:
       | NESTED RECIPE ARGUMENTS     | EXECUTED NESTED RECIPE    | NESTED RECIPE OUTPUT     |
       | simple-recipe               | simple-recipe             | $#=0, $1=, $2=           |
       | 'simple-recipe arg-1 arg-2' | simple-recipe arg-1 arg-2 | $#=2, $1=arg-1, $2=arg-2 |
 
-  Scenario: Run `bake` to execute a recipe that involves other recipes mid-execution
+  Scenario: Execute Bake to invoke a recipe that invokes other recipes mid-execution
     Given the Bakefile
       ```bash
       complex-recipe() {
@@ -50,8 +50,8 @@ Feature: Recipe--Nested Execution
         echo "'simple-recipe-3' execution: \$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
       ```
-    When running `bake` with arguments "complex-recipe"
-    Then `bake` displays
+    When executing Bake with arguments "complex-recipe"
+    Then Bake displays
       """
       complex-recipe
       Pre-processing...
@@ -63,9 +63,9 @@ Feature: Recipe--Nested Execution
       'simple-recipe-3' execution: $#=0, $1=, $2=
       Post-processing...
       """
-    And `bake` does not error out
+    And Bake does not error out
 
-  Scenario: Run `bake` to execute a recipe that involves another missing recipe mid-execution
+  Scenario: Execute Bake to invoke a recipe that invokes another missing recipe mid-execution
     Given the Bakefile
       ```bash
       complex-recipe() {
@@ -74,10 +74,10 @@ Feature: Recipe--Nested Execution
         echo "Post-processing..."
       }
       ```
-    When running `bake` with arguments "complex-recipe"
-    Then `bake` displays
+    When executing Bake with arguments "complex-recipe"
+    Then Bake displays
       """
       complex-recipe
       Pre-processing...
       """
-    And `bake` errors out with message "bake: No recipe 'missing'!"
+    And Bake errors out with message "bake: No recipe 'missing'!"

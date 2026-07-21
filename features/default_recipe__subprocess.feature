@@ -1,15 +1,15 @@
 Feature: Default Recipe--Subprocess
 
-  Scenario: Run `bake` when the default recipe is a subprocess
+  Scenario: Execute Bake when the default recipe is a subprocess
     Given the Bakefile
       ```bash
       non-default-recipe() ( :; )
 
       default-recipe() ( @default; )
       ```
-    When running `bake` with no arguments
-    Then `bake` displays
+    When executing Bake with no arguments
+    Then Bake displays
       """
       default-recipe
       """
-    And `bake` does not error out
+    And Bake does not error out

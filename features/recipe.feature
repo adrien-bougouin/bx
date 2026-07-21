@@ -1,6 +1,6 @@
 Feature: Recipe
 
-  A recipe is a set of instructions invokable with `bake`. A recipe is declared
+  A recipe is a set of instructions invocable with Bake. A recipe is declared
   in a Bakefile as a Bash function.
 
   Background:
@@ -15,36 +15,36 @@ Feature: Recipe
       }
       ```
 
-  Scenario: Run `bake` to execute a recipe
-    When running `bake` with arguments "do-something"
-    Then `bake` displays
+  Scenario: Execute Bake to invoke a recipe
+    When executing Bake with arguments "do-something"
+    Then Bake displays
       """
       do-something
       'do-something' code executed!
       """
-    And `bake` does not error out
+    And Bake does not error out
 
-  Scenario: Run `bake` to execute a missing recipe
-    When running `bake` with arguments "missing"
-    Then `bake` displays nothing
-    And `bake` errors out with message "bake: No recipe 'missing'!"
+  Scenario: Execute Bake to invoke a missing recipe
+    When executing Bake with arguments "missing"
+    Then Bake displays nothing
+    And Bake errors out with message "bake: No recipe 'missing'!"
 
-  Scenario: Run `bake` to execute multiple recipes
-    When running `bake` with arguments "do-something do-something-else"
-    Then `bake` displays
+  Scenario: Execute Bake to invoke multiple recipes
+    When executing Bake with arguments "do-something do-something-else"
+    Then Bake displays
       """
       do-something
       'do-something' code executed!
       do-something-else
       'do-something-else' code executed!
       """
-    And `bake` does not error out
+    And Bake does not error out
 
-  Scenario: Run `bake` to execute a missing recipe among others
-    When running `bake` with arguments "do-something missing do-something-else"
-    Then `bake` displays
+  Scenario: Execute Bake to invoke a missing recipe among others
+    When executing Bake with arguments "do-something missing do-something-else"
+    Then Bake displays
       """
       do-something
       'do-something' code executed!
       """
-    And `bake` errors out with message "bake: No recipe 'missing'!"
+    And Bake errors out with message "bake: No recipe 'missing'!"
