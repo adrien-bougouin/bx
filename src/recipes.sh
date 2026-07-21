@@ -50,11 +50,11 @@ bake::recipes::include() {
   return "${__BAKE_CONSTANT_FALSE__}"
 }
 
-bake::recipes::execute() {
+bake::recipes::invoke() {
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
-      bake::recipe::execute $1
+      bake::recipe::invoke $1
 
       shift
     done
@@ -65,7 +65,7 @@ bake::recipes::execute() {
       default_recipe="$(bake::recipes::default)"
 
       # shellcheck disable=SC2086
-      bake::recipe::execute ${default_recipe}
+      bake::recipe::invoke ${default_recipe}
     else
       bake::abort "Nothing to do!"
     fi

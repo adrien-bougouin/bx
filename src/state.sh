@@ -1,12 +1,13 @@
 #!/bin/bash
+# TODO: change to annotation_state.sh (or recipes/annotation_state.sh)
 
 __BAKE_STATE_CONSTANT_INITIALIZING__="initializing"
 __BAKE_STATE_CONSTANT_PARSING__="parsing"
-__BAKE_STATE_CONSTANT_EXECUTING__="executing"
+__BAKE_STATE_CONSTANT_INVOKING__="invoking"
 
 readonly __BAKE_STATE_CONSTANT_INITIALIZING__
 readonly __BAKE_STATE_CONSTANT_PARSING__
-readonly __BAKE_STATE_CONSTANT_EXECUTING__
+readonly __BAKE_STATE_CONSTANT_INVOKING__
 
 __BAKE_STATE_CURRENT_RECIPE__=""
 __BAKE_STATE_PROGRESS_STATUS__="${__BAKE_STATE_CONSTANT_INITIALIZING__}"
@@ -20,8 +21,8 @@ bake::_state::_set_parsing() {
   __BAKE_STATE_CURRENT_RECIPE__="$1"
 }
 
-bake::_state::_set_executing() {
-  __BAKE_STATE_PROGRESS_STATUS__="${__BAKE_STATE_CONSTANT_EXECUTING__}"
+bake::_state::_set_invoking() {
+  __BAKE_STATE_PROGRESS_STATUS__="${__BAKE_STATE_CONSTANT_INVOKING__}"
   __BAKE_STATE_CURRENT_RECIPE__="$1"
 }
 
@@ -31,8 +32,8 @@ bake::_state::_is_parsing() {
   return "${__BAKE_CONSTANT_FALSE__}"
 }
 
-bake::_state::_is_executing() {
-  [[ ${__BAKE_STATE_PROGRESS_STATUS__} == "${__BAKE_STATE_CONSTANT_EXECUTING__}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
+bake::_state::_is_invoking() {
+  [[ ${__BAKE_STATE_PROGRESS_STATUS__} == "${__BAKE_STATE_CONSTANT_INVOKING__}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
 
   return "${__BAKE_CONSTANT_FALSE__}"
 }

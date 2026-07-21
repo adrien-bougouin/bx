@@ -37,7 +37,7 @@ bake::_annotations::_register "@require:"
   fi
 }
 
-bake::recipe::_execute_requirements() {
+bake::recipe::_invoke_requirements() {
   local recipe="$1"
 
   local scan_index=1     # Skip the first "--"
@@ -58,7 +58,7 @@ bake::recipe::_execute_requirements() {
 
     if [[ ${scan_mode} == "EXEC" ]] && [[ ${requirement} != "--" ]]; then
       # shellcheck disable=SC2086
-      bake::recipe::execute ${requirement}
+      bake::recipe::invoke ${requirement}
       continue
     fi
 

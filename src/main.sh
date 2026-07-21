@@ -61,7 +61,7 @@ bake::main() {
     bake::abort "No recipes!"
   fi
 
-  bake::recipes::execute ${positional_arguments+"${positional_arguments[@]}"}
+  bake::recipes::invoke ${positional_arguments+"${positional_arguments[@]}"}
 }
 
 bake::main "$@"

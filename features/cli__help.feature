@@ -17,7 +17,7 @@ Feature: CLI--Help
           -l, --list
              Show the available recipes.
           -s, --silent, -q, --quiet
-             Do not display the executed recipe name and arguments.
+             Do not display the invoked recipe name and arguments.
           -v, --version
              Show version.
       """
@@ -48,7 +48,7 @@ Feature: CLI--Help
           -l, --list
              Show the available recipes.
           -s, --silent, -q, --quiet
-             Do not display the executed recipe name and arguments.
+             Do not display the invoked recipe name and arguments.
           -v, --version
              Show version.
 

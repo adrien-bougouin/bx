@@ -64,7 +64,7 @@ bake::_cli::print_help() {
 			{{indent}}-l, --list
 			{{indent}}   Show the available recipes.
 			{{indent}}-s, --silent, -q, --quiet
-			{{indent}}   Do not display the executed recipe name and arguments.
+			{{indent}}   Do not display the invoked recipe name and arguments.
 			{{indent}}-v, --version
 			{{indent}}   Show version.
 		HELP

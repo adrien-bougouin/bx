@@ -51,12 +51,12 @@ install() (
   cat <<-INFO
 		${__BAKE_CONSTANT_COMMAND_NAME__} is installed in ${config_path}
 
-		Run this in your terminal to use ${__BAKE_CONSTANT_COMMAND_NAME__} right now:
+		Execute this in your terminal to use ${__BAKE_CONSTANT_COMMAND_NAME__} right now:
 		  ${apply_instruction}
 	INFO
 )
 
-# Run bash linting
+# Execute bash linting
 lint() (
   local args=("--exclude" "SC1090,SC1091,SC2030,SC2031,SC2329" "$@")
 
@@ -73,7 +73,7 @@ format() (
 )
 
 todo-list() (
-  bake::recipes::execute 'features-check --tags="@skip or @fixme or @todo"'
+  bake::recipes::invoke 'features-check --tags="@skip or @fixme or @todo"'
 )
 
 features-check() (
