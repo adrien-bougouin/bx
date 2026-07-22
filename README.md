@@ -12,7 +12,6 @@ Write **recipes** in Bash 3.2+; invoke them like you would with Make.
 BIN_PATH="$(realpath ./bin)"
 
 SOURCES=(./bin/bake $(find ./src -name "*.sh"))
-TESTS=($(find ./tests/cases -name "test_*.sh"))
 
 lint() {
   local args=("--exclude" "SC1090,SC1091,SC2329" "$@")
@@ -20,20 +19,12 @@ lint() {
   set -x
 
   shellcheck "${args[@]}" "${SOURCES[@]}"
-  shellcheck "${args[@]}" "${TESTS[@]}"
 }
 
 format() {
   set -x
 
   shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}"
-  shfmt -ci -bn -s -w "${TESTS[@]}"
-}
-
-tests() {
-  PATH="${BIN_PATH}:${PATH}"
-
-  ./tests/main.sh "${1:-"${TESTS[@]}"}"
 }
 ```
 
@@ -47,17 +38,17 @@ Clone this repository, then execute:
 ## Features
 
 ### Recipe chaining
-Invoke recipes in one go.
+Invoke multiple recipes in one go.
 
 ```shell
-bake format lint tests
+bake format lint
 ```
 
 ### Recipe arguments
-Pass arguments to recipes just like any other command.
+Pass arguments to recipes by quoting the recipe name and its arguments.
 
 ```shell
-bake format "lint --exclude SC2313" tests
+bake "format" "lint --some-lint-option"
 ```
 
 ### Default recipe (`@default`)
@@ -78,7 +69,7 @@ my_recipe() {
 ```bash
 # Bakefile
 
-bake::recipes::set_default 'my_recipe --some-option'
+bake::recipes::set_default "my_recipe --some-option"
 
 my_recipe() {
   # ...
@@ -103,13 +94,52 @@ lint() {
   # ...
 }
 
-tests() {
-  # ...
-}
-
 my_recipe() {
-  @require: format 'lint --some-lint-option' tests
+  @require: format "lint --some-lint-option"
 
   # ...
 }
+```
+
+### Nested invocation (`bake::recipes::invoke`)
+Invoke other recipes from within a recipe at runtime.
+
+```bash
+# Bakefile
+
+complex-recipe() {
+  echo "Pre-processing..."
+  bake::recipes::invoke simple-recipe
+  echo "Post-processing..."
+}
+
+simple-recipe() {
+  echo "Simple recipe executed!"
+}
+```
+
+### Scope boundaries
+Recipes defined with `()` (subprocess) have their own scope and cannot modify global variables. Recipes defined with `{}` (function) share the parent scope.
+
+```bash
+# Bakefile
+
+GLOBAL="default-value"
+
+change-global() {
+  GLOBAL="changed-value"
+}
+
+change-global--subprocess() (
+  GLOBAL="changed-value"
+)
+
+print-global() {
+  echo "GLOBAL=${GLOBAL}"
+}
+```
+
+```shell
+bake -q change-global print-global              # GLOBAL=changed-value
+bake -q change-global--subprocess print-global  # GLOBAL=default-value
 ```
