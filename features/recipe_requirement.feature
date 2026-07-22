@@ -67,12 +67,12 @@ Feature: Recipe Requirement
     When executing Bake with arguments "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      <EXECUTED RECIPES>
+      <INVOKED RECIPES>
       """
     And Bake errors out with message "<ERROR>"
 
     Examples:
-      | RECIPE ARGUMENT                 | EXECUTED RECIPES | ERROR                      |
+      | RECIPE ARGUMENT                 | INVOKED RECIPES  | ERROR                      |
       | recipe-with-requirement         |                  | bake: No recipe 'missing'! |
       | recipe-with-requirements        | pre-recipe-1     | bake: No recipe 'missing'! |
       | recipe-with-inline-requirements | pre-recipe-1     | bake: No recipe 'missing'! |

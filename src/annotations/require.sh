@@ -41,13 +41,13 @@ bake::recipe::_invoke_requirements() {
   local recipe="$1"
 
   local scan_index=1     # Skip the first "--"
-  local scan_mode="SEEK" # SEEK, SKIP, EXEC
+  local scan_mode="SEEK" # SEEK, SKIP, INVOKE
 
   for (( ; scan_index < ${#__BAKE_RECIPE_REQUIREMENTS__[@]}; scan_index++)); do
     local requirement="${__BAKE_RECIPE_REQUIREMENTS__[${scan_index}]}"
 
     if [[ ${scan_mode} == "SEEK" ]] && [[ ${requirement} == "${recipe}" ]]; then
-      scan_mode="EXEC"
+      scan_mode="INVOKE"
       continue
     fi
 
@@ -56,13 +56,13 @@ bake::recipe::_invoke_requirements() {
       continue
     fi
 
-    if [[ ${scan_mode} == "EXEC" ]] && [[ ${requirement} != "--" ]]; then
+    if [[ ${scan_mode} == "INVOKE" ]] && [[ ${requirement} != "--" ]]; then
       # shellcheck disable=SC2086
       bake::recipe::invoke ${requirement}
       continue
     fi
 
-    if [[ ${scan_mode} == "EXEC" ]] && [[ ${requirement} == "--" ]]; then
+    if [[ ${scan_mode} == "INVOKE" ]] && [[ ${requirement} == "--" ]]; then
       break
     fi
 

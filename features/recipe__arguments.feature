@@ -4,11 +4,11 @@ Feature: Recipe--Arguments
     Given the Bakefile
       ```bash
       do-something() {
-        echo "'do-something' execution: \$#=$#, \$1=$1, \$2=$2"
+        echo "'do-something' invocation: \$#=$#, \$1=$1, \$2=$2"
       }
 
       do-something-else() {
-        echo "'do-something-else' execution: \$#=$#, \$1=$1, \$2=$2"
+        echo "'do-something-else' invocation: \$#=$#, \$1=$1, \$2=$2"
       }
       ```
 
@@ -17,7 +17,7 @@ Feature: Recipe--Arguments
     Then Bake displays
       """
       do-something arg-1 arg-2
-      'do-something' execution: $#=2, $1=arg-1, $2=arg-2
+      'do-something' invocation: $#=2, $1=arg-1, $2=arg-2
       """
     And Bake does not error out
 
@@ -26,8 +26,8 @@ Feature: Recipe--Arguments
     Then Bake displays
       """
       do-something arg-1 arg-2
-      'do-something' execution: $#=2, $1=arg-1, $2=arg-2
+      'do-something' invocation: $#=2, $1=arg-1, $2=arg-2
       do-something-else arg-3 arg-4
-      'do-something-else' execution: $#=2, $1=arg-3, $2=arg-4
+      'do-something-else' invocation: $#=2, $1=arg-3, $2=arg-4
       """
     And Bake does not error out

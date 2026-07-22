@@ -47,12 +47,12 @@ Feature: Bakefile
     Then Bake displays
       """
       which-bakefile
-      <EXECUTED BAKEFILE>
+      <LOADED BAKEFILE>
       """
     Then Bake does not error out
 
     Examples:
-      | BAKEFILE ARGUMENT                       | EXECUTED BAKEFILE            |
+      | BAKEFILE ARGUMENT                       | LOADED BAKEFILE              |
       |                                         | Bakefile                     |
       | -f Bakefile                             | Bakefile                     |
       | --file alternative.bakefile             | alternative.bakefile         |

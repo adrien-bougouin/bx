@@ -14,12 +14,12 @@ Feature: Default Recipe
     When executing Bake with arguments "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      <EXECUTED RECIPE>
+      <INVOKED RECIPE>
       """
     And Bake does not error out
 
     Examples:
-      | RECIPE ARGUMENT    | EXECUTED RECIPE    |
+      | RECIPE ARGUMENT    | INVOKED RECIPE     |
       |                    | default-recipe     |
       | non-default-recipe | non-default-recipe |
 
@@ -31,12 +31,12 @@ Feature: Default Recipe
     When executing Bake with arguments "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      <EXECUTED RECIPE>
+      <INVOKED RECIPE>
       """
       And Bake errors out with message "<ERROR>"
 
     Examples:
-      | RECIPE ARGUMENT    | EXECUTED RECIPE    | ERROR                |
+      | RECIPE ARGUMENT    | INVOKED RECIPE     | ERROR                |
       |                    |                    | bake: Nothing to do! |
       | non-default-recipe | non-default-recipe |                      |
 

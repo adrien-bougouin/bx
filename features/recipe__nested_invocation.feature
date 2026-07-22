@@ -1,4 +1,4 @@
-Feature: Recipe--Nested Execution
+Feature: Recipe--Nested Invocation
 
   Scenario Outline: Execute Bake to invoke a recipe that invokes another recipe mid-execution
     Given the Bakefile
@@ -18,14 +18,14 @@ Feature: Recipe--Nested Execution
       """
       complex-recipe
       Pre-processing...
-      <EXECUTED NESTED RECIPE>
+      <INVOKED NESTED RECIPE>
       <NESTED RECIPE OUTPUT>
       Post-processing...
       """
     And Bake does not error out
 
     Examples:
-      | NESTED RECIPE ARGUMENTS     | EXECUTED NESTED RECIPE    | NESTED RECIPE OUTPUT     |
+      | NESTED RECIPE ARGUMENTS     | INVOKED NESTED RECIPE     | NESTED RECIPE OUTPUT     |
       | simple-recipe               | simple-recipe             | $#=0, $1=, $2=           |
       | 'simple-recipe arg-1 arg-2' | simple-recipe arg-1 arg-2 | $#=2, $1=arg-1, $2=arg-2 |
 
@@ -39,15 +39,15 @@ Feature: Recipe--Nested Execution
       }
 
       simple-recipe-1() (
-        echo "'simple-recipe-1' execution: \$#=$#, \$1=${1:-}, \$2=${2:-}"
+        echo "'simple-recipe-1' invocation: \$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
 
       simple-recipe-2() (
-        echo "'simple-recipe-2' execution: \$#=$#, \$1=${1:-}, \$2=${2:-}"
+        echo "'simple-recipe-2' invocation: \$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
 
       simple-recipe-3() (
-        echo "'simple-recipe-3' execution: \$#=$#, \$1=${1:-}, \$2=${2:-}"
+        echo "'simple-recipe-3' invocation: \$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
       ```
     When executing Bake with arguments "complex-recipe"
@@ -56,11 +56,11 @@ Feature: Recipe--Nested Execution
       complex-recipe
       Pre-processing...
       simple-recipe-1
-      'simple-recipe-1' execution: $#=0, $1=, $2=
+      'simple-recipe-1' invocation: $#=0, $1=, $2=
       simple-recipe-2 arg-1 arg-2
-      'simple-recipe-2' execution: $#=2, $1=arg-1, $2=arg-2
+      'simple-recipe-2' invocation: $#=2, $1=arg-1, $2=arg-2
       simple-recipe-3
-      'simple-recipe-3' execution: $#=0, $1=, $2=
+      'simple-recipe-3' invocation: $#=0, $1=, $2=
       Post-processing...
       """
     And Bake does not error out

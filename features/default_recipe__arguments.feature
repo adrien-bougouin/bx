@@ -21,13 +21,13 @@ Feature: Default Recipe--Arguments
     When executing Bake with arguments "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      <EXECUTED RECIPE>
+      <INVOKED RECIPE>
       <RECIPE OUTPUT>
       """
     And Bake does not error out
 
     Examples:
-      | RECIPE ARGUMENT    | EXECUTED RECIPE            | RECIPE OUTPUT            |
+      | RECIPE ARGUMENT    | INVOKED RECIPE             | RECIPE OUTPUT            |
       |                    | default-recipe arg-1 arg-2 | $#=2, $1=arg-1, $2=arg-2 |
       | non-default-recipe | non-default-recipe         | $#=0                     |
 
