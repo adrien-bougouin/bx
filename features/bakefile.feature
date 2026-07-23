@@ -49,7 +49,7 @@ Feature: Bakefile
       which-bakefile
       <LOADED BAKEFILE>
       """
-    Then Bake does not error out
+    And Bake does not error out
 
     Examples:
       | BAKEFILE ARGUMENT                       | LOADED BAKEFILE              |

@@ -1,9 +1,7 @@
 Feature: CLI--Help
 
   Scenario Outline: Ask Bake for help when there are no recipes to document
-    Given the Bakefile
-      ```bash
-      ```
+    Given an empty Bakefile
     When executing Bake with arguments "<HELP OPTION>"
     Then Bake displays
       """

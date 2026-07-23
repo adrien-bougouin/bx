@@ -22,9 +22,7 @@ Feature: CLI--List
       | --list      |
 
   Scenario Outline: Ask Bake for the list of available recipes when there are none
-    Given the Bakefile
-      ```bash
-      ```
+    Given an empty Bakefile
     When executing Bake with arguments "<LIST OPTION>"
     Then Bake displays nothing
     And Bake does not error out

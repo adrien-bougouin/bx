@@ -11,6 +11,10 @@ Given('the Bakefile') do |bakefile_content|
   File.write('Bakefile', bakefile_content)
 end
 
+Given('an empty Bakefile') do |bakefile_content|
+  File.write('Bakefile', '')
+end
+
 Given('the Bakefile at {string}') do |bakefile_name, bakefile_content|
   File.write(bakefile_name, bakefile_content)
 end
