@@ -11,7 +11,7 @@ Given('the Bakefile') do |bakefile_content|
   File.write('Bakefile', bakefile_content)
 end
 
-Given('an empty Bakefile') do |bakefile_content|
+Given('an empty Bakefile') do
   File.write('Bakefile', '')
 end
 
