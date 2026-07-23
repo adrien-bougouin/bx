@@ -4,14 +4,14 @@ Feature: Bakefile
   valid Bash 3.2+ code where functions are treated as recipes. Executing
   `bake <recipe-name>` invokes the corresponding function.
 
-  Scenario Outline: Execute Bake with the default Bakefile
+  Scenario: Invoke a recipe from the default Bakefile
     Given the Bakefile at "Bakefile"
       ```bash
       which-bakefile() {
         echo "default"
       }
       ```
-    When executing Bake with arguments "<BAKEFILE ARGUMENT> which-bakefile"
+    When executing Bake with arguments "which-bakefile"
     Then Bake displays
       """
       which-bakefile
@@ -19,12 +19,7 @@ Feature: Bakefile
       """
     And Bake does not error out
 
-    Examples:
-      | BAKEFILE ARGUMENT |
-      |                   |
-      | -f Bakefile       |
-
-  Scenario Outline: Execute Bake with a specific Bakefile
+  Scenario Outline: Invoke a recipe from a specific Bakefile
     Given the Bakefile at "Bakefile"
       ```bash
       which-bakefile() {
@@ -53,13 +48,12 @@ Feature: Bakefile
 
     Examples:
       | BAKEFILE ARGUMENT                       | LOADED BAKEFILE              |
-      |                                         | Bakefile                     |
       | -f Bakefile                             | Bakefile                     |
       | --file alternative.bakefile             | alternative.bakefile         |
       | --bakefile another_alternative.bakefile | another_alternative.bakefile |
 
   @fixme
-  Scenario: Execute Bake without a Bakefile
+  Scenario: Invoke a recipe without a Bakefile
     Given no Bakefile
     When executing Bake with arguments "some-recipe"
     Then Bake displays nothing

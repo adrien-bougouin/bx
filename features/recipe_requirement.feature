@@ -1,6 +1,6 @@
 Feature: Recipe Requirement
 
-  Scenario: Execute Bake to invoke a recipe that requires another one
+  Scenario: Invoke a recipe that requires another one
     Given the Bakefile
       ```bash
       pre-recipe() { :; }
@@ -15,7 +15,7 @@ Feature: Recipe Requirement
       """
     And Bake does not error out
 
-  Scenario Outline: Execute Bake to invoke a recipe that requires multiple recipes
+  Scenario Outline: Invoke a recipe that requires multiple recipes
     Given the Bakefile
       ```bash
       pre-recipe-1() { :; }
@@ -45,7 +45,7 @@ Feature: Recipe Requirement
       | recipe-with-requirements        |
       | recipe-with-inline-requirements |
 
-  Scenario Outline: Execute Bake to invoke a recipe that requires a missing recipe
+  Scenario Outline: Invoke a recipe that requires a missing recipe
     Given the Bakefile
       ```bash
       pre-recipe-1() { :; }

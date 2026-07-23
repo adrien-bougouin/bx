@@ -1,6 +1,6 @@
 Feature: CLI--List
 
-  Scenario Outline: Ask Bake for the list of available recipes
+  Scenario Outline: List available recipes
     Given the Bakefile
       ```bash
       recipe-1() { :; }
@@ -21,7 +21,7 @@ Feature: CLI--List
       | -l          |
       | --list      |
 
-  Scenario Outline: Ask Bake for the list of available recipes when there are none
+  Scenario Outline: List available recipes when there are none
     Given an empty Bakefile
     When executing Bake with arguments "<LIST OPTION>"
     Then Bake displays nothing

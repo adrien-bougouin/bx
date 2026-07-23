@@ -1,6 +1,6 @@
 Feature: Recipe Requirement--Subprocess
 
-  Scenario: Execute Bake for a subprocess recipe that requires another one
+  Scenario: Invoke a subprocess recipe that requires another recipe
     Given the Bakefile
       ```bash
       pre-recipe() ( :; )

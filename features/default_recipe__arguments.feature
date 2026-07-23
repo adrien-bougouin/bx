@@ -1,6 +1,6 @@
 Feature: Default Recipe--Arguments
 
-  Scenario Outline: Execute Bake when the default recipe has arguments
+  Scenario Outline: Invoke when the default recipe has arguments
     Given the Bakefile
       ```bash
       bake::recipes::set_default "default-recipe arg-1 arg-2"
@@ -26,7 +26,7 @@ Feature: Default Recipe--Arguments
       |                    | default-recipe arg-1 arg-2 | $#=2, $1=arg-1, $2=arg-2 |
       | non-default-recipe | non-default-recipe         | $#=0                     |
 
-  Scenario Outline: Execute Bake when one of too many default recipes has arguments
+  Scenario Outline: Invoke when too many default recipes have arguments
     Given the Bakefile
       ```bash
       bake::recipes::set_default "default-recipe-1 arg-1 arg-2" "default-recipe-2"

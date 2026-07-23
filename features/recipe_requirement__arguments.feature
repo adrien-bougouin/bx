@@ -1,6 +1,6 @@
 Feature: Recipe Requirement--Arguments
 
-  Scenario: Execute Bake to invoke a recipe that requires another one with arguments
+  Scenario: Invoke a recipe that requires another one with arguments
     Given the Bakefile
       ```bash
       pre-recipe() {
@@ -22,7 +22,7 @@ Feature: Recipe Requirement--Arguments
       """
     And Bake does not error out
 
-  Scenario Outline: Execute Bake to invoke a recipe that requires one of multiple recipes with arguments
+  Scenario Outline: Invoke a recipe that requires multiple recipes, one with arguments
     Given the Bakefile
       ```bash
       pre-recipe-1() {

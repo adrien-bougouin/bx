@@ -1,6 +1,6 @@
 Feature: Recipe--Scope Boundaries
 
-  Scenario Outline: Execute Bake to invoke recipes manipulating a global variable
+  Scenario Outline: Invoke recipes manipulating a global variable
     Given the Bakefile
       ```bash
       GLOBAL="default-value"

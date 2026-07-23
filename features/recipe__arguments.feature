@@ -12,7 +12,7 @@ Feature: Recipe--Arguments
       }
       ```
 
-  Scenario: Execute Bake to invoke a recipe with arguments
+  Scenario: Invoke a recipe with arguments
     When executing Bake with arguments "'do-something arg-1 arg-2'"
     Then Bake displays
       """
@@ -21,7 +21,7 @@ Feature: Recipe--Arguments
       """
     And Bake does not error out
 
-  Scenario: Execute Bake to invoke multiple recipes
+  Scenario: Invoke multiple recipes with arguments
     When executing Bake with arguments "'do-something arg-1 arg-2' 'do-something-else arg-3 arg-4'"
     Then Bake displays
       """

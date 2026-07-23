@@ -15,7 +15,7 @@ Feature: Recipe
       }
       ```
 
-  Scenario: Execute Bake to invoke a recipe
+  Scenario: Invoke a recipe
     When executing Bake with arguments "do-something"
     Then Bake displays
       """
@@ -24,12 +24,12 @@ Feature: Recipe
       """
     And Bake does not error out
 
-  Scenario: Execute Bake to invoke a missing recipe
+  Scenario: Invoke a missing recipe
     When executing Bake with arguments "missing"
     Then Bake displays nothing
     And Bake errors out with message "bake: No recipe 'missing'!"
 
-  Scenario: Execute Bake to invoke multiple recipes
+  Scenario: Invoke multiple recipes
     When executing Bake with arguments "do-something do-something-else"
     Then Bake displays
       """
@@ -40,7 +40,7 @@ Feature: Recipe
       """
     And Bake does not error out
 
-  Scenario: Execute Bake to invoke a missing recipe among others
+  Scenario: Invoke a mix of existing and missing recipes
     When executing Bake with arguments "do-something missing do-something-else"
     Then Bake displays
       """

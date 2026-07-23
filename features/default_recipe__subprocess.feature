@@ -1,6 +1,6 @@
 Feature: Default Recipe--Subprocess
 
-  Scenario: Execute Bake when the default recipe is a subprocess
+  Scenario: Invoke when the default recipe is a subprocess
     Given the Bakefile
       ```bash
       non-default-recipe() ( :; )

@@ -1,6 +1,6 @@
 Feature: CLI--Quiet
 
-  Scenario Outline: Execute Bake in quiet mode
+  Scenario Outline: Execute in quiet mode
     Given the Bakefile
       ```bash
       recipe() {

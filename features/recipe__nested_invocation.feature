@@ -1,6 +1,6 @@
 Feature: Recipe--Nested Invocation
 
-  Scenario Outline: Execute Bake to invoke a recipe that invokes another recipe mid-execution
+  Scenario Outline: Invoke a recipe that invokes another recipe mid-execution
     Given the Bakefile
       ```bash
       complex-recipe() {
@@ -29,7 +29,7 @@ Feature: Recipe--Nested Invocation
       | simple-recipe               | simple-recipe             | $#=0, $1=, $2=           |
       | 'simple-recipe arg-1 arg-2' | simple-recipe arg-1 arg-2 | $#=2, $1=arg-1, $2=arg-2 |
 
-  Scenario: Execute Bake to invoke a recipe that invokes other recipes mid-execution
+  Scenario: Invoke a recipe that invokes other recipes mid-execution
     Given the Bakefile
       ```bash
       complex-recipe() {
@@ -65,7 +65,7 @@ Feature: Recipe--Nested Invocation
       """
     And Bake does not error out
 
-  Scenario: Execute Bake to invoke a recipe that invokes another missing recipe mid-execution
+  Scenario: Invoke a recipe that invokes a missing recipe mid-execution
     Given the Bakefile
       ```bash
       complex-recipe() {

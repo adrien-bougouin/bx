@@ -3,7 +3,7 @@ Feature: Default Recipe
   A default recipe is a recipe invoked when executing Bake without specifying
   any recipe to invoke.
 
-  Scenario Outline: Execute Bake when there is a default recipe
+  Scenario Outline: Invoke when there is a default recipe
     Given the Bakefile
       ```bash
       non-default-recipe() { :; }
@@ -22,7 +22,7 @@ Feature: Default Recipe
       |                    | default-recipe     |
       | non-default-recipe | non-default-recipe |
 
-  Scenario Outline: Execute Bake when there is no explicit default recipe
+  Scenario Outline: Invoke when there is no default recipe
     Given the Bakefile
       ```bash
       non-default-recipe() { :; }
@@ -39,7 +39,7 @@ Feature: Default Recipe
       |                    |                    | bake: Nothing to do! |
       | non-default-recipe | non-default-recipe |                      |
 
-  Scenario Outline: Execute Bake when there are more than one default recipe
+  Scenario Outline: Invoke when there are multiple default recipes
     Given the Bakefile
       ```bash
       default-recipe-1() { @default; }
