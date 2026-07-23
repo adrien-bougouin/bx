@@ -5,7 +5,7 @@ When('executing Bake with {string}') do |arguments|
 end
 
 When('executing Bake with no arguments') do
-  shell.execute("bake")
+  shell.execute('bake')
 end
 
 Then('Bake displays nothing') do
