@@ -7,7 +7,7 @@ Feature: CLI--List
 
       recipe-2() { :; }
       ```
-    When executing Bake with arguments "<LIST OPTION>"
+    When executing Bake with "<LIST OPTION>"
     Then Bake displays
       """
       Available recipes:
@@ -23,7 +23,7 @@ Feature: CLI--List
 
   Scenario Outline: List available recipes when there are none
     Given an empty Bakefile
-    When executing Bake with arguments "<LIST OPTION>"
+    When executing Bake with "<LIST OPTION>"
     Then Bake displays nothing
     And Bake does not error out
 

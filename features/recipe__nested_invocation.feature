@@ -13,7 +13,7 @@ Feature: Recipe--Nested Invocation
         echo "\$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
       ```
-    When executing Bake with arguments "complex-recipe"
+    When executing Bake with "complex-recipe"
     Then Bake displays
       """
       complex-recipe
@@ -50,7 +50,7 @@ Feature: Recipe--Nested Invocation
         echo "'simple-recipe-3' invocation: \$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
       ```
-    When executing Bake with arguments "complex-recipe"
+    When executing Bake with "complex-recipe"
     Then Bake displays
       """
       complex-recipe
@@ -74,7 +74,7 @@ Feature: Recipe--Nested Invocation
         echo "Post-processing..."
       }
       ```
-    When executing Bake with arguments "complex-recipe"
+    When executing Bake with "complex-recipe"
     Then Bake displays
       """
       complex-recipe

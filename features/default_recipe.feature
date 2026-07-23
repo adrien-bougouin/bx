@@ -10,7 +10,7 @@ Feature: Default Recipe
 
       default-recipe() { @default; }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
       <INVOKED RECIPE>
@@ -27,7 +27,7 @@ Feature: Default Recipe
       ```bash
       non-default-recipe() { :; }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
       <INVOKED RECIPE>
@@ -46,7 +46,7 @@ Feature: Default Recipe
 
       default-recipe-2() { @default; }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays nothing
     And Bake errors out with message "<ERROR>"
 

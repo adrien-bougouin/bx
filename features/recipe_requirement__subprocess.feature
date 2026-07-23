@@ -7,7 +7,7 @@ Feature: Recipe Requirement--Subprocess
 
       recipe-with-requirement() ( @require: pre-recipe; )
       ```
-    When executing Bake with arguments "recipe-with-requirement"
+    When executing Bake with "recipe-with-requirement"
     Then Bake displays
       """
       pre-recipe

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-When('executing Bake with arguments {string}') do |args|
-  shell.execute("bake #{args}")
+When('executing Bake with {string}') do |arguments|
+  shell.execute("bake #{arguments}")
 end
 
 When('executing Bake with no arguments') do
-  step('executing Bake with arguments ""')
+  shell.execute("bake")
 end
 
 Then('Bake displays nothing') do

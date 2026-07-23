@@ -7,7 +7,7 @@ Feature: CLI--Quiet
         echo "Recipe was executed!!!"
       }
       ```
-    When executing Bake with arguments "<QUIET OPTION> recipe"
+    When executing Bake with "<QUIET OPTION> recipe"
     Then Bake displays
       """
       Recipe was executed!!!

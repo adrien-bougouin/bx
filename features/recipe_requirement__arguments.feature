@@ -12,7 +12,7 @@ Feature: Recipe Requirement--Arguments
         echo "\$#=$#"
       }
       ```
-    When executing Bake with arguments "recipe-with-requirement"
+    When executing Bake with "recipe-with-requirement"
     Then Bake displays
       """
       pre-recipe arg-1 arg-2
@@ -49,7 +49,7 @@ Feature: Recipe Requirement--Arguments
         echo "\$#=$#"
       }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
       pre-recipe-1

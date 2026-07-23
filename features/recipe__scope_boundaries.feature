@@ -21,7 +21,7 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When executing Bake with arguments "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
+    When executing Bake with "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
     Then Bake displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>

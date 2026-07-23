@@ -11,7 +11,7 @@ Feature: Bakefile
         echo "default"
       }
       ```
-    When executing Bake with arguments "which-bakefile"
+    When executing Bake with "which-bakefile"
     Then Bake displays
       """
       which-bakefile
@@ -38,7 +38,7 @@ Feature: Bakefile
         echo "another_alternative.bakefile"
       }
       ```
-    When executing Bake with arguments "<BAKEFILE ARGUMENT> which-bakefile"
+    When executing Bake with "<BAKEFILE ARGUMENT> which-bakefile"
     Then Bake displays
       """
       which-bakefile
@@ -55,7 +55,7 @@ Feature: Bakefile
   @fixme
   Scenario: Invoke a recipe without a Bakefile
     Given no Bakefile
-    When executing Bake with arguments "some-recipe"
+    When executing Bake with "some-recipe"
     Then Bake displays nothing
     # TODO: This is not a good error message for this situation
     And Bake errors out with message "bake: No recipes!"

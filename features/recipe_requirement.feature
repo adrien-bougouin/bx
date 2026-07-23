@@ -7,7 +7,7 @@ Feature: Recipe Requirement
 
       recipe-with-requirement() { @require: pre-recipe; }
       ```
-    When executing Bake with arguments "recipe-with-requirement"
+    When executing Bake with "recipe-with-requirement"
     Then Bake displays
       """
       pre-recipe
@@ -31,7 +31,7 @@ Feature: Recipe Requirement
         @require: pre-recipe-1  pre-recipe-2
       }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
       pre-recipe-1
@@ -64,7 +64,7 @@ Feature: Recipe Requirement
         @require: pre-recipe-1  missing pre-recipe-2
       }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
       <INVOKED RECIPES>

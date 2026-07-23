@@ -2,7 +2,7 @@ Feature: CLI--Help
 
   Scenario Outline: Ask for help
     Given an empty Bakefile
-    When executing Bake with arguments "<HELP OPTION>"
+    When executing Bake with "<HELP OPTION>"
     Then Bake displays
       """
       Usage: bake [options] [--] [recipe] ...
@@ -33,7 +33,7 @@ Feature: CLI--Help
 
       recipe-2() { :; }
       ```
-    When executing Bake with arguments "<HELP OPTION>"
+    When executing Bake with "<HELP OPTION>"
     Then Bake displays
       """
       Usage: bake [options] [--] [recipe] ...

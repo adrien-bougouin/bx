@@ -13,7 +13,7 @@ Feature: Default Recipe--Arguments
         echo "\$#=$#, \$1=$1, \$2=$2"
       }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
       <INVOKED RECIPE>
@@ -35,7 +35,7 @@ Feature: Default Recipe--Arguments
 
       default-recipe-2() { :; }
       ```
-    When executing Bake with arguments "<RECIPE ARGUMENT>"
+    When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays nothing
     And Bake errors out with message "<ERROR>"
 

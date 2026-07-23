@@ -13,7 +13,7 @@ Feature: Recipe--Arguments
       ```
 
   Scenario: Invoke a recipe with arguments
-    When executing Bake with arguments "'do-something arg-1 arg-2'"
+    When executing Bake with "'do-something arg-1 arg-2'"
     Then Bake displays
       """
       do-something arg-1 arg-2
@@ -22,7 +22,7 @@ Feature: Recipe--Arguments
     And Bake does not error out
 
   Scenario: Invoke multiple recipes with arguments
-    When executing Bake with arguments "'do-something arg-1 arg-2' 'do-something-else arg-3 arg-4'"
+    When executing Bake with "'do-something arg-1 arg-2' 'do-something-else arg-3 arg-4'"
     Then Bake displays
       """
       do-something arg-1 arg-2
