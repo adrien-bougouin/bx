@@ -1,8 +1,7 @@
 Feature: Default Recipe
 
   A default recipe is a recipe invoked when executing Bake without specifying
-  any recipe to invoke. There should be only one default recipe, usually
-  assigned using the annotation `@default`.
+  any recipe to invoke.
 
   Scenario Outline: Execute Bake when there is a default recipe
     Given the Bakefile

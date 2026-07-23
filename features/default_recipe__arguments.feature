@@ -1,10 +1,5 @@
 Feature: Default Recipe--Arguments
 
-  A default recipe can be invoked with arguments, as does any other recipe. When
-  assigning a recipe as default with arguments, the `@default` annotation can't
-  be used. The function `bake::recipes::set_default` must be used to assign a
-  recipe to default with argument.
-
   Scenario Outline: Execute Bake when the default recipe has arguments
     Given the Bakefile
       ```bash
