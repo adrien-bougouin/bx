@@ -1,5 +1,7 @@
 Feature: Recipe Requirement
 
+  A recipe can require other recipes to be invoked first.
+
   Scenario: Invoke a recipe that requires another one
     Given the Bakefile
       ```bash
