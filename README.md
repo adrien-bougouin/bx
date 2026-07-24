@@ -4,7 +4,7 @@
 
 Bake is a Bash configurable build automation and task invocation tool.
 
-Write **recipes** in Bash 3.2+; invoke them like you would with Make.
+Bake reads your `Bakefile`, treats Bash functions as recipes, and invokes them via `bake <recipe>`.
 
 ```bash
 # file: Bakefile
@@ -33,6 +33,24 @@ Clone this repository, then execute:
 
 ```shell
 ./bin/bake install
+```
+
+## Quick Reference
+```
+$ bake --help
+Usage: bake [options] [--] [recipe] ...
+
+Options:
+    -f FILE, --file FILE, --bakefile FILE
+       Read FILE as a bakefile.
+    -h, --help
+       Show this help.
+    -l, --list
+       Show the available recipes.
+    -s, --silent, -q, --quiet
+       Do not display the invoked recipe name and arguments.
+    -v, --version
+       Show version.
 ```
 
 ## Features
@@ -76,7 +94,7 @@ my_recipe() {
 }
 ```
 
-### Recipe pre-conditions (`@require: ...`)
+### Recipe requirements (`@require:`)
 List recipes that must be invoked before the current recipe.
 
 Use the annotation `@require:` to set one or more recipes to invoke before the current recipe. Recipe arguments are also supported.
