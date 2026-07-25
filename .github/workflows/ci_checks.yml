@@ -67,4 +67,4 @@ jobs:
       - name: Tests run
         id: tests-run
         run: |
-          ./bin/bake "features-check --tags='not @skip:${{ vars.MAX_SKIPS }}'"
+          ./bin/bake "features-check --tags 'not @skip:${{ vars.MAX_SKIPS }}'"

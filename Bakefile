@@ -82,10 +82,15 @@ features-check() (
   export PATH="${BIN_PATH}:${PATH}"
 
   local args=("$@")
+  local skip_args=()
+
+  if [[ ! $* =~ "--tags" ]]; then
+    skip_args+=("--tags" "not @skip")
+  fi
 
   set -x
 
-  bundle exec cucumber --no-source ${args+"${args[@]}"}
+  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"}
 )
 
 cucumber-lint() (
