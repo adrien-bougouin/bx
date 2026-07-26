@@ -7,6 +7,10 @@ bake::bakefile() {
 }
 
 bake::_set_bakefile() {
+  if [[ -n "${__BAKE_BAKEFILE__}" ]]; then
+    bake::abort "Too many Bakefiles!"
+  fi
+
   local input_bakefile
   local absolute_bakefile
 

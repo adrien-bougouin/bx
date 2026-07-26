@@ -52,6 +52,28 @@ Feature: Bakefile
       | --file alternative.bakefile             | alternative.bakefile         |
       | --bakefile another_alternative.bakefile | another_alternative.bakefile |
 
+  Scenario Outline: Invoke a recipe from multiple Bakefile
+    Given the Bakefile at "Bakefile"
+      ```bash
+      which-bakefile() {
+        echo "Bakefile"
+      }
+      ```
+    And the Bakefile at "alternative.bakefile"
+      ```bash
+      which-bakefile() {
+        echo "alternative.bakefile"
+      }
+      ```
+    When executing Bake with "<BAKEFILE ARGUMENTS> which-bakefile"
+    Then Bake displays nothing
+    And Bake errors out with message "<ERROR>"
+
+    Examples:
+      | BAKEFILE ARGUMENTS                  | ERROR                           |
+      | -f Bakefile -f alternative.bakefile | bake: Too many Bakefiles! |
+      | -f alternative.bakefile -f Bakefile | bake: Too many Bakefiles! |
+
   @fixme
   Scenario: Invoke a recipe without a Bakefile
     Given no Bakefile
