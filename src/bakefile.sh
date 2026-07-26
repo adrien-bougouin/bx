@@ -7,7 +7,7 @@ bake::bakefile() {
 }
 
 bake::_set_bakefile() {
-  if [[ -n "${__BAKE_BAKEFILE__}" ]]; then
+  if [[ -n ${__BAKE_BAKEFILE__} ]]; then
     bake::abort "Too many Bakefiles!"
   fi
 
