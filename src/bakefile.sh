@@ -3,7 +3,19 @@
 __BAKE_BAKEFILE__=
 
 bake::bakefile() {
-  printf "%s" "${__BAKE_BAKEFILE__:-"${__BAKE_WORKING_DIRECTORY__}/Bakefile"}"
+  if [[ -z ${__BAKE_BAKEFILE__} ]]; then
+    local lookup_path="${__BAKE_WORKING_DIRECTORY__}"
+
+    while [[ ${lookup_path} != "/" ]] && [[ -z ${__BAKE_BAKEFILE__} ]]; do
+      local bakefile_candidate="${lookup_path}/Bakefile"
+
+      [[ -f ${bakefile_candidate} ]] && bake::_set_bakefile "${bakefile_candidate}"
+
+      lookup_path="$(dirname "${lookup_path}")"
+    done
+  fi
+
+  printf "%s" "${__BAKE_BAKEFILE__}"
 }
 
 bake::_set_bakefile() {

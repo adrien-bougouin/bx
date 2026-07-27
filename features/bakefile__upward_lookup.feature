@@ -2,7 +2,6 @@ Feature: Bakefile--Upward Lookup
 
   Bake can look for the nearest default Bakefile, walking up the directories.
 
-  @skip
   Scenario: Invoke a recipe with Bakefile lookup
     Given the Bakefile
       ```bash
