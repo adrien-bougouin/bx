@@ -9,7 +9,7 @@ Feature: CLI--Help
 
       Options:
           -f FILE, --file FILE, --bakefile FILE
-             Read FILE as a bakefile.
+             Read FILE as a bakefile. Only one bakefile may be specified.
           -h, --help
              Show this help.
           -l, --list
@@ -40,7 +40,7 @@ Feature: CLI--Help
 
       Options:
           -f FILE, --file FILE, --bakefile FILE
-             Read FILE as a bakefile.
+             Read FILE as a bakefile. Only one bakefile may be specified.
           -h, --help
              Show this help.
           -l, --list

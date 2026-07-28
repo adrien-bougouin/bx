@@ -58,7 +58,7 @@ bake::_cli::print_help() {
 
 			Options:
 			{{indent}}-f FILE, --file FILE, --bakefile FILE
-			{{indent}}   Read FILE as a bakefile.
+			{{indent}}   Read FILE as a bakefile. Only one bakefile may be specified.
 			{{indent}}-h, --help
 			{{indent}}   Show this help.
 			{{indent}}-l, --list

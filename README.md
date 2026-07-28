@@ -4,7 +4,7 @@
 
 Bake is a Bash configurable build automation and task invocation tool.
 
-Bake reads your `Bakefile`, treats Bash functions as recipes, and invokes them via `bake <recipe>`.
+Bake reads a Bakefile, treats Bash functions as recipes, and invokes them via `bake <recipe>`.
 
 ```bash
 # file: Bakefile
@@ -42,7 +42,7 @@ Usage: bake [options] [--] [recipe] ...
 
 Options:
     -f FILE, --file FILE, --bakefile FILE
-       Read FILE as a bakefile.
+       Read FILE as a bakefile. Only one bakefile may be specified.
     -h, --help
        Show this help.
     -l, --list
@@ -54,6 +54,10 @@ Options:
 ```
 
 ## Features
+
+### Bakefile lookup
+Bake automatically look for the nearest Bakefile, walking up the directory tree from the current working directory.
+This allows to invoke recipes from any subdirectory of a project.
 
 ### Recipe chaining
 Invoke multiple recipes in one go.
