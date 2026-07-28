@@ -39,7 +39,8 @@ bake::main() {
   local positional_arguments
 
   bake::_cli::_parse_options positional_arguments "$@"
-  bake::recipes::_load "$(bake::bakefile)"
+  bake::_load_bakefile
+  bake::recipes::_load
 
   if bake::options::version; then
     bake::display::info "${__BAKE_CONSTANT_COMMAND_NAME__}" "${__BAKE_CONSTANT_VERSION__}"

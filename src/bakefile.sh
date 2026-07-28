@@ -2,7 +2,7 @@
 
 __BAKE_BAKEFILE__=
 
-bake::bakefile() {
+bake::_load_bakefile() {
   if [[ -z ${__BAKE_BAKEFILE__} ]]; then
     local lookup_path="${__BAKE_WORKING_DIRECTORY__}"
 
@@ -15,7 +15,13 @@ bake::bakefile() {
     done
   fi
 
-  printf "%s" "${__BAKE_BAKEFILE__}"
+  readonly __BAKE_BAKEFILE__
+
+  if [[ -f ${__BAKE_BAKEFILE__} ]]; then
+    source "${__BAKE_BAKEFILE__}"
+  else
+    bake::abort "No Bakefile!"
+  fi
 }
 
 bake::_set_bakefile() {

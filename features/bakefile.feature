@@ -74,10 +74,8 @@ Feature: Bakefile
       | -f Bakefile -f alternative.bakefile | bake: Too many Bakefiles! |
       | -f alternative.bakefile -f Bakefile | bake: Too many Bakefiles! |
 
-  @fixme
   Scenario: Invoke a recipe without a Bakefile
     Given no Bakefile
     When executing Bake with "some-recipe"
     Then Bake displays nothing
-    # TODO: This is not a good error message for this situation
-    And Bake errors out with message "bake: No recipes!"
+    And Bake errors out with message "bake: No Bakefile!"

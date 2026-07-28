@@ -3,10 +3,6 @@
 __BAKE_RECIPES__=()
 
 bake::recipes::_load() {
-  local bakefile="$1"
-
-  [[ -f ${bakefile} ]] && source "${bakefile}"
-
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
