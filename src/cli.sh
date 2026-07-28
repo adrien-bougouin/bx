@@ -11,10 +11,10 @@
 #                              args from.
 #
 # Side effects:
-#   - May update bakefile path via bake::_set_bakefile.
+#   - May update bakefile path via bake::set_bakefile.
 #   - May set option flags via bake::options::enable_* helpers.
 ################################################################################
-bake::_cli::_parse_options() {
+bake::cli::parse_options() {
   local positional_arguments_ref="$1"
 
   shift
@@ -26,7 +26,7 @@ bake::_cli::_parse_options() {
         break
         ;;
       -f | --file | --bakefile)
-        bake::_set_bakefile "$2"
+        bake::set_bakefile "$2"
         shift
         ;;
       -h | --help) bake::options::enable_help ;;
@@ -51,7 +51,7 @@ bake::_cli::_parse_options() {
 # Outputs:
 #   Writes formatted help text to stdout.
 ################################################################################
-bake::_cli::print_help() {
+bake::cli::print_help() {
   bake::display::info "$(
     cat <<-HELP
 			Usage: ${__BAKE_CONSTANT_COMMAND_NAME__} [options] [--] [recipe] ...

@@ -2,15 +2,15 @@
 
 __BAKE_RECIPES__=()
 
-bake::recipes::_load() {
+bake::load_recipes() {
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
     [[ ${recipe} =~ ^bake: ]] && continue
-    bake::_annotations::_include "${recipe}" && continue
+    bake::annotations::include "${recipe}" && continue
 
-    bake::_state::_set_parsing "${recipe}"
-    bake::recipe::_load_annotations "${recipe}"
+    bake::state::set_parsing "${recipe}"
+    bake::recipe::load_annotations "${recipe}"
 
     __BAKE_RECIPES__+=("${recipe}")
   done < <(declare -F)
@@ -18,12 +18,12 @@ bake::recipes::_load() {
   readonly __BAKE_RECIPES__
 }
 
-bake::recipes::_count() {
+bake::recipes::count() {
   printf "%d" "${#__BAKE_RECIPES__[@]}"
 }
 
 bake::recipes::print_list() {
-  [[ $(bake::recipes::_count) -eq 0 ]] && return
+  [[ $(bake::recipes::count) -eq 0 ]] && return
 
   bake::display::info "Available recipes:"
   for recipe in "${__BAKE_RECIPES__[@]}"; do

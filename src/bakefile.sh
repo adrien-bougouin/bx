@@ -2,14 +2,14 @@
 
 __BAKE_BAKEFILE__=
 
-bake::_load_bakefile() {
+bake::load_bakefile() {
   if [[ -z ${__BAKE_BAKEFILE__} ]]; then
     local lookup_path="${__BAKE_WORKING_DIRECTORY__}"
 
     while [[ ${lookup_path} != "/" ]] && [[ -z ${__BAKE_BAKEFILE__} ]]; do
       local bakefile_candidate="${lookup_path}/Bakefile"
 
-      [[ -f ${bakefile_candidate} ]] && bake::_set_bakefile "${bakefile_candidate}"
+      [[ -f ${bakefile_candidate} ]] && bake::set_bakefile "${bakefile_candidate}"
 
       lookup_path="$(dirname "${lookup_path}")"
     done
@@ -24,7 +24,7 @@ bake::_load_bakefile() {
   fi
 }
 
-bake::_set_bakefile() {
+bake::set_bakefile() {
   if [[ -n ${__BAKE_BAKEFILE__} ]]; then
     bake::abort "Too many Bakefiles!"
   fi

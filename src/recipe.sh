@@ -19,8 +19,8 @@ bake::recipe::invoke() {
 
   bake::recipes::include "${recipe}" || bake::abort "No recipe '${recipe_with_args}'!"
 
-  bake::_state::_set_invoking "${recipe}"
-  bake::recipe::_invoke_requirements "${recipe}"
+  bake::state::set_invoking "${recipe}"
+  bake::recipe::invoke_requirements "${recipe}"
 
   if ! bake::options::quiet; then
     bake::display::info "${recipe}${args+" ${args[*]}"}" ""

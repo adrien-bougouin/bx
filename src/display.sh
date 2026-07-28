@@ -23,7 +23,7 @@ __BAKE_DISPLAY_INDENT__="    "
 #   When only message is provided:               "message"
 ################################################################################
 bake::display::error() {
-  bake::display::_stdout "$@" >&2
+  bake::display::stdout "$@" >&2
 }
 
 ################################################################################
@@ -44,7 +44,7 @@ bake::display::error() {
 #   When only message is provided:               "message"
 ################################################################################
 bake::display::info() {
-  bake::display::_stdout "$@"
+  bake::display::stdout "$@"
 }
 
 ################################################################################
@@ -52,7 +52,7 @@ bake::display::info() {
 # The {{indent}} placeholder in the message is replaced with 4 spaces.
 #
 # Usage:
-#   bake::display::_stdout [topic] message
+#   bake::display::stdout [topic] message
 #
 # Arguments:
 #   topic   - Topic label (optional).
@@ -64,7 +64,7 @@ bake::display::info() {
 #   When topic is provided and message is empty: "bold(topic)"
 #   When only message is provided:               "message"
 ################################################################################
-bake::display::_stdout() {
+bake::display::stdout() {
   local topic
   local message
 

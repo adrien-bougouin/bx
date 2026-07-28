@@ -38,18 +38,18 @@ bake::main() {
 
   local positional_arguments
 
-  bake::_cli::_parse_options positional_arguments "$@"
-  bake::_load_bakefile
-  bake::recipes::_load
+  bake::cli::parse_options positional_arguments "$@"
+  bake::load_bakefile
+  bake::load_recipes
 
   if bake::options::version; then
     bake::display::info "${__BAKE_CONSTANT_COMMAND_NAME__}" "${__BAKE_CONSTANT_VERSION__}"
 
     exit 0
   elif bake::options::help; then
-    bake::_cli::print_help
+    bake::cli::print_help
 
-    [[ $(bake::recipes::_count) -gt 0 ]] && printf "\n"
+    [[ $(bake::recipes::count) -gt 0 ]] && printf "\n"
 
     bake::recipes::print_list
 
@@ -58,7 +58,7 @@ bake::main() {
     bake::recipes::print_list
 
     exit 0
-  elif [[ $(bake::recipes::_count) -eq 0 ]]; then
+  elif [[ $(bake::recipes::count) -eq 0 ]]; then
     bake::abort "No recipes!"
   fi
 
