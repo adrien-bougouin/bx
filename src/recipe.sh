@@ -27,5 +27,7 @@ bake::recipe::invoke() {
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
-  # TODO: reset set flags
+
+  # Don't let shell options changed by the last invoked recipe bleed out.
+  { bake::utils::shell::reset_options; } 2>/dev/null
 }
