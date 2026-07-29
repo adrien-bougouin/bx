@@ -70,7 +70,7 @@ Feature: Bakefile
     And Bake errors out with message "<ERROR>"
 
     Examples:
-      | BAKEFILE ARGUMENTS                  | ERROR                           |
+      | BAKEFILE ARGUMENTS                  | ERROR                     |
       | -f Bakefile -f alternative.bakefile | bake: Too many Bakefiles! |
       | -f alternative.bakefile -f Bakefile | bake: Too many Bakefiles! |
 
