@@ -123,7 +123,7 @@ my_recipe() {
 }
 ```
 
-### Nested invocation (`bake::recipes::invoke`)
+### Nested invocation (`bake`)
 Invoke other recipes from within a recipe at runtime.
 
 ```bash
@@ -131,7 +131,7 @@ Invoke other recipes from within a recipe at runtime.
 
 complex-recipe() {
   echo "Pre-processing..."
-  bake::recipes::invoke simple-recipe
+  bake simple-recipe
   echo "Post-processing..."
 }
 
