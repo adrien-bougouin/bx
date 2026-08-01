@@ -13,7 +13,7 @@ Feature: Default Recipe
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      <INVOKED RECIPE>
+      + <INVOKED RECIPE>
       """
     And Bake does not error out
 
@@ -30,14 +30,14 @@ Feature: Default Recipe
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      <INVOKED RECIPE>
+      <INVOKED RECIPE TRACE>
       """
       And Bake errors out with message "<ERROR>"
 
     Examples:
-      | RECIPE ARGUMENT    | INVOKED RECIPE     | ERROR                |
-      |                    |                    | bake: Nothing to do! |
-      | non-default-recipe | non-default-recipe |                      |
+      | RECIPE ARGUMENT    | INVOKED RECIPE TRACE | ERROR                |
+      |                    |                      | bake: Nothing to do! |
+      | non-default-recipe | + non-default-recipe |                      |
 
   Scenario Outline: Invoke when there are multiple default recipes
     Given the Bakefile

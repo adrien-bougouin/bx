@@ -19,7 +19,7 @@ Feature: Recipe
     When executing Bake with "do-something"
     Then Bake displays
       """
-      do-something
+      + do-something
       'do-something' code executed!
       """
     And Bake does not error out
@@ -33,9 +33,9 @@ Feature: Recipe
     When executing Bake with "do-something do-something-else"
     Then Bake displays
       """
-      do-something
+      + do-something
       'do-something' code executed!
-      do-something-else
+      + do-something-else
       'do-something-else' code executed!
       """
     And Bake does not error out
@@ -44,7 +44,7 @@ Feature: Recipe
     When executing Bake with "do-something missing do-something-else"
     Then Bake displays
       """
-      do-something
+      + do-something
       'do-something' code executed!
       """
     And Bake errors out with message "bake: No recipe 'missing'!"

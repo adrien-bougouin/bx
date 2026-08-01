@@ -6,7 +6,7 @@ bake::load_recipes() {
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
-    [[ ${recipe} =~ ^bake: ]] && continue
+    [[ ${recipe} =~ ^bake ]] && continue
     bake::annotations::include "${recipe}" && continue
 
     bake::state::set_parsing "${recipe}"
@@ -47,21 +47,6 @@ bake::recipes::include() {
 }
 
 bake::recipes::invoke() {
-  # FIXME: If we make proper public interface, we won't need this here.
-  #
-  # Because this function can be used to invoke recipes from within other recipe
-  # invocation, we need to reset the shell options to default before starting
-  # the new invocations. Then, we will have to restore the options set by the
-  # invoking recipe, to let it continue its execution with the expected shell
-  # options.
-  #
-  # Note: we use `{ ... } 2>/dev/null` in case the invoking recipe did `set -x`.
-  {
-    local shopts="$-"
-
-    bake::utils::shell::reset_options
-  } 2>/dev/null
-
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
@@ -81,6 +66,4 @@ bake::recipes::invoke() {
       bake::abort "Nothing to do!"
     fi
   fi
-
-  bake::utils::shell::restore_options "${shopts}"
 }

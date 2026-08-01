@@ -20,6 +20,7 @@ bake::main() {
   source "${__BAKE_SRC_PATH__}/options.sh"
   source "${__BAKE_SRC_PATH__}/state.sh"
   source "${__BAKE_SRC_PATH__}/bakefile.sh"
+  source "${__BAKE_SRC_PATH__}/trace.sh"
   source "${__BAKE_SRC_PATH__}/annotations.sh"
   source "${__BAKE_SRC_PATH__}/recipe.sh"
   source "${__BAKE_SRC_PATH__}/recipes.sh"
@@ -27,6 +28,34 @@ bake::main() {
   source "${__BAKE_SRC_PATH__}/cli.sh"
 
   ##############################################################################
+
+  bake() {
+    # Because this function can be used to invoke recipes from within other
+    # recipe invocation, we need to reset the shell options to default before
+    # starting the new invocations. Then, we will have to restore the options
+    # set by the invoking recipe, to let it continue its execution with the
+    # expected shell options.
+    #
+    # Note: we use `{ ... } 2>/dev/null` in case the invoking recipe did
+    # `set -x`.
+    {
+      local shopts="$-"
+
+      bake::utils::shell::reset_options
+    } 2>/dev/null
+
+    bake::trace::increase_invocation_level
+
+    bake::recipes::invoke "$@"
+
+    # TODO: Decide how to clarify when nestedly invoked recipes are done.
+    # if ! bake::options::quiet; then
+    #   bake::display::info "$(bake::trace::invocation_prefix)$*" "Done!"
+    # fi
+
+    bake::trace::decrease_invocation_level
+    bake::utils::shell::restore_options "${shopts}"
+  }
 
   bake::abort() {
     bake::display::error "${__BAKE_CONSTANT_COMMAND_NAME__}" "$1"

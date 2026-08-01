@@ -16,7 +16,7 @@ Feature: Default Recipe--Arguments
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      <INVOKED RECIPE>
+      + <INVOKED RECIPE>
       <RECIPE OUTPUT>
       """
     And Bake does not error out

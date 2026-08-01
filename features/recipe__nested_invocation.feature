@@ -5,7 +5,7 @@ Feature: Recipe--Nested Invocation
       ```bash
       complex-recipe() {
         echo "Pre-processing..."
-        bake::recipes::invoke <NESTED RECIPE ARGUMENTS>
+        bake <NESTED RECIPE ARGUMENTS>
         echo "Post-processing..."
       }
 
@@ -16,9 +16,9 @@ Feature: Recipe--Nested Invocation
     When executing Bake with "complex-recipe"
     Then Bake displays
       """
-      complex-recipe
+      + complex-recipe
       Pre-processing...
-      <INVOKED NESTED RECIPE>
+      ++ <INVOKED NESTED RECIPE>
       <NESTED RECIPE OUTPUT>
       Post-processing...
       """
@@ -34,7 +34,7 @@ Feature: Recipe--Nested Invocation
       ```bash
       complex-recipe() {
         echo "Pre-processing..."
-        bake::recipes::invoke simple-recipe-1 'simple-recipe-2 arg-1 arg-2' simple-recipe-3
+        bake simple-recipe-1 'simple-recipe-2 arg-1 arg-2' simple-recipe-3
         echo "Post-processing..."
       }
 
@@ -53,13 +53,13 @@ Feature: Recipe--Nested Invocation
     When executing Bake with "complex-recipe"
     Then Bake displays
       """
-      complex-recipe
+      + complex-recipe
       Pre-processing...
-      simple-recipe-1
+      ++ simple-recipe-1
       'simple-recipe-1' invocation: $#=0, $1=, $2=
-      simple-recipe-2 arg-1 arg-2
+      ++ simple-recipe-2 arg-1 arg-2
       'simple-recipe-2' invocation: $#=2, $1=arg-1, $2=arg-2
-      simple-recipe-3
+      ++ simple-recipe-3
       'simple-recipe-3' invocation: $#=0, $1=, $2=
       Post-processing...
       """
@@ -70,14 +70,14 @@ Feature: Recipe--Nested Invocation
       ```bash
       complex-recipe() {
         echo "Pre-processing..."
-        bake::recipes::invoke missing
+        bake missing
         echo "Post-processing..."
       }
       ```
     When executing Bake with "complex-recipe"
     Then Bake displays
       """
-      complex-recipe
+      + complex-recipe
       Pre-processing...
       """
     And Bake errors out with message "bake: No recipe 'missing'!"

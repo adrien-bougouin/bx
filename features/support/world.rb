@@ -7,7 +7,7 @@ module ShellWorld
     attr_reader :stdout, :stderr, :status
 
     def execute(command)
-      stdout, stderr, status = Open3.capture3("TERM= #{command}")
+      stdout, stderr, status = Open3.capture3("PS4='+ ' TERM= #{command}")
 
       @stdout = stdout.sub(/\n\Z/, '')
       @stderr = stderr.sub(/\n\Z/, '')

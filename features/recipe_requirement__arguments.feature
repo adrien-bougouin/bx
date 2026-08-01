@@ -15,9 +15,9 @@ Feature: Recipe Requirement--Arguments
     When executing Bake with "recipe-with-requirement"
     Then Bake displays
       """
-      pre-recipe arg-1 arg-2
+      + pre-recipe arg-1 arg-2
       $#=2, $1=arg-1, $2=arg-2
-      recipe-with-requirement
+      + recipe-with-requirement
       $#=0
       """
     And Bake does not error out
@@ -52,13 +52,13 @@ Feature: Recipe Requirement--Arguments
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      pre-recipe-1
+      + pre-recipe-1
       $#=0
-      pre-recipe-2 arg-1 arg-2
+      + pre-recipe-2 arg-1 arg-2
       $#=2, $1=arg-1, $2=arg-2
-      pre-recipe-3
+      + pre-recipe-3
       $#=0
-      <RECIPE ARGUMENT>
+      + <RECIPE ARGUMENT>
       $#=0
       """
     And Bake does not error out

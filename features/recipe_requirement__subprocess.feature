@@ -10,7 +10,7 @@ Feature: Recipe Requirement--Subprocess
     When executing Bake with "recipe-with-requirement"
     Then Bake displays
       """
-      pre-recipe
-      recipe-with-requirement
+      + pre-recipe
+      + recipe-with-requirement
       """
     And Bake does not error out

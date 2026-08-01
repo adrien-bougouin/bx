@@ -19,9 +19,9 @@ Feature: Recipe--Shell Options
     When executing Bake with "hello-xtrace world"
     Then Bake displays
       """
-      hello-xtrace
+      + hello-xtrace
       Hello
-      world
+      + world
       World!
       """
     And Bake traces
@@ -38,7 +38,7 @@ Feature: Recipe--Shell Options
         set -x
 
         echo "Hello"
-        bake::recipes::invoke world
+        bake world
         echo "-----"
       }
 
@@ -51,16 +51,16 @@ Feature: Recipe--Shell Options
     When executing Bake with "hello-world-xtrace"
     Then Bake displays
       """
-      hello-world-xtrace
+      + hello-world-xtrace
       -----
       Hello
-      world
+      ++ world
       World!
       -----
       """
     And Bake traces
       """
       ++ echo Hello
-      ++ bake::recipes::invoke world
+      ++ bake world
       ++ echo -----
       """
