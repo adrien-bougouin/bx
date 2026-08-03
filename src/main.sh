@@ -48,11 +48,6 @@ bake::main() {
 
     bake::recipes::invoke "$@"
 
-    # TODO: Decide how to clarify when nestedly invoked recipes are done.
-    # if ! bake::options::quiet; then
-    #   bake::display::info "$(bake::trace::invocation_prefix)$*" "Done!"
-    # fi
-
     bake::trace::decrease_invocation_level
     bake::utils::shell::restore_options "${shopts}"
   }

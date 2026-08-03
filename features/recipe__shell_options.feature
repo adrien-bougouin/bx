@@ -54,7 +54,6 @@ Feature: Recipe--Shell Options
       + hello-world-xtrace
       -----
       Hello
-      ++ world
       World!
       -----
       """

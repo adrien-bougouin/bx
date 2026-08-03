@@ -22,8 +22,8 @@ bake::recipe::invoke() {
   bake::state::set_invoking "${recipe}"
   bake::recipe::invoke_requirements "${recipe}"
 
-  if ! bake::options::quiet; then
-    bake::display::info "$(bake::trace::invocation_prefix)${recipe}${args+" ${args[*]}"}" ""
+  if [[ $(bake::trace::invocation_level) -eq 1 ]] && ! bake::options::quiet; then
+    bake::display::info "${PS4}${recipe}${args+" ${args[*]}"}" ""
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
