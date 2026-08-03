@@ -35,6 +35,7 @@ Feature: Recipe--Nested Invocation
       complex-recipe() {
         echo "Pre-processing..."
         bake simple-recipe-1 'simple-recipe-2 arg-1 arg-2' simple-recipe-3
+        bake simple-recipe-4
         echo "Post-processing..."
       }
 
@@ -49,6 +50,10 @@ Feature: Recipe--Nested Invocation
       simple-recipe-3() (
         echo "'simple-recipe-3' invocation: \$#=$#, \$1=${1:-}, \$2=${2:-}"
       )
+
+      simple-recipe-4() (
+        echo "'simple-recipe-4' invocation: \$#=$#, \$1=${1:-}, \$2=${2:-}"
+      )
       ```
     When executing Bake with "complex-recipe"
     Then Bake displays
@@ -61,6 +66,8 @@ Feature: Recipe--Nested Invocation
       'simple-recipe-2' invocation: $#=2, $1=arg-1, $2=arg-2
       ++ simple-recipe-3
       'simple-recipe-3' invocation: $#=0, $1=, $2=
+      ++ simple-recipe-4
+      'simple-recipe-4' invocation: $#=0, $1=, $2=
       Post-processing...
       """
     And Bake does not error out

@@ -73,7 +73,7 @@ format() (
 )
 
 todo-list() (
-  bake::recipes::invoke 'features-check --tags="@skip or @fixme or @todo"'
+  bake 'features-check --tags="@skip or @fixme or @todo"'
 )
 
 features-check() (

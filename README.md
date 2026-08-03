@@ -141,7 +141,8 @@ simple-recipe() {
 ```
 
 ### Scope boundaries
-Recipes defined with `()` (subprocess) have their own scope and cannot modify global variables. Recipes defined with `{}` (function) share the parent scope.
+Recipes defined with `()` (subprocess) have their own scope and cannot modify global variables.
+Recipes defined with `{}` (function) share the parent scope.
 
 ```bash
 # Bakefile
@@ -164,4 +165,20 @@ print-global() {
 ```shell
 bake -q change-global print-global              # GLOBAL=changed-value
 bake -q change-global--subprocess print-global  # GLOBAL=default-value
+```
+
+### Shell options isolation
+Recipes can change shell options locally (e.g. `set -x` to trace execution).
+These changes do not leak into other recipes or into Bake itself.
+
+```bash
+# Bakefile
+
+recipe-1() {
+  # Instructions here will never be traced.
+
+  set -x
+
+  # Instructions here will be traced.
+}
 ```
