@@ -47,4 +47,5 @@ bake::recipe::load_annotations() {
 }
 
 source "${__BAKE_SRC_PATH__}/annotations/default.sh"
+source "${__BAKE_SRC_PATH__}/annotations/help.sh"
 source "${__BAKE_SRC_PATH__}/annotations/require.sh"

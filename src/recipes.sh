@@ -27,7 +27,19 @@ bake::recipes::print_list() {
 
   bake::display::info "Available recipes:"
   for recipe in "${__BAKE_RECIPES__[@]}"; do
+    local help_lines
+
+    # shellcheck disable=SC2207
+    IFS=$'\n' help_lines=(
+      $(bake::recipe::help "${recipe}")
+    )
+
     bake::display::info "{{indent}}${recipe}"
+    if [[ ${#help_lines[@]} -gt 0 ]]; then
+      for help_line in "${help_lines[@]}"; do
+        bake::display::info "{{indent}}{{indent}}${help_line}"
+      done
+    fi
   done
 }
 

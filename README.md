@@ -42,15 +42,15 @@ Usage: bake [options] [--] [recipe] ...
 
 Options:
     -f FILE, --file FILE, --bakefile FILE
-       Read FILE as a bakefile. Only one bakefile may be specified.
+        Read FILE as a bakefile. Only one bakefile may be specified.
     -h, --help
-       Show this help.
+        Show this help.
     -l, --list
-       Show the available recipes.
+        Show the available recipes.
     -s, --silent, -q, --quiet
-       Do not display the invoked recipe name and arguments.
+        Do not display the invoked recipe name and arguments.
     -v, --version
-       Show version.
+        Show version.
 ```
 
 ## Features

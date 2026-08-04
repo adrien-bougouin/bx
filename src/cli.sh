@@ -58,15 +58,15 @@ bake::cli::print_help() {
 
 			Options:
 			{{indent}}-f FILE, --file FILE, --bakefile FILE
-			{{indent}}   Read FILE as a bakefile. Only one bakefile may be specified.
+			{{indent}}{{indent}}Read FILE as a bakefile. Only one bakefile may be specified.
 			{{indent}}-h, --help
-			{{indent}}   Show this help.
+			{{indent}}{{indent}}Show this help.
 			{{indent}}-l, --list
-			{{indent}}   Show the available recipes.
+			{{indent}}{{indent}}Show the available recipes.
 			{{indent}}-s, --silent, -q, --quiet
-			{{indent}}   Do not display the invoked recipe name and arguments.
+			{{indent}}{{indent}}Do not display the invoked recipe name and arguments.
 			{{indent}}-v, --version
-			{{indent}}   Show version.
+			{{indent}}{{indent}}Show version.
 		HELP
   )"
 }

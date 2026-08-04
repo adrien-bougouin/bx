@@ -9,15 +9,15 @@ Feature: CLI--Help
 
       Options:
           -f FILE, --file FILE, --bakefile FILE
-             Read FILE as a bakefile. Only one bakefile may be specified.
+              Read FILE as a bakefile. Only one bakefile may be specified.
           -h, --help
-             Show this help.
+              Show this help.
           -l, --list
-             Show the available recipes.
+              Show the available recipes.
           -s, --silent, -q, --quiet
-             Do not display the invoked recipe name and arguments.
+              Do not display the invoked recipe name and arguments.
           -v, --version
-             Show version.
+              Show version.
       """
     And Bake does not error out
 
@@ -29,7 +29,9 @@ Feature: CLI--Help
   Scenario Outline: Ask for help when there are recipes to document
     Given the Bakefile
       ```bash
-      recipe-1() { :; }
+      recipe-1() {
+        @help "A short description of recipe-1."
+      }
 
       recipe-2() { :; }
       ```
@@ -40,18 +42,19 @@ Feature: CLI--Help
 
       Options:
           -f FILE, --file FILE, --bakefile FILE
-             Read FILE as a bakefile. Only one bakefile may be specified.
+              Read FILE as a bakefile. Only one bakefile may be specified.
           -h, --help
-             Show this help.
+              Show this help.
           -l, --list
-             Show the available recipes.
+              Show the available recipes.
           -s, --silent, -q, --quiet
-             Do not display the invoked recipe name and arguments.
+              Do not display the invoked recipe name and arguments.
           -v, --version
-             Show version.
+              Show version.
 
       Available recipes:
           recipe-1
+              A short description of recipe-1.
           recipe-2
       """
     And Bake does not error out

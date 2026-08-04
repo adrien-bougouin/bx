@@ -1,10 +1,14 @@
-BIN_PATH="$(realpath ./bin)"
+ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+BIN_PATH="${ROOT_PATH}/bin"
 
 # shellcheck disable=SC2207
-SOURCES=(./bin/bake $(find ./src -name "*.sh"))
+SOURCES=("${ROOT_PATH}/bin/bake" $(find "${ROOT_PATH}/src" -name "*.sh"))
 
 # Install bake
 install() (
+  @help "Add '${BIN_PATH/#${HOME}/~}' to binary path from shell config." \
+    "Supported shells: sh, dash, bash, zsh, and fish."
+
   if command -v "${__BAKE_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
     echo "bake is already installed!" >&2
 
@@ -62,14 +66,14 @@ lint() (
 
   set -x
 
-  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" Bakefile
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/Bakefile"
 )
 
 format() (
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" Bakefile
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/Bakefile"
 )
 
 todo-list() (
@@ -90,7 +94,7 @@ features-check() (
 
   set -x
 
-  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"}
+  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${ROOT_PATH}" "${ROOT_PATH}"
 )
 
 cucumber-lint() (
@@ -104,10 +108,10 @@ cucumber-lint() (
 )
 
 _cucumber-env() {
-  RBENV_VERSION="$(cat ./features/.ruby-version)"
-  BUNDLE_GEMFILE="$(pwd)/features/Gemfile"
+  RBENV_VERSION="$(cat "${ROOT_PATH}/features/.ruby-version")"
+  BUNDLE_GEMFILE="${ROOT_PATH}/features/Gemfile"
   CUCUMBER_PUBLISH_QUIET="true"
-  RUBOCOP_OPTS="--config $(pwd)/features/.rubocop.yml"
+  RUBOCOP_OPTS="--config ${ROOT_PATH}/features/.rubocop.yml"
 
   export RBENV_VERSION
   export BUNDLE_GEMFILE
