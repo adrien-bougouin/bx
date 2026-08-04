@@ -85,6 +85,7 @@ features-check() (
 
   export PATH="${BIN_PATH}:${PATH}"
 
+  local features_path="${ROOT_PATH}/features"
   local args=("$@")
   local skip_args=()
 
@@ -94,7 +95,7 @@ features-check() (
 
   set -x
 
-  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${ROOT_PATH}" "${ROOT_PATH}"
+  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${features_path}" "${features_path}"
 )
 
 cucumber-lint() (
