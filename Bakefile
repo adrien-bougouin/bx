@@ -1,8 +1,10 @@
 ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 BIN_PATH="${ROOT_PATH}/bin"
+SOURCE_PATH="${ROOT_PATH}/src"
+FEATURE_PATH="${ROOT_PATH}/features"
 
 # shellcheck disable=SC2207
-SOURCES=("${ROOT_PATH}/bin/bake" $(find "${ROOT_PATH}/src" -name "*.sh"))
+SOURCES=("${BIN_PATH}/bake" $(find "${SOURCE_PATH}" -name "*.sh"))
 
 # Install bake
 install() (
@@ -85,7 +87,6 @@ features-check() (
 
   export PATH="${BIN_PATH}:${PATH}"
 
-  local features_path="${ROOT_PATH}/features"
   local args=("$@")
   local skip_args=()
 
@@ -95,7 +96,7 @@ features-check() (
 
   set -x
 
-  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${features_path}" "${features_path}"
+  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${FEATURE_PATH}" "${FEATURE_PATH}"
 )
 
 cucumber-lint() (
@@ -109,10 +110,10 @@ cucumber-lint() (
 )
 
 _cucumber-env() {
-  RBENV_VERSION="$(cat "${ROOT_PATH}/features/.ruby-version")"
-  BUNDLE_GEMFILE="${ROOT_PATH}/features/Gemfile"
+  RBENV_VERSION="$(cat "${FEATURE_PATH}/.ruby-version")"
+  BUNDLE_GEMFILE="${FEATURE_PATH}/Gemfile"
   CUCUMBER_PUBLISH_QUIET="true"
-  RUBOCOP_OPTS="--config ${ROOT_PATH}/features/.rubocop.yml"
+  RUBOCOP_OPTS="--config ${FEATURE_PATH}/.rubocop.yml"
 
   export RBENV_VERSION
   export BUNDLE_GEMFILE
