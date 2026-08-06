@@ -3,10 +3,26 @@
 __BAKE_RECIPES__=()
 
 bake::load_recipes() {
+  local ignore_pattern='^(bake::|bake$)'
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -i | --ignore)
+        ignore_pattern="$2"
+        shift
+        break
+        ;;
+      *)
+        ;;
+    esac
+
+    shift
+  done
+
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
 
-    [[ ${recipe} =~ ^bake ]] && continue
+    [[ ${recipe} =~ ${ignore_pattern} ]] && continue
     bake::annotations::include "${recipe}" && continue
 
     bake::state::set_parsing "${recipe}"

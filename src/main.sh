@@ -29,6 +29,15 @@ bake::main() {
 
   ##############################################################################
 
+  # Wrap `set` to ensure xtrace does not get enabled when Bake executes in quiet
+  # mode.
+  set() {
+    {
+      builtin set "$@"
+      bake::options::quiet && builtin set +x || true
+    } 2>/dev/null
+  }
+
   bake() {
     # Because this function can be used to invoke recipes from within other
     # recipe invocation, we need to reset the shell options to default before
@@ -64,7 +73,7 @@ bake::main() {
 
   bake::cli::parse_options positional_arguments "$@"
   bake::load_bakefile
-  bake::load_recipes
+  bake::load_recipes --ignore '^(bake::|bake$|set$)'
 
   if bake::options::version; then
     bake::display::info "${__BAKE_CONSTANT_COMMAND_NAME__}" "${__BAKE_CONSTANT_VERSION__}"

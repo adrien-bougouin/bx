@@ -1,6 +1,6 @@
 Feature: CLI--Quiet
 
-  Scenario Outline: Execute in quiet mode
+  Scenario Outline: Invoke a recipe in quiet mode
     Given the Bakefile
       ```bash
       recipe() {
@@ -20,3 +20,20 @@ Feature: CLI--Quiet
       | --silent     |
       | -q           |
       | --quiet      |
+
+  Scenario: Invoke a recipe in quiet mode when xtrace is enabled
+    Given the Bakefile
+      ```bash
+      recipe() {
+        set -x
+
+        echo "Recipe was executed!!!"
+      }
+      ```
+    When executing Bake with "-q recipe"
+    Then Bake displays
+      """
+      Recipe was executed!!!
+      """
+    And Bake does not trace
+    And Bake does not error out

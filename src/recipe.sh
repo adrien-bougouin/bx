@@ -23,7 +23,8 @@ bake::recipe::invoke() {
   bake::recipe::invoke_requirements "${recipe}"
 
   if [[ $(bake::trace::invocation_level) -eq 1 ]] && ! bake::options::quiet; then
-    bake::display::info "${PS4}${recipe}${args+" ${args[*]}"}" ""
+    # TODO: implement PS4 interpolation in trace
+    bake::display::info "$(eval "echo \"${PS4}\"")${recipe}${args+" ${args[*]}"}" ""
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
