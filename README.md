@@ -73,6 +73,22 @@ Pass arguments to recipes by quoting the recipe name and its arguments.
 bake "format" "lint --some-lint-option"
 ```
 
+### Recipe documentation (`@help`)
+Describe a recipe with the annotation `@help`. The description is displayed by
+`bake --list` and `bake --help`, and can span multiple lines by passing several
+arguments.
+
+```bash
+# Bakefile
+
+my_recipe() {
+  @help "Line 1" \
+    "Line 2"
+
+  # ...
+}
+```
+
 ### Default recipe (`@default`)
 Set which recipe to invoke when executing Bake without an explicit recipe.
 
