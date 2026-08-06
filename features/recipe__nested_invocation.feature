@@ -18,15 +18,17 @@ Feature: Recipe--Nested Invocation
       """
       + complex-recipe
       Pre-processing...
+      ++ <INVOKED NESTED RECIPE> ->
       <NESTED RECIPE OUTPUT>
+      ++ <- <INVOKED NESTED RECIPE>
       Post-processing...
       """
     And Bake does not error out
 
     Examples:
-      | NESTED RECIPE ARGUMENTS     | NESTED RECIPE OUTPUT     |
-      | simple-recipe               | $#=0, $1=, $2=           |
-      | 'simple-recipe arg-1 arg-2' | $#=2, $1=arg-1, $2=arg-2 |
+      | NESTED RECIPE ARGUMENTS     | INVOKED NESTED RECIPE     | NESTED RECIPE OUTPUT     |
+      | simple-recipe               | simple-recipe             | $#=0, $1=, $2=           |
+      | 'simple-recipe arg-1 arg-2' | simple-recipe arg-1 arg-2 | $#=2, $1=arg-1, $2=arg-2 |
 
   Scenario: Invoke a recipe that invokes other recipes mid-execution
     Given the Bakefile
@@ -59,10 +61,18 @@ Feature: Recipe--Nested Invocation
       """
       + complex-recipe
       Pre-processing...
+      ++ simple-recipe-1 ->
       'simple-recipe-1' invocation: $#=0, $1=, $2=
+      ++ <- simple-recipe-1
+      ++ simple-recipe-2 arg-1 arg-2 ->
       'simple-recipe-2' invocation: $#=2, $1=arg-1, $2=arg-2
+      ++ <- simple-recipe-2 arg-1 arg-2
+      ++ simple-recipe-3 ->
       'simple-recipe-3' invocation: $#=0, $1=, $2=
+      ++ <- simple-recipe-3
+      ++ simple-recipe-4 ->
       'simple-recipe-4' invocation: $#=0, $1=, $2=
+      ++ <- simple-recipe-4
       Post-processing...
       """
     And Bake does not error out

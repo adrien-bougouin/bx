@@ -23,8 +23,11 @@ bake::recipe::invoke() {
   bake::recipe::invoke_requirements "${recipe}"
 
   if [[ $(bake::trace::invocation_level) -eq 1 ]] && ! bake::options::quiet; then
-    # TODO: implement PS4 interpolation in trace
-    bake::display::info "$(eval "echo \"${PS4}\"")${recipe}${args+" ${args[*]}"}" ""
+    # TODO: bake::display::trace $(bake::trace::invocation_level) "${recipe}${args+" ${args[*]}"}" ""
+    bake::display::info "$(bake::trace::invocation_prefix) ${recipe}${args+" ${args[*]}"}" ""
+  elif ! bake::options::quiet; then
+    # TODO: bake::display::trace $(bake::trace::invocation_level) "${recipe}${args+" ${args[*]}"} ->" ""
+    bake::display::info "$(bake::trace::invocation_prefix) ${recipe}${args+" ${args[*]}"} ->" ""
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
@@ -32,4 +35,9 @@ bake::recipe::invoke() {
   # Don't let shell options changed by the last invoked recipe bleed out.
   # Use `{ ... } 2>/dev/null` in case the invoking recipe did 'set -x'.
   { bake::utils::shell::reset_options; } 2>/dev/null
+
+  if [[ $(bake::trace::invocation_level) -gt 1 ]] && ! bake::options::quiet; then
+    # TODO: bake::display::trace $(bake::trace::invocation_level) "<- ${recipe}${args+" ${args[*]}"}" ""
+    bake::display::info "$(bake::trace::invocation_prefix) <- ${recipe}${args+" ${args[*]}"}" ""
+  fi
 }
