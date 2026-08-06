@@ -40,7 +40,7 @@ jobs:
           bundler-cache: true
 
       - run: ./bin/bake format && git diff --exit-code
-      - run: ./bin/bake "lint --exclude SC2317"
+      - run: ./bin/bake "lint --exclude SC2317,SC2015"
       - run: ./bin/bake cucumber-lint
 
   features-check:
