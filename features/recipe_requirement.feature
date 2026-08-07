@@ -10,10 +10,10 @@ Feature: Recipe Requirement
       recipe-with-requirement() { @require: pre-recipe; }
       ```
     When executing Bake with "recipe-with-requirement"
-    Then Bake displays
+    Then Bake traces
       """
-      + pre-recipe
-      + recipe-with-requirement
+      + # pre-recipe
+      + # recipe-with-requirement
       """
     And Bake does not error out
 
@@ -34,11 +34,11 @@ Feature: Recipe Requirement
       }
       ```
     When executing Bake with "<RECIPE ARGUMENT>"
-    Then Bake displays
+    Then Bake traces
       """
-      + pre-recipe-1
-      + pre-recipe-2
-      + <RECIPE ARGUMENT>
+      + # pre-recipe-1
+      + # pre-recipe-2
+      + # <RECIPE ARGUMENT>
       """
     And Bake does not error out
 
@@ -67,7 +67,7 @@ Feature: Recipe Requirement
       }
       ```
     When executing Bake with "<RECIPE ARGUMENT>"
-    Then Bake displays
+    Then Bake traces
       """
       <INVOKED RECIPES TRACE>
       """
@@ -76,5 +76,5 @@ Feature: Recipe Requirement
     Examples:
       | RECIPE ARGUMENT                 | INVOKED RECIPES TRACE | ERROR                      |
       | recipe-with-requirement         |                       | bake: No recipe 'missing'! |
-      | recipe-with-requirements        | + pre-recipe-1        | bake: No recipe 'missing'! |
-      | recipe-with-inline-requirements | + pre-recipe-1        | bake: No recipe 'missing'! |
+      | recipe-with-requirements        | + # pre-recipe-1      | bake: No recipe 'missing'! |
+      | recipe-with-inline-requirements | + # pre-recipe-1      | bake: No recipe 'missing'! |

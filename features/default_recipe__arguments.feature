@@ -16,8 +16,11 @@ Feature: Default Recipe--Arguments
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays
       """
-      + <INVOKED RECIPE>
       <RECIPE OUTPUT>
+      """
+    Then Bake traces
+      """
+      + # <INVOKED RECIPE>
       """
     And Bake does not error out
 
@@ -37,6 +40,7 @@ Feature: Default Recipe--Arguments
       ```
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake displays nothing
+    And Bake traces nothing
     And Bake errors out with message "<ERROR>"
 
     Examples:

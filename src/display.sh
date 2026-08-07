@@ -1,91 +1,106 @@
 #!/bin/bash
 #
 # Display utilities for info and error messaging with consistent formatting
-# across the bake tool.
+# across the Bake tool.
 
 __BAKE_DISPLAY_INDENT__="    "
 
 ################################################################################
-# Print an error message to stderr.
-# The {{indent}} placeholder in the message is replaced with 4 spaces.
-#
-# Usage:
-#   bake::display::error [topic] message
-#
-# Arguments:
-#   topic   - Topic label (optional).
-#   message - The message text.
-#
-# Outputs:
-#   Writes formatted message to stderr.
-#   When both topic and message are provided:    "bold(topic): message"
-#   When topic is provided and message is empty: "bold(topic)"
-#   When only message is provided:               "message"
-################################################################################
-bake::display::error() {
-  bake::display::stdout "$@" >&2
-}
-
-################################################################################
 # Print an info message to stdout.
-# The {{indent}} placeholder in the message is replaced with 4 spaces.
+#
+# Formatting:
+#   - {{indent}}: 4 space indentation
+#
+# Styling:
+#   - {{bold}}: following text renders bold (if supported)
+#   - {{normal}}: following text style is reset to normal style
 #
 # Usage:
-#   bake::display::info [topic] message
+#   bake::display::info message
 #
 # Arguments:
-#   topic   - Topic label (optional).
 #   message - The message text.
 #
 # Outputs:
-#   Writes formatted message to stdout.
-#   When both topic and message are provided:    "bold(topic): message"
-#   When topic is provided and message is empty: "bold(topic)"
-#   When only message is provided:               "message"
+#   Writes the formatted message to stdout.
 ################################################################################
 bake::display::info() {
-  bake::display::stdout "$@"
+  bake::display::format "$1"
 }
 
 ################################################################################
-# Format and print a message with an optional bold topic prefix.
-# The {{indent}} placeholder in the message is replaced with 4 spaces.
+# Print a trace message to stderr.
+#
+# Formatting:
+#   - {{indent}}: 4 space indentation
+#
+# Styling:
+#   - {{bold}}: following text renders bold (if supported)
+#   - {{normal}}: following text style is reset to normal style
 #
 # Usage:
-#   bake::display::stdout [topic] message
+#   bake::display::trace message
 #
 # Arguments:
-#   topic   - Topic label (optional).
 #   message - The message text.
 #
 # Outputs:
-#   Writes formatted message to stdout.
-#   When both topic and message are provided:    "bold(topic): message"
-#   When topic is provided and message is empty: "bold(topic)"
-#   When only message is provided:               "message"
+#   Writes the formatted message to stderr.
 ################################################################################
-bake::display::stdout() {
-  local topic
-  local message
+bake::display::trace() {
+  # TODO: handle repeat character here
+  bake::display::format "$1" >&2
+}
 
-  if [[ $# -ge 2 ]]; then
-    topic="$1"
-    message="$2"
-  else
-    topic=""
-    message="$1"
-  fi
+################################################################################
+# Print an error message to stderr.
+#
+# Formatting:
+#   - {{indent}}: 4 space indentation
+#
+# Styling:
+#   - {{bold}}: following text renders bold (if supported)
+#   - {{normal}}: following text style is reset to normal style
+#
+# Usage:
+#   bake::display::error message
+#
+# Arguments:
+#   message - The message text.
+#
+# Outputs:
+#   Writes the formatted message to stderr.
+################################################################################
+bake::display::error() {
+  bake::display::format "$1" >&2
+}
 
-  local formatted_topic=""
-  local separator=""
-  local formatted_message="${message//\{\{indent\}\}/${__BAKE_DISPLAY_INDENT__}}"
+################################################################################
+# Format and print a message.
+#
+# Formatting:
+#   - {{indent}}: 4 space indentation
+#
+# Styling:
+#   - {{bold}}: following text renders bold (if supported)
+#   - {{normal}}: following text style is reset to normal style
+#
+# Usage:
+#   bake::display::format message
+#
+# Arguments:
+#   message - The message text.
+#
+# Outputs:
+#   Writes the formatted message to stdout.
+################################################################################
+bake::display::format() {
+  local message="$1"
 
-  if [[ -n ${topic} ]] && [[ -n ${message} ]]; then
-    formatted_topic="$(bake::term::style::bold)${topic}:$(bake::term::style::clear)"
-    separator=" "
-  elif [[ -n ${topic} ]]; then
-    formatted_topic="$(bake::term::style::bold)${topic}$(bake::term::style::clear)"
-  fi
+  message="${message//\{\{indent\}\}/${__BAKE_DISPLAY_INDENT__}}"
 
-  printf "%s%s%s\n" "${formatted_topic}" "${separator}" "${formatted_message}"
+  message="${message//\{\{bold\}\}/$(bake::term::style::bold)}"
+  message="${message//\{\{normal\}\}/$(bake::term::style::clear)}"
+
+  printf "%s$(bake::term::style::clear)\n" "${message}"
 }

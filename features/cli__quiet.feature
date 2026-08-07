@@ -12,6 +12,7 @@ Feature: CLI--Quiet
       """
       Recipe was executed!!!
       """
+    And Bake traces nothing
     And Bake does not error out
 
     Examples:
@@ -35,5 +36,5 @@ Feature: CLI--Quiet
       """
       Recipe was executed!!!
       """
-    And Bake does not trace
+    And Bake traces nothing
     And Bake does not error out

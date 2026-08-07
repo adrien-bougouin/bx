@@ -19,14 +19,14 @@ Feature: Recipe--Shell Options
     When executing Bake with "hello-xtrace world"
     Then Bake displays
       """
-      + hello-xtrace
       Hello
-      + world
       World!
       """
     And Bake traces
       """
+      + # hello-xtrace
       ++ echo Hello
+      + # world
       """
 
   Scenario: Invoke a recipes that changes a shell option and invoke another recipe
@@ -51,17 +51,17 @@ Feature: Recipe--Shell Options
     When executing Bake with "hello-world-xtrace"
     Then Bake displays
       """
-      + hello-world-xtrace
       -----
       Hello
-      ++ world ->
       World!
-      ++ <- world
       -----
       """
     And Bake traces
       """
+      + # hello-world-xtrace
       ++ echo Hello
       ++ bake world
+      ++ # > world
+      ++ # < world
       ++ echo -----
       """

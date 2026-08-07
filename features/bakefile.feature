@@ -14,7 +14,6 @@ Feature: Bakefile
     When executing Bake with "which-bakefile"
     Then Bake displays
       """
-      + which-bakefile
       default
       """
     And Bake does not error out
@@ -41,7 +40,6 @@ Feature: Bakefile
     When executing Bake with "<BAKEFILE ARGUMENT> which-bakefile"
     Then Bake displays
       """
-      + which-bakefile
       <LOADED BAKEFILE>
       """
     And Bake does not error out

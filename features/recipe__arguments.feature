@@ -16,8 +16,11 @@ Feature: Recipe--Arguments
     When executing Bake with "'do-something arg-1 arg-2'"
     Then Bake displays
       """
-      + do-something arg-1 arg-2
       'do-something' invocation: $#=2, $1=arg-1, $2=arg-2
+      """
+    And Bake traces
+      """
+      + # do-something arg-1 arg-2
       """
     And Bake does not error out
 
@@ -25,9 +28,12 @@ Feature: Recipe--Arguments
     When executing Bake with "'do-something arg-1 arg-2' 'do-something-else arg-3 arg-4'"
     Then Bake displays
       """
-      + do-something arg-1 arg-2
       'do-something' invocation: $#=2, $1=arg-1, $2=arg-2
-      + do-something-else arg-3 arg-4
       'do-something-else' invocation: $#=2, $1=arg-3, $2=arg-4
+      """
+    And Bake traces
+      """
+      + # do-something arg-1 arg-2
+      + # do-something-else arg-3 arg-4
       """
     And Bake does not error out

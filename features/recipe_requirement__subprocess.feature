@@ -8,9 +8,9 @@ Feature: Recipe Requirement--Subprocess
       recipe-with-requirement() ( @require: pre-recipe; )
       ```
     When executing Bake with "recipe-with-requirement"
-    Then Bake displays
+    Then Bake traces
       """
-      + pre-recipe
-      + recipe-with-requirement
+      + # pre-recipe
+      + # recipe-with-requirement
       """
     And Bake does not error out

@@ -13,7 +13,6 @@ Feature: Bakefile--Upward Lookup
     When executing Bake with "which-bakefile"
     Then Bake displays
       """
-      + which-bakefile
       Parent Bakefile
       """
     And Bake does not error out

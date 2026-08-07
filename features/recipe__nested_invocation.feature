@@ -16,12 +16,15 @@ Feature: Recipe--Nested Invocation
     When executing Bake with "complex-recipe"
     Then Bake displays
       """
-      + complex-recipe
       Pre-processing...
-      ++ <INVOKED NESTED RECIPE> ->
       <NESTED RECIPE OUTPUT>
-      ++ <- <INVOKED NESTED RECIPE>
       Post-processing...
+      """
+    And Bake traces
+      """
+      + # complex-recipe
+      ++ # > <INVOKED NESTED RECIPE>
+      ++ # < <INVOKED NESTED RECIPE>
       """
     And Bake does not error out
 
@@ -59,21 +62,24 @@ Feature: Recipe--Nested Invocation
     When executing Bake with "complex-recipe"
     Then Bake displays
       """
-      + complex-recipe
       Pre-processing...
-      ++ simple-recipe-1 ->
       'simple-recipe-1' invocation: $#=0, $1=, $2=
-      ++ <- simple-recipe-1
-      ++ simple-recipe-2 arg-1 arg-2 ->
       'simple-recipe-2' invocation: $#=2, $1=arg-1, $2=arg-2
-      ++ <- simple-recipe-2 arg-1 arg-2
-      ++ simple-recipe-3 ->
       'simple-recipe-3' invocation: $#=0, $1=, $2=
-      ++ <- simple-recipe-3
-      ++ simple-recipe-4 ->
       'simple-recipe-4' invocation: $#=0, $1=, $2=
-      ++ <- simple-recipe-4
       Post-processing...
+      """
+    And Bake traces
+      """
+      + # complex-recipe
+      ++ # > simple-recipe-1
+      ++ # < simple-recipe-1
+      ++ # > simple-recipe-2 arg-1 arg-2
+      ++ # < simple-recipe-2 arg-1 arg-2
+      ++ # > simple-recipe-3
+      ++ # < simple-recipe-3
+      ++ # > simple-recipe-4
+      ++ # < simple-recipe-4
       """
     And Bake does not error out
 
@@ -89,7 +95,10 @@ Feature: Recipe--Nested Invocation
     When executing Bake with "complex-recipe"
     Then Bake displays
       """
-      + complex-recipe
       Pre-processing...
+      """
+    And Bake traces
+      """
+      + # complex-recipe
       """
     And Bake errors out with message "bake: No recipe 'missing'!"

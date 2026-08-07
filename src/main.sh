@@ -62,7 +62,7 @@ bake::main() {
   }
 
   bake::abort() {
-    bake::display::error "${__BAKE_CONSTANT_COMMAND_NAME__}" "$1"
+    bake::display::error "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} $1"
 
     exit 1
   }
@@ -76,7 +76,7 @@ bake::main() {
   bake::load_recipes --ignore '^(bake::|bake$|set$)'
 
   if bake::options::version; then
-    bake::display::info "${__BAKE_CONSTANT_COMMAND_NAME__}" "${__BAKE_CONSTANT_VERSION__}"
+    bake::display::info "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BAKE_CONSTANT_VERSION__}"
 
     exit 0
   elif bake::options::help; then
