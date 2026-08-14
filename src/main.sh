@@ -95,6 +95,12 @@ bake::main() {
     bake::abort "No recipes!"
   fi
 
+  if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && ! bake::options::quiet; then
+    BASH_XTRACEFD=2
+
+    bake::display::warning "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} BASH_XTRACEFD is not supported, resetting it to stderr."
+  fi
+
   bake::recipes::invoke ${positional_arguments+"${positional_arguments[@]}"}
 }
 
