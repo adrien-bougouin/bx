@@ -20,8 +20,10 @@ Feature: Recipe Requirement--Arguments
       """
     And Bake traces
       """
-      + # pre-recipe arg-1 arg-2
-      + # recipe-with-requirement
+      + # pre-recipe arg-1 arg-2 {
+      + # }
+      + # recipe-with-requirement {
+      + # }
       """
     And Bake does not error out
 
@@ -62,10 +64,14 @@ Feature: Recipe Requirement--Arguments
       """
     And Bake traces
       """
-      + # pre-recipe-1
-      + # pre-recipe-2 arg-1 arg-2
-      + # pre-recipe-3
-      + # <RECIPE ARGUMENT>
+      + # pre-recipe-1 {
+      + # }
+      + # pre-recipe-2 arg-1 arg-2 {
+      + # }
+      + # pre-recipe-3 {
+      + # }
+      + # <RECIPE ARGUMENT> {
+      + # }
       """
     And Bake does not error out
 

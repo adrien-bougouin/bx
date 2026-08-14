@@ -24,9 +24,11 @@ Feature: Recipe--Shell Options
       """
     And Bake traces
       """
-      + # hello-xtrace
+      + # hello-xtrace {
       ++ echo Hello
-      + # world
+      + # }
+      + # world {
+      + # }
       """
 
   Scenario: Invoke a recipes that changes a shell option and invoke another recipe
@@ -58,10 +60,11 @@ Feature: Recipe--Shell Options
       """
     And Bake traces
       """
-      + # hello-world-xtrace
+      + # hello-world-xtrace {
       ++ echo Hello
       ++ bake world
-      ++ # > world
-      ++ # < world
+      ++ # world {
+      ++ # }
       ++ echo -----
+      + # }
       """

@@ -14,18 +14,19 @@
 bake::recipe::invoke() {
   local recipe="$1"
   local args=("${@:2}")
-
   local recipe_with_args="${recipe}${args+" ${args[*]}"}"
+
+  local invocation_level
+
+  invocation_level="$(bake::trace::invocation_level)"
 
   bake::recipes::include "${recipe}" || bake::abort "No recipe '${recipe_with_args}'!"
 
   bake::state::set_invoking "${recipe}"
   bake::recipe::invoke_requirements "${recipe}"
 
-  if [[ $(bake::trace::invocation_level) -eq 1 ]] && ! bake::options::quiet; then
-    bake::display::trace "{{bold}}$(bake::trace::invocation_prefix) # ${recipe}${args+" ${args[*]}"}"
-  elif ! bake::options::quiet; then
-    bake::display::trace "{{bold}}$(bake::trace::invocation_prefix) # > ${recipe}${args+" ${args[*]}"}"
+  if ! bake::options::quiet; then
+    bake::display::trace "${invocation_level}" "{{bold}}${recipe}${args+" ${args[*]}"}{{normal}} {"
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
@@ -34,7 +35,7 @@ bake::recipe::invoke() {
   # Use `{ ... } 2>/dev/null` in case the invoking recipe did 'set -x'.
   { bake::utils::shell::reset_options; } 2>/dev/null
 
-  if [[ $(bake::trace::invocation_level) -gt 1 ]] && ! bake::options::quiet; then
-    bake::display::trace "{{bold}}$(bake::trace::invocation_prefix) # < ${recipe}${args+" ${args[*]}"}"
+  if ! bake::options::quiet; then
+    bake::display::trace "${invocation_level}" "}"
   fi
 }

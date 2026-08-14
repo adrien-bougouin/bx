@@ -20,7 +20,8 @@ Feature: Recipe--Arguments
       """
     And Bake traces
       """
-      + # do-something arg-1 arg-2
+      + # do-something arg-1 arg-2 {
+      + # }
       """
     And Bake does not error out
 
@@ -33,7 +34,9 @@ Feature: Recipe--Arguments
       """
     And Bake traces
       """
-      + # do-something arg-1 arg-2
-      + # do-something-else arg-3 arg-4
+      + # do-something arg-1 arg-2 {
+      + # }
+      + # do-something-else arg-3 arg-4 {
+      + # }
       """
     And Bake does not error out

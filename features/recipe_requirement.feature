@@ -12,8 +12,10 @@ Feature: Recipe Requirement
     When executing Bake with "recipe-with-requirement"
     Then Bake traces
       """
-      + # pre-recipe
-      + # recipe-with-requirement
+      + # pre-recipe {
+      + # }
+      + # recipe-with-requirement {
+      + # }
       """
     And Bake does not error out
 
@@ -36,9 +38,12 @@ Feature: Recipe Requirement
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake traces
       """
-      + # pre-recipe-1
-      + # pre-recipe-2
-      + # <RECIPE ARGUMENT>
+      + # pre-recipe-1 {
+      + # }
+      + # pre-recipe-2 {
+      + # }
+      + # <RECIPE ARGUMENT> {
+      + # }
       """
     And Bake does not error out
 
@@ -47,14 +52,23 @@ Feature: Recipe Requirement
       | recipe-with-requirements        |
       | recipe-with-inline-requirements |
 
-  Scenario Outline: Invoke a recipe that requires a missing recipe
+  Scenario: Invoke a recipe that requires a missing recipe
+    Given the Bakefile
+      ```bash
+      recipe() {
+        @require: missing
+      }
+      ```
+    When executing Bake with "recipe"
+    Then Bake traces nothing
+    And Bake errors out with message "bake: No recipe 'missing'!"
+
+  Scenario Outline: Invoke a recipe that requires a missing recipe among others
     Given the Bakefile
       ```bash
       pre-recipe-1() { :; }
 
       pre-recipe-2() { :; }
-
-      recipe-with-requirement() { @require: missing; }
 
       recipe-with-requirements() {
         @require: pre-recipe-1
@@ -69,12 +83,12 @@ Feature: Recipe Requirement
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake traces
       """
-      <INVOKED RECIPES TRACE>
+      + # pre-recipe-1 {
+      + # }
       """
     And Bake errors out with message "<ERROR>"
 
     Examples:
-      | RECIPE ARGUMENT                 | INVOKED RECIPES TRACE | ERROR                      |
-      | recipe-with-requirement         |                       | bake: No recipe 'missing'! |
-      | recipe-with-requirements        | + # pre-recipe-1      | bake: No recipe 'missing'! |
-      | recipe-with-inline-requirements | + # pre-recipe-1      | bake: No recipe 'missing'! |
+      | RECIPE ARGUMENT                 | ERROR                      |
+      | recipe-with-requirements        | bake: No recipe 'missing'! |
+      | recipe-with-inline-requirements | bake: No recipe 'missing'! |

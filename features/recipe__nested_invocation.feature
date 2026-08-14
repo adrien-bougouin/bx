@@ -22,9 +22,10 @@ Feature: Recipe--Nested Invocation
       """
     And Bake traces
       """
-      + # complex-recipe
-      ++ # > <INVOKED NESTED RECIPE>
-      ++ # < <INVOKED NESTED RECIPE>
+      + # complex-recipe {
+      ++ # <INVOKED NESTED RECIPE> {
+      ++ # }
+      + # }
       """
     And Bake does not error out
 
@@ -71,15 +72,16 @@ Feature: Recipe--Nested Invocation
       """
     And Bake traces
       """
-      + # complex-recipe
-      ++ # > simple-recipe-1
-      ++ # < simple-recipe-1
-      ++ # > simple-recipe-2 arg-1 arg-2
-      ++ # < simple-recipe-2 arg-1 arg-2
-      ++ # > simple-recipe-3
-      ++ # < simple-recipe-3
-      ++ # > simple-recipe-4
-      ++ # < simple-recipe-4
+      + # complex-recipe {
+      ++ # simple-recipe-1 {
+      ++ # }
+      ++ # simple-recipe-2 arg-1 arg-2 {
+      ++ # }
+      ++ # simple-recipe-3 {
+      ++ # }
+      ++ # simple-recipe-4 {
+      ++ # }
+      + # }
       """
     And Bake does not error out
 
@@ -99,6 +101,6 @@ Feature: Recipe--Nested Invocation
       """
     And Bake traces
       """
-      + # complex-recipe
+      + # complex-recipe {
       """
     And Bake errors out with message "bake: No recipe 'missing'!"

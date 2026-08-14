@@ -13,7 +13,8 @@ Feature: Default Recipe
     When executing Bake with "<RECIPE ARGUMENT>"
     Then Bake traces
       """
-      + # <INVOKED RECIPE>
+      + # <INVOKED RECIPE> {
+      + # }
       """
     And Bake does not error out
 
@@ -22,22 +23,27 @@ Feature: Default Recipe
       |                    | default-recipe     |
       | non-default-recipe | non-default-recipe |
 
-  Scenario Outline: Invoke when there is no default recipe
+  Scenario: Invoke when there is no default recipe
     Given the Bakefile
       ```bash
       non-default-recipe() { :; }
       ```
-    When executing Bake with "<RECIPE ARGUMENT>"
+    When executing Bake with ""
+    Then Bake traces nothing
+    And Bake errors out with message "bake: Nothing to do!"
+
+  Scenario: Invoke an explicit recipe when there is no default recipe
+    Given the Bakefile
+      ```bash
+      non-default-recipe() { :; }
+      ```
+    When executing Bake with "non-default-recipe"
     Then Bake traces
       """
-      <INVOKED RECIPE TRACE>
+      + # non-default-recipe {
+      + # }
       """
-    And Bake errors out with message "<ERROR>"
-
-    Examples:
-      | RECIPE ARGUMENT    | INVOKED RECIPE TRACE   | ERROR                |
-      |                    |                        | bake: Nothing to do! |
-      | non-default-recipe | + # non-default-recipe |                      |
+    And Bake does not error out
 
   Scenario Outline: Invoke when there are multiple default recipes
     Given the Bakefile

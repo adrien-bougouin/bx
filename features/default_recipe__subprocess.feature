@@ -10,6 +10,7 @@ Feature: Default Recipe--Subprocess
     When executing Bake with no arguments
     Then Bake traces
       """
-      + # default-recipe
+      + # default-recipe {
+      + # }
       """
     And Bake does not error out

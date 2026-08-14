@@ -23,7 +23,8 @@ Feature: Recipe
       """
     And  Bake traces
       """
-      + # do-something
+      + # do-something {
+      + # }
       """
     And Bake does not error out
 
@@ -41,8 +42,10 @@ Feature: Recipe
       """
     And  Bake traces
       """
-      + # do-something
-      + # do-something-else
+      + # do-something {
+      + # }
+      + # do-something-else {
+      + # }
       """
     And Bake does not error out
 
@@ -54,6 +57,7 @@ Feature: Recipe
       """
     And  Bake traces
       """
-      + # do-something
+      + # do-something {
+      + # }
       """
     And Bake errors out with message "bake: No recipe 'missing'!"

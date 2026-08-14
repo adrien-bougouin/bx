@@ -20,7 +20,8 @@ Feature: Default Recipe--Arguments
       """
     Then Bake traces
       """
-      + # <INVOKED RECIPE>
+      + # <INVOKED RECIPE> {
+      + # }
       """
     And Bake does not error out
 
