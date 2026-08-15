@@ -23,7 +23,6 @@ bake::recipe::invoke() {
   bake::recipes::include "${recipe}" || bake::abort "No recipe '${recipe_with_args}'!"
 
   bake::state::set_invoking "${recipe}"
-  bake::recipe::invoke_requirements "${recipe}"
 
   if ! bake::options::quiet; then
     bake::display::trace "${invocation_level}" "{{bold}}${recipe}${args+" ${args[*]}"}{{normal}} {"

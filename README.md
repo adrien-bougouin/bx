@@ -114,31 +114,6 @@ my_recipe() {
 }
 ```
 
-### Recipe requirements (`@require:`)
-List recipes that must be invoked before the current recipe.
-
-Use the annotation `@require:` to set one or more recipes to invoke before the current recipe. Recipe arguments are also supported.
-
-```bash
-# Bakefile
-
-format() {
-  # ...
-}
-
-lint() {
-  local args=("$@")
-
-  # ...
-}
-
-my_recipe() {
-  @require: format "lint --some-lint-option"
-
-  # ...
-}
-```
-
 ### Nested invocation (`bake`)
 Invoke other recipes from within a recipe at runtime.
 
