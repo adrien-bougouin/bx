@@ -5,6 +5,20 @@
 
 __BAKE_DISPLAY_INDENT__="    "
 
+__BAKE_DISPLAY_STYLE_NORMAL__=""
+__BAKE_DISPLAY_STYLE_BOLD__=""
+
+# BASH unset ${TERM} value is 'dumb'!
+if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
+  __BAKE_DISPLAY_STYLE_NORMAL__="$(tput sgr0)"
+  __BAKE_DISPLAY_STYLE_BOLD__="$(tput bold)"
+fi
+
+readonly __BAKE_DISPLAY_INDENT__
+
+readonly __BAKE_DISPLAY_STYLE_NORMAL__
+readonly __BAKE_DISPLAY_STYLE_BOLD__
+
 ################################################################################
 # Print an info message to stdout.
 #
@@ -141,8 +155,8 @@ bake::display::format() {
 
   message="${message//\{\{indent\}\}/${__BAKE_DISPLAY_INDENT__}}"
 
-  message="${message//\{\{bold\}\}/$(bake::term::style::bold)}"
-  message="${message//\{\{normal\}\}/$(bake::term::style::clear)}"
+  message="${message//\{\{normal\}\}/${__BAKE_DISPLAY_STYLE_NORMAL__}}"
+  message="${message//\{\{bold\}\}/${__BAKE_DISPLAY_STYLE_BOLD__}}"
 
-  printf "%s$(bake::term::style::clear)\n" "${message}"
+  printf "%s${__BAKE_DISPLAY_STYLE_NORMAL__}\n" "${message}"
 }

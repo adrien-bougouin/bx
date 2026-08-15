@@ -13,7 +13,6 @@ bake::main() {
   readonly __BAKE_SRC_PATH__
 
   source "${__BAKE_SRC_PATH__}/utils.sh"
-  source "${__BAKE_SRC_PATH__}/term.sh"
 
   source "${__BAKE_SRC_PATH__}/constants.sh"
   source "${__BAKE_SRC_PATH__}/display.sh"
