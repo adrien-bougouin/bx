@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# FIXME:
-#   - [OK] bake::recipe::invoke e2e
-#   - [OK] bake::recipe::invoke e2e --tags=@todo
-#   - [KO] bake::recipe::invoke 'e2e --tags=@todo'
-#   - [KO] bake::recipe::invoke e2e --tags='@todo or @fixme'
-#   - [OK] bake::recipe::invoke e2e '--tags="@todo or @fixme"
-#
-#   Make this private and make bake::invoke that behaves just like cli:
-#     - bake::invoke e2e
-#     - bake::invoke 'e2e --tags=@todo'
-#     - bake::invoke 'e2e --tags="@todo or @fixme"'
 bake::recipe::invoke() {
   local recipe="$1"
   local args=("${@:2}")

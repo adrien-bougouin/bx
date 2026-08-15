@@ -50,13 +50,13 @@ Feature: Recipe--Scope Boundaries
       )
 
       recipe() {
-        bake <MUTATION RECIPE>
+        bake::invoke <MUTATION RECIPE>
 
         echo "GLOBAL=${GLOBAL}"
       }
 
       recipe--subprocess() (
-        bake <MUTATION RECIPE>
+        bake::invoke <MUTATION RECIPE>
 
         echo "GLOBAL=${GLOBAL}"
       )

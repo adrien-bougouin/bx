@@ -5,7 +5,7 @@ Feature: Recipe--Nested Invocation
       ```bash
       complex-recipe() {
         echo "Pre-processing..."
-        bake <NESTED RECIPE ARGUMENTS>
+        bake::invoke <NESTED RECIPE ARGUMENTS>
         echo "Post-processing..."
       }
 
@@ -39,8 +39,8 @@ Feature: Recipe--Nested Invocation
       ```bash
       complex-recipe() {
         echo "Pre-processing..."
-        bake simple-recipe-1 'simple-recipe-2 arg-1 arg-2' simple-recipe-3
-        bake simple-recipe-4
+        bake::invoke simple-recipe-1 'simple-recipe-2 arg-1 arg-2' simple-recipe-3
+        bake::invoke simple-recipe-4
         echo "Post-processing..."
       }
 
@@ -90,7 +90,7 @@ Feature: Recipe--Nested Invocation
       ```bash
       complex-recipe() {
         echo "Pre-processing..."
-        bake missing
+        bake::invoke missing
         echo "Post-processing..."
       }
       ```

@@ -37,7 +37,7 @@ bake::main() {
     } 2>/dev/null
   }
 
-  bake() {
+  bake::invoke() {
     # Because this function can be used to invoke recipes from within other
     # recipe invocation, we need to reset the shell options to default before
     # starting the new invocations. Then, we will have to restore the options

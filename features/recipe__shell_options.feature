@@ -40,7 +40,7 @@ Feature: Recipe--Shell Options
         set -x
 
         echo "Hello"
-        bake world
+        bake::invoke world
         echo "-----"
       }
 
@@ -62,7 +62,7 @@ Feature: Recipe--Shell Options
       """
       + # hello-world-xtrace {
       ++ echo Hello
-      ++ bake world
+      ++ bake::invoke world
       ++ # world {
       ++ # }
       ++ echo -----
