@@ -47,8 +47,8 @@ Options:
         Show this help.
     -l, --list
         Show the available recipes.
-    -s, --silent, -q, --quiet
-        Do not display the invoked recipe name and arguments.
+    -q, --quiet
+        Do not display the invoked recipe traces, nor the xtrace output.
     -v, --version
         Show version.
 ```

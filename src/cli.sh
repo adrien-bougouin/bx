@@ -31,7 +31,7 @@ bake::cli::parse_options() {
         ;;
       -h | --help) bake::options::enable_help ;;
       -l | --list) bake::options::enable_list ;;
-      -s | --silent | -q | --quiet) bake::options::enable_quiet ;;
+      -q | --quiet) bake::options::enable_quiet ;;
       -v | --version) bake::options::enable_version ;;
       *) bake::abort "Unknown option '$1'!" ;;
     esac
@@ -63,8 +63,8 @@ bake::cli::print_help() {
 			{{indent}}{{indent}}Show this help.
 			{{indent}}-l, --list
 			{{indent}}{{indent}}Show the available recipes.
-			{{indent}}-s, --silent, -q, --quiet
-			{{indent}}{{indent}}Do not display the invoked recipe name and arguments.
+			{{indent}}-q, --quiet
+			{{indent}}{{indent}}Do not display the invoked recipe traces, nor the xtrace output.
 			{{indent}}-v, --version
 			{{indent}}{{indent}}Show version.
 		HELP

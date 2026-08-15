@@ -17,8 +17,6 @@ Feature: CLI--Quiet
 
     Examples:
       | QUIET OPTION |
-      | -s           |
-      | --silent     |
       | -q           |
       | --quiet      |
 
