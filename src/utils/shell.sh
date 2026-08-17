@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# FIXME: This only support single letter options. 'pipefail' won't be captured.
 __BAKE_ORIGINAL_SHOPTS__="$-"
 
 readonly __BAKE_ORIGINAL_SHOPTS__
