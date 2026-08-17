@@ -25,6 +25,12 @@ bake::cli::parse_options() {
         shift
         break
         ;;
+      --file=*)
+        bake::set_bakefile "${1#--file=}"
+        ;;
+      --bakefile=*)
+        bake::set_bakefile "${1#--bakefile=}"
+        ;;
       -f | --file | --bakefile)
         bake::set_bakefile "$2"
         shift
@@ -57,7 +63,7 @@ bake::cli::print_help() {
 			Usage: ${__BAKE_CONSTANT_COMMAND_NAME__} [options] [--] [recipe] ...
 
 			Options:
-			{{indent}}-f FILE, --file FILE, --bakefile FILE
+			{{indent}}-f FILE, --file=FILE, --bakefile=FILE
 			{{indent}}{{indent}}Read FILE as a bakefile. Only one bakefile may be specified.
 			{{indent}}-h, --help
 			{{indent}}{{indent}}Show this help.

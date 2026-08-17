@@ -41,7 +41,7 @@ $ bake --help
 Usage: bake [options] [--] [recipe] ...
 
 Options:
-    -f FILE, --file FILE, --bakefile FILE
+    -f FILE, --file=FILE, --bakefile=FILE
         Read FILE as a bakefile. Only one bakefile may be specified.
     -h, --help
         Show this help.

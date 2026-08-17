@@ -48,7 +48,9 @@ Feature: Bakefile
       | BAKEFILE ARGUMENT                       | LOADED BAKEFILE              |
       | -f Bakefile                             | Bakefile                     |
       | --file alternative.bakefile             | alternative.bakefile         |
+      | --file=alternative.bakefile             | alternative.bakefile         |
       | --bakefile another_alternative.bakefile | another_alternative.bakefile |
+      | --bakefile=another_alternative.bakefile | another_alternative.bakefile |
 
   Scenario Outline: Invoke a recipe from multiple Bakefile
     Given the Bakefile at "Bakefile"
