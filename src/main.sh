@@ -24,38 +24,11 @@ _bake::main() {
   source "${__BAKE_SRC_PATH__}/recipe.sh"
   source "${__BAKE_SRC_PATH__}/recipes.sh"
 
+  source "${__BAKE_SRC_PATH__}/overrides.sh"
+  source "${__BAKE_SRC_PATH__}/dsl.sh"
   source "${__BAKE_SRC_PATH__}/cli.sh"
 
   ##############################################################################
-
-  # Wrap `set` to ensure xtrace does not get enabled when Bake executes in quiet
-  # mode.
-  set() {
-    {
-      builtin set "$@"
-      _bake::options::quiet && builtin set +x || true
-    } 2>/dev/null
-  }
-
-  bake::invoke() {
-    # Because this function can be used to invoke recipes from within other
-    # recipe invocation, we need to reset the shell options to default before
-    # starting the new invocations. Then, we will have to restore the options
-    # set by the invoking recipe, to let it continue its execution with the
-    # expected shell options.
-    #
-    # Note: we use `{ ... } 2>/dev/null` in case the invoking recipe did
-    # `set -x`.
-    {
-      local shopts="$-"
-
-      _bake::utils::shell::reset_options
-    } 2>/dev/null
-
-    _bake::recipes::invoke "$@"
-
-    _bake::utils::shell::restore_options "${shopts}"
-  }
 
   _bake::abort() {
     _bake::display::error "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} $1"
