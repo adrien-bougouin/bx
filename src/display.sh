@@ -29,9 +29,6 @@ readonly __BAKE_DISPLAY_STYLE_BOLD__
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
 #
-# Usage:
-#   bake::display::info message
-#
 # Arguments:
 #   message - The message text.
 #
@@ -52,9 +49,6 @@ bake::display::info() {
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
 #
-# Usage:
-#   bake::display::warning message
-#
 # Arguments:
 #   message - The message text.
 #
@@ -74,9 +68,6 @@ bake::display::warning() {
 # Styling:
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
-#
-# Usage:
-#   bake::display::error message
 #
 # Arguments:
 #   message - The message text.
@@ -100,9 +91,6 @@ bake::display::error() {
 # Styling:
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
-#
-# Usage:
-#   bake::display::trace level message
 #
 # Arguments:
 #   level   - The invocation level of the calling function/recipe.
@@ -140,9 +128,6 @@ bake::display::trace() {
 # Styling:
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
-#
-# Usage:
-#   bake::display::format message
 #
 # Arguments:
 #   message - The message text.

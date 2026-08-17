@@ -19,7 +19,7 @@ bake::main() {
   source "${__BAKE_SRC_PATH__}/options.sh"
   source "${__BAKE_SRC_PATH__}/state.sh"
   source "${__BAKE_SRC_PATH__}/bakefile.sh"
-  source "${__BAKE_SRC_PATH__}/trace.sh"
+  source "${__BAKE_SRC_PATH__}/invocation_stack.sh"
   source "${__BAKE_SRC_PATH__}/annotations.sh"
   source "${__BAKE_SRC_PATH__}/recipe.sh"
   source "${__BAKE_SRC_PATH__}/recipes.sh"
@@ -52,11 +52,8 @@ bake::main() {
       bake::utils::shell::reset_options
     } 2>/dev/null
 
-    bake::trace::increase_invocation_level
-
     bake::recipes::invoke "$@"
 
-    bake::trace::decrease_invocation_level
     bake::utils::shell::restore_options "${shopts}"
   }
 

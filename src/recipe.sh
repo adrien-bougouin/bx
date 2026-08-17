@@ -5,12 +5,15 @@ bake::recipe::invoke() {
   local args=("${@:2}")
   local recipe_with_args="${recipe}${args+" ${args[*]}"}"
 
-  local invocation_level
-
-  invocation_level="$(bake::trace::invocation_level)"
-
   bake::recipes::include "${recipe}" || bake::abort "No recipe '${recipe_with_args}'!"
 
+  local invocation_level
+
+  bake::invocation_stack::push "${recipe_with_args}"
+
+  invocation_level="$(bake::invocation_stack::size)"
+
+  # TODO: remove in favor of bake::invocation_stack::push
   bake::state::set_invoking "${recipe}"
 
   if ! bake::options::quiet; then
@@ -26,4 +29,6 @@ bake::recipe::invoke() {
   if ! bake::options::quiet; then
     bake::display::trace "${invocation_level}" "}"
   fi
+
+  bake::invocation_stack::pop
 }

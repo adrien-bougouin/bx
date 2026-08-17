@@ -6,7 +6,7 @@
 # Parse CLI flags and options, capturing remaining positional arguments into a
 # caller-specified array variable.
 #
-# Args:
+# Arguments:
 #   positional_arguments_ref - Name of the array variable to receive positional
 #                              args from.
 #
