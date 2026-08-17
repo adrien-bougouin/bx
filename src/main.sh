@@ -65,9 +65,9 @@ _bake::main() {
   fi
 
   if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && ! _bake::options::quiet; then
-    BASH_XTRACEFD=2
-
     _bake::display::warning "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} BASH_XTRACEFD is not supported, resetting it to stderr."
+
+    BASH_XTRACEFD=2
   fi
 
   _bake::recipes::invoke ${positional_arguments+"${positional_arguments[@]}"}
