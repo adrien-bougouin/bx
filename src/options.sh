@@ -5,34 +5,34 @@ __BAKE_OPTION_LIST__="${__BAKE_CONSTANT_FALSE__}"
 __BAKE_OPTION_QUIET__="${__BAKE_CONSTANT_FALSE__}"
 __BAKE_OPTION_VERSION__="${__BAKE_CONSTANT_FALSE__}"
 
-bake::options::help() {
+_bake::options::help() {
   return "${__BAKE_OPTION_HELP__}"
 }
 
-bake::options::enable_help() {
+_bake::options::enable_help() {
   __BAKE_OPTION_HELP__="${__BAKE_CONSTANT_TRUE__}"
 }
 
-bake::options::list() {
+_bake::options::list() {
   return "${__BAKE_OPTION_LIST__}"
 }
 
-bake::options::enable_list() {
+_bake::options::enable_list() {
   __BAKE_OPTION_LIST__="${__BAKE_CONSTANT_TRUE__}"
 }
 
-bake::options::quiet() {
+_bake::options::quiet() {
   return "${__BAKE_OPTION_QUIET__}"
 }
 
-bake::options::enable_quiet() {
+_bake::options::enable_quiet() {
   __BAKE_OPTION_QUIET__="${__BAKE_CONSTANT_TRUE__}"
 }
 
-bake::options::version() {
+_bake::options::version() {
   return "${__BAKE_OPTION_VERSION__}"
 }
 
-bake::options::enable_version() {
+_bake::options::enable_version() {
   __BAKE_OPTION_VERSION__="${__BAKE_CONSTANT_TRUE__}"
 }

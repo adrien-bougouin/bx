@@ -2,8 +2,8 @@
 
 __BAKE_RECIPES__=()
 
-bake::load_recipes() {
-  local ignore_pattern='^(bake::|bake$)'
+_bake::load_recipes() {
+  local ignore_pattern='^(_?bake::|_?bake$)'
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -23,9 +23,9 @@ bake::load_recipes() {
     local recipe="${recipe_definition#"declare -f "}"
 
     [[ ${recipe} =~ ${ignore_pattern} ]] && continue
-    bake::annotations::include "${recipe}" && continue
+    _bake::annotations::include "${recipe}" && continue
 
-    bake::recipe::load_annotations "${recipe}"
+    _bake::recipe::load_annotations "${recipe}"
 
     __BAKE_RECIPES__+=("${recipe}")
   done < <(declare -F)
@@ -33,32 +33,32 @@ bake::load_recipes() {
   readonly __BAKE_RECIPES__
 }
 
-bake::recipes::count() {
+_bake::recipes::count() {
   printf "%d" "${#__BAKE_RECIPES__[@]}"
 }
 
-bake::recipes::print_list() {
-  [[ $(bake::recipes::count) -eq 0 ]] && return
+_bake::recipes::print_list() {
+  [[ $(_bake::recipes::count) -eq 0 ]] && return
 
-  bake::display::info "Available recipes:"
+  _bake::display::info "Available recipes:"
   for recipe in "${__BAKE_RECIPES__[@]}"; do
     local help_lines
 
     # shellcheck disable=SC2207
     IFS=$'\n' help_lines=(
-      $(bake::recipe::help "${recipe}")
+      $(_bake::recipe::help "${recipe}")
     )
 
-    bake::display::info "{{indent}}${recipe}"
+    _bake::display::info "{{indent}}${recipe}"
     if [[ ${#help_lines[@]} -gt 0 ]]; then
       for help_line in "${help_lines[@]}"; do
-        bake::display::info "{{indent}}{{indent}}${help_line}"
+        _bake::display::info "{{indent}}{{indent}}${help_line}"
       done
     fi
   done
 }
 
-bake::recipes::include() {
+_bake::recipes::include() {
   [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
 
   local candidate
@@ -73,24 +73,24 @@ bake::recipes::include() {
   return "${__BAKE_CONSTANT_FALSE__}"
 }
 
-bake::recipes::invoke() {
+_bake::recipes::invoke() {
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
-      bake::recipe::invoke $1
+      _bake::recipe::invoke $1
 
       shift
     done
   else
-    if [[ -n $(bake::recipes::default) ]]; then
+    if [[ -n $(_bake::recipes::default) ]]; then
       local default_recipe
 
-      default_recipe="$(bake::recipes::default)"
+      default_recipe="$(_bake::recipes::default)"
 
       # shellcheck disable=SC2086
-      bake::recipe::invoke ${default_recipe}
+      _bake::recipe::invoke ${default_recipe}
     else
-      bake::abort "Nothing to do!"
+      _bake::abort "Nothing to do!"
     fi
   fi
 }

@@ -14,7 +14,7 @@ __BAKE_ANNOTATION_PARSING_STACK__=()
 # Outputs:
 #   The number of recipes under annotation parsing.
 ################################################################################
-bake::annotation_parsing_stack::size() {
+_bake::annotation_parsing_stack::size() {
   printf "%d" "${#__BAKE_ANNOTATION_PARSING_STACK__[@]}"
 }
 
@@ -28,7 +28,7 @@ bake::annotation_parsing_stack::size() {
 # Outputs:
 #   The last recipe under annotation parsing.
 ################################################################################
-bake::annotation_parsing_stack::last() {
+_bake::annotation_parsing_stack::last() {
   printf "%s" "${__BAKE_ANNOTATION_PARSING_STACK__[${#__BAKE_ANNOTATION_PARSING_STACK__[@]} - 1]}"
 }
 
@@ -41,7 +41,7 @@ bake::annotation_parsing_stack::last() {
 # Arguments:
 #   recipe - The recipe to add.
 ################################################################################
-bake::annotation_parsing_stack::push() {
+_bake::annotation_parsing_stack::push() {
   __BAKE_ANNOTATION_PARSING_STACK__+=("$1")
 }
 
@@ -52,7 +52,7 @@ bake::annotation_parsing_stack::push() {
 #   __BAKE_ANNOTATION_PARSING_STACK__ - Stack where the last recipe under
 #                                       annotation parsing will be removed.
 ################################################################################
-bake::annotation_parsing_stack::pop() {
+_bake::annotation_parsing_stack::pop() {
   local new_length=$((${#__BAKE_ANNOTATION_PARSING_STACK__[@]} - 1))
 
   __BAKE_ANNOTATION_PARSING_STACK__=("${__BAKE_ANNOTATION_PARSING_STACK__[@]:0:new_length}")

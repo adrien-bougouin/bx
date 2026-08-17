@@ -15,7 +15,7 @@ __BAKE_INVOCATION_STACK__=()
 # Outputs:
 #   The number of recipes under invocation.
 ################################################################################
-bake::invocation_stack::size() {
+_bake::invocation_stack::size() {
   printf "%d" "${#__BAKE_INVOCATION_STACK__[@]}"
 }
 
@@ -28,7 +28,7 @@ bake::invocation_stack::size() {
 # Arguments:
 #   recipe - The recipe to add.
 ################################################################################
-bake::invocation_stack::push() {
+_bake::invocation_stack::push() {
   __BAKE_INVOCATION_STACK__+=("$1")
 }
 
@@ -39,7 +39,7 @@ bake::invocation_stack::push() {
 #   __BAKE_INVOCATION_STACK__ - Stack where the last invoked recipe will be
 #                               removed.
 ################################################################################
-bake::invocation_stack::pop() {
+_bake::invocation_stack::pop() {
   local new_length=$((${#__BAKE_INVOCATION_STACK__[@]} - 1))
 
   __BAKE_INVOCATION_STACK__=("${__BAKE_INVOCATION_STACK__[@]:0:new_length}")

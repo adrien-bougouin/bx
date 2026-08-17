@@ -3,15 +3,15 @@
 # ( <recipe> <line_count> <line> ... )
 __BAKE_RECIPE_HELPS__=()
 
-bake::annotations::register "@help"
+_bake::annotations::register "@help"
 
 @help() {
-  if [[ $# -gt 0 ]] && [[ $(bake::annotation_parsing_stack::size) -gt 0 ]]; then
-    __BAKE_RECIPE_HELPS__+=("$(bake::annotation_parsing_stack::last)" "$#" "$@")
+  if [[ $# -gt 0 ]] && [[ $(_bake::annotation_parsing_stack::size) -gt 0 ]]; then
+    __BAKE_RECIPE_HELPS__+=("$(_bake::annotation_parsing_stack::last)" "$#" "$@")
   fi
 }
 
-bake::recipe::help() {
+_bake::recipe::help() {
   local recipe="$1"
 
   local i

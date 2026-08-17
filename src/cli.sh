@@ -11,10 +11,10 @@
 #                              args from.
 #
 # Side effects:
-#   - May update bakefile path via bake::set_bakefile.
-#   - May set option flags via bake::options::enable_* helpers.
+#   - May update bakefile path via _bake::set_bakefile.
+#   - May set option flags via _bake::options::enable_* helpers.
 ################################################################################
-bake::cli::parse_options() {
+_bake::cli::parse_options() {
   local positional_arguments_ref="$1"
 
   shift
@@ -26,20 +26,20 @@ bake::cli::parse_options() {
         break
         ;;
       --file=*)
-        bake::set_bakefile "${1#--file=}"
+        _bake::set_bakefile "${1#--file=}"
         ;;
       --bakefile=*)
-        bake::set_bakefile "${1#--bakefile=}"
+        _bake::set_bakefile "${1#--bakefile=}"
         ;;
       -f | --file | --bakefile)
-        bake::set_bakefile "$2"
+        _bake::set_bakefile "$2"
         shift
         ;;
-      -h | --help) bake::options::enable_help ;;
-      -l | --list) bake::options::enable_list ;;
-      -q | --quiet) bake::options::enable_quiet ;;
-      -v | --version) bake::options::enable_version ;;
-      *) bake::abort "Unknown option '$1'!" ;;
+      -h | --help) _bake::options::enable_help ;;
+      -l | --list) _bake::options::enable_list ;;
+      -q | --quiet) _bake::options::enable_quiet ;;
+      -v | --version) _bake::options::enable_version ;;
+      *) _bake::abort "Unknown option '$1'!" ;;
     esac
 
     shift
@@ -57,8 +57,8 @@ bake::cli::parse_options() {
 # Outputs:
 #   Writes formatted help text to stdout.
 ################################################################################
-bake::cli::print_help() {
-  bake::display::info "$(
+_bake::cli::print_help() {
+  _bake::display::info "$(
     cat <<-HELP
 			Usage: ${__BAKE_CONSTANT_COMMAND_NAME__} [options] [--] [recipe] ...
 

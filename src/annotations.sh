@@ -2,11 +2,11 @@
 
 __BAKE_ANNOTATIONS__=()
 
-bake::annotations::register() {
+_bake::annotations::register() {
   __BAKE_ANNOTATIONS__+=("$1")
 }
 
-bake::annotations::include() {
+_bake::annotations::include() {
   [[ ${#__BAKE_ANNOTATIONS__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
 
   local candidate
@@ -22,32 +22,32 @@ bake::annotations::include() {
 }
 
 # TODO: validation (annotations only allowed at the beginning
-bake::recipe::load_annotations() {
+_bake::recipe::load_annotations() {
   local recipe
 
   recipe="$1"
 
-  bake::annotation_parsing_stack::push "${recipe}"
+  _bake::annotation_parsing_stack::push "${recipe}"
 
   local line
   while IFS='' read -r line; do
-    line="$(bake::utils::string::trim "${line}" " ")"
+    line="$(_bake::utils::string::trim "${line}" " ")"
     # Strip subshell surroundings (e.g. '(  @default;').
     line="${line#\(}"
     line="${line%\)}"
 
     local line_head
 
-    line_head="$(bake::utils::string::trim "${line}" " ")"
+    line_head="$(_bake::utils::string::trim "${line}" " ")"
     line_head="${line_head%% *}"
     line_head="${line_head%;}"
 
-    bake::annotations::include "${line_head}" || continue
+    _bake::annotations::include "${line_head}" || continue
 
     eval "${line}"
   done < <(declare -f "${recipe}")
 
-  bake::annotation_parsing_stack::pop
+  _bake::annotation_parsing_stack::pop
 }
 
 source "${__BAKE_SRC_PATH__}/annotations/default.sh"

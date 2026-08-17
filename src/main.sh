@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bake::main() {
+_bake::main() {
   set -euo pipefail
 
   local __BAKE_WORKING_DIRECTORY__
@@ -33,7 +33,7 @@ bake::main() {
   set() {
     {
       builtin set "$@"
-      bake::options::quiet && builtin set +x || true
+      _bake::options::quiet && builtin set +x || true
     } 2>/dev/null
   }
 
@@ -49,16 +49,16 @@ bake::main() {
     {
       local shopts="$-"
 
-      bake::utils::shell::reset_options
+      _bake::utils::shell::reset_options
     } 2>/dev/null
 
-    bake::recipes::invoke "$@"
+    _bake::recipes::invoke "$@"
 
-    bake::utils::shell::restore_options "${shopts}"
+    _bake::utils::shell::restore_options "${shopts}"
   }
 
-  bake::abort() {
-    bake::display::error "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} $1"
+  _bake::abort() {
+    _bake::display::error "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} $1"
 
     exit 1
   }
@@ -67,37 +67,37 @@ bake::main() {
 
   local positional_arguments
 
-  bake::cli::parse_options positional_arguments "$@"
-  bake::load_bakefile
-  bake::load_recipes --ignore '^(bake::|bake$|set$)'
+  _bake::cli::parse_options positional_arguments "$@"
+  _bake::load_bakefile
+  _bake::load_recipes --ignore '^(_?bake::|_?bake$|set$)'
 
-  if bake::options::version; then
-    bake::display::info "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BAKE_CONSTANT_VERSION__}"
-
-    exit 0
-  elif bake::options::help; then
-    bake::cli::print_help
-
-    [[ $(bake::recipes::count) -gt 0 ]] && printf "\n"
-
-    bake::recipes::print_list
+  if _bake::options::version; then
+    _bake::display::info "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BAKE_CONSTANT_VERSION__}"
 
     exit 0
-  elif bake::options::list; then
-    bake::recipes::print_list
+  elif _bake::options::help; then
+    _bake::cli::print_help
+
+    [[ $(_bake::recipes::count) -gt 0 ]] && printf "\n"
+
+    _bake::recipes::print_list
 
     exit 0
-  elif [[ $(bake::recipes::count) -eq 0 ]]; then
-    bake::abort "No recipes!"
+  elif _bake::options::list; then
+    _bake::recipes::print_list
+
+    exit 0
+  elif [[ $(_bake::recipes::count) -eq 0 ]]; then
+    _bake::abort "No recipes!"
   fi
 
-  if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && ! bake::options::quiet; then
+  if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && ! _bake::options::quiet; then
     BASH_XTRACEFD=2
 
-    bake::display::warning "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} BASH_XTRACEFD is not supported, resetting it to stderr."
+    _bake::display::warning "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} BASH_XTRACEFD is not supported, resetting it to stderr."
   fi
 
-  bake::recipes::invoke ${positional_arguments+"${positional_arguments[@]}"}
+  _bake::recipes::invoke ${positional_arguments+"${positional_arguments[@]}"}
 }
 
-bake::main "$@"
+_bake::main "$@"

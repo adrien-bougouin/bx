@@ -35,8 +35,8 @@ readonly __BAKE_DISPLAY_STYLE_BOLD__
 # Outputs:
 #   Writes the formatted message to stdout.
 ################################################################################
-bake::display::info() {
-  bake::display::format "$1"
+_bake::display::info() {
+  _bake::display::format "$1"
 }
 
 ################################################################################
@@ -55,8 +55,8 @@ bake::display::info() {
 # Outputs:
 #   Writes the formatted message to stderr.
 ################################################################################
-bake::display::warning() {
-  bake::display::format "$1" >&2
+_bake::display::warning() {
+  _bake::display::format "$1" >&2
 }
 
 ################################################################################
@@ -75,8 +75,8 @@ bake::display::warning() {
 # Outputs:
 #   Writes the formatted message to stderr.
 ################################################################################
-bake::display::error() {
-  bake::display::format "$1" >&2
+_bake::display::error() {
+  _bake::display::format "$1" >&2
 }
 
 ################################################################################
@@ -102,7 +102,7 @@ bake::display::error() {
 #     + # <message-of-level-1>
 #     ++ # <message-of-level-2>
 ################################################################################
-bake::display::trace() {
+_bake::display::trace() {
   local level="$1"
   local trace="$2"
 
@@ -116,7 +116,7 @@ bake::display::trace() {
     xtrace_repeated_character="${xtrace_repeated_character}${xtrace_repeat_character}"
   done
 
-  bake::display::format "${xtrace_repeated_character} # ${trace}" >&2
+  _bake::display::format "${xtrace_repeated_character} # ${trace}" >&2
 }
 
 ################################################################################
@@ -135,7 +135,7 @@ bake::display::trace() {
 # Outputs:
 #   Writes the formatted message to stdout.
 ################################################################################
-bake::display::format() {
+_bake::display::format() {
   local message="$1"
 
   message="${message//\{\{indent\}\}/${__BAKE_DISPLAY_INDENT__}}"

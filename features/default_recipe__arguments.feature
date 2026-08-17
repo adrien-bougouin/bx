@@ -3,7 +3,7 @@ Feature: Default Recipe--Arguments
   Scenario Outline: Invoke when the default recipe has arguments
     Given the Bakefile
       ```bash
-      bake::recipes::set_default "default-recipe arg-1 arg-2"
+      _bake::recipes::set_default "default-recipe arg-1 arg-2"
 
       non-default-recipe() {
         echo "\$#=$#"
@@ -33,7 +33,7 @@ Feature: Default Recipe--Arguments
   Scenario Outline: Invoke when too many default recipes have arguments
     Given the Bakefile
       ```bash
-      bake::recipes::set_default "default-recipe-1 arg-1 arg-2" "default-recipe-2"
+      _bake::recipes::set_default "default-recipe-1 arg-1 arg-2" "default-recipe-2"
 
       default-recipe-1() { :; }
 
