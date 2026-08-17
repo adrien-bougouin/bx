@@ -33,10 +33,10 @@ bake::invocation_stack::push() {
 }
 
 ################################################################################
-# Remove the last recipe the stack of recipes under invocation.
+# Remove the last recipe from the stack of recipes under invocation.
 #
 # Globals:
-#   __BAKE_INVOCATION_STACK__ - Stack where the last invoked recipe must be
+#   __BAKE_INVOCATION_STACK__ - Stack where the last invoked recipe will be
 #                               removed.
 ################################################################################
 bake::invocation_stack::pop() {

@@ -25,7 +25,6 @@ bake::load_recipes() {
     [[ ${recipe} =~ ${ignore_pattern} ]] && continue
     bake::annotations::include "${recipe}" && continue
 
-    bake::state::set_parsing "${recipe}"
     bake::recipe::load_annotations "${recipe}"
 
     __BAKE_RECIPES__+=("${recipe}")

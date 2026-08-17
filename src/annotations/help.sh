@@ -6,8 +6,8 @@ __BAKE_RECIPE_HELPS__=()
 bake::annotations::register "@help"
 
 @help() {
-  if [[ $# -gt 0 ]] && bake::state::is_parsing; then
-    __BAKE_RECIPE_HELPS__+=("$(bake::state::current_recipe)" "$#" "$@")
+  if [[ $# -gt 0 ]] && [[ $(bake::annotation_parsing_stack::size) -gt 0 ]]; then
+    __BAKE_RECIPE_HELPS__+=("$(bake::annotation_parsing_stack::last)" "$#" "$@")
   fi
 }
 

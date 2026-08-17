@@ -13,9 +13,6 @@ bake::recipe::invoke() {
 
   invocation_level="$(bake::invocation_stack::size)"
 
-  # TODO: remove in favor of bake::invocation_stack::push
-  bake::state::set_invoking "${recipe}"
-
   if ! bake::options::quiet; then
     bake::display::trace "${invocation_level}" "{{bold}}${recipe_with_args}{{normal}} {"
   fi

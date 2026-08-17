@@ -27,6 +27,8 @@ bake::recipe::load_annotations() {
 
   recipe="$1"
 
+  bake::annotation_parsing_stack::push "${recipe}"
+
   local line
   while IFS='' read -r line; do
     line="$(bake::utils::string::trim "${line}" " ")"
@@ -44,6 +46,8 @@ bake::recipe::load_annotations() {
 
     eval "${line}"
   done < <(declare -f "${recipe}")
+
+  bake::annotation_parsing_stack::pop
 }
 
 source "${__BAKE_SRC_PATH__}/annotations/default.sh"

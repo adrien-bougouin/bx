@@ -5,12 +5,12 @@ __BAKE_RECIPE_DEFAULT__=""
 bake::annotations::register "@default"
 
 @default() {
-  if bake::state::is_parsing; then
+  if [[ $(bake::annotation_parsing_stack::size) -gt 0 ]]; then
     if [[ -n "$(bake::recipes::default)" ]]; then
       bake::abort "Too many default recipes!"
     fi
 
-    bake::recipes::set_default "$(bake::state::current_recipe)"
+    bake::recipes::set_default "$(bake::annotation_parsing_stack::last)"
   fi
 }
 
