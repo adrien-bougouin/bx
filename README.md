@@ -92,24 +92,12 @@ my_recipe() {
 ### Default recipe (`@default`)
 Set which recipe to invoke when executing Bake without an explicit recipe.
 
-Use the annotation `@default` (recommended), or use the function `_bake::recipes::set_default` (for invoking the default recipe with arguments).
-
 ```bash
 # Bakefile
 
 my_recipe() {
   @default
 
-  # ...
-}
-```
-
-```bash
-# Bakefile
-
-bake::recipes::set_default "my_recipe --some-option"
-
-my_recipe() {
   # ...
 }
 ```
