@@ -14,7 +14,7 @@ bake::recipe::invoke() {
   bake::state::set_invoking "${recipe}"
 
   if ! bake::options::quiet; then
-    bake::display::trace "${invocation_level}" "{{bold}}${recipe}${args+" ${args[*]}"}{{normal}} {"
+    bake::display::trace "${invocation_level}" "{{bold}}${recipe_with_args}{{normal}} {"
   fi
 
   eval "${recipe}" "${args+"${args[@]}"}"
