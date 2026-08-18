@@ -3,7 +3,7 @@
 __BAKE_RECIPES__=()
 
 _bake::load_recipes() {
-  local ignore_pattern='^(_?bake::|_?bake$)'
+  local ignore_pattern='^(_|_?bake::|_?bake$)'
 
   while [[ $# -gt 0 ]]; do
     case "$1" in

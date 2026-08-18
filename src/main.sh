@@ -42,7 +42,7 @@ _bake::main() {
 
   _bake::cli::parse_options positional_arguments "$@"
   _bake::load_bakefile
-  _bake::load_recipes --ignore '^(_?bake::|_?bake$|set$)'
+  _bake::load_recipes --ignore '^(_|_?bake::|_?bake$|set$)'
 
   if _bake::options::version; then
     _bake::display::info "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BAKE_CONSTANT_VERSION__}"

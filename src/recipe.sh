@@ -5,7 +5,13 @@ _bake::recipe::invoke() {
   local args=("${@:2}")
   local recipe_with_args="${recipe}${args+" ${args[*]}"}"
 
-  _bake::recipes::include "${recipe}" || _bake::abort "No recipe '${recipe_with_args}'!"
+  if ! _bake::recipes::include "${recipe}"; then
+    if [[ ${recipe} =~ ^_ ]] && declare -F "${recipe}" >/dev/null 2>&1; then
+      _bake::abort "'${recipe_with_args}' is a private function, not a recipe!"
+    else
+      _bake::abort "No recipe '${recipe_with_args}'!"
+    fi
+  fi
 
   local invocation_level
 

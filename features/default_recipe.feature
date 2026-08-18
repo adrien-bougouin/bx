@@ -32,6 +32,17 @@ Feature: Default Recipe
     Then Bake traces nothing
     And Bake errors out with message "bake: Nothing to do!"
 
+  Scenario: Invoke when the default is a private function instead of a recipe
+    Given the Bakefile
+      ```bash
+      non-default-recipe() { :; }
+
+      _not-a-recipe() { @default; }
+      ```
+    When executing Bake with ""
+    Then Bake traces nothing
+    And Bake errors out with message "bake: Nothing to do!"
+
   Scenario: Invoke an explicit recipe when there is no default recipe
     Given the Bakefile
       ```bash
