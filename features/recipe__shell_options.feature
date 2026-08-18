@@ -1,7 +1,7 @@
 Feature: Recipe--Shell Options
 
-  A recipe can change the shell options locally. The shell option changes won't
-  impact bake or other recipes.
+  A recipe can change the shell options locally. The shell option changes do not
+  affect Bake or other recipes.
 
   Scenario: Invoke multiple recipes when one changes a shell option
     Given the Bakefile
@@ -31,7 +31,7 @@ Feature: Recipe--Shell Options
       + # }
       """
 
-  Scenario: Invoke a recipes that changes a shell option and invoke another recipe
+  Scenario: Invoke a recipe that changes a shell option and invokes another recipe
     Given the Bakefile
       ```bash
       hello-world-xtrace() {

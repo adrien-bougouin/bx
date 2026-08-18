@@ -24,7 +24,7 @@ Feature: CLI--List
       | -l          |
       | --list      |
 
-  Scenario: List available recipe with multi-line help
+  Scenario: List available recipes with multi-line help
     Given the Bakefile
       ```bash
       recipe-1() {
