@@ -56,7 +56,7 @@ Options:
 ## Features
 
 ### Bakefile lookup
-Bake automatically look for the nearest Bakefile, walking up the directory tree from the current working directory.
+Bake automatically looks for the nearest Bakefile, walking up the directory tree from the current working directory.
 This allows to invoke recipes from any subdirectory of a project.
 
 ### Recipe chaining
@@ -70,7 +70,7 @@ bake format lint
 Pass arguments to recipes by quoting the recipe name and its arguments.
 
 ```shell
-bake "format" "lint --some-lint-option"
+bake format 'lint --some-lint-option'
 ```
 
 ### Recipe documentation (`@help`)
@@ -120,8 +120,8 @@ simple-recipe() {
 ```
 
 ### Scope boundaries
-Recipes defined with `()` (subprocess) have their own scope and cannot modify global variables.
-Recipes defined with `{}` (function) share the parent scope.
+Recipes defined with `()` (subprocess) have their own scope: if they modify global variables, the changes won't be visible from other recipes.
+Recipes defined with `{}` (function) share the parent scope: if they modify global variables, the changes will be visible from other recipes.
 
 ```bash
 # Bakefile
