@@ -3,6 +3,7 @@
 __BAKE_RECIPES__=()
 
 _bake::load_recipes() {
+  # TODO: register ignore patterns like for annotations???
   local ignore_pattern='^(_|_?bake::|_?bake$)'
 
   while [[ $# -gt 0 ]]; do
