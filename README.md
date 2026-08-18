@@ -56,8 +56,7 @@ Options:
 ## Features
 
 ### Bakefile lookup
-Bake automatically looks for the nearest Bakefile, walking up the directory tree from the current working directory.
-This allows to invoke recipes from any subdirectory of a project.
+Bake looks for the nearest Bakefile, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
 
 ### Recipe chaining
 Invoke multiple recipes in one go.
@@ -147,8 +146,7 @@ bake -q change-global--subprocess print-global  # GLOBAL=default-value
 ```
 
 ### Shell options isolation
-Recipes can change shell options locally (e.g. `set -x` to trace execution).
-These changes do not leak into other recipes or into Bake itself.
+Bake isolates shell options locally (e.g. `set -x` to trace execution), preventing changes from leaking into other recipes or into Bake itself.
 
 ```bash
 # Bakefile
