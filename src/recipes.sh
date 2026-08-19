@@ -62,12 +62,10 @@ _bake::recipes::print_list() {
 _bake::recipes::include() {
   [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
 
-  local candidate
+  local candidate="$1"
+
   local recipe
-
-  recipe="$1"
-
-  for candidate in "${__BAKE_RECIPES__[@]}"; do
+  for recipe in "${__BAKE_RECIPES__[@]}"; do
     [[ ${candidate} == "${recipe}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
   done
 

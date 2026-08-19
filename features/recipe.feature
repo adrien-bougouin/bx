@@ -33,6 +33,22 @@ Feature: Recipe
       """
     And Bake does not error out
 
+  Scenario: Invoke a recipe multiple times
+    When executing Bake with "recipe-1 recipe-1"
+    Then Bake displays
+      """
+      'recipe-1' code executed!
+      'recipe-1' code executed!
+      """
+    And  Bake traces
+      """
+      + # recipe-1 {
+      + # }
+      + # recipe-1 {
+      + # }
+      """
+    And Bake does not error out
+
   Scenario: Invoke a missing recipe
     When executing Bake with "missing"
     Then Bake displays nothing

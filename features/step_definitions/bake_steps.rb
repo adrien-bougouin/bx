@@ -24,6 +24,11 @@ Then('Bake traces') do |trace_content|
   assert_equal(trace_content, shell.xtrace, data_type: 'xtrace')
 end
 
+Then('Bake warns with message {string}') do |warning|
+  assert_equal(warning, shell.stderr, data_type: 'warning')
+  assert_equal(0, shell.status, data_type: 'status')
+end
+
 Then('Bake does not error out') do
   assert_equal('', shell.stderr, data_type: 'stderr')
   assert_equal(0, shell.status, data_type: 'status')

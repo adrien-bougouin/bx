@@ -19,6 +19,19 @@ _bake::invocation_stack::size() {
   printf "%d" "${#__BAKE_INVOCATION_STACK__[@]}"
 }
 
+_bake::invocation_stack::includes() {
+  [[ ${#__BAKE_INVOCATION_STACK__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
+
+  local recipe="$1"
+
+  local invoked_recipe
+  for invoked_recipe in "${__BAKE_INVOCATION_STACK__[@]}"; do
+    [[ ${recipe} == "${invoked_recipe}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
+  done
+
+  return "${__BAKE_CONSTANT_FALSE__}"
+}
+
 ################################################################################
 # Add a recipe to the stack of recipes under invocation.
 #

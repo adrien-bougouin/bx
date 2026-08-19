@@ -9,11 +9,9 @@ _bake::annotations::register() {
 _bake::annotations::include() {
   [[ ${#__BAKE_ANNOTATIONS__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
 
-  local candidate
+  local candidate="$1"
+
   local annotation
-
-  candidate="$1"
-
   for annotation in "${__BAKE_ANNOTATIONS__[@]}"; do
     [[ ${candidate} == "${annotation}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
   done

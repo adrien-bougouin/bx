@@ -13,6 +13,12 @@ _bake::recipe::invoke() {
     fi
   fi
 
+  if _bake::invocation_stack::includes "${recipe_with_args}"; then
+    _bake::display::warning "{{bold}}${__BAKE_CONSTANT_COMMAND_NAME__}:{{normal}} Skipping re-invocation of '${recipe_with_args}'..."
+
+    return
+  fi
+
   local invocation_level
 
   _bake::invocation_stack::push "${recipe_with_args}"
