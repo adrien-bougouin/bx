@@ -62,6 +62,11 @@ jobs:
           ruby-version: '4.0.5'
           bundler-cache: true
 
+      - name: Windows support
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: echo "gem 'win32ole'" > ./features/Gemfile
+
       - name: Tests run
         shell: bash
         run: |
