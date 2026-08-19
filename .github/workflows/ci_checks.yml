@@ -65,7 +65,7 @@ jobs:
       - name: Windows support
         if: matrix.os == 'windows-latest'
         shell: bash
-        run: echo "gem 'win32ole'" > ./features/Gemfile
+        run: cd ./feature && bundle add win32ole
 
       - name: Tests run
         shell: bash
