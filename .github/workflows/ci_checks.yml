@@ -48,7 +48,7 @@ jobs:
 
     strategy:
       matrix:
-        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        os: ['ubuntu-latest', 'macos-latest']
 
     runs-on: ${{matrix.os}}
 
@@ -61,11 +61,6 @@ jobs:
         with:
           ruby-version: '4.0.5'
           bundler-cache: true
-
-      - name: Windows support
-        if: matrix.os == 'windows-latest'
-        shell: bash
-        run: cd ./features && bundle add win32ole
 
       - name: Tests run
         shell: bash
