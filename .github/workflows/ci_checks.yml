@@ -52,7 +52,7 @@ jobs:
         bash-version: ['3.2', '4.4', '5.0', '5.1', '5.2']
 
     runs-on: ${{matrix.os}}
-    container: ${{ matrix.os == 'ubuntu-latest' && "bash:${{matrix.bash-version}}" || null}}
+    container: ${{ matrix.os == 'ubuntu-latest' && 'bash:${{matrix.bash-version}}' || null}}
 
     steps:
       - uses: actions/checkout@v6
