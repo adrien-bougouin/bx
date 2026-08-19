@@ -48,13 +48,9 @@ jobs:
 
     strategy:
       matrix:
-        os: ['ubuntu-latest', 'macos-latest']
-        include:
-          - container: bash:3.2
-            os: ubuntu-latest
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
 
     runs-on: ${{matrix.os}}
-    container: ${{matrix.container}}
 
     steps:
       - uses: actions/checkout@v6
@@ -66,13 +62,7 @@ jobs:
           ruby-version: '4.0.5'
           bundler-cache: true
 
-      - name: Set bash (macOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew update
-          brew install bash
-          echo "/opt/homebrew/bin" >> $GITHUB_PATH
-
       - name: Tests run
+        shell: bash
         run: |
           ./bin/bake "features-check --tags 'not @skip:${{ vars.MAX_SKIPS }}'"
