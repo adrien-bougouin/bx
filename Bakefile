@@ -18,8 +18,12 @@ dist() {
 
   local dist_path="${ROOT_PATH}/dist"
   local dist_bake_path="${dist_path}/${__BAKE_CONSTANT_COMMAND_NAME__}_${__BAKE_CONSTANT_VERSION__}"
-  local dist_src_path="${dist_bake_path}/$(basename "${SOURCE_PATH}")"
-  local dist_bin_path="${dist_bake_path}/$(basename "${BIN_PATH}")"
+
+  local dist_src_path
+  local dist_bin_path
+
+  dist_src_path="${dist_bake_path}/$(basename "${SOURCE_PATH}")"
+  dist_bin_path="${dist_bake_path}/$(basename "${BIN_PATH}")"
 
   set -x
 
