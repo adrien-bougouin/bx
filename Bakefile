@@ -1,10 +1,14 @@
 ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 BIN_PATH="${ROOT_PATH}/bin"
 SOURCE_PATH="${ROOT_PATH}/src"
+SCRIPT_PATH="${ROOT_PATH}/scripts"
 FEATURE_PATH="${ROOT_PATH}/features"
 
 # shellcheck disable=SC2207
 SOURCES=("${BIN_PATH}/bake" $(find "${SOURCE_PATH}" -name "*.sh"))
+
+# shellcheck disable=SC2207
+SCRIPTS=($(find "${SCRIPT_PATH}" -name "*.sh"))
 
 # Install bake
 install() (
@@ -12,7 +16,7 @@ install() (
     "Supported shells: sh, dash, bash, zsh, and fish."
 
   if command -v "${__BAKE_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
-    echo "bake is already installed!" >&2
+    echo "${__BAKE_CONSTANT_COMMAND_NAME__} is already installed!" >&2
 
     exit 1
   fi
@@ -68,14 +72,14 @@ lint() (
 
   set -x
 
-  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/Bakefile"
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${SCRIPTS[@]}" "${ROOT_PATH}/Bakefile"
 )
 
 format() (
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/Bakefile"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${SCRIPTS[@]}" "${ROOT_PATH}/Bakefile"
 )
 
 todo-list() (
