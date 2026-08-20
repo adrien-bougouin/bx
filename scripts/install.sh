@@ -65,6 +65,7 @@ install_bake() {
   tmp_path="$(mktemp -d)"
   bake_tarball_path="${tmp_path}/bake_${BAKE_VERSION}.tar.gz"
 
+  # shellcheck disable=SC2064
   trap "rm -rf '${tmp_path}'" EXIT
 
   info "Downloading bake ${BAKE_VERSION}..."

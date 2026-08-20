@@ -1,4 +1,5 @@
 ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+
 BIN_PATH="${ROOT_PATH}/bin"
 SOURCE_PATH="${ROOT_PATH}/src"
 SCRIPT_PATH="${ROOT_PATH}/scripts"
@@ -10,8 +11,35 @@ SOURCES=("${BIN_PATH}/bake" $(find "${SOURCE_PATH}" -name "*.sh"))
 # shellcheck disable=SC2207
 SCRIPTS=($(find "${SCRIPT_PATH}" -name "*.sh"))
 
-# Install bake
-install() (
+dist() {
+  @help "Prepare downloadable Bake archive and installer."
+
+  bake::invoke clean-dist
+
+  local dist_path="${ROOT_PATH}/dist"
+  local dist_bake_path="${dist_path}/${__BAKE_CONSTANT_COMMAND_NAME__}_${__BAKE_CONSTANT_VERSION__}"
+  local dist_src_path="${dist_bake_path}/$(basename "${SOURCE_PATH}")"
+  local dist_bin_path="${dist_bake_path}/$(basename "${BIN_PATH}")"
+
+  set -x
+
+  mkdir -p "${dist_bin_path}"
+
+  cp -r "${SOURCE_PATH}" \
+    "${dist_src_path}"
+  cp -r "${BIN_PATH}/${__BAKE_CONSTANT_COMMAND_NAME__}" \
+    "${dist_bin_path}/${__BAKE_CONSTANT_COMMAND_NAME__}"
+
+  tar -czf "${dist_bake_path}.tar.gz" -C "${dist_path}" "$(basename "${dist_bake_path}")"
+
+  # TODO
+}
+
+clean-dist() {
+  rm -rf "${ROOT_PATH}/dist"
+}
+
+install() {
   @help "Add '${BIN_PATH/#${HOME}/~}' to binary path from shell config." \
     "Supported shells: sh, dash, bash, zsh, and fish."
 
@@ -64,29 +92,29 @@ install() (
 		Execute this in your terminal to use ${__BAKE_CONSTANT_COMMAND_NAME__} right now:
 		  ${apply_instruction}
 	INFO
-)
+}
 
 # Execute bash linting
-lint() (
+lint() {
   local args=("--exclude" "SC1090,SC1091,SC2030,SC2031,SC2329" "$@")
 
   set -x
 
   shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${SCRIPTS[@]}" "${ROOT_PATH}/Bakefile"
-)
+}
 
-format() (
+format() {
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
   shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${SCRIPTS[@]}" "${ROOT_PATH}/Bakefile"
-)
+}
 
-todo-list() (
+todo-list() {
   bake::invoke 'features-check --tags="@skip or @fixme or @todo"'
-)
+}
 
-features-check() (
+features-check() {
   _cucumber-env
 
   export PATH="${BIN_PATH}:${PATH}"
@@ -101,9 +129,9 @@ features-check() (
   set -x
 
   bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${FEATURE_PATH}" "${FEATURE_PATH}"
-)
+}
 
-cucumber-lint() (
+cucumber-lint() {
   _cucumber-env
 
   local args=("$@")
@@ -111,7 +139,7 @@ cucumber-lint() (
   set -x
 
   bundle exec rubocop ${args+"${args[@]}"}
-)
+}
 
 _cucumber-env() {
   RBENV_VERSION="$(cat "${FEATURE_PATH}/.ruby-version")"
