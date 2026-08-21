@@ -2,22 +2,27 @@ ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 BIN_PATH="${ROOT_PATH}/bin"
 SOURCE_PATH="${ROOT_PATH}/src"
-SCRIPT_PATH="${ROOT_PATH}/scripts"
 FEATURE_PATH="${ROOT_PATH}/features"
 
 # shellcheck disable=SC2207
 SOURCES=("${BIN_PATH}/bake" $(find "${SOURCE_PATH}" -name "*.sh"))
 
-# shellcheck disable=SC2207
-SCRIPTS=($(find "${SCRIPT_PATH}" -name "*.sh"))
-
 dist() {
-  @help "Prepare downloadable Bake archive and installer."
+  @help "Prepare downloadable Bake archive and installer." \
+    "Arguments:" \
+    "  download_host - URI of the location where the distribution archive" \
+    "                  will be stored (default: file://<repo_path>/dist)."
 
   bake::invoke clean-dist
 
+  local bake_name="${__BAKE_CONSTANT_COMMAND_NAME__}"
+  local bake_version="${__BAKE_CONSTANT_VERSION__}"
+  local bake_dirname="${bake_name}_${bake_version}"
+  local bake_archive_name="${bake_dirname}.tar.gz"
+
   local dist_path="${ROOT_PATH}/dist"
-  local dist_bake_path="${dist_path}/${__BAKE_CONSTANT_COMMAND_NAME__}_${__BAKE_CONSTANT_VERSION__}"
+  local dist_bake_path="${dist_path}/${bake_dirname}"
+  local bake_archive_path="${dist_bake_path}.tar.gz"
 
   local dist_src_path
   local dist_bin_path
@@ -25,21 +30,39 @@ dist() {
   dist_src_path="${dist_bake_path}/$(basename "${SOURCE_PATH}")"
   dist_bin_path="${dist_bake_path}/$(basename "${BIN_PATH}")"
 
+  local download_host="${1:-file://${dist_path}}"
+  download_host="${download_host%/}"
+
+  local checksum
+
   set -x
 
   mkdir -p "${dist_bin_path}"
 
+  cp -r "${ROOT_PATH}/Bakefile" \
+    "${dist_bake_path}/Bakefile"
   cp -r "${SOURCE_PATH}" \
     "${dist_src_path}"
-  cp -r "${BIN_PATH}/${__BAKE_CONSTANT_COMMAND_NAME__}" \
-    "${dist_bin_path}/${__BAKE_CONSTANT_COMMAND_NAME__}"
+  cp -r "${BIN_PATH}/${bake_name}" \
+    "${dist_bin_path}/${bake_name}"
 
-  tar -czf "${dist_bake_path}.tar.gz" -C "${dist_path}" "$(basename "${dist_bake_path}")"
+  tar -czf "${bake_archive_path}" -C "${dist_path}" "${bake_dirname}"
 
-  # TODO
+  # shellcheck disable=SC2207
+  checksum=($(_checksum "${bake_archive_path}"))
+
+  sed \
+    -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
+    -e "s/^BAKE_VERSION=\$/BAKE_VERSION=${bake_version}/" \
+    -e "s/^BAKE_TARBALL_URL=\$/BAKE_TARBALL_URL=${download_host//\//\\/}\/${bake_archive_name//\//\\/}/" \
+    -e "s/^BAKE_TARBALL_SHA256=\$/BAKE_TARBALL_SHA256=${checksum[0]}/" \
+    "${ROOT_PATH}/install.sh" \
+    >"${dist_path}/install.sh"
 }
 
 clean-dist() {
+  set -x
+
   rm -rf "${ROOT_PATH}/dist"
 }
 
@@ -104,14 +127,14 @@ lint() {
 
   set -x
 
-  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${SCRIPTS[@]}" "${ROOT_PATH}/Bakefile"
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bakefile"
 }
 
 format() {
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${SCRIPTS[@]}" "${ROOT_PATH}/Bakefile"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bakefile"
 }
 
 todo-list() {
@@ -143,6 +166,14 @@ cucumber-lint() {
   set -x
 
   bundle exec rubocop ${args+"${args[@]}"}
+}
+
+_checksum() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1"
+  else
+    shasum -a 256 "$1"
+  fi
 }
 
 _cucumber-env() {

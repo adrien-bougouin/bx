@@ -2,7 +2,7 @@
 #
 # Bake installer.
 #
-# Usage: curl -sSL "https://<host>/install.sh" | bash
+# Usage: curl -fsSL "{{DOWNLOAD_HOST}}/install.sh" | bash
 
 BAKE_VERSION=
 BAKE_TARBALL_URL=
@@ -29,7 +29,7 @@ error() {
     >&2
 }
 
-checksum() {
+check_checksum() {
   local filepath="$1"
   local file_sha="$2"
 
@@ -69,9 +69,9 @@ install_bake() {
   trap "rm -rf '${tmp_path}'" EXIT
 
   info "Downloading bake ${BAKE_VERSION}..."
-  curl -L --progress-bar "${BAKE_TARBALL_URL}" -o "${bake_tarball_path}"
+  curl -fL --progress-bar "${BAKE_TARBALL_URL}" -o "${bake_tarball_path}"
 
-  if ! checksum "${bake_tarball_path}" "${BAKE_TARBALL_SHA256}"; then
+  if ! check_checksum "${bake_tarball_path}" "${BAKE_TARBALL_SHA256}"; then
     error "Download corrupted (checksum mismatch), try again!"
     exit 1
   fi
