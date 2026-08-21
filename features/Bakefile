@@ -1,0 +1,47 @@
+FEATURES_PATH="${FEATURES_PATH:-$(realpath "$(dirname "${BASH_SOURCE[0]}")")}"
+BIN_PATH="${BIN_PATH:-$(dirname "${FEATURES_PATH}")/bin}"
+
+features::lint() (
+  _features::env
+
+  local args=("$@")
+
+  set -x
+
+  bundle exec rubocop ${args+"${args[@]}"}
+)
+
+features::check() (
+  _features::env
+
+  export PATH="${BIN_PATH}:${PATH}"
+
+  local args=("$@")
+  local skip_args=()
+
+  if [[ ! $* =~ "--tags" ]]; then
+    skip_args+=("--tags" "not @skip")
+  fi
+
+  set -x
+
+  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${FEATURES_PATH}" "${FEATURES_PATH}"
+)
+
+features::todo-list() (
+  bake::invoke 'features-check --tags="@skip or @fixme or @todo"'
+)
+
+_features::env() {
+  RBENV_VERSION="$(cat "${FEATURES_PATH}/.ruby-version")"
+  BUNDLE_GEMFILE="${FEATURES_PATH}/Gemfile"
+  CUCUMBER_PUBLISH_QUIET="true"
+  RUBOCOP_OPTS="--config ${FEATURES_PATH}/.rubocop.yml"
+
+  export RBENV_VERSION
+  export BUNDLE_GEMFILE
+  export CUCUMBER_PUBLISH_QUIET
+  export RUBOCOP_OPTS
+
+  (set -x && bundle install >/dev/null)
+}

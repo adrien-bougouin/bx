@@ -1,11 +1,14 @@
 ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 BIN_PATH="${ROOT_PATH}/bin"
-SOURCE_PATH="${ROOT_PATH}/src"
-FEATURE_PATH="${ROOT_PATH}/features"
+SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
-SOURCES=("${BIN_PATH}/bake" $(find "${SOURCE_PATH}" -name "*.sh"))
+SOURCES=("${BIN_PATH}/bake" $(find "${SRC_PATH=}" -name "*.sh"))
+
+if [[ -f "${ROOT_PATH}/features/Bakefile" ]]; then
+  source "${ROOT_PATH}/features/Bakefile"
+fi
 
 dist() {
   @help "Prepare downloadable Bake archive and installer." \
@@ -27,7 +30,7 @@ dist() {
   local dist_src_path
   local dist_bin_path
 
-  dist_src_path="${dist_bake_path}/$(basename "${SOURCE_PATH}")"
+  dist_src_path="${dist_bake_path}/$(basename "${SRC_PATH=}")"
   dist_bin_path="${dist_bake_path}/$(basename "${BIN_PATH}")"
 
   local download_host="${1:-file://${dist_path}}"
@@ -41,7 +44,7 @@ dist() {
 
   cp -r "${ROOT_PATH}/Bakefile" \
     "${dist_bake_path}/Bakefile"
-  cp -r "${SOURCE_PATH}" \
+  cp -r "${SRC_PATH=}" \
     "${dist_src_path}"
   cp -r "${BIN_PATH}/${bake_name}" \
     "${dist_bin_path}/${bake_name}"
@@ -137,55 +140,10 @@ format() {
   shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bakefile"
 }
 
-todo-list() {
-  bake::invoke 'features-check --tags="@skip or @fixme or @todo"'
-}
-
-features-check() {
-  _cucumber-env
-
-  export PATH="${BIN_PATH}:${PATH}"
-
-  local args=("$@")
-  local skip_args=()
-
-  if [[ ! $* =~ "--tags" ]]; then
-    skip_args+=("--tags" "not @skip")
-  fi
-
-  set -x
-
-  bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${FEATURE_PATH}" "${FEATURE_PATH}"
-}
-
-cucumber-lint() {
-  _cucumber-env
-
-  local args=("$@")
-
-  set -x
-
-  bundle exec rubocop ${args+"${args[@]}"}
-}
-
 _checksum() {
   if command -v sha256sum >/dev/null 2>&1; then
     sha256sum "$1"
   else
     shasum -a 256 "$1"
   fi
-}
-
-_cucumber-env() {
-  RBENV_VERSION="$(cat "${FEATURE_PATH}/.ruby-version")"
-  BUNDLE_GEMFILE="${FEATURE_PATH}/Gemfile"
-  CUCUMBER_PUBLISH_QUIET="true"
-  RUBOCOP_OPTS="--config ${FEATURE_PATH}/.rubocop.yml"
-
-  export RBENV_VERSION
-  export BUNDLE_GEMFILE
-  export CUCUMBER_PUBLISH_QUIET
-  export RUBOCOP_OPTS
-
-  (set -x && bundle install >/dev/null)
 }
