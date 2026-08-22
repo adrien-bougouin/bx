@@ -1,6 +1,6 @@
 # Bake
 
-[![CI Checks](https://github.com/adrien-bougouin/bake/actions/workflows/ci_checks.yml/badge.svg)](https://github.com/adrien-bougouin/bake/actions/workflows/ci_checks.yml)
+[![CI](https://github.com/adrien-bougouin/bake/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bake/actions/workflows/ci.yml)
 
 Bake is a Bash configurable build automation and task invocation tool.
 
