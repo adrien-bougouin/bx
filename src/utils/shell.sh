@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# FIXME: This only support single letter options. 'pipefail' won't be captured.
+# FIXME: This only support single letter options. `pipefail` won't be captured.
 __BX_ORIGINAL_SHOPTS__="$-"
 
 readonly __BX_ORIGINAL_SHOPTS__

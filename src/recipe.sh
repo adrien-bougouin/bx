@@ -32,7 +32,7 @@ _bx::recipe::invoke() {
   eval "${recipe}" "${args+"${args[@]}"}"
 
   # Don't let shell options changed by the last invoked recipe bleed out.
-  # Use `{ ... } 2>/dev/null` in case the invoking recipe did 'set -x'.
+  # Use `{ ... } 2>/dev/null` in case the invoking recipe did `set -x`.
   { _bx::utils::shell::reset_options; } 2>/dev/null
 
   if ! _bx::options::quiet; then

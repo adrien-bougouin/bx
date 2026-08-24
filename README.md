@@ -4,7 +4,7 @@
 
 `bx` is a Bash configurable build automation and task invocation tool.
 
-`bx` reads a Bashfile, treats Bash functions as recipes, and invokes them via `bx <recipe>`.
+`bx` reads a `Bashfile`, treats Bash functions as recipes, and invokes them via `bx <recipe>`.
 
 ```bash
 # file: Bashfile
@@ -55,8 +55,8 @@ Options:
 
 ## Features
 
-### Bashfile lookup
-`bx` looks for the nearest Bashfile, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
+### `Bashfile` lookup
+`bx` looks for the nearest `Bashfile`, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
 
 ### Recipe chaining
 Invoke multiple recipes in one go.
