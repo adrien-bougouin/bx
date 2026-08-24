@@ -15,7 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Generate distr
+      - name: Generate dist
         shell: bash
-        run: |
-          ./bin/bake dist
+        run: ./bin/bake dist
