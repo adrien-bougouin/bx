@@ -1,10 +1,10 @@
 #!/bin/bash
 
-__BAKE_RECIPES__=()
+__BX_RECIPES__=()
 
-_bake::load_recipes() {
+_bx::load_recipes() {
   # TODO: register ignore patterns like for annotations???
-  local ignore_pattern='^(_|_?bake::|_?bake$)'
+  local ignore_pattern='^(_|_?bx::|_?bx$)'
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -24,72 +24,72 @@ _bake::load_recipes() {
     local recipe="${recipe_definition#"declare -f "}"
 
     [[ ${recipe} =~ ${ignore_pattern} ]] && continue
-    _bake::annotations::include "${recipe}" && continue
+    _bx::annotations::include "${recipe}" && continue
 
-    _bake::recipe::load_annotations "${recipe}"
+    _bx::recipe::load_annotations "${recipe}"
 
-    __BAKE_RECIPES__+=("${recipe}")
+    __BX_RECIPES__+=("${recipe}")
   done < <(declare -F)
 
-  readonly __BAKE_RECIPES__
+  readonly __BX_RECIPES__
 }
 
-_bake::recipes::count() {
-  printf "%d" "${#__BAKE_RECIPES__[@]}"
+_bx::recipes::count() {
+  printf "%d" "${#__BX_RECIPES__[@]}"
 }
 
-_bake::recipes::print_list() {
-  [[ $(_bake::recipes::count) -eq 0 ]] && return
+_bx::recipes::print_list() {
+  [[ $(_bx::recipes::count) -eq 0 ]] && return
 
-  _bake::display::info "Available recipes:"
-  for recipe in "${__BAKE_RECIPES__[@]}"; do
+  _bx::display::info "Available recipes:"
+  for recipe in "${__BX_RECIPES__[@]}"; do
     local help_lines
 
     # shellcheck disable=SC2207
     IFS=$'\n' help_lines=(
-      $(_bake::recipe::help "${recipe}")
+      $(_bx::recipe::help "${recipe}")
     )
 
-    _bake::display::info "{{indent}}${recipe}"
+    _bx::display::info "{{indent}}${recipe}"
     if [[ ${#help_lines[@]} -gt 0 ]]; then
       for help_line in "${help_lines[@]}"; do
-        _bake::display::info "{{indent}}{{indent}}${help_line}"
+        _bx::display::info "{{indent}}{{indent}}${help_line}"
       done
     fi
   done
 }
 
-_bake::recipes::include() {
-  [[ ${#__BAKE_RECIPES__[@]} -eq 0 ]] && return "${__BAKE_CONSTANT_FALSE__}"
+_bx::recipes::include() {
+  [[ ${#__BX_RECIPES__[@]} -eq 0 ]] && return "${__BX_CONSTANT_FALSE__}"
 
   local candidate="$1"
 
   local recipe
-  for recipe in "${__BAKE_RECIPES__[@]}"; do
-    [[ ${candidate} == "${recipe}" ]] && return "${__BAKE_CONSTANT_TRUE__}"
+  for recipe in "${__BX_RECIPES__[@]}"; do
+    [[ ${candidate} == "${recipe}" ]] && return "${__BX_CONSTANT_TRUE__}"
   done
 
-  return "${__BAKE_CONSTANT_FALSE__}"
+  return "${__BX_CONSTANT_FALSE__}"
 }
 
-_bake::recipes::invoke() {
+_bx::recipes::invoke() {
   if [[ $# -gt 0 ]]; then
     while [[ $# -gt 0 ]]; do
       # shellcheck disable=SC2086
-      _bake::recipe::invoke $1
+      _bx::recipe::invoke $1
 
       shift
     done
   else
-    if [[ -n $(_bake::recipes::default) ]]; then
+    if [[ -n $(_bx::recipes::default) ]]; then
       local default_recipe
 
-      default_recipe="$(_bake::recipes::default)"
+      default_recipe="$(_bx::recipes::default)"
 
       # shellcheck disable=SC2086
-      _bake::recipe::invoke ${default_recipe}
+      _bx::recipe::invoke ${default_recipe}
     else
-      _bake::abort "Nothing to do!"
+      _bx::abort "Nothing to do!"
     fi
   fi
 }

@@ -1,11 +1,11 @@
 Feature: Recipe
 
-  A recipe is a set of instructions invocable with Bake. A recipe is declared
-  in a Bakefile as a Bash function. Private functions, prefixed by "_" by
+  A recipe is a set of instructions invocable with bx. A recipe is declared
+  in a Bashfile as a Bash function. Private functions, prefixed by "_" by
   convention, are not treated as recipes.
 
   Background:
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       recipe-1() {
         echo "'recipe-1' code executed!"
@@ -21,69 +21,69 @@ Feature: Recipe
       ```
 
   Scenario: Invoke a recipe
-    When executing Bake with "recipe-1"
-    Then Bake displays
+    When executing bx with "recipe-1"
+    Then bx displays
       """
       'recipe-1' code executed!
       """
-    And  Bake traces
+    And  bx traces
       """
       + # recipe-1 {
       + # }
       """
-    And Bake does not error out
+    And bx does not error out
 
   Scenario: Invoke a recipe multiple times
-    When executing Bake with "recipe-1 recipe-1"
-    Then Bake displays
+    When executing bx with "recipe-1 recipe-1"
+    Then bx displays
       """
       'recipe-1' code executed!
       'recipe-1' code executed!
       """
-    And  Bake traces
+    And  bx traces
       """
       + # recipe-1 {
       + # }
       + # recipe-1 {
       + # }
       """
-    And Bake does not error out
+    And bx does not error out
 
   Scenario: Invoke a missing recipe
-    When executing Bake with "missing"
-    Then Bake displays nothing
-    And Bake errors out with message "bake: No recipe 'missing'!"
+    When executing bx with "missing"
+    Then bx displays nothing
+    And bx errors out with message "bx: No recipe 'missing'!"
 
   Scenario: Invoke a private function instead of a recipe
-    When executing Bake with "_not-a-recipe"
-    Then Bake displays nothing
-    And Bake errors out with message "bake: '_not-a-recipe' is a private function, not a recipe!"
+    When executing bx with "_not-a-recipe"
+    Then bx displays nothing
+    And bx errors out with message "bx: '_not-a-recipe' is a private function, not a recipe!"
 
   Scenario: Invoke multiple recipes
-    When executing Bake with "recipe-1 recipe-2"
-    Then Bake displays
+    When executing bx with "recipe-1 recipe-2"
+    Then bx displays
       """
       'recipe-1' code executed!
       'recipe-2' code executed!
       """
-    And  Bake traces
+    And  bx traces
       """
       + # recipe-1 {
       + # }
       + # recipe-2 {
       + # }
       """
-    And Bake does not error out
+    And bx does not error out
 
   Scenario: Invoke a mix of existing and missing recipes
-    When executing Bake with "recipe-1 missing recipe-2"
-    Then Bake displays
+    When executing bx with "recipe-1 missing recipe-2"
+    Then bx displays
       """
       'recipe-1' code executed!
       """
-    And  Bake traces
+    And  bx traces
       """
       + # recipe-1 {
       + # }
       """
-    And Bake errors out with message "bake: No recipe 'missing'!"
+    And bx errors out with message "bx: No recipe 'missing'!"

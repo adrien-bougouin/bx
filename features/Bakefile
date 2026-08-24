@@ -29,7 +29,7 @@ features::check() (
 )
 
 features::todo-list() (
-  bake::invoke 'features-check --tags="@skip or @fixme or @todo"'
+  bx::invoke 'features-check --tags="@skip or @fixme or @todo"'
 )
 
 _features::env() {

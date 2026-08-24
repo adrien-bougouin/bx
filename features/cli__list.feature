@@ -1,7 +1,7 @@
 Feature: CLI--List
 
   Scenario Outline: List available recipes
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       recipe-1() {
         @help "A short description of recipe-1."
@@ -9,15 +9,15 @@ Feature: CLI--List
 
       recipe-2() { :; }
       ```
-    When executing Bake with "<LIST OPTION>"
-    Then Bake displays
+    When executing bx with "<LIST OPTION>"
+    Then bx displays
       """
       Available recipes:
           recipe-1
               A short description of recipe-1.
           recipe-2
       """
-    And Bake does not error out
+    And bx does not error out
 
     Examples:
       | LIST OPTION |
@@ -25,7 +25,7 @@ Feature: CLI--List
       | --list      |
 
   Scenario: List available recipes with multi-line help
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       recipe-1() {
         @help "A short description of recipe-1" \
@@ -37,8 +37,8 @@ Feature: CLI--List
           "that continues on multiple lines."
       }
       ```
-    When executing Bake with "-l"
-    Then Bake displays
+    When executing bx with "-l"
+    Then bx displays
       """
       Available recipes:
           recipe-1
@@ -48,10 +48,10 @@ Feature: CLI--List
               A short description of recipe-2
               that continues on multiple lines.
       """
-    And Bake does not error out
+    And bx does not error out
 
   Scenario: List available recipes with empty help
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       recipe-1() {
         @help
@@ -59,17 +59,17 @@ Feature: CLI--List
 
       recipe-2() { :; }
       ```
-    When executing Bake with "-l"
-    Then Bake displays
+    When executing bx with "-l"
+    Then bx displays
       """
       Available recipes:
           recipe-1
           recipe-2
       """
-    And Bake does not error out
+    And bx does not error out
 
   Scenario: List available recipes when there are none
-    Given an empty Bakefile
-    When executing Bake with "-l"
-    Then Bake displays nothing
-    And Bake does not error out
+    Given an empty Bashfile
+    When executing bx with "-l"
+    Then bx displays nothing
+    And bx does not error out

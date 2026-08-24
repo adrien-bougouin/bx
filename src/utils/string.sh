@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_bake::utils::string::trim() {
+_bx::utils::string::trim() {
   local input="$1"
   local pattern="$2"
 

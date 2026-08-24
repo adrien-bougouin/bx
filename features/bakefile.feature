@@ -1,81 +1,81 @@
-Feature: Bakefile
+Feature: Bashfile
 
-  A Bakefile is the configuration file used by Bake. Everything in a Bakefile is
+  A Bashfile is the configuration file used by bx. Everything in a Bashfile is
   valid Bash 3.2+ code where functions are treated as recipes. Executing
-  `bake <recipe-name>` invokes the corresponding function.
+  `bx <recipe-name>` invokes the corresponding function.
 
-  Scenario: Invoke a recipe from the default Bakefile
-    Given the Bakefile at "Bakefile"
+  Scenario: Invoke a recipe from the default Bashfile
+    Given the Bashfile at "Bakefile"
       ```bash
-      which-bakefile() {
+      which-bashfile() {
         echo "default"
       }
       ```
-    When executing Bake with "which-bakefile"
-    Then Bake displays
+    When executing bx with "which-bashfile"
+    Then bx displays
       """
       default
       """
-    And Bake does not error out
+    And bx does not error out
 
-  Scenario Outline: Invoke a recipe from a specific Bakefile
-    Given the Bakefile at "Bakefile"
+  Scenario Outline: Invoke a recipe from a specific Bashfile
+    Given the Bashfile at "Bakefile"
       ```bash
-      which-bakefile() {
+      which-bashfile() {
         echo "Bakefile"
       }
       ```
-    And the Bakefile at "alternative.bakefile"
+    And the Bashfile at "alternative.bakefile"
       ```bash
-      which-bakefile() {
+      which-bashfile() {
         echo "alternative.bakefile"
       }
       ```
-    And the Bakefile at "another_alternative.bakefile"
+    And the Bashfile at "another_alternative.bakefile"
       ```bash
-      which-bakefile() {
+      which-bashfile() {
         echo "another_alternative.bakefile"
       }
       ```
-    When executing Bake with "<BAKEFILE ARGUMENT> which-bakefile"
-    Then Bake displays
+    When executing bx with "<BASHFILE ARGUMENT> which-bashfile"
+    Then bx displays
       """
-      <LOADED BAKEFILE>
+      <LOADED BASHFILE>
       """
-    And Bake does not error out
+    And bx does not error out
 
     Examples:
-      | BAKEFILE ARGUMENT                       | LOADED BAKEFILE              |
+      | BASHFILE ARGUMENT                       | LOADED BASHFILE              |
       | -f Bakefile                             | Bakefile                     |
       | --file alternative.bakefile             | alternative.bakefile         |
       | --file=alternative.bakefile             | alternative.bakefile         |
-      | --bakefile another_alternative.bakefile | another_alternative.bakefile |
-      | --bakefile=another_alternative.bakefile | another_alternative.bakefile |
+      | --bashfile another_alternative.bakefile | another_alternative.bakefile |
+      | --bashfile=another_alternative.bakefile | another_alternative.bakefile |
 
-  Scenario Outline: Invoke a recipe from multiple Bakefile
-    Given the Bakefile at "Bakefile"
+  Scenario Outline: Invoke a recipe from multiple Bashfile
+    Given the Bashfile at "Bakefile"
       ```bash
-      which-bakefile() {
+      which-bashfile() {
         echo "Bakefile"
       }
       ```
-    And the Bakefile at "alternative.bakefile"
+    And the Bashfile at "alternative.bakefile"
       ```bash
-      which-bakefile() {
+      which-bashfile() {
         echo "alternative.bakefile"
       }
       ```
-    When executing Bake with "<BAKEFILE ARGUMENTS> which-bakefile"
-    Then Bake displays nothing
-    And Bake errors out with message "<ERROR>"
+    When executing bx with "<BASHFILE ARGUMENTS> which-bashfile"
+    Then bx displays nothing
+    And bx errors out with message "<ERROR>"
 
     Examples:
-      | BAKEFILE ARGUMENTS                  | ERROR                     |
-      | -f Bakefile -f alternative.bakefile | bake: Too many Bakefiles! |
-      | -f alternative.bakefile -f Bakefile | bake: Too many Bakefiles! |
+      | BASHFILE ARGUMENTS                  | ERROR                   |
+      | -f Bakefile -f alternative.bakefile | bx: Too many Bashfiles! |
+      | -f alternative.bakefile -f Bakefile | bx: Too many Bashfiles! |
 
-  Scenario: Invoke a recipe without a Bakefile
-    Given no Bakefile
-    When executing Bake with "some-recipe"
-    Then Bake displays nothing
-    And Bake errors out with message "bake: No Bakefile!"
+  Scenario: Invoke a recipe without a Bashfile
+    Given no Bashfile
+    When executing bx with "some-recipe"
+    Then bx displays nothing
+    And bx errors out with message "bx: No Bashfile!"

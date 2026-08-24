@@ -1,18 +1,18 @@
-Feature: Bakefile--Upward Lookup
+Feature: Bashfile--Upward Lookup
 
-  Bake looks for the nearest default Bakefile, walking up the directories.
+  bx looks for the nearest default Bashfile, walking up the directories.
 
-  Scenario: Invoke a recipe with Bakefile lookup
-    Given the Bakefile
+  Scenario: Invoke a recipe with Bashfile lookup
+    Given the Bashfile
       ```bash
-      which-bakefile() {
-        echo "Parent Bakefile"
+      which-bashfile() {
+        echo "Parent Bashfile"
       }
       ```
     And the current working directory "./deeply/nested/working/directory"
-    When executing Bake with "which-bakefile"
-    Then Bake displays
+    When executing bx with "which-bashfile"
+    Then bx displays
       """
-      Parent Bakefile
+      Parent Bashfile
       """
-    And Bake does not error out
+    And bx does not error out

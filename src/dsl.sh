@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Domain Specific Language to be used within Bakefile.
+# Domain Specific Language to be used within a Bashfile.
 
 ################################################################################
 # Invoke a recipe from another recipe. Reset shell options before invocation,
@@ -8,8 +8,8 @@
 # recipe. Restore the shell options afterward, so the invoking recipe can
 # continue execution with its original settings.
 #
-# Shell options are reset inside `{ ... } 2>/dev/null` to suppress Bake
-# internals' xtrace output if the invoking recipe had `set -x` enabled.
+# Shell options are reset inside `{ ... } 2>/dev/null` to suppress bx internal's
+# xtrace output if the invoking recipe had `set -x` enabled.
 #
 # Globals:
 #   $- - Current shell options, used to save and restore state.
@@ -18,14 +18,14 @@
 #   recipe - The recipe name to invoke.
 #   args   - Additional arguments forwarded to the recipe.
 ################################################################################
-bake::invoke() {
+bx::invoke() {
   {
     local shopts="$-"
 
-    _bake::utils::shell::reset_options
+    _bx::utils::shell::reset_options
   } 2>/dev/null
 
-  _bake::recipes::invoke "$@"
+  _bx::recipes::invoke "$@"
 
-  _bake::utils::shell::restore_options "${shopts}"
+  _bx::utils::shell::restore_options "${shopts}"
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# CLI option parsing and help output for the bake tool.
+# CLI option parsing and help output for the bx tool.
 
 ################################################################################
 # Parse CLI flags and options, capturing remaining positional arguments into a
@@ -11,10 +11,10 @@
 #                              args from.
 #
 # Side effects:
-#   - May update bakefile path via _bake::set_bakefile.
-#   - May set option flags via _bake::options::enable_* helpers.
+#   - May update bashfile path via _bx::set_bashfile.
+#   - May set option flags via _bx::options::enable_* helpers.
 ################################################################################
-_bake::cli::parse_options() {
+_bx::cli::parse_options() {
   local positional_arguments_ref="$1"
 
   shift
@@ -26,20 +26,20 @@ _bake::cli::parse_options() {
         break
         ;;
       --file=*)
-        _bake::set_bakefile "${1#--file=}"
+        _bx::set_bashfile "${1#--file=}"
         ;;
-      --bakefile=*)
-        _bake::set_bakefile "${1#--bakefile=}"
+      --bashfile=*)
+        _bx::set_bashfile "${1#--bashfile=}"
         ;;
-      -f | --file | --bakefile)
-        _bake::set_bakefile "$2"
+      -f | --file | --bashfile)
+        _bx::set_bashfile "$2"
         shift
         ;;
-      -h | --help) _bake::options::enable_help ;;
-      -l | --list) _bake::options::enable_list ;;
-      -q | --quiet) _bake::options::enable_quiet ;;
-      -v | --version) _bake::options::enable_version ;;
-      *) _bake::abort "Unknown option '$1'!" ;;
+      -h | --help) _bx::options::enable_help ;;
+      -l | --list) _bx::options::enable_list ;;
+      -q | --quiet) _bx::options::enable_quiet ;;
+      -v | --version) _bx::options::enable_version ;;
+      *) _bx::abort "Unknown option '$1'!" ;;
     esac
 
     shift
@@ -52,19 +52,19 @@ _bake::cli::parse_options() {
 # Print usage information and a summary of all accepted options to stdout.
 #
 # Globals:
-#   __BAKE_CONSTANT_COMMAND_NAME__ - command name displayed in the usage line.
+#   __BX_CONSTANT_COMMAND_NAME__ - command name displayed in the usage line.
 #
 # Outputs:
 #   Writes formatted help text to stdout.
 ################################################################################
-_bake::cli::print_help() {
-  _bake::display::info "$(
+_bx::cli::print_help() {
+  _bx::display::info "$(
     cat <<-HELP
-			Usage: ${__BAKE_CONSTANT_COMMAND_NAME__} [options] [--] [recipe] ...
+			Usage: ${__BX_CONSTANT_COMMAND_NAME__} [options] [--] [recipe] ...
 
 			Options:
-			{{indent}}-f FILE, --file=FILE, --bakefile=FILE
-			{{indent}}{{indent}}Read FILE as a bakefile. Only one bakefile may be specified.
+			{{indent}}-f FILE, --file=FILE, --bashfile=FILE
+			{{indent}}{{indent}}Read FILE as a bashfile. Only one bashfile may be specified.
 			{{indent}}-h, --help
 			{{indent}}{{indent}}Show this help.
 			{{indent}}-l, --list

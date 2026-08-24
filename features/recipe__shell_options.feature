@@ -1,10 +1,10 @@
 Feature: Recipe--Shell Options
 
   A recipe can change the shell options locally. The shell option changes do not
-  affect Bake or other recipes.
+  affect bx or other recipes.
 
   Scenario: Invoke multiple recipes when one changes a shell option
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       hello-xtrace() {
         set -x
@@ -16,13 +16,13 @@ Feature: Recipe--Shell Options
         echo "World!"
       }
       ```
-    When executing Bake with "hello-xtrace world"
-    Then Bake displays
+    When executing bx with "hello-xtrace world"
+    Then bx displays
       """
       Hello
       World!
       """
-    And Bake traces
+    And bx traces
       """
       + # hello-xtrace {
       ++ echo Hello
@@ -32,7 +32,7 @@ Feature: Recipe--Shell Options
       """
 
   Scenario: Invoke a recipe that changes a shell option and invokes another recipe
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       hello-world-xtrace() {
         echo "-----"
@@ -40,7 +40,7 @@ Feature: Recipe--Shell Options
         set -x
 
         echo "Hello"
-        bake::invoke world
+        bx::invoke world
         echo "-----"
       }
 
@@ -50,19 +50,19 @@ Feature: Recipe--Shell Options
         set +x
       }
       ```
-    When executing Bake with "hello-world-xtrace"
-    Then Bake displays
+    When executing bx with "hello-world-xtrace"
+    Then bx displays
       """
       -----
       Hello
       World!
       -----
       """
-    And Bake traces
+    And bx traces
       """
       + # hello-world-xtrace {
       ++ echo Hello
-      ++ bake::invoke world
+      ++ bx::invoke world
       ++ # world {
       ++ # }
       ++ echo -----

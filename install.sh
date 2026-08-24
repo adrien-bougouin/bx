@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# Bake installer.
+# bx installer.
 #
 # Usage: curl -fsSL "{{DOWNLOAD_HOST}}/install.sh" | bash
 
-BAKE_VERSION=
-BAKE_TARBALL_URL=
-BAKE_TARBALL_SHA256=
+BX_VERSION=
+BX_TARBALL_URL=
+BX_TARBALL_SHA256=
 
 DISPLAY_STYLE_NORMAL=
 DISPLAY_STYLE_BOLD=
@@ -18,13 +18,13 @@ fi
 
 info() {
   printf "%s %s\n" \
-    "${DISPLAY_STYLE_BOLD}bake-installer:${DISPLAY_STYLE_NORMAL}" \
+    "${DISPLAY_STYLE_BOLD}bx-installer:${DISPLAY_STYLE_NORMAL}" \
     "$1"
 }
 
 error() {
   printf "%s %s\n" \
-    "${DISPLAY_STYLE_BOLD}bake-installer:${DISPLAY_STYLE_NORMAL}" \
+    "${DISPLAY_STYLE_BOLD}bx-installer:${DISPLAY_STYLE_NORMAL}" \
     "$1" \
     >&2
 }
@@ -44,45 +44,46 @@ check_checksum() {
   printf "%s  %s" "${file_sha}" "${filepath}" | ${shasum_cmd} -c - >/dev/null
 }
 
-install_bake() {
+install_bx() {
   set -euo pipefail
 
-  if [[ -z "${BAKE_VERSION}${BAKE_TARBALL_URL}${BAKE_TARBALL_SHA256}" ]]; then
+  if [[ -z "${BX_VERSION}${BX_TARBALL_URL}${BX_TARBALL_SHA256}" ]]; then
     error "Invalid install script configuration!"
     exit 1
   fi
 
-  local bake_path="${HOME}/.local/opt/bake_${BAKE_VERSION}"
+  local bx_path="${HOME}/.local/opt/bx_${BX_VERSION}"
 
-  if [[ -d ${bake_path} ]]; then
-    info "bake ${BAKE_VERSION} is already installed!"
+  if [[ -d ${bx_path} ]]; then
+    info "bx ${BX_VERSION} is already installed!"
     exit 0
   fi
 
   local tmp_path
-  local bake_tarball_path
+  local bx_tarball_path
 
   tmp_path="$(mktemp -d)"
-  bake_tarball_path="${tmp_path}/bake_${BAKE_VERSION}.tar.gz"
+  bx_tarball_path="${tmp_path}/bx_${BX_VERSION}.tar.gz"
 
   # shellcheck disable=SC2064
   trap "rm -rf '${tmp_path}'" EXIT
 
-  info "Downloading bake ${BAKE_VERSION}..."
-  curl -fL --progress-bar "${BAKE_TARBALL_URL}" -o "${bake_tarball_path}"
+  info "Downloading bx ${BX_VERSION}..."
+  curl -fL --progress-bar "${BX_TARBALL_URL}" -o "${bx_tarball_path}"
 
-  if ! check_checksum "${bake_tarball_path}" "${BAKE_TARBALL_SHA256}"; then
+  if ! check_checksum "${bx_tarball_path}" "${BX_TARBALL_SHA256}"; then
     error "Download corrupted (checksum mismatch), try again!"
     exit 1
   fi
 
-  mkdir -p "${bake_path}"
-  tar -xzf "${bake_tarball_path}" -C "${bake_path}" --strip-components 1
+  mkdir -p "${bx_path}"
+  tar -xzf "${bx_tarball_path}" -C "${bx_path}" --strip-components 1
 
-  info "Installing bake..."
-  (cd "${bake_path}" && ./bin/bake -q install)
+  info "Installing bx..."
+  # TODO: revert to "./bin/bx" when the file is renamed.
+  (cd "${bx_path}" && ./bin/bake -q install)
 
   info "Done!"
 }
 
-install_bake "$@"
+install_bx "$@"
