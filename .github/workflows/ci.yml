@@ -39,9 +39,9 @@ jobs:
           ruby-version: '4.0.5'
           bundler-cache: true
 
-      - run: ./bin/bake format && git diff --exit-code
-      - run: ./bin/bake "lint --exclude SC2317,SC2015"
-      - run: ./bin/bake features::lint
+      - run: ./bin/bx format && git diff --exit-code
+      - run: ./bin/bx "lint --exclude SC2317,SC2015"
+      - run: ./bin/bx features::lint
 
   features-check:
     name: Features Check
@@ -65,4 +65,4 @@ jobs:
       - name: Tests run
         shell: bash
         run: |
-          ./bin/bake "features::check --tags 'not @skip:${{ vars.MAX_SKIPS }}'"
+          ./bin/bx "features::check --tags 'not @skip:${{ vars.MAX_SKIPS }}'"

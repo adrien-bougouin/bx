@@ -80,8 +80,7 @@ install_bx() {
   tar -xzf "${bx_tarball_path}" -C "${bx_path}" --strip-components 1
 
   info "Installing bx..."
-  # TODO: revert to "./bin/bx" when the file is renamed.
-  (cd "${bx_path}" && ./bin/bake -q install)
+  (cd "${bx_path}" && ./bin/bx -q install)
 
   info "Done!"
 }

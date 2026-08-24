@@ -17,4 +17,4 @@ jobs:
 
       - name: Generate dist
         shell: bash
-        run: ./bin/bake dist
+        run: ./bin/bx dist

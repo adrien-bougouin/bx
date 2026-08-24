@@ -5,7 +5,7 @@ Feature: Bashfile
   `bx <recipe-name>` invokes the corresponding function.
 
   Scenario: Invoke a recipe from the default Bashfile
-    Given the Bashfile at "Bakefile"
+    Given the Bashfile at "Bashfile"
       ```bash
       which-bashfile() {
         echo "default"
@@ -19,22 +19,22 @@ Feature: Bashfile
     And bx does not error out
 
   Scenario Outline: Invoke a recipe from a specific Bashfile
-    Given the Bashfile at "Bakefile"
+    Given the Bashfile at "Bashfile"
       ```bash
       which-bashfile() {
-        echo "Bakefile"
+        echo "Bashfile"
       }
       ```
-    And the Bashfile at "alternative.bakefile"
+    And the Bashfile at "alternative.bashfile"
       ```bash
       which-bashfile() {
-        echo "alternative.bakefile"
+        echo "alternative.bashfile"
       }
       ```
-    And the Bashfile at "another_alternative.bakefile"
+    And the Bashfile at "another_alternative.bashfile"
       ```bash
       which-bashfile() {
-        echo "another_alternative.bakefile"
+        echo "another_alternative.bashfile"
       }
       ```
     When executing bx with "<BASHFILE ARGUMENT> which-bashfile"
@@ -46,23 +46,23 @@ Feature: Bashfile
 
     Examples:
       | BASHFILE ARGUMENT                       | LOADED BASHFILE              |
-      | -f Bakefile                             | Bakefile                     |
-      | --file alternative.bakefile             | alternative.bakefile         |
-      | --file=alternative.bakefile             | alternative.bakefile         |
-      | --bashfile another_alternative.bakefile | another_alternative.bakefile |
-      | --bashfile=another_alternative.bakefile | another_alternative.bakefile |
+      | -f Bashfile                             | Bashfile                     |
+      | --file alternative.bashfile             | alternative.bashfile         |
+      | --file=alternative.bashfile             | alternative.bashfile         |
+      | --bashfile another_alternative.bashfile | another_alternative.bashfile |
+      | --bashfile=another_alternative.bashfile | another_alternative.bashfile |
 
   Scenario Outline: Invoke a recipe from multiple Bashfile
-    Given the Bashfile at "Bakefile"
+    Given the Bashfile at "Bashfile"
       ```bash
       which-bashfile() {
-        echo "Bakefile"
+        echo "Bashfile"
       }
       ```
-    And the Bashfile at "alternative.bakefile"
+    And the Bashfile at "alternative.bashfile"
       ```bash
       which-bashfile() {
-        echo "alternative.bakefile"
+        echo "alternative.bashfile"
       }
       ```
     When executing bx with "<BASHFILE ARGUMENTS> which-bashfile"
@@ -71,8 +71,8 @@ Feature: Bashfile
 
     Examples:
       | BASHFILE ARGUMENTS                  | ERROR                   |
-      | -f Bakefile -f alternative.bakefile | bx: Too many Bashfiles! |
-      | -f alternative.bakefile -f Bakefile | bx: Too many Bashfiles! |
+      | -f Bashfile -f alternative.bashfile | bx: Too many Bashfiles! |
+      | -f alternative.bashfile -f Bashfile | bx: Too many Bashfiles! |
 
   Scenario: Invoke a recipe without a Bashfile
     Given no Bashfile

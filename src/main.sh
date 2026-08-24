@@ -17,8 +17,7 @@ _bx::main() {
   source "${__BX_SRC_PATH__}/constants.sh"
   source "${__BX_SRC_PATH__}/display.sh"
   source "${__BX_SRC_PATH__}/options.sh"
-  # TODO: revert to "bashfile.sh" when the file is renamed.
-  source "${__BX_SRC_PATH__}/bakefile.sh"
+  source "${__BX_SRC_PATH__}/bashfile.sh"
   source "${__BX_SRC_PATH__}/annotation_parsing_stack.sh"
   source "${__BX_SRC_PATH__}/invocation_stack.sh"
   source "${__BX_SRC_PATH__}/annotations.sh"

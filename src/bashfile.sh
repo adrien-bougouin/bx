@@ -7,8 +7,7 @@ _bx::load_bashfile() {
     local lookup_path="${__BX_WORKING_DIRECTORY__}"
 
     while [[ ${lookup_path} != "/" ]] && [[ -z ${__BX_BASHFILE__} ]]; do
-      # TODO: revert to "Bashfile" when the file is renamed.
-      local bashfile_candidate="${lookup_path}/Bakefile"
+      local bashfile_candidate="${lookup_path}/Bashfile"
 
       [[ -f ${bashfile_candidate} ]] && _bx::set_bashfile "${bashfile_candidate}"
 

@@ -4,11 +4,10 @@ BIN_PATH="${ROOT_PATH}/bin"
 SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
-# TODO: revert "${BIN_PATH}/bake" to "bx" when the file is renamed.
-SOURCES=("${BIN_PATH}/bake" $(find "${SRC_PATH=}" -name "*.sh"))
+SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH=}" -name "*.sh"))
 
-if [[ -f "${ROOT_PATH}/features/Bakefile" ]]; then
-  source "${ROOT_PATH}/features/Bakefile"
+if [[ -f "${ROOT_PATH}/features/Bashfile" ]]; then
+  source "${ROOT_PATH}/features/Bashfile"
 fi
 
 dist() {
@@ -43,13 +42,12 @@ dist() {
 
   mkdir -p "${dist_bin_path}"
 
-  # TODO: revert to "Bashfile"/"bx" when the files are renamed.
-  cp -r "${ROOT_PATH}/Bakefile" \
-    "${dist_bx_path}/Bakefile"
+  cp -r "${ROOT_PATH}/Bashfile" \
+    "${dist_bx_path}/Bashfile"
   cp -r "${SRC_PATH=}" \
     "${dist_src_path}"
-  cp -r "${BIN_PATH}/bake" \
-    "${dist_bin_path}/bake"
+  cp -r "${BIN_PATH}/${bx_name}" \
+    "${dist_bin_path}/${bx_name}"
 
   tar -czf "${bx_archive_path}" -C "${dist_path}" "${bx_dirname}"
 
@@ -75,8 +73,7 @@ install() {
   @help "Add '${BIN_PATH/#${HOME}/~}' to binary path from shell config." \
     "Supported shells: sh, dash, bash, zsh, and fish."
 
-  # TODO: revert to "${__BX_CONSTANT_COMMAND_NAME__}" when bin/bake is renamed.
-  if command -v "bake" &>/dev/null; then
+  if command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
     echo "${__BX_CONSTANT_COMMAND_NAME__} is already installed!" >&2
 
     exit 1
@@ -133,14 +130,14 @@ lint() {
 
   set -x
 
-  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bakefile"
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bashfile"
 }
 
 format() {
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bakefile"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bashfile"
 }
 
 _checksum() {

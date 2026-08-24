@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 When('executing bx with {string}') do |arguments|
-  # TODO: execute "bx" when bin/bake is renamed.
-  shell.execute("bake #{arguments}")
+  shell.execute("bx #{arguments}")
 end
 
 When('executing bx with no arguments') do
-  shell.execute('bake')
+  shell.execute('bx')
 end
 
 Then('bx displays nothing') do
