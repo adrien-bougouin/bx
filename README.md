@@ -1,4 +1,4 @@
-# `bx`
+# `bx` (Bash executor)
 
 [![CI](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml)
 
