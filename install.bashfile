@@ -10,7 +10,7 @@ install() {
   if command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
     echo "${__BX_CONSTANT_COMMAND_NAME__} is already installed!" >&2
 
-    exit 1
+    return 1
   fi
 
   local shell
@@ -42,7 +42,7 @@ install() {
     *)
       echo "Installing to shell '${shell}' is not supported!" >&2
 
-      exit 1
+      return 1
       ;;
   esac
 
@@ -56,4 +56,63 @@ install() {
 		Execute this in your terminal to use ${__BX_CONSTANT_COMMAND_NAME__} right now:
 		  ${apply_instruction}
 	INFO
+}
+
+uninstall() {
+  @help \
+    "Undo \`${__BX_CONSTANT_COMMAND_NAME__} install\`: Remove '${BIN_PATH/#${HOME}/~}' from binary path." \
+    "Supported shells: sh, dash, bash, zsh, and fish."
+
+  if ! command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
+    echo "${__BX_CONSTANT_COMMAND_NAME__} not installed!" >&2
+
+    return 1
+  fi
+
+  local shell
+  local config_path
+  local config_content
+
+  shell="$(basename "${SHELL}")"
+
+  case "${shell}" in
+    sh | dash)
+      config_path="${HOME}/.profile"
+      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      ;;
+
+    bash | zsh)
+      config_path="${HOME}/.${shell}rc"
+      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      ;;
+
+    fish)
+      config_path="${HOME}/.config/fish/config.fish"
+      config_content="fish_add_path ${BIN_PATH}"
+      ;;
+
+    *)
+      echo "Uninstalling to shell '${shell}' is not supported!" >&2
+
+      return 1
+      ;;
+  esac
+
+  if grep -qsxF "${config_content}" "${config_path}" 2>/dev/null; then
+    local new_config
+
+    new_config=$(grep -vxF "${config_content}" "${config_path}")
+
+    printf "%s\n" "${new_config}" > "${config_path}"
+  else
+    {
+	    cat <<-ERROR
+				${__BX_CONSTANT_COMMAND_NAME__} does not seem to have been installed the recommended way.
+
+				Aborting!
+			ERROR
+    } >&2
+
+    return 1
+  fi
 }
