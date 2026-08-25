@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml)
 
-`bx` is a Bash configurable build automation and task invocation tool.
+`bx` is a Bash configurable build automation and recipe invocation tool.
 
 `bx` reads a `Bashfile`, treats Bash functions as recipes, and invokes them via `bx <recipe>`.
 

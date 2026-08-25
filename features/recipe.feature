@@ -1,8 +1,8 @@
 Feature: Recipe
 
-  A recipe is a set of instructions invocable with bx. A recipe is declared
-  in a Bashfile as a Bash function. Private functions, prefixed by "_" by
-  convention, are not treated as recipes.
+  A recipe is a set of instructions declared in a Bashfile as a Bash function. A
+  recipe is invoked by name; invoking a recipe executes its body. Private
+  functions, prefixed by "_" by convention, are not treated as recipes.
 
   Background:
     Given the Bashfile
