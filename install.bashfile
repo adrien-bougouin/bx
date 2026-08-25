@@ -103,10 +103,10 @@ uninstall() {
 
     new_config=$(grep -vxF "${config_content}" "${config_path}")
 
-    printf "%s\n" "${new_config}" > "${config_path}"
+    printf "%s\n" "${new_config}" >"${config_path}"
   else
     {
-	    cat <<-ERROR
+      cat <<-ERROR
 				${__BX_CONSTANT_COMMAND_NAME__} does not seem to have been installed the recommended way.
 
 				Aborting!
