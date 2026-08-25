@@ -5,16 +5,32 @@ SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
 SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH=}" -name "*.sh"))
+BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/install.bashfile" "${ROOT_PATH}/features/Bashfile")
 
-if [[ -f "${ROOT_PATH}/features/Bashfile" ]]; then
-  source "${ROOT_PATH}/features/Bashfile"
-fi
+source "${ROOT_PATH}/install.bashfile"
+source "${ROOT_PATH}/features/Bashfile"
+
+format() {
+  set -x
+
+  # https://google.github.io/styleguide/shellguide.html
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${BASHFILES[@]}"
+}
+
+lint() {
+  local args=("--exclude" "SC1090,SC1091,SC2030,SC2031,SC2329" "$@")
+
+  set -x
+
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${BASHFILES[@]}"
+}
 
 dist() {
-  @help "Prepare downloadable bx archive and installer." \
+  @help \
+    "Prepare downloadable bx archive and installer." \
     "Arguments:" \
-    "  download_host - URI of the location where the distribution archive" \
-    "                  will be stored (default: file://<repo_path>/dist)."
+    "    download_host - URI of the location where the distribution archive" \
+    "                    will be stored (default: file://<repo_path>/dist)."
 
   bx::invoke clean-dist
 
@@ -42,7 +58,7 @@ dist() {
 
   mkdir -p "${dist_bin_path}"
 
-  cp -r "${ROOT_PATH}/Bashfile" \
+  cp -r "${ROOT_PATH}/install.bashfile" \
     "${dist_bx_path}/Bashfile"
   cp -r "${SRC_PATH=}" \
     "${dist_src_path}"
@@ -67,77 +83,6 @@ clean-dist() {
   set -x
 
   rm -rf "${ROOT_PATH}/dist"
-}
-
-install() {
-  @help "Add '${BIN_PATH/#${HOME}/~}' to binary path from shell config." \
-    "Supported shells: sh, dash, bash, zsh, and fish."
-
-  if command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
-    echo "${__BX_CONSTANT_COMMAND_NAME__} is already installed!" >&2
-
-    exit 1
-  fi
-
-  local shell
-  local config_path
-  local config_content
-  local apply_instruction
-
-  shell="$(basename "${SHELL}")"
-
-  case "${shell}" in
-    sh | dash)
-      config_path="${HOME}/.profile"
-      config_content="export PATH=${BIN_PATH}:\${PATH}"
-      apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
-      ;;
-
-    bash | zsh)
-      config_path="${HOME}/.${shell}rc"
-      config_content="export PATH=${BIN_PATH}:\${PATH}"
-      apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
-      ;;
-
-    fish)
-      config_path="${HOME}/.config/fish/config.fish"
-      config_content="fish_add_path ${BIN_PATH}"
-      apply_instruction="fish_add_path \"${BIN_PATH}\""
-      ;;
-
-    *)
-      echo "Installing to shell '${shell}' is not supported!" >&2
-
-      exit 1
-      ;;
-  esac
-
-  if ! grep -qsxF "${config_content}" "${config_path}" 2>/dev/null; then
-    printf "\n%s" "${config_content}" >>"${config_path}"
-  fi
-
-  cat <<-INFO
-		${__BX_CONSTANT_COMMAND_NAME__} is installed in ${config_path}
-
-		Execute this in your terminal to use ${__BX_CONSTANT_COMMAND_NAME__} right now:
-		  ${apply_instruction}
-	INFO
-}
-
-# Execute bash linting
-lint() {
-  local args=("--exclude" "SC1090,SC1091,SC2030,SC2031,SC2329" "$@")
-
-  set -x
-
-  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bashfile"
-}
-
-format() {
-  set -x
-
-  # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bashfile"
 }
 
 _checksum() {

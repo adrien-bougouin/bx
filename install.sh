@@ -52,7 +52,7 @@ install_bx() {
     exit 1
   fi
 
-  local bx_path="${HOME}/.local/opt/bx_${BX_VERSION}"
+  local bx_path="${HOME}/.local/opt/bx"
 
   if [[ -d ${bx_path} ]]; then
     info "bx ${BX_VERSION} is already installed!"

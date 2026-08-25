@@ -1,0 +1,59 @@
+ROOT_PATH="${ROOT_PATH:-$(realpath "$(dirname "${BASH_SOURCE[0]}")")}"
+
+BIN_PATH="${BIN_PATH:-${ROOT_PATH}/bin}"
+
+install() {
+  @help \
+    "Add '${BIN_PATH/#${HOME}/~}' to binary path from shell config." \
+    "Supported shells: sh, dash, bash, zsh, and fish."
+
+  if command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
+    echo "${__BX_CONSTANT_COMMAND_NAME__} is already installed!" >&2
+
+    exit 1
+  fi
+
+  local shell
+  local config_path
+  local config_content
+  local apply_instruction
+
+  shell="$(basename "${SHELL}")"
+
+  case "${shell}" in
+    sh | dash)
+      config_path="${HOME}/.profile"
+      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
+      ;;
+
+    bash | zsh)
+      config_path="${HOME}/.${shell}rc"
+      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
+      ;;
+
+    fish)
+      config_path="${HOME}/.config/fish/config.fish"
+      config_content="fish_add_path ${BIN_PATH}"
+      apply_instruction="fish_add_path \"${BIN_PATH}\""
+      ;;
+
+    *)
+      echo "Installing to shell '${shell}' is not supported!" >&2
+
+      exit 1
+      ;;
+  esac
+
+  if ! grep -qsxF "${config_content}" "${config_path}" 2>/dev/null; then
+    printf "\n%s" "${config_content}" >>"${config_path}"
+  fi
+
+  cat <<-INFO
+		${__BX_CONSTANT_COMMAND_NAME__} is installed in ${config_path}
+
+		Execute this in your terminal to use ${__BX_CONSTANT_COMMAND_NAME__} right now:
+		  ${apply_instruction}
+	INFO
+}
