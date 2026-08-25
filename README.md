@@ -1,6 +1,6 @@
 # `bx` (Bash executor)
 
-[![CI](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml)
+[![CI](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml) [![CD](https://github.com/adrien-bougouin/bx/actions/workflows/cd.yml/badge.svg)](https://github.com/adrien-bougouin/bx/actions/workflows/cd.yml)
 
 `bx` is a Bash configurable build automation and recipe invocation tool.
 
