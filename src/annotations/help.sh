@@ -1,30 +1,30 @@
 #!/bin/bash
 
 # ( <recipe> <line_count> <line> ... )
-__BAKE_RECIPE_HELPS__=()
+__BX_RECIPE_HELPS__=()
 
-_bake::annotations::register "@help"
+_bx::annotations::register "@help"
 
 @help() {
-  if [[ $# -gt 0 ]] && [[ $(_bake::annotation_parsing_stack::size) -gt 0 ]]; then
-    __BAKE_RECIPE_HELPS__+=("$(_bake::annotation_parsing_stack::last)" "$#" "$@")
+  if [[ $# -gt 0 ]] && [[ $(_bx::annotation_parsing_stack::size) -gt 0 ]]; then
+    __BX_RECIPE_HELPS__+=("$(_bx::annotation_parsing_stack::last)" "$#" "$@")
   fi
 }
 
-_bake::recipe::help() {
+_bx::recipe::help() {
   local recipe="$1"
 
   local i
-  for ((i = 0; i < ${#__BAKE_RECIPE_HELPS__[@]}; i++)); do
-    local candidate_recipe="${__BAKE_RECIPE_HELPS__[i++]}"
-    local line_count="${__BAKE_RECIPE_HELPS__[i++]}"
+  for ((i = 0; i < ${#__BX_RECIPE_HELPS__[@]}; i++)); do
+    local candidate_recipe="${__BX_RECIPE_HELPS__[i++]}"
+    local line_count="${__BX_RECIPE_HELPS__[i++]}"
 
     if [[ ${candidate_recipe} == "${recipe}" ]]; then
-      printf "%s" "${__BAKE_RECIPE_HELPS__[i++]}"
+      printf "%s" "${__BX_RECIPE_HELPS__[i++]}"
 
       local j
       for ((j = i; j < i + line_count - 1; j++)); do
-        printf "\n%s" "${__BAKE_RECIPE_HELPS__[j]}"
+        printf "\n%s" "${__BX_RECIPE_HELPS__[j]}"
 
       done
 

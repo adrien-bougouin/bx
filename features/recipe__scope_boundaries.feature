@@ -1,7 +1,7 @@
 Feature: Recipe--Scope Boundaries
 
   Scenario Outline: Invoke recipes manipulating a global variable
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       GLOBAL="default-value"
 
@@ -21,12 +21,12 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When executing Bake with "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
-    Then Bake displays
+    When executing bx with "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
+    Then bx displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """
-    And Bake does not error out
+    And bx does not error out
 
     Examples:
       | MUTATION RECIPE           | DISPLAY RECIPE           | FINAL GLOBAL VALUE |
@@ -37,7 +37,7 @@ Feature: Recipe--Scope Boundaries
       | change-global--subprocess | print-global--subprocess | default-value      |
 
   Scenario Outline: Invoke a recipe that invokes a recipe that changes a global variable
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       GLOBAL="default-value"
 
@@ -50,23 +50,23 @@ Feature: Recipe--Scope Boundaries
       )
 
       recipe() {
-        bake::invoke <MUTATION RECIPE>
+        bx::invoke <MUTATION RECIPE>
 
         echo "GLOBAL=${GLOBAL}"
       }
 
       recipe--subprocess() (
-        bake::invoke <MUTATION RECIPE>
+        bx::invoke <MUTATION RECIPE>
 
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When executing Bake with "-q <RECIPE>"
-    Then Bake displays
+    When executing bx with "-q <RECIPE>"
+    Then bx displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """
-    And Bake does not error out
+    And bx does not error out
 
     Examples:
       | RECIPE             | MUTATION RECIPE           | FINAL GLOBAL VALUE |

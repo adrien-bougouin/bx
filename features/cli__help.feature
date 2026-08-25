@@ -1,15 +1,15 @@
 Feature: CLI--Help
 
   Scenario Outline: Ask for help
-    Given an empty Bakefile
-    When executing Bake with "<HELP OPTION>"
-    Then Bake displays
+    Given an empty Bashfile
+    When executing bx with "<HELP OPTION>"
+    Then bx displays
       """
-      Usage: bake [options] [--] [recipe] ...
+      Usage: bx [options] [--] [recipe] ...
 
       Options:
-          -f FILE, --file=FILE, --bakefile=FILE
-              Read FILE as a bakefile. Only one bakefile may be specified.
+          -f FILE, --file=FILE, --bashfile=FILE
+              Read FILE as a bashfile. Only one bashfile may be specified.
           -h, --help
               Show this help.
           -l, --list
@@ -19,7 +19,7 @@ Feature: CLI--Help
           -v, --version
               Show version.
       """
-    And Bake does not error out
+    And bx does not error out
 
     Examples:
       | HELP OPTION |
@@ -27,7 +27,7 @@ Feature: CLI--Help
       | --help      |
 
   Scenario Outline: Ask for help when there are recipes to document
-    Given the Bakefile
+    Given the Bashfile
       ```bash
       recipe-1() {
         @help "A short description of recipe-1."
@@ -35,14 +35,14 @@ Feature: CLI--Help
 
       recipe-2() { :; }
       ```
-    When executing Bake with "<HELP OPTION>"
-    Then Bake displays
+    When executing bx with "<HELP OPTION>"
+    Then bx displays
       """
-      Usage: bake [options] [--] [recipe] ...
+      Usage: bx [options] [--] [recipe] ...
 
       Options:
-          -f FILE, --file=FILE, --bakefile=FILE
-              Read FILE as a bakefile. Only one bakefile may be specified.
+          -f FILE, --file=FILE, --bashfile=FILE
+              Read FILE as a bashfile. Only one bashfile may be specified.
           -h, --help
               Show this help.
           -l, --list
@@ -57,7 +57,7 @@ Feature: CLI--Help
               A short description of recipe-1.
           recipe-2
       """
-    And Bake does not error out
+    And bx does not error out
 
     Examples:
       | HELP OPTION |

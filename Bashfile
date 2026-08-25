@@ -4,34 +4,34 @@ BIN_PATH="${ROOT_PATH}/bin"
 SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
-SOURCES=("${BIN_PATH}/bake" $(find "${SRC_PATH=}" -name "*.sh"))
+SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH=}" -name "*.sh"))
 
-if [[ -f "${ROOT_PATH}/features/Bakefile" ]]; then
-  source "${ROOT_PATH}/features/Bakefile"
+if [[ -f "${ROOT_PATH}/features/Bashfile" ]]; then
+  source "${ROOT_PATH}/features/Bashfile"
 fi
 
 dist() {
-  @help "Prepare downloadable Bake archive and installer." \
+  @help "Prepare downloadable bx archive and installer." \
     "Arguments:" \
     "  download_host - URI of the location where the distribution archive" \
     "                  will be stored (default: file://<repo_path>/dist)."
 
-  bake::invoke clean-dist
+  bx::invoke clean-dist
 
-  local bake_name="${__BAKE_CONSTANT_COMMAND_NAME__}"
-  local bake_version="${__BAKE_CONSTANT_VERSION__}"
-  local bake_dirname="${bake_name}_${bake_version}"
-  local bake_archive_name="${bake_dirname}.tar.gz"
+  local bx_name="${__BX_CONSTANT_COMMAND_NAME__}"
+  local bx_version="${__BX_CONSTANT_VERSION__}"
+  local bx_dirname="${bx_name}_${bx_version}"
+  local bx_archive_name="${bx_dirname}.tar.gz"
 
   local dist_path="${ROOT_PATH}/dist"
-  local dist_bake_path="${dist_path}/${bake_dirname}"
-  local bake_archive_path="${dist_bake_path}.tar.gz"
+  local dist_bx_path="${dist_path}/${bx_dirname}"
+  local bx_archive_path="${dist_bx_path}.tar.gz"
 
   local dist_src_path
   local dist_bin_path
 
-  dist_src_path="${dist_bake_path}/$(basename "${SRC_PATH=}")"
-  dist_bin_path="${dist_bake_path}/$(basename "${BIN_PATH}")"
+  dist_src_path="${dist_bx_path}/$(basename "${SRC_PATH=}")"
+  dist_bin_path="${dist_bx_path}/$(basename "${BIN_PATH}")"
 
   local download_host="${1:-file://${dist_path}}"
   download_host="${download_host%/}"
@@ -42,23 +42,23 @@ dist() {
 
   mkdir -p "${dist_bin_path}"
 
-  cp -r "${ROOT_PATH}/Bakefile" \
-    "${dist_bake_path}/Bakefile"
+  cp -r "${ROOT_PATH}/Bashfile" \
+    "${dist_bx_path}/Bashfile"
   cp -r "${SRC_PATH=}" \
     "${dist_src_path}"
-  cp -r "${BIN_PATH}/${bake_name}" \
-    "${dist_bin_path}/${bake_name}"
+  cp -r "${BIN_PATH}/${bx_name}" \
+    "${dist_bin_path}/${bx_name}"
 
-  tar -czf "${bake_archive_path}" -C "${dist_path}" "${bake_dirname}"
+  tar -czf "${bx_archive_path}" -C "${dist_path}" "${bx_dirname}"
 
   # shellcheck disable=SC2207
-  checksum=($(_checksum "${bake_archive_path}"))
+  checksum=($(_checksum "${bx_archive_path}"))
 
   sed \
     -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
-    -e "s/^BAKE_VERSION=\$/BAKE_VERSION=${bake_version}/" \
-    -e "s/^BAKE_TARBALL_URL=\$/BAKE_TARBALL_URL=${download_host//\//\\/}\/${bake_archive_name//\//\\/}/" \
-    -e "s/^BAKE_TARBALL_SHA256=\$/BAKE_TARBALL_SHA256=${checksum[0]}/" \
+    -e "s/^BX_VERSION=\$/BX_VERSION=${bx_version}/" \
+    -e "s/^BX_TARBALL_URL=\$/BX_TARBALL_URL=${download_host//\//\\/}\/${bx_archive_name//\//\\/}/" \
+    -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
     "${ROOT_PATH}/install.sh" \
     >"${dist_path}/install.sh"
 }
@@ -73,8 +73,8 @@ install() {
   @help "Add '${BIN_PATH/#${HOME}/~}' to binary path from shell config." \
     "Supported shells: sh, dash, bash, zsh, and fish."
 
-  if command -v "${__BAKE_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
-    echo "${__BAKE_CONSTANT_COMMAND_NAME__} is already installed!" >&2
+  if command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
+    echo "${__BX_CONSTANT_COMMAND_NAME__} is already installed!" >&2
 
     exit 1
   fi
@@ -117,9 +117,9 @@ install() {
   fi
 
   cat <<-INFO
-		${__BAKE_CONSTANT_COMMAND_NAME__} is installed in ${config_path}
+		${__BX_CONSTANT_COMMAND_NAME__} is installed in ${config_path}
 
-		Execute this in your terminal to use ${__BAKE_CONSTANT_COMMAND_NAME__} right now:
+		Execute this in your terminal to use ${__BX_CONSTANT_COMMAND_NAME__} right now:
 		  ${apply_instruction}
 	INFO
 }
@@ -130,14 +130,14 @@ lint() {
 
   set -x
 
-  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bakefile"
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bashfile"
 }
 
 format() {
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bakefile"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/Bashfile"
 }
 
 _checksum() {

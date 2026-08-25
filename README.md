@@ -1,17 +1,17 @@
-# Bake
+# `bx` (Bash executor)
 
-[![CI](https://github.com/adrien-bougouin/bake/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bake/actions/workflows/ci.yml)
+[![CI](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml/badge.svg)](https://github.com/adrien-bougouin/bx/actions/workflows/ci.yml)
 
-Bake is a Bash configurable build automation and task invocation tool.
+`bx` is a Bash configurable build automation and recipe invocation tool.
 
-Bake reads a Bakefile, treats Bash functions as recipes, and invokes them via `bake <recipe>`.
+`bx` reads a `Bashfile`, treats Bash functions as recipes, and invokes them via `bx <recipe>`.
 
 ```bash
-# file: Bakefile
+# file: Bashfile
 
 BIN_PATH="$(realpath ./bin)"
 
-SOURCES=(./bin/bake $(find ./src -name "*.sh"))
+SOURCES=(./bin/bx $(find ./src -name "*.sh"))
 
 lint() {
   local args=("--exclude" "SC1090,SC1091,SC2329" "$@")
@@ -32,17 +32,17 @@ format() {
 Clone this repository, then execute:
 
 ```shell
-./bin/bake install
+./bin/bx install
 ```
 
 ## Quick Reference
 ```
-$ bake --help
-Usage: bake [options] [--] [recipe] ...
+$ bx --help
+Usage: bx [options] [--] [recipe] ...
 
 Options:
-    -f FILE, --file=FILE, --bakefile=FILE
-        Read FILE as a bakefile. Only one bakefile may be specified.
+    -f FILE, --file=FILE, --bashfile=FILE
+        Read FILE as a bashfile. Only one bashfile may be specified.
     -h, --help
         Show this help.
     -l, --list
@@ -55,30 +55,30 @@ Options:
 
 ## Features
 
-### Bakefile lookup
-Bake looks for the nearest Bakefile, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
+### `Bashfile` lookup
+`bx` looks for the nearest `Bashfile`, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
 
 ### Recipe chaining
 Invoke multiple recipes in one go.
 
 ```shell
-bake format lint
+bx format lint
 ```
 
 ### Recipe arguments
 Pass arguments to recipes by quoting the recipe name and its arguments.
 
 ```shell
-bake format 'lint --some-lint-option'
+bx format 'lint --some-lint-option'
 ```
 
 ### Recipe documentation (`@help`)
 Describe a recipe with the annotation `@help`. The description is displayed by
-`bake --list` and `bake --help`, and can span multiple lines by passing several
+`bx --list` and `bx --help`, and can span multiple lines by passing several
 arguments.
 
 ```bash
-# Bakefile
+# Bashfile
 
 my_recipe() {
   @help "Line 1" \
@@ -89,10 +89,10 @@ my_recipe() {
 ```
 
 ### Default recipe (`@default`)
-Set which recipe to invoke when executing Bake without an explicit recipe.
+Set which recipe to invoke when executing `bx` without an explicit recipe.
 
 ```bash
-# Bakefile
+# Bashfile
 
 my_recipe() {
   @default
@@ -101,15 +101,15 @@ my_recipe() {
 }
 ```
 
-### Nested invocation (`bake::invoke`)
+### Nested invocation (`bx::invoke`)
 Invoke other recipes from within a recipe at runtime.
 
 ```bash
-# Bakefile
+# Bashfile
 
 complex-recipe() {
   echo "Pre-processing..."
-  bake::invoke simple-recipe
+  bx::invoke simple-recipe
   echo "Post-processing..."
 }
 
@@ -123,7 +123,7 @@ Recipes defined with `()` (subprocess) have their own scope: if they modify glob
 Recipes defined with `{}` (function) share the parent scope: if they modify global variables, the changes will be visible from other recipes.
 
 ```bash
-# Bakefile
+# Bashfile
 
 GLOBAL="default-value"
 
@@ -141,15 +141,15 @@ print-global() {
 ```
 
 ```shell
-bake -q change-global print-global              # GLOBAL=changed-value
-bake -q change-global--subprocess print-global  # GLOBAL=default-value
+bx -q change-global print-global              # GLOBAL=changed-value
+bx -q change-global--subprocess print-global  # GLOBAL=default-value
 ```
 
 ### Shell options isolation
-Bake isolates shell options locally (e.g. `set -x` to trace execution), preventing changes from leaking into other recipes or into Bake itself.
+`bx` isolates shell options locally (e.g. `set -x` to trace execution), preventing changes from leaking into other recipes or into `bx` itself.
 
 ```bash
-# Bakefile
+# Bashfile
 
 recipe-1() {
   # Instructions here will never be traced.

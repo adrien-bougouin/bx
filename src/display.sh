@@ -1,23 +1,23 @@
 #!/bin/bash
 #
 # Display utilities for info and error messaging with consistent formatting
-# across the Bake tool.
+# across the bx tool.
 
-__BAKE_DISPLAY_INDENT__="    "
+__BX_DISPLAY_INDENT__="    "
 
-__BAKE_DISPLAY_STYLE_NORMAL__=""
-__BAKE_DISPLAY_STYLE_BOLD__=""
+__BX_DISPLAY_STYLE_NORMAL__=""
+__BX_DISPLAY_STYLE_BOLD__=""
 
 # BASH unset ${TERM} value is 'dumb'!
 if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
-  __BAKE_DISPLAY_STYLE_NORMAL__="$(tput sgr0)"
-  __BAKE_DISPLAY_STYLE_BOLD__="$(tput bold)"
+  __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0)"
+  __BX_DISPLAY_STYLE_BOLD__="$(tput bold)"
 fi
 
-readonly __BAKE_DISPLAY_INDENT__
+readonly __BX_DISPLAY_INDENT__
 
-readonly __BAKE_DISPLAY_STYLE_NORMAL__
-readonly __BAKE_DISPLAY_STYLE_BOLD__
+readonly __BX_DISPLAY_STYLE_NORMAL__
+readonly __BX_DISPLAY_STYLE_BOLD__
 
 ################################################################################
 # Print an info message to stdout.
@@ -35,8 +35,8 @@ readonly __BAKE_DISPLAY_STYLE_BOLD__
 # Outputs:
 #   Writes the formatted message to stdout.
 ################################################################################
-_bake::display::info() {
-  _bake::display::format "$1"
+_bx::display::info() {
+  _bx::display::format "$1"
 }
 
 ################################################################################
@@ -55,8 +55,8 @@ _bake::display::info() {
 # Outputs:
 #   Writes the formatted message to stderr.
 ################################################################################
-_bake::display::warning() {
-  _bake::display::format "$1" >&2
+_bx::display::warning() {
+  _bx::display::format "$1" >&2
 }
 
 ################################################################################
@@ -75,8 +75,8 @@ _bake::display::warning() {
 # Outputs:
 #   Writes the formatted message to stderr.
 ################################################################################
-_bake::display::error() {
-  _bake::display::format "$1" >&2
+_bx::display::error() {
+  _bx::display::format "$1" >&2
 }
 
 ################################################################################
@@ -102,7 +102,7 @@ _bake::display::error() {
 #     + # <message-of-level-1>
 #     ++ # <message-of-level-2>
 ################################################################################
-_bake::display::trace() {
+_bx::display::trace() {
   local level="$1"
   local trace="$2"
 
@@ -116,7 +116,7 @@ _bake::display::trace() {
     xtrace_repeated_character="${xtrace_repeated_character}${xtrace_repeat_character}"
   done
 
-  _bake::display::format "${xtrace_repeated_character} # ${trace}" >&2
+  _bx::display::format "${xtrace_repeated_character} # ${trace}" >&2
 }
 
 ################################################################################
@@ -135,13 +135,13 @@ _bake::display::trace() {
 # Outputs:
 #   Writes the formatted message to stdout.
 ################################################################################
-_bake::display::format() {
+_bx::display::format() {
   local message="$1"
 
-  message="${message//\{\{indent\}\}/${__BAKE_DISPLAY_INDENT__}}"
+  message="${message//\{\{indent\}\}/${__BX_DISPLAY_INDENT__}}"
 
-  message="${message//\{\{normal\}\}/${__BAKE_DISPLAY_STYLE_NORMAL__}}"
-  message="${message//\{\{bold\}\}/${__BAKE_DISPLAY_STYLE_BOLD__}}"
+  message="${message//\{\{normal\}\}/${__BX_DISPLAY_STYLE_NORMAL__}}"
+  message="${message//\{\{bold\}\}/${__BX_DISPLAY_STYLE_BOLD__}}"
 
-  printf "%s${__BAKE_DISPLAY_STYLE_NORMAL__}\n" "${message}"
+  printf "%s${__BX_DISPLAY_STYLE_NORMAL__}\n" "${message}"
 }
