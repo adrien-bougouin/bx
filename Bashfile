@@ -66,6 +66,7 @@ dist() {
     "${dist_bin_path}/${bx_name}"
 
   tar -czf "${bx_archive_path}" -C "${dist_path}" "${bx_dirname}"
+  rm -rf "${dist_bx_path}"
 
   # shellcheck disable=SC2207
   checksum=($(_checksum "${bx_archive_path}"))
