@@ -13,8 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: TODO
-        run: echo "TODO"
+      - name: Verify Version Tag Missing
+        shell: bash
+        run: |
+          source ./src/constants.sh
+
+          git tag | grep "${__BX_CONSTANiT_VERSION__}"
 
   release:
     name: Release
