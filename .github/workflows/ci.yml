@@ -7,8 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  style-check:
-    name: Style Check
+  check-style:
+    name: Check Style
     runs-on: ubuntu-latest
     env:
       SHFMT_VERSION: "3.13.1"
@@ -43,8 +43,8 @@ jobs:
       - run: ./bin/bx "lint --exclude SC2317,SC2015"
       - run: ./bin/bx features::lint
 
-  features-check:
-    name: Features Check
+  check-features:
+    name: Check Features
 
     strategy:
       matrix:

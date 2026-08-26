@@ -6,9 +6,19 @@ on:
       - completed
 
 jobs:
+  check-version-update:
+    name: Check Version Update
+    if: ${{ github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: TODO
+      - run: echo "TODO"
+
   release:
     name: Release
-    if: ${{ github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.conclusion == 'success' }}
+    needs: check-version-update
 
     runs-on: ubuntu-latest
 
