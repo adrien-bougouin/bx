@@ -7,7 +7,7 @@
 # caller-specified array variable.
 #
 # Arguments:
-#   positional_arguments_ref - Name of the array variable to receive positional
+#   positional_arguments_var - Name of the array variable to receive positional
 #                              args from.
 #
 # Side effects:
@@ -15,7 +15,7 @@
 #   - May set option flags via _bx::options::enable_* helpers.
 ################################################################################
 _bx::cli::parse_options() {
-  local positional_arguments_ref="$1"
+  local positional_arguments_var="$1"
 
   shift
 
@@ -45,7 +45,7 @@ _bx::cli::parse_options() {
     shift
   done
 
-  eval "${positional_arguments_ref}=(\"\$@\")"
+  eval "${positional_arguments_var}=(\"\$@\")"
 }
 
 ################################################################################

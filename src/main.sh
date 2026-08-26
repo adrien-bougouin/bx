@@ -38,10 +38,16 @@ _bx::main() {
 
   ##############################################################################
 
-  local positional_arguments
+  local abort_missing_bashfile="${__BX_CONSTANT_TRUE__}"
+  local positional_arguments_ref
 
-  _bx::cli::parse_options positional_arguments "$@"
-  _bx::load_bashfile
+  _bx::cli::parse_options positional_arguments_ref "$@"
+
+  if _bx::options::version || _bx::options::help; then
+    abort_missing_bashfile="${__BX_CONSTANT_FALSE__}"
+  fi
+
+  _bx::load_bashfile "${abort_missing_bashfile}"
   _bx::load_recipes --ignore '^(_|_?bx::|_?bx$|set$)'
 
   if _bx::options::version; then
@@ -70,7 +76,7 @@ _bx::main() {
     BASH_XTRACEFD=2
   fi
 
-  _bx::recipes::invoke ${positional_arguments+"${positional_arguments[@]}"}
+  _bx::recipes::invoke ${positional_arguments_ref+"${positional_arguments_ref[@]}"}
 }
 
 _bx::main "$@"

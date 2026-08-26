@@ -73,3 +73,9 @@ Feature: CLI--List
     When executing bx with "-l"
     Then bx displays nothing
     And bx does not error out
+
+  Scenario: Ask for available recipes from uninitialized bx environment
+    Given no Bashfile
+    When executing bx with "-l"
+    Then bx displays nothing
+    And bx errors out with message "bx: No Bashfile!"

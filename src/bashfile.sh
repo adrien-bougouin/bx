@@ -3,6 +3,7 @@
 __BX_BASHFILE__=
 
 _bx::load_bashfile() {
+  local abort="${1:-${__BX_CONSTANT_TRUE__}}"
   if [[ -z ${__BX_BASHFILE__} ]]; then
     local lookup_path="${__BX_WORKING_DIRECTORY__}"
 
@@ -19,7 +20,7 @@ _bx::load_bashfile() {
 
   if [[ -f ${__BX_BASHFILE__} ]]; then
     source "${__BX_BASHFILE__}"
-  else
+  elif [[ ${abort} == "${__BX_CONSTANT_TRUE__}" ]]; then
     _bx::abort "No Bashfile!"
   fi
 }
