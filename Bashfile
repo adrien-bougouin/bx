@@ -5,7 +5,7 @@ SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
 SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH=}" -name "*.sh"))
-BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/install.bashfile" "${ROOT_PATH}/features/Bashfile")
+BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/dist.bashfile" "${ROOT_PATH}/features/Bashfile")
 
 source "${ROOT_PATH}/dist.bashfile"
 source "${ROOT_PATH}/features/Bashfile"
@@ -14,7 +14,7 @@ format() {
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${BASHFILES[@]}"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${BASHFILES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/uninstall.sh"
 }
 
 lint() {
