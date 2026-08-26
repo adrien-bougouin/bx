@@ -7,7 +7,7 @@ SRC_PATH="${ROOT_PATH}/src"
 SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH=}" -name "*.sh"))
 BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/install.bashfile" "${ROOT_PATH}/features/Bashfile")
 
-source "${ROOT_PATH}/install.bashfile"
+source "${ROOT_PATH}/dist.bashfile"
 source "${ROOT_PATH}/features/Bashfile"
 
 format() {
@@ -58,7 +58,7 @@ dist() {
 
   mkdir -p "${dist_bin_path}"
 
-  cp -r "${ROOT_PATH}/install.bashfile" \
+  cp -r "${ROOT_PATH}/dist.bashfile" \
     "${dist_bx_path}/Bashfile"
   cp -r "${SRC_PATH=}" \
     "${dist_src_path}"
@@ -77,6 +77,12 @@ dist() {
     -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
     "${ROOT_PATH}/install.sh" \
     >"${dist_path}/install.sh"
+
+  sed \
+    -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
+    -e "s/^BX_VERSION=\$/BX_VERSION=${bx_version}/" \
+    "${ROOT_PATH}/uninstall.sh" \
+    >"${dist_path}/uninstall.sh"
 }
 
 clean-dist() {

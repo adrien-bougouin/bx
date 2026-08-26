@@ -49,14 +49,16 @@ install_bx() {
 
   if [[ -z "${BX_VERSION}${BX_TARBALL_URL}${BX_TARBALL_SHA256}" ]]; then
     error "Invalid install script configuration!"
-    exit 1
+
+    return 1
   fi
 
   local bx_path="${HOME}/.local/opt/bx"
 
   if [[ -d ${bx_path} ]]; then
     info "bx ${BX_VERSION} is already installed!"
-    exit 0
+
+    return 0
   fi
 
   local tmp_path
@@ -73,7 +75,8 @@ install_bx() {
 
   if ! check_checksum "${bx_tarball_path}" "${BX_TARBALL_SHA256}"; then
     error "Download corrupted (checksum mismatch), try again!"
-    exit 1
+
+    return 1
   fi
 
   mkdir -p "${bx_path}"
