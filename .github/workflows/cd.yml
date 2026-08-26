@@ -6,8 +6,8 @@ on:
       - completed
 
 jobs:
-  check-version-update:
-    name: Check Version Update
+  release:
+    name: Release
     if: ${{ github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
@@ -15,22 +15,19 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Verify Version Tag Missing
+      - name: Verify Version Status
+        id: verify-version-status
         shell: bash
         run: |
           source ./src/constants.sh
 
-          git tag | grep "${__BX_CONSTANiT_VERSION__}"
-
-  release:
-    name: Release
-    needs: check-version-update
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v6
+          if git tag | grep "${__BX_CONSTANiT_VERSION__}"; then
+            echo "released=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "released=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Generate dist
+        if: steps.verify-version-status.outputs.released == 'false'
         shell: bash
         run: ./bin/bx dist
