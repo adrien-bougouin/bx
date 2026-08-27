@@ -105,6 +105,8 @@ jobs:
       - name: Create GitHub Release
         if: steps.verify-version-status.outputs.released == 'false'
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           source ./src/constants.sh
 
