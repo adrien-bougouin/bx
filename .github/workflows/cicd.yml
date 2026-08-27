@@ -79,6 +79,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-tags: true
 
       - name: Verify Version Status
         id: verify-version-status
