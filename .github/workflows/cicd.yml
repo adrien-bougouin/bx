@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   check-style:
     name: Check Style
@@ -69,8 +72,8 @@ jobs:
 
   release:
     name: Release
-    if: ${{ github.event.workflow_run.head_branch == 'main' }}
-    needs: [check-style, check-features]
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: [ check-style, check-features ]
 
     runs-on: ubuntu-latest
 
@@ -83,13 +86,29 @@ jobs:
         run: |
           source ./src/constants.sh
 
-          if git tag | grep "${__BX_CONSTANiT_VERSION__}"; then
+          if git tag | grep "v${__BX_CONSTANT_VERSION__}"; then
             echo "released=true" >> "$GITHUB_OUTPUT"
           else
             echo "released=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Generate dist
+      - name: Generate Dist
         if: steps.verify-version-status.outputs.released == 'false'
         shell: bash
-        run: ./bin/bx dist
+        run: |
+          source ./src/constants.sh
+
+          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
+
+          ./bin/bx "dist ${REPO_URL}/releases/download/v${__BX_CONSTANT_VERSION__}/install.sh"
+
+      - name: Create GitHub Release
+        if: steps.verify-version-status.outputs.released == 'false'
+        shell: bash
+        run: |
+          source ./src/constants.sh
+
+          gh release create "v${__BX_CONSTANT_VERSION__}" \
+            --title "v${__BX_CONSTANT_VERSION__}" \
+            --generate-notes \
+            dist/*
