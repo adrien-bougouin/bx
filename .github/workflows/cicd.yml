@@ -100,7 +100,7 @@ jobs:
 
           REPO_URL="${{ github.server_url }}/${{ github.repository }}"
 
-          ./bin/bx "dist ${REPO_URL}/releases/download/v${__BX_CONSTANT_VERSION__}/install.sh"
+          ./bin/bx "dist ${REPO_URL}/releases/download/v${__BX_CONSTANT_VERSION__}"
 
       - name: Create GitHub Release
         if: steps.verify-version-status.outputs.released == 'false'
