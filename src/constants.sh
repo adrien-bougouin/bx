@@ -1,7 +1,7 @@
 #!/bin/bash
 
 __BX_CONSTANT_COMMAND_NAME__="bx"
-__BX_CONSTANT_VERSION__="0.1.0"
+__BX_CONSTANT_VERSION__="0.1.1"
 
 # TODO: move away
 __BX_CONSTANT_TRUE__=0

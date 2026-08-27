@@ -58,6 +58,8 @@ dist() {
 
   mkdir -p "${dist_bin_path}"
 
+  cp -r "${ROOT_PATH}/LICENSE" \
+    "${dist_bx_path}/LICENSE"
   cp -r "${ROOT_PATH}/dist.bashfile" \
     "${dist_bx_path}/Bashfile"
   cp -r "${SRC_PATH=}" \
