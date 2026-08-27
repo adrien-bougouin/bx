@@ -29,10 +29,13 @@ format() {
 ```
 
 ## Installation
-Clone this repository, then execute:
-
 ```shell
-./bin/bx install
+curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/install.sh" | bash
+```
+
+Also uninstall with:
+```shell
+curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/uninstall.sh" | bash
 ```
 
 ## Quick Reference
