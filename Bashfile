@@ -1,10 +1,11 @@
 ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 BIN_PATH="${ROOT_PATH}/bin"
+MAN_PATH="${ROOT_PATH}/man"
 SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
-SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH=}" -name "*.sh"))
+SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH}" -name "*.sh"))
 BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/dist.bashfile" "${ROOT_PATH}/features/Bashfile")
 
 source "${ROOT_PATH}/dist.bashfile"
@@ -43,11 +44,13 @@ dist() {
   local dist_bx_path="${dist_path}/${bx_dirname}"
   local bx_archive_path="${dist_bx_path}.tar.gz"
 
-  local dist_src_path
   local dist_bin_path
+  local dist_man_path
+  local dist_src_path
 
-  dist_src_path="${dist_bx_path}/$(basename "${SRC_PATH=}")"
   dist_bin_path="${dist_bx_path}/$(basename "${BIN_PATH}")"
+  dist_man_path="${dist_bx_path}/$(basename "${MAN_PATH}")"
+  dist_src_path="${dist_bx_path}/$(basename "${SRC_PATH}")"
 
   local download_host="${1:-file://${dist_path}}"
   download_host="${download_host%/}"
@@ -62,10 +65,12 @@ dist() {
     "${dist_bx_path}/LICENSE"
   cp -r "${ROOT_PATH}/dist.bashfile" \
     "${dist_bx_path}/Bashfile"
-  cp -r "${SRC_PATH=}" \
-    "${dist_src_path}"
   cp -r "${BIN_PATH}/${bx_name}" \
     "${dist_bin_path}/${bx_name}"
+  cp -r "${MAN_PATH}" \
+    "${dist_man_path}"
+  cp -r "${SRC_PATH}" \
+    "${dist_src_path}"
 
   tar -czf "${bx_archive_path}" -C "${dist_path}" "${bx_dirname}"
   rm -rf "${dist_bx_path}"

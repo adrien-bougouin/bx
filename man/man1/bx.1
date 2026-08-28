@@ -1,0 +1,255 @@
+.TH BX 1 "" bx "User Commands"
+.SH NAME
+bx \- Bash eXecutor, a configurable build automation and recipe invocation tool
+.SH SYNOPSIS
+\fBbx\fR [\fB\-f\fR \fIbashfile\fR] [options] [\fB\-\-\fR] [recipe ...]
+.SH DESCRIPTION
+.PP
+The
+.I bx
+utility is a build automation and recipe invocation tool that runs entirely in
+Bash.  It reads a configuration file called a
+.IR Bashfile ,
+treats Bash functions declared in it as
+.IR recipes ,
+and invokes them by name:
+.PP
+.B bx
+.I recipe
+.PP
+Any valid Bash 3.2+ code may be used in a
+.IR Bashfile ,
+so recipes may use the full power of the shell.  A
+recipe declared in the file
+.I Bashfile
+as follows:
+.PP
+.RS
+.nf
+lint() {
+  shellcheck "src/*.sh"
+}
+.fi
+.RE
+.PP
+is invoked with
+.PP
+.RS
+.B bx
+.I lint
+.RE
+.PP
+A recipe is a set of instructions declared in a
+.I Bashfile
+as a Bash function.  Private functions, prefixed by
+.B _
+by convention, are not treated as recipes.
+.PP
+When no recipe is given,
+.I bx
+invokes the default recipe, marked with the
+.B @default
+annotation (see ANNOTATIONS below).  If no default recipe is declared,
+.I bx
+fails with an error.
+.PP
+The
+.I Bashfile
+may be specified explicitly with the
+.B \-f
+option.  Otherwise,
+.I bx
+looks for the nearest
+.I Bashfile
+by walking up the directory tree from the current working directory (see FILES
+below).  This allows recipes to be invoked from any subdirectory of a project.
+.SH OPTIONS
+.sp 1
+.TP 0.5i
+\fB\-f\fR \fIfile\fR, \fB\-\-file\fR=\fIfile\fR, \fB\-\-bashfile\fR=\fIfile\fR
+Read
+.I file
+as a bashfile instead of searching for the default
+.IR Bashfile .
+Only one bashfile may be specified.
+.TP 0.5i
+.BR \-h , " \-\-help"
+Display the usage line, the list of options, and the available recipes,
+together with any recipe descriptions declared with the
+.B @help
+annotation.
+.TP 0.5i
+.BR \-l , " \-\-list"
+Display the available recipes, together with any recipe descriptions
+declared with the
+.B @help
+annotation.
+.TP 0.5i
+.BR \-q , " \-\-quiet"
+Do not display the invoked recipe traces, nor the xtrace output.  This is
+useful when the recipes themselves print the desired output.
+.TP 0.5i
+.BR \-v , " \-\-version"
+Display the version of
+.I bx
+and exit without requiring a
+.IR Bashfile .
+.TP 0.5i
+.B \-\-
+Treat all remaining arguments as recipes, even if they begin with a hyphen.
+.SH RECIPES
+.PP
+.I bx
+may invoke several recipes in a single execution, in the order given:
+.PP
+.RS
+.B bx
+.I format
+.I lint
+.RE
+.PP
+Arguments may be passed to a recipe by quoting the recipe name together with
+its arguments.  They are made available to the recipe as
+.IR $1 ,
+.I $2 ,
+etc:
+.PP
+.RS
+.B bx
+.IR "'lint --some-lint-option'"
+.RE
+.PP
+A recipe that has already been invoked may legitimately be invoked again with
+different arguments.  However, when a recipe is already in the middle of being
+invoked, directly or indirectly, and is invoked again on the same invocation
+path, the re\-invocation is skipped with a warning.  This prevents circular
+invocation.
+.SS "Nested invocation"
+.PP
+A recipe may invoke other recipes at runtime, without spawning a separate
+.B bx
+process, using the
+.B bx::invoke
+helper:
+.PP
+.RS
+.nf
+complex-recipe() {
+  echo "Pre-processing..."
+  bx::invoke simple-recipe
+  echo "Post-processing..."
+}
+.fi
+.RE
+.PP
+The
+.B bx::invoke
+helper accepts the same syntax as the command line: several recipes may be
+passed, and arguments are forwarded to the invoked recipe.
+.SS "Scope boundaries"
+.PP
+Recipes declared with
+.B ()
+(subshell) run in their own scope: if they modify global variables, the
+changes are not visible to other recipes.  Recipes declared with
+.B {}
+(functions) share the parent scope: if they modify global variables, the
+changes are visible to other recipes.
+.SS "Shell options isolation"
+.PP
+Shell options, such as
+.B set
+.BI \-x
+for tracing, are isolated locally.  Changes made inside a recipe do not leak
+into other recipes, nor into
+.I bx
+itself.
+.SH ANNOTATIONS
+.PP
+Annotations are directives placed inside a recipe body.  They are read by
+.I bx
+when loading the
+.I Bashfile
+and instruct it on how to treat the recipe.
+.TP 0.5i
+.B @help
+.I "description ..."
+Associate a short description with the recipe.  The description is displayed
+by
+.B bx
+.B \-l
+and
+.B bx
+.BR \-h ,
+and may span multiple lines by passing several arguments:
+.PP
+.RS
+.nf
+my-recipe() {
+  @help "Line 1" \\
+    "Line 2"
+}
+.fi
+.RE
+.TP 0.5i
+.B @default
+Mark the recipe as the default recipe, invoked when
+.B bx
+is executed without an explicit recipe:
+.PP
+.RS
+.nf
+my-recipe() {
+  @default
+}
+.fi
+.RE
+.PP
+At most one recipe may be marked as the default.  A default recipe must not be
+a private function (a name prefixed by
+.BR _ ).
+.SH FILES
+.TP 0.5i
+.I Bashfile
+The default configuration file read by
+.IR bx .
+When the
+.B \-f
+option is not given,
+.I bx
+searches for the nearest
+.I Bashfile
+starting from the current working directory and walking up its parents, until
+one is found or the root directory is reached.  If none is found,
+.I bx
+fails, unless
+.B \-h
+or
+.B \-v
+was requested.
+.SH "EXIT STATUS"
+.PP
+.I bx
+exits with a status of zero if all invoked recipes completed successfully.  A
+nonzero status is returned if any recipe, or
+.I bx
+itself, encountered an error.  Error messages are printed to standard error
+with the
+.B bx:
+prefix.
+.SH "SEE ALSO"
+.IR bash (1)
+and the
+.I bx
+project documentation.
+.SH AUTHOR
+.I bx
+is written and maintained by Adrien Bougouin.
+.SH "COPYRIGHT"
+Copyright (c) 2026 Adrien Bougouin.
+.PP
+.I bx
+is free software, released under the MIT License.  It is distributed in the
+hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+the MIT License for more details.
