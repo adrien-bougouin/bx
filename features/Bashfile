@@ -28,8 +28,8 @@ features::check() (
   bundle exec cucumber --no-source ${skip_args+"${skip_args[@]}"} ${args+"${args[@]}"} --require "${FEATURES_PATH}" "${FEATURES_PATH}"
 )
 
-features::todo-list() (
-  bx::invoke 'features-check --tags="@skip or @fixme or @todo"'
+features::todo() (
+  bx::invoke 'features::check --tags="@skip or @fixme or @todo"'
 )
 
 _features::env() {

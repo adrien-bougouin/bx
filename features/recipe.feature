@@ -26,7 +26,7 @@ Feature: Recipe
       """
       'recipe-1' code executed!
       """
-    And  bx traces
+    And bx traces
       """
       + # recipe-1 {
       + # }
@@ -40,7 +40,7 @@ Feature: Recipe
       'recipe-1' code executed!
       'recipe-1' code executed!
       """
-    And  bx traces
+    And bx traces
       """
       + # recipe-1 {
       + # }
@@ -66,7 +66,7 @@ Feature: Recipe
       'recipe-1' code executed!
       'recipe-2' code executed!
       """
-    And  bx traces
+    And bx traces
       """
       + # recipe-1 {
       + # }
@@ -81,7 +81,7 @@ Feature: Recipe
       """
       'recipe-1' code executed!
       """
-    And  bx traces
+    And bx traces
       """
       + # recipe-1 {
       + # }

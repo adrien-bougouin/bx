@@ -4,6 +4,10 @@ When('executing bx with {string}') do |arguments|
   shell.execute("bx #{arguments}")
 end
 
+When('executing bx with {string} and inputting') do |arguments, inputs|
+  shell.execute("bx #{arguments}", stdin_data: "#{inputs.raw.join("\n")}\n")
+end
+
 When('executing bx with no arguments') do
   shell.execute('bx')
 end
@@ -14,6 +18,14 @@ end
 
 Then('bx displays') do |stdout_content|
   assert_equal(stdout_content, shell.stdout, data_type: 'stdout')
+end
+
+Then('bx confirms') do |confirmations|
+  assert_equal(confirmations.raw.join("\n"), shell.confirmations, data_type: 'confirmation')
+end
+
+Then('bx confirms nothing') do
+  assert_equal('', shell.confirmations, data_type: 'confirmation')
 end
 
 Then('bx traces nothing') do

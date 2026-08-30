@@ -4,21 +4,26 @@ require 'open3'
 
 module ShellWorld
   class Shell
-    attr_reader :stdout, :stderr, :xtrace, :status
+    attr_reader :stdout, :confirmations, :xtrace, :stderr, :status
 
-    def execute(command)
+    def execute(command, stdin_data: nil)
       stdout, stderr, status = Open3.capture3(
-        "TERM= PS4='+ ' #{command}"
+        "TERM= PS4='+ ' #{command}",
+        stdin_data:
       )
 
-      # FIXME: Eventually, separating stderr and trace by /^+/ pattern may fail
       traces, errors = stderr.sub(/\n\Z/, '').split("\n").partition do |line|
         line.start_with?('+')
       end
 
+      confirmations, errors = errors.partition do |line|
+        line.match?(%r{^bx: .*\? \[y/N\] $})
+      end
+
       @stdout = stdout.sub(/\n\Z/, '')
-      @stderr = errors.join("\n")
+      @confirmations = confirmations.map(&:strip).join("\n")
       @xtrace = traces.join("\n")
+      @stderr = errors.join("\n")
       @status = status.exitstatus
     end
   end
