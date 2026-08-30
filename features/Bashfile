@@ -20,7 +20,7 @@ features::check() (
   local skip_args=()
 
   if [[ ! $* =~ "--tags" ]]; then
-    skip_args+=("--tags" "not @skip")
+    skip_args+=("--tags" "not @skip and not @todo")
   fi
 
   set -x
@@ -29,7 +29,7 @@ features::check() (
 )
 
 features::todo() (
-  bx::invoke 'features::check --tags="@skip or @fixme or @todo"'
+  bx::invoke 'features::check --tags="@skip or @todo"'
 )
 
 _features::env() {

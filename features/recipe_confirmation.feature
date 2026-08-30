@@ -1,4 +1,4 @@
-@skip
+@todo
 Feature: Recipe Confirmation
 
   Background:

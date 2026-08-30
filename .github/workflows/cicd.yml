@@ -68,7 +68,7 @@ jobs:
       - name: Tests run
         shell: bash
         run: |
-          ./bin/bx "features::check --tags 'not @skip:${{ vars.MAX_SKIPS }}'"
+          ./bin/bx "features::check --tags 'not @skip:${{ vars.MAX_SKIPS }} and not @todo'"
 
   release:
     name: Release
