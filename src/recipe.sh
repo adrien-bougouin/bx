@@ -19,6 +19,12 @@ _bx::recipe::invoke() {
     return
   fi
 
+  if _bx::recipe::must_confirm "${recipe}"; then
+    if ! _bx::ui::confirm "Invoke recipe '${recipe_with_args}'?"; then
+      _bx::abort "Aborted!"
+    fi
+  fi
+
   local invocation_level
 
   _bx::invocation_stack::push "${recipe_with_args}"

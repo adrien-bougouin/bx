@@ -1,4 +1,3 @@
-@todo
 Feature: Recipe Confirmation
 
   Background:
@@ -18,7 +17,7 @@ Feature: Recipe Confirmation
       ```
 
   Scenario Outline: Confirm a recipe invocation
-    When executing bx with "recipe-1--critical" and inputting
+    When executing bx with "recipe-1--critical" and confirmation sequence
       | <CONFIRMATION INPUT> |
     Then bx confirms
       | bx: Invoke recipe 'recipe-1--critical'? [y/N] |
@@ -26,20 +25,38 @@ Feature: Recipe Confirmation
       """
       'recipe-1--critical' code executed!
       """
+    And bx traces
+      """
+      + # recipe-1--critical {
+      + # }
+      """
     And bx does not error out
 
     Examples:
       | CONFIRMATION INPUT |
       | y                  |
       | Y                  |
-      | yes                |
-      | Yes                |
-      | YES                |
+
+  Scenario: Confirm a recipe invocation with arguments
+    When executing bx with "'recipe-1--critical arg-1 arg-2'" and confirmation sequence
+      | y |
+    Then bx confirms
+      | bx: Invoke recipe 'recipe-1--critical arg-1 arg-2'? [y/N] |
+    And bx displays
+      """
+      'recipe-1--critical' code executed!
+      """
+    And bx traces
+      """
+      + # recipe-1--critical arg-1 arg-2 {
+      + # }
+      """
+    And bx does not error out
 
   Scenario: Confirm multiple recipe invocations
-    When executing bx with "recipe-1--critical recipe-2--critical" and inputting
-      | yes |
-      | yes |
+    When executing bx with "recipe-1--critical recipe-2--critical" and confirmation sequence
+      | y |
+      | y |
     Then bx confirms
       | bx: Invoke recipe 'recipe-1--critical'? [y/N] |
       | bx: Invoke recipe 'recipe-2--critical'? [y/N] |
@@ -48,10 +65,17 @@ Feature: Recipe Confirmation
       'recipe-1--critical' code executed!
       'recipe-2--critical' code executed!
       """
+    And bx traces
+      """
+      + # recipe-1--critical {
+      + # }
+      + # recipe-2--critical {
+      + # }
+      """
     And bx does not error out
 
   Scenario Outline: Reject a recipe invocation
-    When executing bx with "recipe-1--critical" and inputting
+    When executing bx with "recipe-1--critical" and confirmation sequence
       | <REJECTION INPUT> |
     Then bx confirms
       | bx: Invoke recipe 'recipe-1--critical'? [y/N] |
@@ -64,14 +88,11 @@ Feature: Recipe Confirmation
       |                 |
       | n               |
       | N               |
-      | no              |
-      | No              |
-      | NO              |
 
   Scenario: Confirm then reject recipe invocations
-    When executing bx with "recipe-1--critical recipe-2--critical" and inputting
-      | yes |
-      | no  |
+    When executing bx with "recipe-1--critical recipe-2--critical" and confirmation sequence
+      | y |
+      | n |
     Then bx confirms
       | bx: Invoke recipe 'recipe-1--critical'? [y/N] |
       | bx: Invoke recipe 'recipe-2--critical'? [y/N] |

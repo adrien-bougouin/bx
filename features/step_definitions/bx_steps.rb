@@ -4,8 +4,8 @@ When('executing bx with {string}') do |arguments|
   shell.execute("bx #{arguments}")
 end
 
-When('executing bx with {string} and inputting') do |arguments, inputs|
-  shell.execute("bx #{arguments}", stdin_data: "#{inputs.raw.join("\n")}\n")
+When('executing bx with {string} and confirmation sequence') do |arguments, confirmations|
+  shell.execute("bx #{arguments}", stdin_data: confirmations.raw.join)
 end
 
 When('executing bx with no arguments') do

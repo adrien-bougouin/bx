@@ -48,5 +48,6 @@ _bx::recipe::load_annotations() {
   _bx::annotation_parsing_stack::pop
 }
 
+source "${__BX_SRC_PATH__}/annotations/confirm.sh"
 source "${__BX_SRC_PATH__}/annotations/default.sh"
 source "${__BX_SRC_PATH__}/annotations/help.sh"

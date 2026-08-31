@@ -36,7 +36,7 @@ readonly __BX_DISPLAY_STYLE_BOLD__
 #   Writes the formatted message to stdout.
 ################################################################################
 _bx::display::info() {
-  _bx::display::format "$1"
+  _bx::display::format "$1\n"
 }
 
 ################################################################################
@@ -56,7 +56,7 @@ _bx::display::info() {
 #   Writes the formatted message to stderr.
 ################################################################################
 _bx::display::warning() {
-  _bx::display::format "$1" >&2
+  _bx::display::format "$1\n" >&2
 }
 
 ################################################################################
@@ -76,7 +76,7 @@ _bx::display::warning() {
 #   Writes the formatted message to stderr.
 ################################################################################
 _bx::display::error() {
-  _bx::display::format "$1" >&2
+  _bx::display::format "$1\n" >&2
 }
 
 ################################################################################
@@ -116,7 +116,7 @@ _bx::display::trace() {
     xtrace_repeated_character="${xtrace_repeated_character}${xtrace_repeat_character}"
   done
 
-  _bx::display::format "${xtrace_repeated_character} # ${trace}" >&2
+  _bx::display::format "${xtrace_repeated_character} # ${trace}\n" >&2
 }
 
 ################################################################################
@@ -143,5 +143,5 @@ _bx::display::format() {
   message="${message//\{\{normal\}\}/${__BX_DISPLAY_STYLE_NORMAL__}}"
   message="${message//\{\{bold\}\}/${__BX_DISPLAY_STYLE_BOLD__}}"
 
-  printf "%s${__BX_DISPLAY_STYLE_NORMAL__}\n" "${message}"
+  printf "%b" "${message}${__BX_DISPLAY_STYLE_NORMAL__}"
 }

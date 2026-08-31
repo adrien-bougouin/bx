@@ -94,6 +94,8 @@ dist() {
 }
 
 clean-dist() {
+  # @confirm
+
   set -x
 
   rm -rf "${ROOT_PATH}/dist"
