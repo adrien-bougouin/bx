@@ -1,6 +1,7 @@
 # `bx` (Bash eXecutor)
 
-[![CI/CD](https://github.com/adrien-bougouin/bx/actions/workflows/cicd.yml/badge.svg)](https://github.com/adrien-bougouin/bx/actions/workflows/cicd.yml)
+[![Latest](https://img.shields.io/github/v/release/adrien-bougouin/bx?style=for-the-badge&logo=github&label=Latest&labelColor=1F2328&color=43BB00)](https://github.com/adrien-bougouin/bx/releases)
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/adrien-bougouin/bx/cicd.yml?style=for-the-badge&logo=github&label=CI/CD&labelColor=1F2328&branch=main)](https://github.com/adrien-bougouin/bx/actions/workflows/cicd.yml)
 
 `bx` is a Bash configurable build automation and recipe invocation tool.
 
