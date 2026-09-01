@@ -75,15 +75,14 @@ jobs:
         run: |
           ./bin/bx "features::check --tags 'not @skip:${{ vars.MAX_SKIPS }} and not @todo'"
 
-  release:
-    name: Release
+  check-releasable-state:
+    name: Check Releasable State
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    needs: [ check-style, check-features ]
 
     runs-on: ubuntu-latest
 
     outputs:
-      created: ${{ steps.release-on-github.outputs.created }}
+      should-release: ${{ steps.verify-version-status.outputs.release-missing }}
 
     steps:
       - uses: actions/checkout@v6
@@ -97,13 +96,25 @@ jobs:
           source ./src/constants.sh
 
           if git tag | grep "v${__BX_CONSTANT_VERSION__}"; then
-            echo "released=true" >> "$GITHUB_OUTPUT"
+            echo "release-missing=false" >> "$GITHUB_OUTPUT"
           else
-            echo "released=false" >> "$GITHUB_OUTPUT"
+            echo "release-missing=true" >> "$GITHUB_OUTPUT"
           fi
 
+  release:
+    name: Release
+    needs: [ check-style, check-features, check-releasable-state ]
+    if: ${{ needs.check-releasable-state.outputs.should-release == 'true' }}
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      released: ${{ steps.release-on-github.outputs.success }}
+
+    steps:
+      - uses: actions/checkout@v6
+
       - name: Generate distribution
-        if: steps.verify-version-status.outputs.released == 'false'
         shell: bash
         run: |
           source ./src/constants.sh
@@ -114,7 +125,6 @@ jobs:
 
       - name: Release on GitHub
         id: release-on-github
-        if: steps.verify-version-status.outputs.released == 'false'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -126,12 +136,12 @@ jobs:
             --generate-notes \
             dist/*
 
-          echo "created=true" >> "$GITHUB_OUTPUT"
+          echo "success=true" >> "$GITHUB_OUTPUT"
 
   validate-release:
     name: Validate Release
-    if: ${{ needs.release.outputs.created == 'true' }}
     needs: [ release ]
+    if: ${{ needs.release.outputs.released == 'true' }}
 
     runs-on: ubuntu-latest
 
