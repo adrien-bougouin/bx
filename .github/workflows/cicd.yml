@@ -19,22 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Cache shfmt
-        id: cache-shfmt
-        uses: actions/cache@v6
-        with:
-          path: ~/.local/bin
-          key: shfmt-${{ runner.os }}-${{ env.SHFMT_VERSION }}
-      - name: Install shfmt
-        if: steps.cache-shfmt.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ${HOME}/.local/bin
-          curl -fsSL -o ${HOME}/.local/bin/shfmt \
-            "https://github.com/mvdan/sh/releases/download/v${SHFMT_VERSION}/shfmt_v${SHFMT_VERSION}_linux_amd64"
-          chmod +x ${HOME}/.local/bin/shfmt
-      - name: Add shfmt to PATH
-        run: echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
-
       - uses: ruby/setup-ruby@v1
         env:
           BUNDLE_GEMFILE: "./features/Gemfile"
@@ -42,9 +26,30 @@ jobs:
           ruby-version: '4.0.5'
           bundler-cache: true
 
-      - run: ./bin/bx format && git diff --exit-code
-      - run: ./bin/bx "lint --exclude SC2317,SC2015"
-      - run: ./bin/bx features::lint
+      - id: cache-shfmt
+        uses: actions/cache@v6
+        with:
+          path: ~/.local/bin
+          key: shfmt-${{ runner.os }}-${{ env.SHFMT_VERSION }}
+
+      - name: Install shfmt
+        if: steps.cache-shfmt.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ${HOME}/.local/bin
+
+          curl -fsSL -o ${HOME}/.local/bin/shfmt \
+            "https://github.com/mvdan/sh/releases/download/v${SHFMT_VERSION}/shfmt_v${SHFMT_VERSION}_linux_amd64"
+
+          chmod +x ${HOME}/.local/bin/shfmt
+
+      - name: Add shfmt to PATH
+        run: echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
+
+      - name: Check coding style
+        run: |
+          ./bin/bx format && git diff --exit-code
+          ./bin/bx "lint --exclude SC2317,SC2015"
+          ./bin/bx features::lint
 
   check-features:
     name: Check Features
@@ -65,7 +70,7 @@ jobs:
           ruby-version: '4.0.5'
           bundler-cache: true
 
-      - name: Tests run
+      - name: Run feature tests
         shell: bash
         run: |
           ./bin/bx "features::check --tags 'not @skip:${{ vars.MAX_SKIPS }} and not @todo'"
@@ -77,12 +82,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    outputs:
+      created: ${{ steps.release-on-github.outputs.created }}
+
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-tags: true
 
-      - name: Verify Version Status
+      - name: Verify version status
         id: verify-version-status
         shell: bash
         run: |
@@ -94,7 +102,7 @@ jobs:
             echo "released=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Generate Dist
+      - name: Generate distribution
         if: steps.verify-version-status.outputs.released == 'false'
         shell: bash
         run: |
@@ -104,7 +112,8 @@ jobs:
 
           ./bin/bx "dist ${REPO_URL}/releases/download/v${__BX_CONSTANT_VERSION__}"
 
-      - name: Create GitHub Release
+      - name: Release on GitHub
+        id: release-on-github
         if: steps.verify-version-status.outputs.released == 'false'
         shell: bash
         env:
@@ -116,3 +125,34 @@ jobs:
             --title "v${__BX_CONSTANT_VERSION__}" \
             --generate-notes \
             dist/*
+
+          echo "created=true" >> "$GITHUB_OUTPUT"
+
+  validate-release:
+    name: Validate Release
+    if: ${{ needs.release.outputs.created == 'true' }}
+    needs: [ release ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check installation
+        run: |
+          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
+
+          curl -fsSL "${REPO_URL}/releases/latest/download/install.sh" | bash
+
+      - name: Check installed version
+        shell: bash
+        run: |
+          source ./src/constants.sh
+
+          expected="${__BX_CONSTANT_VERSION__}"
+          actual="$("${HOME}/.local/opt/bx/bin/bx" --version | sed 's/^bx: //')"
+
+          if [[ "${actual}" != "${expected}" ]]; then
+            echo "::error::bx --version mismatch (expected '${expected}', got '${actual}')"
+            exit 1
+          fi
