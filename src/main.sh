@@ -77,7 +77,21 @@ _bx::main() {
     BASH_XTRACEFD=2
   fi
 
-  _bx::recipes::invoke ${positional_arguments_ref+"${positional_arguments_ref[@]}"}
+  if [[ ${#positional_arguments_ref[@]} -eq 0 ]]; then
+    local default_recipe
+
+    default_recipe="$(_bx::recipes::default)"
+
+    if [[ -n ${default_recipe} ]]; then
+      bx::invoke "${default_recipe}"
+
+      exit 0
+    else
+      _bx::abort "Nothing to do!"
+    fi
+  fi
+
+  bx::invoke ${positional_arguments_ref+"${positional_arguments_ref[@]}"}
 }
 
 _bx::main "$@"

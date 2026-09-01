@@ -71,25 +71,3 @@ _bx::recipes::include() {
 
   return "${__BX_CONSTANT_FALSE__}"
 }
-
-_bx::recipes::invoke() {
-  if [[ $# -gt 0 ]]; then
-    while [[ $# -gt 0 ]]; do
-      # shellcheck disable=SC2086
-      _bx::recipe::invoke $1
-
-      shift
-    done
-  else
-    if [[ -n $(_bx::recipes::default) ]]; then
-      local default_recipe
-
-      default_recipe="$(_bx::recipes::default)"
-
-      # shellcheck disable=SC2086
-      _bx::recipe::invoke ${default_recipe}
-    else
-      _bx::abort "Nothing to do!"
-    fi
-  fi
-}

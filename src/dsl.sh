@@ -25,7 +25,12 @@ bx::invoke() {
     _bx::utils::shell::reset_options
   } 2>/dev/null
 
-  _bx::recipes::invoke "$@"
+  while [[ $# -gt 0 ]]; do
+    # shellcheck disable=SC2086
+    _bx::recipe::invoke $1
+
+    shift
+  done
 
   _bx::utils::shell::restore_options "${shopts}"
 }
