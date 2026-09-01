@@ -148,6 +148,24 @@ bx -q change-global print-global              # GLOBAL=changed-value
 bx -q change-global--subprocess print-global  # GLOBAL=default-value
 ```
 
+### Recipe confirmation (`@confirm`)
+Mark a recipe as requiring user confirmation before it is executed. When a
+recipe carries the `@confirm` annotation, `bx` displays a `[y/N]` prompt and
+only proceeds if the user answers `y`.
+
+```bash
+# Bashfile
+
+dangerous-recipe() {
+  @confirm
+
+  rm -rf ./build
+}
+```
+
+The confirmation prompt is shown for each matching recipe in a chain and works
+with nested invocations (`bx::invoke`).
+
 ### Shell options isolation
 `bx` isolates shell options locally (e.g. `set -x` to trace execution), preventing changes from leaking into other recipes or into `bx` itself.
 

@@ -208,6 +208,31 @@ my-recipe() {
 At most one recipe may be marked as the default.  A default recipe must not be
 a private function (a name prefixed by
 .BR _ ).
+.TP 0.5i
+.B @confirm
+Mark the recipe as requiring interactive confirmation before execution.  When
+the recipe is about to be invoked,
+.I bx
+prompts the user with a
+.BI "[y/N] "
+question on standard error and waits for a single\-character reply.  Pressing
+.B y
+confirms the invocation; any other input (including an empty reply) cancels
+it and aborts the chain.
+.PP
+.RS
+.nf
+dangerous-recipe() {
+  @confirm
+
+  rm -rf ./build
+}
+.fi
+.RE
+.PP
+The prompt is shown for every matching recipe in a chain, including recipes
+invoked through nested invocation via
+.BR bx::invoke .
 .SH FILES
 .TP 0.5i
 .I Bashfile
