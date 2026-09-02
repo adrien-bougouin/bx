@@ -1,8 +1,10 @@
 # `bx` (Bash eXecutor)
 
-[![Latest](https://img.shields.io/github/v/release/adrien-bougouin/bx?style=for-the-badge&logo=github&label=Latest&labelColor=1F2328&color=43BB00)](https://github.com/adrien-bougouin/bx/releases)
-[![License](https://img.shields.io/github/license/adrien-bougouin/bx?style=for-the-badge&label=License&labelColor=1F2328&color=43BB00)](https://github.com/adrien-bougouin/bx/blob/main/LICENSE)
-[![CI/CD](https://img.shields.io/github/actions/workflow/status/adrien-bougouin/bx/cicd.yml?style=for-the-badge&logo=github&label=CI/CD&labelColor=1F2328&branch=main)](https://github.com/adrien-bougouin/bx/actions/workflows/cicd.yml)
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/adrien-bougouin/bx/cicd.yml?branch=main&logo=github&label=CI/CD)](https://github.com/adrien-bougouin/bx/actions/workflows/cicd.yml)
+[![License](https://img.shields.io/github/license/adrien-bougouin/bx?label=License)](https://github.com/adrien-bougouin/bx/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/adrien-bougouin/bx?logo=github&label=Release)](https://github.com/adrien-bougouin/bx/releases/latest)
+[![Installs](https://img.shields.io/github/downloads/adrien-bougouin/bx/install.sh?displayAssetName=false&label=Installs
+)](https://github.com/adrien-bougouin/bx#installation)
 
 `bx` is a Bash configurable build automation and recipe invocation tool.
 
