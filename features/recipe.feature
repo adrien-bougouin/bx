@@ -52,12 +52,12 @@ Feature: Recipe
   Scenario: Invoke a missing recipe
     When executing bx with "missing"
     Then bx displays nothing
-    And bx errors out with message "bx: No recipe 'missing'!"
+    And bx errors out with message "bx: No recipe `missing`!"
 
   Scenario: Invoke a private function instead of a recipe
     When executing bx with "_not-a-recipe"
     Then bx displays nothing
-    And bx errors out with message "bx: '_not-a-recipe' is a private function, not a recipe!"
+    And bx errors out with message "bx: `_not-a-recipe` is a private function, not a recipe!"
 
   Scenario: Invoke multiple recipes
     When executing bx with "recipe-1 recipe-2"
@@ -86,4 +86,4 @@ Feature: Recipe
       + # recipe-1 {
       + # }
       """
-    And bx errors out with message "bx: No recipe 'missing'!"
+    And bx errors out with message "bx: No recipe `missing`!"

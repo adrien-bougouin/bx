@@ -103,4 +103,4 @@ Feature: Recipe--Nested Invocation
       """
       + # complex-recipe {
       """
-    And bx errors out with message "bx: No recipe 'missing'!"
+    And bx errors out with message "bx: No recipe `missing`!"

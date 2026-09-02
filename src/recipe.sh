@@ -3,24 +3,24 @@
 _bx::recipe::invoke() {
   local recipe="$1"
   local args=("${@:2}")
-  local recipe_with_args="${recipe}${args+" ${args[*]}"}"
+  local recipe_with_args="${recipe}${args+" ${args[@]}"}"
 
   if ! _bx::recipes::include "${recipe}"; then
     if [[ ${recipe} =~ ^_ ]] && declare -F "${recipe}" >/dev/null 2>&1; then
-      _bx::abort "'${recipe_with_args}' is a private function, not a recipe!"
+      _bx::abort "\`${recipe_with_args}\` is a private function, not a recipe!"
     else
-      _bx::abort "No recipe '${recipe_with_args}'!"
+      _bx::abort "No recipe \`${recipe_with_args}\`!"
     fi
   fi
 
   if _bx::invocation_stack::includes "${recipe_with_args}"; then
-    _bx::display::warning "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} Skipping re-invocation of '${recipe_with_args}'..."
+    _bx::display::warning "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} Skipping re-invocation of \`${recipe_with_args}\`..."
 
     return
   fi
 
   if _bx::recipe::must_confirm "${recipe}"; then
-    if ! _bx::ui::confirm "Invoke recipe '${recipe_with_args}'?"; then
+    if ! _bx::ui::confirm "Invoke recipe \`${recipe_with_args}\`?"; then
       _bx::abort "Aborted!"
     fi
   fi

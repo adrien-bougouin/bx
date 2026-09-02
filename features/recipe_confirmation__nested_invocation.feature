@@ -34,7 +34,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     When executing bx with "recipe" and confirmation sequence
       | y |
     Then bx confirms
-      | bx: Invoke recipe 'recipe--critical'? [y/N] |
+      | bx: Invoke recipe `recipe--critical`? [y/N] |
     And bx displays
       """
       'recipe--critical' code executed!
@@ -52,7 +52,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     When executing bx with "'recipe arg'" and confirmation sequence
       | y |
     Then bx confirms
-      | bx: Invoke recipe 'recipe--critical arg'? [y/N] |
+      | bx: Invoke recipe `recipe--critical arg`? [y/N] |
     And bx displays
       """
       'recipe--critical' code executed!
@@ -72,9 +72,9 @@ Feature: Recipe Confirmation -- Nested Invocation
       | y |
       | y |
     Then bx confirms
-      | bx: Invoke recipe 'recipe--critical'? [y/N]      |
-      | bx: Invoke recipe 'deep-recipe--critical'? [y/N] |
-      | bx: Invoke recipe 'recipe--critical'? [y/N]      |
+      | bx: Invoke recipe `recipe--critical`? [y/N]      |
+      | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
+      | bx: Invoke recipe `recipe--critical`? [y/N]      |
     And bx displays
       """
       'recipe--critical' code executed!
@@ -100,7 +100,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     When executing bx with "recipe" and confirmation sequence
       | n |
     Then bx confirms
-      | bx: Invoke recipe 'recipe--critical'? [y/N] |
+      | bx: Invoke recipe `recipe--critical`? [y/N] |
     And bx displays nothing
     And bx traces
       """
@@ -113,8 +113,8 @@ Feature: Recipe Confirmation -- Nested Invocation
       | y |
       | n |
     Then bx confirms
-      | bx: Invoke recipe 'recipe--critical'? [y/N] |
-      | bx: Invoke recipe 'deep-recipe--critical'? [y/N] |
+      | bx: Invoke recipe `recipe--critical`? [y/N] |
+      | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
     And bx displays
       """
       'recipe--critical' code executed!

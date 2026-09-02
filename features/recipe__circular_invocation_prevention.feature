@@ -33,7 +33,7 @@ Feature: Recipe--Circular Invocation Prevention
       ++ # }
       + # }
       """
-    And bx warns with message "bx: Skipping re-invocation of '<CIRCULAR RECIPE ARGUMENT>'..."
+    And bx warns with message "bx: Skipping re-invocation of `<CIRCULAR RECIPE ARGUMENT>`..."
 
     Examples:
       | CIRCULAR RECIPE ARGUMENT     |
@@ -64,4 +64,4 @@ Feature: Recipe--Circular Invocation Prevention
       ++ # }
       + # }
       """
-    And bx warns with message "bx: Skipping re-invocation of 'complex-recipe arg-1 arg-2'..."
+    And bx warns with message "bx: Skipping re-invocation of `complex-recipe arg-1 arg-2`..."
