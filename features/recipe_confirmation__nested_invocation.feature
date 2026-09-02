@@ -4,11 +4,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     Given the Bashfile
       ```bash
       recipe() {
-        if [[ $# -eq 1 ]]; then
-          bx::invoke "recipe--critical arg"
-        else
-          bx::invoke recipe--critical
-        fi
+        bx::invoke "$(printf " %q" recipe--critical "$@")"
       }
 
       recipe--critical() {
@@ -49,18 +45,18 @@ Feature: Recipe Confirmation -- Nested Invocation
     And bx does not error out
 
   Scenario: Confirm a nested recipe invocation with arguments
-    When executing bx with "'recipe arg'" and confirmation sequence
+    When executing bx with "'recipe arg-1 arg-2'" and confirmation sequence
       | y |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical arg`? [y/N] |
+      | bx: Invoke recipe `recipe--critical arg-1 arg-2`? [y/N] |
     And bx displays
       """
       'recipe--critical' code executed!
       """
     And bx traces
       """
-      + # recipe arg {
-      ++ # recipe--critical arg {
+      + # recipe arg-1 arg-2 {
+      ++ # recipe--critical arg-1 arg-2 {
       ++ # }
       + # }
       """
