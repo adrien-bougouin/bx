@@ -4,13 +4,13 @@ Feature: CLI--Quiet
     Given the Bashfile
       ```bash
       recipe() {
-        echo "Recipe was executed!!!"
+        echo "Recipe was invoked!!!"
       }
       ```
     When executing bx with "<QUIET OPTION> recipe"
     Then bx displays
       """
-      Recipe was executed!!!
+      Recipe was invoked!!!
       """
     And bx traces nothing
     And bx does not error out
@@ -26,13 +26,13 @@ Feature: CLI--Quiet
       recipe() {
         set -x
 
-        echo "Recipe was executed!!!"
+        echo "Recipe was invoked!!!"
       }
       ```
     When executing bx with "-q recipe"
     Then bx displays
       """
-      Recipe was executed!!!
+      Recipe was invoked!!!
       """
     And bx traces nothing
     And bx does not error out

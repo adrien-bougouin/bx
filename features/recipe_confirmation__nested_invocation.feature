@@ -10,7 +10,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       recipe--critical() {
         @confirm
 
-        echo "'recipe--critical' code executed!"
+        echo "'recipe--critical' invoked!"
       }
 
       deep-recipe() {
@@ -22,7 +22,7 @@ Feature: Recipe Confirmation -- Nested Invocation
 
         bx::invoke recipe--critical
 
-        echo "'deep-recipe--critical' code executed!"
+        echo "'deep-recipe--critical' invoked!"
       }
       ```
 
@@ -33,7 +33,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx: Invoke recipe `recipe--critical`? [y/N] |
     And bx displays
       """
-      'recipe--critical' code executed!
+      'recipe--critical' invoked!
       """
     And bx traces
       """
@@ -51,7 +51,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx: Invoke recipe `recipe--critical arg-1 arg-2`? [y/N] |
     And bx displays
       """
-      'recipe--critical' code executed!
+      'recipe--critical' invoked!
       """
     And bx traces
       """
@@ -73,9 +73,9 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx: Invoke recipe `recipe--critical`? [y/N]      |
     And bx displays
       """
-      'recipe--critical' code executed!
-      'recipe--critical' code executed!
-      'deep-recipe--critical' code executed!
+      'recipe--critical' invoked!
+      'recipe--critical' invoked!
+      'deep-recipe--critical' invoked!
       """
     And bx traces
       """
@@ -113,7 +113,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
     And bx displays
       """
-      'recipe--critical' code executed!
+      'recipe--critical' invoked!
       """
     And bx traces
       """

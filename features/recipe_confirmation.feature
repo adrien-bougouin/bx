@@ -6,13 +6,13 @@ Feature: Recipe Confirmation
       recipe-1--critical() {
         @confirm
 
-        echo "'recipe-1--critical' code executed!"
+        echo "'recipe-1--critical' invoked!"
       }
 
       recipe-2--critical() {
         @confirm
 
-        echo "'recipe-2--critical' code executed!"
+        echo "'recipe-2--critical' invoked!"
       }
       ```
 
@@ -23,7 +23,7 @@ Feature: Recipe Confirmation
       | bx: Invoke recipe `recipe-1--critical`? [y/N] |
     And bx displays
       """
-      'recipe-1--critical' code executed!
+      'recipe-1--critical' invoked!
       """
     And bx traces
       """
@@ -44,7 +44,7 @@ Feature: Recipe Confirmation
       | bx: Invoke recipe `recipe-1--critical arg-1 arg-2`? [y/N] |
     And bx displays
       """
-      'recipe-1--critical' code executed!
+      'recipe-1--critical' invoked!
       """
     And bx traces
       """
@@ -62,8 +62,8 @@ Feature: Recipe Confirmation
       | bx: Invoke recipe `recipe-2--critical`? [y/N] |
     And bx displays
       """
-      'recipe-1--critical' code executed!
-      'recipe-2--critical' code executed!
+      'recipe-1--critical' invoked!
+      'recipe-2--critical' invoked!
       """
     And bx traces
       """
@@ -98,7 +98,7 @@ Feature: Recipe Confirmation
       | bx: Invoke recipe `recipe-2--critical`? [y/N] |
     And bx displays
       """
-      'recipe-1--critical' code executed!
+      'recipe-1--critical' invoked!
       """
     And bx traces
       """

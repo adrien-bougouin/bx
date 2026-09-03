@@ -8,15 +8,15 @@ Feature: Recipe
     Given the Bashfile
       ```bash
       recipe-1() {
-        echo "'recipe-1' code executed!"
+        echo "'recipe-1' invoked!"
       }
 
       recipe-2() {
-        echo "'recipe-2' code executed!"
+        echo "'recipe-2' invoked!"
       }
 
       _not-a-recipe() {
-        echo "'_not-a-recipe' code executed!"
+        echo "'_not-a-recipe' invoked!"
       }
       ```
 
@@ -24,7 +24,7 @@ Feature: Recipe
     When executing bx with "recipe-1"
     Then bx displays
       """
-      'recipe-1' code executed!
+      'recipe-1' invoked!
       """
     And bx traces
       """
@@ -37,8 +37,8 @@ Feature: Recipe
     When executing bx with "recipe-1 recipe-1"
     Then bx displays
       """
-      'recipe-1' code executed!
-      'recipe-1' code executed!
+      'recipe-1' invoked!
+      'recipe-1' invoked!
       """
     And bx traces
       """
@@ -63,8 +63,8 @@ Feature: Recipe
     When executing bx with "recipe-1 recipe-2"
     Then bx displays
       """
-      'recipe-1' code executed!
-      'recipe-2' code executed!
+      'recipe-1' invoked!
+      'recipe-2' invoked!
       """
     And bx traces
       """
@@ -79,7 +79,7 @@ Feature: Recipe
     When executing bx with "recipe-1 missing recipe-2"
     Then bx displays
       """
-      'recipe-1' code executed!
+      'recipe-1' invoked!
       """
     And bx traces
       """

@@ -3,24 +3,24 @@ Feature: Recipe--Arguments
   Background:
     Given the Bashfile
       ```bash
-      do-something() {
-        echo "'do-something' invocation: \$#=$#, \$1='${1:-}', \$2='${2:-}'"
+      recipe-1() {
+        echo "'recipe-1' invocation: \$#=$#, \$1='${1:-}', \$2='${2:-}'"
       }
 
-      do-something-else() {
-        echo "'do-something-else' invocation: \$#=$#, \$1='$1', \$2='$2'"
+      recipe-2() {
+        echo "'recipe-2' invocation: \$#=$#, \$1='$1', \$2='$2'"
       }
       ```
 
   Scenario Outline: Invoke a recipe with arguments
-    When executing bx with '\'do-something <RECIPE ARGUMENTS>\''
+    When executing bx with '\'recipe-1 <RECIPE ARGUMENTS>\''
     Then bx displays
       """
-      'do-something' invocation: <RECEIVED ARGUMENTS INFO>
+      'recipe-1' invocation: <RECEIVED ARGUMENTS INFO>
       """
     And bx traces
       """
-      + # do-something <RECIPE ARGUMENTS> {
+      + # recipe-1 <RECIPE ARGUMENTS> {
       + # }
       """
     And bx does not error out
@@ -33,17 +33,17 @@ Feature: Recipe--Arguments
       | "arg 1" "arg 2"  | $#=2, $1='arg 1', $2='arg 2' |
 
   Scenario: Invoke multiple recipes with arguments
-    When executing bx with "'do-something arg-1 arg-2' 'do-something-else arg-3 arg-4'"
+    When executing bx with "'recipe-1 arg-1 arg-2' 'recipe-2 arg-3 arg-4'"
     Then bx displays
       """
-      'do-something' invocation: $#=2, $1='arg-1', $2='arg-2'
-      'do-something-else' invocation: $#=2, $1='arg-3', $2='arg-4'
+      'recipe-1' invocation: $#=2, $1='arg-1', $2='arg-2'
+      'recipe-2' invocation: $#=2, $1='arg-3', $2='arg-4'
       """
     And bx traces
       """
-      + # do-something arg-1 arg-2 {
+      + # recipe-1 arg-1 arg-2 {
       + # }
-      + # do-something-else arg-3 arg-4 {
+      + # recipe-2 arg-3 arg-4 {
       + # }
       """
     And bx does not error out
