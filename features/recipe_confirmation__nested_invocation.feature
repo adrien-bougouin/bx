@@ -4,7 +4,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     Given the Bashfile
       ```bash
       recipe() {
-        bx::invoke "$(printf " %q" recipe--critical "$@")"
+        bx::invoke "recipe--critical ${@+"$(printf ' "%s"' "$@")"}"
       }
 
       recipe--critical() {
@@ -44,23 +44,30 @@ Feature: Recipe Confirmation -- Nested Invocation
       """
     And bx does not error out
 
-  Scenario: Confirm a nested recipe invocation with arguments
-    When executing bx with "'recipe arg-1 arg-2'" and confirmation sequence
+  Scenario Outline: Confirm a nested recipe invocation with arguments
+    When executing bx with '\'recipe <RECIPE ARGUMENTS>\'' and confirmation sequence
       | y |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical arg-1 arg-2`? [y/N] |
+      | bx: Invoke recipe `recipe--critical <FORWARDED ARGUMENTS>`? [y/N] |
     And bx displays
       """
       'recipe--critical' invoked!
       """
     And bx traces
       """
-      + # recipe arg-1 arg-2 {
-      ++ # recipe--critical arg-1 arg-2 {
+      + # recipe <RECIPE ARGUMENTS> {
+      ++ # recipe--critical <FORWARDED ARGUMENTS> {
       ++ # }
       + # }
       """
     And bx does not error out
+
+    Examples:
+      | RECIPE ARGUMENTS | FORWARDED ARGUMENTS |
+      | arg-1            | "arg-1"             |
+      | arg-1 arg-2      | "arg-1" "arg-2"     |
+      | arg\ 1 arg\ 2    | "arg 1" "arg 2"     |
+      | "arg 1" "arg 2"  | "arg 1" "arg 2"     |
 
   Scenario: Confirm multiple nested recipe invocations
     When executing bx with "recipe deep-recipe" and confirmation sequence

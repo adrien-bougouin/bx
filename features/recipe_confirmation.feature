@@ -37,21 +37,28 @@ Feature: Recipe Confirmation
       | y                  |
       | Y                  |
 
-  Scenario: Confirm a recipe invocation with arguments
-    When executing bx with "'recipe-1--critical arg-1 arg-2'" and confirmation sequence
+  Scenario Outline: Confirm a recipe invocation with arguments
+    When executing bx with '\'recipe-1--critical <RECIPE ARGUMENTS>\'' and confirmation sequence
       | y |
     Then bx confirms
-      | bx: Invoke recipe `recipe-1--critical arg-1 arg-2`? [y/N] |
+      | bx: Invoke recipe `recipe-1--critical <RECIPE ARGUMENTS>`? [y/N] |
     And bx displays
       """
       'recipe-1--critical' invoked!
       """
     And bx traces
       """
-      + # recipe-1--critical arg-1 arg-2 {
+      + # recipe-1--critical <RECIPE ARGUMENTS> {
       + # }
       """
     And bx does not error out
+
+    Examples:
+      | RECIPE ARGUMENTS |
+      | arg-1            |
+      | arg-1 arg-2      |
+      | arg\ 1 arg\ 2    |
+      | "arg 1" "arg 2"  |
 
   Scenario: Confirm multiple recipe invocations
     When executing bx with "recipe-1--critical recipe-2--critical" and confirmation sequence
