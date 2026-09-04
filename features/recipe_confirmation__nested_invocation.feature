@@ -4,7 +4,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     Given the Bashfile
       ```bash
       recipe() {
-        bx::invoke "recipe--critical ${@+"$(printf ' "%s"' "$@")"}"
+        bx::invoke "recipe--critical${@+"$(printf ' "%s"' "$@")"}"
       }
 
       recipe--critical() {

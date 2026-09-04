@@ -26,11 +26,13 @@ Feature: Recipe--Arguments
     And bx does not error out
 
     Examples:
-      | RECIPE ARGUMENTS | RECEIVED ARGUMENTS INFO      |
-      | arg-1            | $#=1, $1='arg-1', $2=''      |
-      | arg-1 arg-2      | $#=2, $1='arg-1', $2='arg-2' |
-      | arg\ 1 arg\ 2    | $#=2, $1='arg 1', $2='arg 2' |
-      | "arg 1" "arg 2"  | $#=2, $1='arg 1', $2='arg 2' |
+      | RECIPE ARGUMENTS            | RECEIVED ARGUMENTS INFO                  |
+      | arg-1                       | $#=1, $1='arg-1', $2=''                  |
+      | arg-1 arg-2                 | $#=2, $1='arg-1', $2='arg-2'             |
+      | arg\ 1 arg\ 2               | $#=2, $1='arg 1', $2='arg 2'             |
+      | "arg 1" "arg 2"             | $#=2, $1='arg 1', $2='arg 2'             |
+      | --arg=arg\ 1 --arg=arg\ 2   | $#=2, $1='--arg=arg 1', $2='--arg=arg 2' |
+      | --arg="arg 1" --arg="arg 2" | $#=2, $1='--arg=arg 1', $2='--arg=arg 2' |
 
   Scenario: Invoke multiple recipes with arguments
     When executing bx with "'recipe-1 arg-1 arg-2' 'recipe-2 arg-3 arg-4'"

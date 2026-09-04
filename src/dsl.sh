@@ -26,8 +26,7 @@ bx::invoke() {
   } 2>/dev/null
 
   while [[ $# -gt 0 ]]; do
-    # shellcheck disable=SC2086
-    _bx::recipe::invoke $1
+    _bx::recipe::invoke "$1"
 
     shift
   done
