@@ -3,7 +3,6 @@
 _bx::recipe::invoke() {
   local recipe="$1"
   local args=("${@:2}")
-  # TODO: normalize args to obtain: recipe "arg 1" "arg 2" ...
   local recipe_with_args="${recipe}${args+" ${args[@]}"}"
 
   if ! _bx::recipes::include "${recipe}"; then
