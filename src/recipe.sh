@@ -3,6 +3,7 @@
 _bx::recipe::invoke() {
   local recipe="$1"
   local args=("${@:2}")
+  # TODO: normalize args to obtain: recipe "arg 1" "arg 2" ...
   local recipe_with_args="${recipe}${args+" ${args[@]}"}"
 
   if ! _bx::recipes::include "${recipe}"; then
@@ -35,7 +36,7 @@ _bx::recipe::invoke() {
     _bx::display::trace "${invocation_level}" "{{bold}}${recipe_with_args}{{normal}} {"
   fi
 
-  eval "${recipe}" "${args+"${args[@]}"}"
+  eval "${recipe_with_args}"
 
   # Don't let shell options changed by the last invoked recipe bleed out.
   # Use `{ ... } 2>/dev/null` in case the invoking recipe did `set -x`.
