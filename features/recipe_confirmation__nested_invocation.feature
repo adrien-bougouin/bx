@@ -63,11 +63,13 @@ Feature: Recipe Confirmation -- Nested Invocation
     And bx does not error out
 
     Examples:
-      | RECIPE ARGUMENTS | FORWARDED ARGUMENTS |
-      | arg-1            | "arg-1"             |
-      | arg-1 arg-2      | "arg-1" "arg-2"     |
-      | arg\ 1 arg\ 2    | "arg 1" "arg 2"     |
-      | "arg 1" "arg 2"  | "arg 1" "arg 2"     |
+      | RECIPE ARGUMENTS                 | FORWARDED ARGUMENTS         |
+      | arg-1                            | "arg-1"                     |
+      | arg-1 arg-2                      | "arg-1" "arg-2"             |
+      | arg\ 1 arg\ 2                    | "arg 1" "arg 2"             |
+      | "arg 1" "arg 2"                  | "arg 1" "arg 2"             |
+      | --arg=arg\ 1 --arg=arg\ 2        | "--arg=arg 1" "--arg=arg 2" |
+      | --arg="arg 1" --arg="arg 2"      | "--arg=arg 1" "--arg=arg 2" |
 
   Scenario: Confirm multiple nested recipe invocations
     When executing bx with "recipe deep-recipe" and confirmation sequence

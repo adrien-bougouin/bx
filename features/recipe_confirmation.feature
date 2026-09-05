@@ -54,11 +54,13 @@ Feature: Recipe Confirmation
     And bx does not error out
 
     Examples:
-      | RECIPE ARGUMENTS |
-      | arg-1            |
-      | arg-1 arg-2      |
-      | arg\ 1 arg\ 2    |
-      | "arg 1" "arg 2"  |
+      | RECIPE ARGUMENTS                 |
+      | arg-1                            |
+      | arg-1 arg-2                      |
+      | arg\ 1 arg\ 2                    |
+      | "arg 1" "arg 2"                  |
+      | --arg=arg\ 1 --arg=arg\ 2        |
+      | --arg="arg 1" --arg="arg 2"      |
 
   Scenario: Confirm multiple recipe invocations
     When executing bx with "recipe-1--critical recipe-2--critical" and confirmation sequence

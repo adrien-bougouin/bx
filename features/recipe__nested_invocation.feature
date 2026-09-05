@@ -123,11 +123,13 @@ Feature: Recipe--Nested Invocation
     And bx does not error out
 
     Examples:
-      | NESTED RECIPE ARGUMENTS | RECEIVED ARGUMENTS INFO      |
-      | arg-1                   | $#=1, $1='arg-1', $2=''      |
-      | arg-1 arg-2             | $#=2, $1='arg-1', $2='arg-2' |
-      | arg\ 1 arg\ 2           | $#=2, $1='arg 1', $2='arg 2' |
-      | "arg 1" "arg 2"         | $#=2, $1='arg 1', $2='arg 2' |
+      | NESTED RECIPE ARGUMENTS        | RECEIVED ARGUMENTS INFO                  |
+      | arg-1                          | $#=1, $1='arg-1', $2=''                  |
+      | arg-1 arg-2                    | $#=2, $1='arg-1', $2='arg-2'             |
+      | arg\ 1 arg\ 2                  | $#=2, $1='arg 1', $2='arg 2'             |
+      | "arg 1" "arg 2"                | $#=2, $1='arg 1', $2='arg 2'             |
+      | --arg=arg\ 1 --arg=arg\ 2      | $#=2, $1='--arg=arg 1', $2='--arg=arg 2' |
+      | --arg="arg 1" --arg="arg 2"    | $#=2, $1='--arg=arg 1', $2='--arg=arg 2' |
 
   Scenario: Invoke a recipe that invokes multiple recipes with arguments
     Given the Bashfile
