@@ -1,8 +1,9 @@
 #!/bin/bash
 
 _bx::recipe::invoke() {
-  # shellcheck disable=SC2206
-  local invocation_tokens=($1)
+  local invocation_tokens
+
+  read -r -a invocation_tokens <<<"$1"
 
   local recipe="${invocation_tokens[0]}"
   local recipe_invocation="$1"
