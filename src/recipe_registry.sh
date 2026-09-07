@@ -2,7 +2,7 @@
 
 __BX_RECIPES__=()
 
-_bx::load_recipes() {
+_bx::recipe_registry::load() {
   # TODO: register ignore patterns like for annotations???
   local ignore_pattern='^(_|_?bx::|_?bx$)'
 
@@ -34,12 +34,12 @@ _bx::load_recipes() {
   readonly __BX_RECIPES__
 }
 
-_bx::recipes::count() {
+_bx::recipe_registry::size() {
   printf "%d" "${#__BX_RECIPES__[@]}"
 }
 
-_bx::recipes::print_list() {
-  [[ $(_bx::recipes::count) -eq 0 ]] && return
+_bx::recipe_registry::print_list() {
+  [[ $(_bx::recipe_registry::size) -eq 0 ]] && return
 
   _bx::display::info "Available recipes:"
   for recipe in "${__BX_RECIPES__[@]}"; do
@@ -59,7 +59,7 @@ _bx::recipes::print_list() {
   done
 }
 
-_bx::recipes::include() {
+_bx::recipe_registry::include() {
   [[ ${#__BX_RECIPES__[@]} -eq 0 ]] && return "${__BX_CONSTANT_FALSE__}"
 
   local candidate="$1"

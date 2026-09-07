@@ -8,7 +8,7 @@ _bx::recipe::invoke() {
   local recipe="${invocation_tokens[0]}"
   local recipe_invocation="$1"
 
-  if ! _bx::recipes::include "${recipe}"; then
+  if ! _bx::recipe_registry::include "${recipe}"; then
     if [[ ${recipe} =~ ^_ ]] && declare -F "${recipe}" >/dev/null 2>&1; then
       _bx::abort "\`${recipe_invocation}\` is a private function, not a recipe!"
     else

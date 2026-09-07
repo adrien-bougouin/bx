@@ -2,7 +2,7 @@
 
 __BX_BASHFILE__=
 
-_bx::load_bashfile() {
+_bx::bashfile::load() {
   local abort="${1:-${__BX_CONSTANT_TRUE__}}"
   if [[ -z ${__BX_BASHFILE__} ]]; then
     local lookup_path="${__BX_WORKING_DIRECTORY__}"

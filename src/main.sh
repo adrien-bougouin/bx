@@ -22,8 +22,8 @@ _bx::main() {
   source "${__BX_SRC_PATH__}/annotation_parsing_stack.sh"
   source "${__BX_SRC_PATH__}/invocation_stack.sh"
   source "${__BX_SRC_PATH__}/annotations.sh"
+  source "${__BX_SRC_PATH__}/recipe_registry.sh"
   source "${__BX_SRC_PATH__}/recipe.sh"
-  source "${__BX_SRC_PATH__}/recipes.sh"
 
   source "${__BX_SRC_PATH__}/overrides.sh"
   source "${__BX_SRC_PATH__}/dsl.sh"
@@ -48,8 +48,8 @@ _bx::main() {
     abort_missing_bashfile="${__BX_CONSTANT_FALSE__}"
   fi
 
-  _bx::load_bashfile "${abort_missing_bashfile}"
-  _bx::load_recipes --ignore '^(_|_?bx::|_?bx$|set$)'
+  _bx::bashfile::load "${abort_missing_bashfile}"
+  _bx::recipe_registry::load --ignore '^(_|_?bx::|_?bx$|set$)'
 
   if _bx::options::version; then
     _bx::display::info "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BX_CONSTANT_VERSION__}"
@@ -58,16 +58,16 @@ _bx::main() {
   elif _bx::options::help; then
     _bx::cli::print_help
 
-    [[ $(_bx::recipes::count) -gt 0 ]] && printf "\n"
+    [[ $(_bx::recipe_registry::size) -gt 0 ]] && printf "\n"
 
-    _bx::recipes::print_list
+    _bx::recipe_registry::print_list
 
     exit 0
   elif _bx::options::list; then
-    _bx::recipes::print_list
+    _bx::recipe_registry::print_list
 
     exit 0
-  elif [[ $(_bx::recipes::count) -eq 0 ]]; then
+  elif [[ $(_bx::recipe_registry::size) -eq 0 ]]; then
     _bx::abort "No recipes!"
   fi
 
@@ -80,7 +80,7 @@ _bx::main() {
   if [[ ${#positional_arguments_ref[@]} -eq 0 ]]; then
     local default_recipe
 
-    default_recipe="$(_bx::recipes::default)"
+    default_recipe="$(_bx::recipe_registry::default)"
 
     if [[ -n ${default_recipe} ]]; then
       bx::invoke "${default_recipe}"

@@ -6,7 +6,7 @@ _bx::annotations::register "@default"
 
 @default() {
   if [[ $(_bx::annotation_parsing_stack::size) -gt 0 ]]; then
-    if [[ -n "$(_bx::recipes::default)" ]]; then
+    if [[ -n "$(_bx::recipe_registry::default)" ]]; then
       _bx::abort "Too many default recipes!"
     fi
 
@@ -14,6 +14,6 @@ _bx::annotations::register "@default"
   fi
 }
 
-_bx::recipes::default() {
+_bx::recipe_registry::default() {
   printf "%s" "${__BX_RECIPE_DEFAULT__}"
 }
