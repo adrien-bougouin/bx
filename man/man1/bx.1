@@ -95,6 +95,11 @@ Display the version of
 and exit without requiring a
 .IR Bashfile .
 .TP 0.5i
+.BR \-y , " \-\-yes"
+Skip all confirmation prompts and invoke every recipe automatically (see
+.B @confirm
+under ANNOTATIONS below).
+.TP 0.5i
 .B \-\-
 Treat all remaining arguments as recipes, even if they begin with a hyphen.
 .SH RECIPES
@@ -233,6 +238,13 @@ dangerous-recipe() {
 The prompt is shown for every matching recipe in a chain, including recipes
 invoked through nested invocation via
 .BR bx::invoke .
+.PP
+Passing
+.B \-y
+(or
+.BR \-\-yes )
+on the command line bypasses all confirmation prompts so that every recipe runs
+automatically.
 .SH FILES
 .TP 0.5i
 .I Bashfile

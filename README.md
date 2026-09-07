@@ -58,6 +58,9 @@ Options:
         Do not display the invoked recipe traces, nor the xtrace output.
     -v, --version
         Show version.
+    -y, --yes
+        Do not ask for confirmation before invoking a recipe
+        (automatically confirm).
 ```
 
 ## Features
@@ -80,9 +83,8 @@ bx format 'lint --some-lint-option'
 ```
 
 ### Recipe documentation (`@help`)
-Describe a recipe with the annotation `@help`. The description is displayed by
-`bx --list` and `bx --help`, and can span multiple lines by passing several
-arguments.
+Describe a recipe with the annotation `@help`.
+The description is displayed by `bx --list` and `bx --help`, and can span multiple lines by passing several arguments.
 
 ```bash
 # Bashfile
@@ -153,9 +155,8 @@ bx -q change-global--subprocess print-global  # GLOBAL=default-value
 ```
 
 ### Recipe confirmation (`@confirm`)
-Mark a recipe as requiring user confirmation before it is executed. When a
-recipe carries the `@confirm` annotation, `bx` displays a `[y/N]` prompt and
-only proceeds if the user answers `y`.
+Mark a recipe as requiring user confirmation before it is executed.
+When a recipe carries the `@confirm` annotation, `bx` displays a `[y/N]` prompt and only proceeds if the user answers `y`.
 
 ```bash
 # Bashfile
@@ -167,8 +168,8 @@ dangerous-recipe() {
 }
 ```
 
-The confirmation prompt is shown for each matching recipe in a chain and works
-with nested invocations (`bx::invoke`).
+The confirmation prompt is shown for each matching recipe in a chain and works with nested invocations (`bx::invoke`).
+Pass `-y` (or `--yes`) to skip all confirmation prompts and run every recipe automatically.
 
 ### Shell options isolation
 `bx` isolates shell options locally (e.g. `set -x` to trace execution), preventing changes from leaking into other recipes or into `bx` itself.
