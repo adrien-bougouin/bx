@@ -25,11 +25,11 @@ _bx::cli::parse_options() {
         shift
         break
         ;;
-      --file=*)
-        _bx::set_bashfile "${1#--file=}"
-        ;;
       --bashfile=*)
         _bx::set_bashfile "${1#--bashfile=}"
+        ;;
+      --file=*)
+        _bx::set_bashfile "${1#--file=}"
         ;;
       -f | --file | --bashfile)
         _bx::set_bashfile "$2"
@@ -39,6 +39,7 @@ _bx::cli::parse_options() {
       -l | --list) _bx::options::enable_list ;;
       -q | --quiet) _bx::options::enable_quiet ;;
       -v | --version) _bx::options::enable_version ;;
+      -y | --yes) _bx::options::enable_auto_confirm ;;
       *) _bx::abort "Unknown option '$1'!" ;;
     esac
 
@@ -73,6 +74,9 @@ _bx::cli::print_help() {
 			{{indent}}{{indent}}Do not display the invoked recipe traces, nor the xtrace output.
 			{{indent}}-v, --version
 			{{indent}}{{indent}}Show version.
+			{{indent}}-y, --yes
+			{{indent}}{{indent}}Do not ask for confirmation before invoking a recipe
+			{{indent}}{{indent}}(automatically confirm).
 		HELP
   )"
 }

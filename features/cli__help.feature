@@ -18,6 +18,9 @@ Feature: CLI--Help
               Do not display the invoked recipe traces, nor the xtrace output.
           -v, --version
               Show version.
+          -y, --yes
+              Do not ask for confirmation before invoking a recipe
+              (automatically confirm).
       """
     And bx does not error out
 
@@ -44,6 +47,9 @@ Feature: CLI--Help
               Do not display the invoked recipe traces, nor the xtrace output.
           -v, --version
               Show version.
+          -y, --yes
+              Do not ask for confirmation before invoking a recipe
+              (automatically confirm).
       """
     And bx does not error out
 
@@ -72,6 +78,9 @@ Feature: CLI--Help
               Do not display the invoked recipe traces, nor the xtrace output.
           -v, --version
               Show version.
+          -y, --yes
+              Do not ask for confirmation before invoking a recipe
+              (automatically confirm).
 
       Available recipes:
           recipe-1

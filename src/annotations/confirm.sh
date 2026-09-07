@@ -11,6 +11,8 @@ _bx::annotations::register "@confirm"
 }
 
 _bx::recipe::must_confirm() {
+  _bx::options::auto_confirm && return "${__BX_CONSTANT_FALSE__}" || true
+
   local recipe="$1"
 
   [[ ${#__BX_RECIPES_TO_CONFIRM__[@]} -eq 0 ]] && return "${__BX_CONSTANT_FALSE__}"

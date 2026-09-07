@@ -5,6 +5,8 @@ __BX_OPTION_LIST__="${__BX_CONSTANT_FALSE__}"
 __BX_OPTION_QUIET__="${__BX_CONSTANT_FALSE__}"
 __BX_OPTION_VERSION__="${__BX_CONSTANT_FALSE__}"
 
+__BX_OPTION_AUTO_CONFIRM__="${__BX_CONSTANT_FALSE__}"
+
 _bx::options::help() {
   return "${__BX_OPTION_HELP__}"
 }
@@ -35,4 +37,12 @@ _bx::options::version() {
 
 _bx::options::enable_version() {
   __BX_OPTION_VERSION__="${__BX_CONSTANT_TRUE__}"
+}
+
+_bx::options::auto_confirm() {
+  return "${__BX_OPTION_AUTO_CONFIRM__}"
+}
+
+_bx::options::enable_auto_confirm() {
+  __BX_OPTION_AUTO_CONFIRM__="${__BX_CONSTANT_TRUE__}"
 }
