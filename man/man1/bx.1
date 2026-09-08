@@ -151,6 +151,33 @@ The
 .B bx::invoke
 helper accepts the same syntax as the command line: several recipes may be
 passed, and arguments are forwarded to the invoked recipe.
+.PP
+Passing
+.B \-y
+(or
+.BR \-\-yes )
+to
+.B bx::invoke
+temporarily auto\-confirms all nested recipe invocations:
+.PP
+.RS
+.nf
+recipe() {
+  @confirm
+
+  echo "Pre-processing..."
+  # bx will not ask for confirmation before invoking dangerous-recipe
+  bx::invoke --yes dangerous-recipe
+  echo "Post-processing..."
+}
+
+dangerous-recipe() {
+  @confirm
+
+  # Do something critical...
+}
+.fi
+.RE
 .SS "Scope boundaries"
 .PP
 Recipes declared with

@@ -127,6 +127,27 @@ simple-recipe() {
 }
 ```
 
+Pass `-y` (or `--yes`) to `bx::invoke` to temporarily auto-confirm all nested recipes invocations:
+
+```bash
+# Bashfile
+
+recipe() {
+  @confirm
+
+  echo "Pre-processing..."
+  # bx will not ask for confirmation before invoking dangerous-recipe
+  bx::invoke --yes dangerous-recipe
+  echo "Post-processing..."
+}
+
+dangerous-recipe() {
+  @confirm
+
+  # Do something critical...
+}
+```
+
 ### Scope boundaries
 Recipes defined with `()` (subprocess) have their own scope: if they modify global variables, the changes won't be visible from other recipes.
 Recipes defined with `{}` (function) share the parent scope: if they modify global variables, the changes will be visible from other recipes.
