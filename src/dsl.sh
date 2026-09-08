@@ -25,11 +25,27 @@ bx::invoke() {
     _bx::utils::shell::reset_options
   } 2>/dev/null
 
+  local temporary_auto_confirm="${__BX_CONSTANT_FALSE__}"
+
+  if [[ $1 =~ -y|--yes ]]; then
+    if ! _bx::options::auto_confirm; then
+      temporary_auto_confirm="${__BX_CONSTANT_TRUE__}"
+
+      _bx::options::enable_auto_confirm
+    fi
+
+    shift
+  fi
+
   while [[ $# -gt 0 ]]; do
     _bx::recipe::invoke "$1"
 
     shift
   done
+
+  if [[ ${temporary_auto_confirm} == "${__BX_CONSTANT_TRUE__}" ]]; then
+    _bx::options::disable_auto_confirm
+  fi
 
   _bx::utils::shell::restore_options "${shopts}"
 }

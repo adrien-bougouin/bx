@@ -61,7 +61,7 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When executing bx with "-q <RECIPE ARGUMENT>"
+    When executing bx with "-q <RECIPE>"
     Then bx displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>
@@ -69,7 +69,7 @@ Feature: Recipe--Scope Boundaries
     And bx does not error out
 
     Examples:
-      | RECIPE ARGUMENT    | MUTATION RECIPE           | FINAL GLOBAL VALUE |
+      | RECIPE             | MUTATION RECIPE           | FINAL GLOBAL VALUE |
       | recipe             | change-global             | changed-value      |
       | recipe             | change-global--subprocess | default-value      |
       | recipe--subprocess | change-global             | changed-value      |

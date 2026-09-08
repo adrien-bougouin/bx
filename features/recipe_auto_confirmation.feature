@@ -3,7 +3,7 @@ Feature: Recipe Auto-Confirmation
   Background:
     Given the Bashfile
       ```bash
-      recipe--deep() {
+      deep-recipe() {
         bx::invoke recipe-1--critical recipe-2--critical
         bx::invoke recipe-3--critical
       }
@@ -29,7 +29,6 @@ Feature: Recipe Auto-Confirmation
 
   Scenario Outline: Auto-confirm a recipe invocation
     When executing bx with "<CONFIRMATION ARGUMENT> recipe-1--critical"
-    Then bx does not error out
     Then bx confirms nothing
     And bx displays
       """
@@ -65,7 +64,7 @@ Feature: Recipe Auto-Confirmation
     And bx does not error out
 
   Scenario: Auto-confirm nested recipe invocations
-    When executing bx with "-y recipe--deep"
+    When executing bx with "-y deep-recipe"
     Then bx confirms nothing
     And bx displays
       """
@@ -75,7 +74,7 @@ Feature: Recipe Auto-Confirmation
       """
     And bx traces
       """
-      + # recipe--deep {
+      + # deep-recipe {
       ++ # recipe-1--critical {
       ++ # }
       ++ # recipe-2--critical {

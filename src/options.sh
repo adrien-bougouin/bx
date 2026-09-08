@@ -46,3 +46,7 @@ _bx::options::auto_confirm() {
 _bx::options::enable_auto_confirm() {
   __BX_OPTION_AUTO_CONFIRM__="${__BX_CONSTANT_TRUE__}"
 }
+
+_bx::options::disable_auto_confirm() {
+  __BX_OPTION_AUTO_CONFIRM__="${__BX_CONSTANT_FALSE__}"
+}

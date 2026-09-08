@@ -10,7 +10,7 @@ Feature: Default Recipe
 
       default-recipe() { @default; }
       ```
-    When executing bx with "<RECIPE ARGUMENT>"
+    When executing bx with "<RECIPE>"
     Then bx traces
       """
       + # <INVOKED RECIPE> {
@@ -19,7 +19,7 @@ Feature: Default Recipe
     And bx does not error out
 
     Examples:
-      | RECIPE ARGUMENT    | INVOKED RECIPE     |
+      | RECIPE             | INVOKED RECIPE     |
       |                    | default-recipe     |
       | non-default-recipe | non-default-recipe |
 
@@ -63,13 +63,13 @@ Feature: Default Recipe
 
       default-recipe-2() { @default; }
       ```
-    When executing bx with "<RECIPE ARGUMENT>"
+    When executing bx with "<RECIPE>"
     Then bx displays nothing
     And bx traces nothing
     And bx errors out with message "<ERROR>"
 
     Examples:
-      | RECIPE ARGUMENT  | ERROR                         |
+      | RECIPE           | ERROR                         |
       |                  | bx: Too many default recipes! |
       | default-recipe-1 | bx: Too many default recipes! |
       | default-recipe-2 | bx: Too many default recipes! |
