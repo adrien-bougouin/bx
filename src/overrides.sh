@@ -2,6 +2,8 @@
 #
 # Builtins overrides to enforce bx's runtime behavior.
 
+_bx::recipe_registry::register_ignore_patterns "^set$"
+
 ################################################################################
 # Override the `set` builtin to prevent xtrace output when bx executes in
 # quiet mode.

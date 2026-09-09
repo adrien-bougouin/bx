@@ -49,7 +49,7 @@ _bx::main() {
   fi
 
   _bx::bashfile::load "${abort_missing_bashfile}"
-  _bx::recipe_registry::load --ignore '^(_|_?bx::|_?bx$|set$)'
+  _bx::recipe_registry::load
 
   if _bx::options::version; then
     _bx::display::info "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BX_CONSTANT_VERSION__}"

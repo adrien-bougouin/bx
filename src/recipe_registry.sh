@@ -1,24 +1,24 @@
 #!/bin/bash
 
+__BX_RECIPE_IGNORE_PATTERNS__=("^_" "^_?bx::" "^_?bx$")
 __BX_RECIPES__=()
 
+_bx::recipe_registry::register_ignore_patterns() {
+  __BX_RECIPE_IGNORE_PATTERNS__+=("$@")
+}
+
+_bx::recipe_registry::full_ignore_pattern() {
+  local patterns_join
+
+  patterns_join="$(printf "%s|" "${__BX_RECIPE_IGNORE_PATTERNS__[@]}")"
+
+  printf "(%s)" "${patterns_join%|}"
+}
+
 _bx::recipe_registry::load() {
-  # TODO: register ignore patterns like for annotations???
-  local ignore_pattern='^(_|_?bx::|_?bx$)'
+  local ignore_pattern
 
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      -i | --ignore)
-        ignore_pattern="$2"
-        shift
-        break
-        ;;
-      *)
-        ;;
-    esac
-
-    shift
-  done
+  ignore_pattern="$(_bx::recipe_registry::full_ignore_pattern)"
 
   while IFS='' read -r recipe_definition; do
     local recipe="${recipe_definition#"declare -f "}"
