@@ -1,7 +1,7 @@
 #!/bin/bash
 
 __BX_CONSTANT_COMMAND_NAME__="bx"
-__BX_CONSTANT_VERSION__="0.3.2"
+__BX_CONSTANT_VERSION__="0.4.0"
 
 readonly __BX_CONSTANT_COMMAND_NAME__
 readonly __BX_CONSTANT_VERSION__

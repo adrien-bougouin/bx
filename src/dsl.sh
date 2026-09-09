@@ -11,16 +11,15 @@
 # Shell options are reset inside `{ ... } 2>/dev/null` to suppress bx internal's
 # xtrace output if the invoking recipe had `set -x` enabled.
 #
-# Globals:
-#   $- - Current shell options, used to save and restore state.
-#
 # Arguments:
 #   recipe - The recipe name to invoke.
 #   args   - Additional arguments forwarded to the recipe.
 ################################################################################
 bx::invoke() {
   {
-    local shopts="$-"
+    local options
+
+    options="$(_bx::utils::shell::current_options)"
 
     _bx::utils::shell::reset_options
   } 2>/dev/null
@@ -47,5 +46,5 @@ bx::invoke() {
     _bx::options::disable_auto_confirm
   fi
 
-  _bx::utils::shell::restore_options "${shopts}"
+  _bx::utils::shell::restore_options "${options}"
 }

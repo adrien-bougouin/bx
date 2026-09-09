@@ -3,7 +3,7 @@ Feature: Recipe--Shell Options
   A recipe can change the shell options locally. The shell option changes do not
   affect bx or other recipes.
 
-  Scenario: Invoke multiple recipes when one changes a shell option
+  Scenario: Invoke multiple recipes when one sets xtrace
     Given the Bashfile
       ```bash
       hello-xtrace() {
@@ -31,7 +31,7 @@ Feature: Recipe--Shell Options
       + # }
       """
 
-  Scenario: Invoke a recipe that changes a shell option and invokes another recipe
+  Scenario: Invoke a recipe that sets xtrace and then invokes another recipe
     Given the Bashfile
       ```bash
       hello-world-xtrace() {
@@ -66,5 +66,53 @@ Feature: Recipe--Shell Options
       ++ # world {
       ++ # }
       ++ echo -----
+      + # }
+      """
+
+  Scenario: Invoke a recipe that alters shell options
+    Given the environment
+      ```bash
+      shopt -u shift_verbose
+      ```
+    And the Bashfile
+      ```bash
+      recipe() {
+        shopt -s shift_verbose
+        set -x +o pipefail
+
+        shopt | grep shift_verbose
+        shopt -o | grep xtrace
+        shopt -o | grep pipefail
+      }
+
+      print-options() {
+        echo "-----"
+        shopt | grep shift_verbose
+        shopt -o | grep xtrace
+        shopt -o | grep pipefail
+      }
+      ```
+    When executing bx with "recipe print-options"
+    Then bx displays
+      """
+      shift_verbose  	on
+      xtrace         	on
+      pipefail       	off
+      -----
+      shift_verbose  	off
+      xtrace         	off
+      pipefail       	on
+      """
+    And bx traces
+      """
+      + # recipe {
+      ++ shopt
+      ++ grep shift_verbose
+      ++ shopt -o
+      ++ grep xtrace
+      ++ shopt -o
+      ++ grep pipefail
+      + # }
+      + # print-options {
       + # }
       """

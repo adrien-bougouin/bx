@@ -4,11 +4,16 @@ require 'open3'
 
 module ShellWorld
   class Shell
+    attr_writer :env
     attr_reader :stdout, :confirmations, :xtrace, :stderr, :status
+
+    def initialize
+      @env = ''
+    end
 
     def execute(command, stdin_data: nil)
       stdout, stderr, status = Open3.capture3(
-        "TERM= PS4='+ ' #{command}",
+        "#{@env}\nTERM= PS4='+ ' #{command}",
         stdin_data:
       )
 

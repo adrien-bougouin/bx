@@ -2,8 +2,43 @@
 #
 # Shell utilities for the bx tool.
 
-# FIXME: This only support single letter options. `pipefail` won't be captured.
-__BX_ORIGINAL_SHOPTS__="$-"
+################################################################################
+# Capture the current shell options state, in the form of `set` and `shopt`
+# builtin commands.
+#
+# Outputs:
+#   Writes replayable set commands to stdout.
+################################################################################
+_bx::utils::shell::current_options() {
+  local replayable_options=()
+
+  replayable_options+=("builtin set")
+  while IFS= read -r set_cmd; do
+    replayable_options+=("${set_cmd#set}")
+  done < <(shopt -p -o)
+
+  local shopts_u=()
+  local shopts_s=()
+  while IFS= read -r shopt_cmd; do
+    if [[ ${shopt_cmd} =~ ^shopt\ -u ]]; then
+      shopts_u+=("${shopt_cmd#shopt -u}")
+    else
+      shopts_s+=("${shopt_cmd#shopt -s}")
+    fi
+  done < <(shopt -p)
+
+  if [[ ${#shopts_u[@]} -gt 0 ]]; then
+    replayable_options+=(";" "builtin shopt -u" "${shopts_u[@]}")
+  fi
+
+  if [[ ${#shopts_s[@]} -gt 0 ]]; then
+    replayable_options+=(";" "builtin shopt -s" "${shopts_s[@]}")
+  fi
+
+  printf "%s" "${replayable_options[*]}"
+}
+
+__BX_ORIGINAL_SHOPTS__="$(_bx::utils::shell::current_options)"
 
 readonly __BX_ORIGINAL_SHOPTS__
 
@@ -11,27 +46,24 @@ readonly __BX_ORIGINAL_SHOPTS__
 # Reset the current shell options to those captured when this file was sourced.
 #
 # Side effects:
-#   Re-enables the shell options captured at source time via `set`.
+#   Resets the shell options to the values captured at source time.
 ################################################################################
 _bx::utils::shell::reset_options() {
   _bx::utils::shell::restore_options "${__BX_ORIGINAL_SHOPTS__}"
 }
 
 ################################################################################
-# Restore a specific set of shell options.
-#
-# First disables every currently-set option, then enables the options present
-# in the given shopts string (in the same format as `${-}`).
+# Restore given shell options.
 #
 # Arguments:
-#   shopts - The shell options to restore.
+#   - The shell options to restore, in the form of commands as given by
+#     `_bx::utils::shell::current_options`.
 #
 # Side effects:
-#   Modifies the current shell options via `set`.
+#   Resets the shell options to the values given by `options`.
 ################################################################################
 _bx::utils::shell::restore_options() {
-  local shopts="$1"
-
-  set "+$-"
-  set "-${shopts}"
+  # - Use builtin `set` instead of the `set` that bx overrides (slower)
+  # - Temporarily silence stderr in case the options turn on xtrace
+  { eval "$1"; } 2>/dev/null
 }
