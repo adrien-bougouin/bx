@@ -29,15 +29,17 @@ _bx::recipe::load_annotations() {
 
   local line
   while IFS='' read -r line; do
-    line="$(_bx::utils::string::trim "${line}" " ")"
+    # Trim spaces.
+    line="${line#"${line%%[![:space:]]*}"}"
     # Strip subshell surroundings (e.g. '(  @default;').
     line="${line#\(}"
     line="${line%\)}"
+    # Trim spaces again.
+    line="${line#"${line%%[![:space:]]*}"}"
 
     local line_head
 
-    line_head="$(_bx::utils::string::trim "${line}" " ")"
-    line_head="${line_head%% *}"
+    line_head="${line%% *}"
     line_head="${line_head%;}"
 
     _bx::annotations::include "${line_head}" || continue
