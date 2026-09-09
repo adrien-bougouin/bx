@@ -32,8 +32,6 @@ _bx::utils::shell::reset_options() {
 _bx::utils::shell::restore_options() {
   local shopts="$1"
 
-  # 1. Disable current options
-  # 2. Enable options to restore
   set "+$-"
   set "-${shopts}"
 }
