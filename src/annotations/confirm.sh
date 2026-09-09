@@ -11,16 +11,16 @@ _bx::annotations::register "@confirm"
 }
 
 _bx::recipe::must_confirm() {
-  _bx::options::auto_confirm && return "${__BX_CONSTANT_FALSE__}" || true
+  _bx::options::auto_confirm && return "${__BOOL_FALSE__}" || true
 
   local recipe="$1"
 
-  [[ ${#__BX_RECIPES_TO_CONFIRM__[@]} -eq 0 ]] && return "${__BX_CONSTANT_FALSE__}"
+  [[ ${#__BX_RECIPES_TO_CONFIRM__[@]} -eq 0 ]] && return "${__BOOL_FALSE__}"
 
   local recipe_to_confirm
   for recipe_to_confirm in "${__BX_RECIPES_TO_CONFIRM__[@]}"; do
-    [[ ${recipe} == "${recipe_to_confirm}" ]] && return "${__BX_CONSTANT_TRUE__}"
+    [[ ${recipe} == "${recipe_to_confirm}" ]] && return "${__BOOL_TRUE__}"
   done
 
-  return "${__BX_CONSTANT_FALSE__}"
+  return "${__BOOL_FALSE__}"
 }

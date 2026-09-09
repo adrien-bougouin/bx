@@ -7,16 +7,16 @@ _bx::annotations::register() {
 }
 
 _bx::annotations::include() {
-  [[ ${#__BX_ANNOTATIONS__[@]} -eq 0 ]] && return "${__BX_CONSTANT_FALSE__}"
+  [[ ${#__BX_ANNOTATIONS__[@]} -eq 0 ]] && return "${__BOOL_FALSE__}"
 
   local candidate="$1"
 
   local annotation
   for annotation in "${__BX_ANNOTATIONS__[@]}"; do
-    [[ ${candidate} == "${annotation}" ]] && return "${__BX_CONSTANT_TRUE__}"
+    [[ ${candidate} == "${annotation}" ]] && return "${__BOOL_TRUE__}"
   done
 
-  return "${__BX_CONSTANT_FALSE__}"
+  return "${__BOOL_FALSE__}"
 }
 
 # TODO: validation (annotations only allowed at the beginning

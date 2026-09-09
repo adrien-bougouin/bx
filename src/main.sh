@@ -39,13 +39,13 @@ _bx::main() {
 
   ##############################################################################
 
-  local abort_missing_bashfile="${__BX_CONSTANT_TRUE__}"
+  local abort_missing_bashfile="${__BOOL_TRUE__}"
   local positional_arguments_ref
 
   _bx::cli::parse_options positional_arguments_ref "$@"
 
   if _bx::options::version || _bx::options::help; then
-    abort_missing_bashfile="${__BX_CONSTANT_FALSE__}"
+    abort_missing_bashfile="${__BOOL_FALSE__}"
   fi
 
   _bx::bashfile::load "${abort_missing_bashfile}"

@@ -60,14 +60,14 @@ _bx::recipe_registry::print_list() {
 }
 
 _bx::recipe_registry::include() {
-  [[ ${#__BX_RECIPES__[@]} -eq 0 ]] && return "${__BX_CONSTANT_FALSE__}"
+  [[ ${#__BX_RECIPES__[@]} -eq 0 ]] && return "${__BOOL_FALSE__}"
 
   local candidate="$1"
 
   local recipe
   for recipe in "${__BX_RECIPES__[@]}"; do
-    [[ ${candidate} == "${recipe}" ]] && return "${__BX_CONSTANT_TRUE__}"
+    [[ ${candidate} == "${recipe}" ]] && return "${__BOOL_TRUE__}"
   done
 
-  return "${__BX_CONSTANT_FALSE__}"
+  return "${__BOOL_FALSE__}"
 }

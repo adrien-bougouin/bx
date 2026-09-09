@@ -25,11 +25,11 @@ bx::invoke() {
     _bx::utils::shell::reset_options
   } 2>/dev/null
 
-  local temporary_auto_confirm="${__BX_CONSTANT_FALSE__}"
+  local temporary_auto_confirm="${__BOOL_FALSE__}"
 
   if [[ $1 =~ -y|--yes ]]; then
     if ! _bx::options::auto_confirm; then
-      temporary_auto_confirm="${__BX_CONSTANT_TRUE__}"
+      temporary_auto_confirm="${__BOOL_TRUE__}"
 
       _bx::options::enable_auto_confirm
     fi
@@ -43,7 +43,7 @@ bx::invoke() {
     shift
   done
 
-  if [[ ${temporary_auto_confirm} == "${__BX_CONSTANT_TRUE__}" ]]; then
+  if [[ ${temporary_auto_confirm} == "${__BOOL_TRUE__}" ]]; then
     _bx::options::disable_auto_confirm
   fi
 

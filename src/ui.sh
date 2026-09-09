@@ -26,9 +26,9 @@ _bx::ui::confirm() {
   printf "\n" >&2
 
   if [[ ${REPLY} == [yY] ]]; then
-    return "${__BX_CONSTANT_TRUE__}"
+    return "${__BOOL_TRUE__}"
   fi
 
-  return "${__BX_CONSTANT_FALSE__}"
+  return "${__BOOL_FALSE__}"
 
 }

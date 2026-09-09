@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Shell option management utilities for the bx tool.
+# Shell utilities for the bx tool.
 
 # FIXME: This only support single letter options. `pipefail` won't be captured.
 __BX_ORIGINAL_SHOPTS__="$-"

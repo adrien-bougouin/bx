@@ -20,16 +20,16 @@ _bx::invocation_stack::size() {
 }
 
 _bx::invocation_stack::includes() {
-  [[ ${#__BX_INVOCATION_STACK__[@]} -eq 0 ]] && return "${__BX_CONSTANT_FALSE__}"
+  [[ ${#__BX_INVOCATION_STACK__[@]} -eq 0 ]] && return "${__BOOL_FALSE__}"
 
   local recipe="$1"
 
   local invoked_recipe
   for invoked_recipe in "${__BX_INVOCATION_STACK__[@]}"; do
-    [[ ${recipe} == "${invoked_recipe}" ]] && return "${__BX_CONSTANT_TRUE__}"
+    [[ ${recipe} == "${invoked_recipe}" ]] && return "${__BOOL_TRUE__}"
   done
 
-  return "${__BX_CONSTANT_FALSE__}"
+  return "${__BOOL_FALSE__}"
 }
 
 ################################################################################
