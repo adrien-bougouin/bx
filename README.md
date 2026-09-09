@@ -2,7 +2,7 @@
 
 [![CI/CD](https://img.shields.io/github/actions/workflow/status/adrien-bougouin/bx/cicd.yml?branch=main&logo=github&label=CI/CD)](https://github.com/adrien-bougouin/bx/actions/workflows/cicd.yml)
 [![License](https://img.shields.io/github/license/adrien-bougouin/bx?label=License)](https://github.com/adrien-bougouin/bx/blob/main/LICENSE)
-[![Release](https://img.shields.io/github/v/release/adrien-bougouin/bx?logo=github&label=Release)](https://github.com/adrien-bougouin/bx/releases/latest)
+[![Latest](https://img.shields.io/github/v/release/adrien-bougouin/bx?logo=github&label=Latest)](https://github.com/adrien-bougouin/bx/releases/latest)
 [![Installs](https://img.shields.io/github/downloads/adrien-bougouin/bx/install.sh?displayAssetName=false&label=Installs
 )](https://github.com/adrien-bougouin/bx#installation)
 
