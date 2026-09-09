@@ -53,7 +53,5 @@ _bx::invocation_stack::push() {
 #                             removed.
 ################################################################################
 _bx::invocation_stack::pop() {
-  local new_length=$((${#__BX_INVOCATION_STACK__[@]} - 1))
-
-  __BX_INVOCATION_STACK__=("${__BX_INVOCATION_STACK__[@]:0:new_length}")
+  unset '__BX_INVOCATION_STACK__[${#__BX_INVOCATION_STACK__[@]}-1]'
 }

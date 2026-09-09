@@ -53,7 +53,5 @@ _bx::annotation_parsing_stack::push() {
 #                                     annotation parsing will be removed.
 ################################################################################
 _bx::annotation_parsing_stack::pop() {
-  local new_length=$((${#__BX_ANNOTATION_PARSING_STACK__[@]} - 1))
-
-  __BX_ANNOTATION_PARSING_STACK__=("${__BX_ANNOTATION_PARSING_STACK__[@]:0:new_length}")
+  unset '__BX_ANNOTATION_PARSING_STACK__[${#__BX_ANNOTATION_PARSING_STACK__[@]}-1]'
 }
