@@ -22,11 +22,11 @@ _bx::invocation_stack::size() {
 _bx::invocation_stack::includes() {
   [[ ${#__BX_INVOCATION_STACK__[@]} -eq 0 ]] && return "${__BOOL_FALSE__}"
 
-  local recipe="$1"
+  local candidate_invocation="$1"
 
   local invoked_recipe
   for invoked_recipe in "${__BX_INVOCATION_STACK__[@]}"; do
-    [[ ${recipe} == "${invoked_recipe}" ]] && return "${__BOOL_TRUE__}"
+    [[ ${candidate_invocation} == "${invoked_recipe}" ]] && return "${__BOOL_TRUE__}"
   done
 
   return "${__BOOL_FALSE__}"
@@ -36,10 +36,10 @@ _bx::invocation_stack::includes() {
 # Add a recipe to the stack of recipes under invocation.
 #
 # Globals:
-#   __BX_INVOCATION_STACK__ - Stack where the recipe is stored.
+#   __BX_INVOCATION_STACK__ - Stack where the recipe invocation is stored.
 #
 # Arguments:
-#   recipe - The recipe to add.
+#   invocation - The recipe invocation string, including arguments to add.
 ################################################################################
 _bx::invocation_stack::push() {
   __BX_INVOCATION_STACK__+=("$1")

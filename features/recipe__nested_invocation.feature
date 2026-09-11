@@ -103,7 +103,7 @@ Feature: Recipe--Nested Invocation
       }
 
       nested-recipe() {
-        echo "'nested-recipe' invocation: \$#=$#, \$1='${1:-}', \$2='${2:-}'"
+        echo "'nested-recipe' invocation: $#, '${1:-}', '${2:-}'"
       }
       ```
     When executing bx with "recipe"
@@ -116,20 +116,20 @@ Feature: Recipe--Nested Invocation
     And bx traces
       """
       + # recipe {
-      ++ # nested-recipe <NESTED RECIPE ARGUMENTS> {
+      ++ # nested-recipe <TRACED RECIPE ARGUMENTS> {
       ++ # }
       + # }
       """
     And bx does not error out
 
     Examples:
-      | NESTED RECIPE ARGUMENTS        | RECEIVED ARGUMENTS INFO                  |
-      | arg-1                          | $#=1, $1='arg-1', $2=''                  |
-      | arg-1 arg-2                    | $#=2, $1='arg-1', $2='arg-2'             |
-      | arg\ 1 arg\ 2                  | $#=2, $1='arg 1', $2='arg 2'             |
-      | "arg 1" "arg 2"                | $#=2, $1='arg 1', $2='arg 2'             |
-      | --arg=arg\ 1 --arg=arg\ 2      | $#=2, $1='--arg=arg 1', $2='--arg=arg 2' |
-      | --arg="arg 1" --arg="arg 2"    | $#=2, $1='--arg=arg 1', $2='--arg=arg 2' |
+      | NESTED RECIPE ARGUMENTS | RECEIVED ARGUMENTS INFO     | TRACED RECIPE ARGUMENTS   |
+      | arg-1                   | 1, 'arg-1', ''              | 'arg-1'                   |
+      | arg-1 arg-2             | 2, 'arg-1', 'arg-2'         | 'arg-1' 'arg-2'           |
+      | arg\ 1 arg\ 2           | 2, 'arg 1', 'arg 2'         | 'arg\ 1' 'arg\ 2'         |
+      | "arg 1" "arg 2"         | 2, 'arg 1', 'arg 2'         | 'arg\ 1' 'arg\ 2'         |
+      | --arg=a\ 1 --arg=b\ 2   | 2, '--arg=a 1', '--arg=b 2' | '--arg=a\ 1' '--arg=b\ 2' |
+      | --arg="a 1" --arg="b 2" | 2, '--arg=a 1', '--arg=b 2' | '--arg=a\ 1' '--arg=b\ 2' |
 
   Scenario: Invoke a recipe that invokes multiple recipes with arguments
     Given the Bashfile
@@ -142,18 +142,18 @@ Feature: Recipe--Nested Invocation
       }
 
       nested-recipe() (
-        echo "'nested-recipe' invocation: \$#=$#, \$1='${1:-}', \$2='${2:-}'"
+        echo "'nested-recipe' invocation: $#, '${1:-}', '${2:-}'"
       )
       ```
     When executing bx with "recipe"
     Then bx displays
       """
       Pre-processing...
-      'nested-recipe' invocation: $#=0, $1='', $2=''
-      'nested-recipe' invocation: $#=1, $1='arg-1', $2=''
-      'nested-recipe' invocation: $#=2, $1='arg-2', $2='arg-3'
-      'nested-recipe' invocation: $#=2, $1='arg 4', $2='arg 5'
-      'nested-recipe' invocation: $#=0, $1='', $2=''
+      'nested-recipe' invocation: 0, '', ''
+      'nested-recipe' invocation: 1, 'arg-1', ''
+      'nested-recipe' invocation: 2, 'arg-2', 'arg-3'
+      'nested-recipe' invocation: 2, 'arg 4', 'arg 5'
+      'nested-recipe' invocation: 0, '', ''
       Post-processing...
       """
     And bx traces
@@ -161,11 +161,11 @@ Feature: Recipe--Nested Invocation
       + # recipe {
       ++ # nested-recipe {
       ++ # }
-      ++ # nested-recipe arg-1 {
+      ++ # nested-recipe 'arg-1' {
       ++ # }
-      ++ # nested-recipe arg-2 arg-3 {
+      ++ # nested-recipe 'arg-2' 'arg-3' {
       ++ # }
-      ++ # nested-recipe "arg 4" arg\ 5 {
+      ++ # nested-recipe 'arg\ 4' 'arg\ 5' {
       ++ # }
       ++ # nested-recipe {
       ++ # }

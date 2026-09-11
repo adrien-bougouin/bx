@@ -48,28 +48,28 @@ Feature: Recipe Confirmation -- Nested Invocation
     When executing bx with '\'recipe <RECIPE ARGUMENTS>\'' and confirmation sequence
       | y |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical <FORWARDED ARGUMENTS>`? [y/N] |
+      | bx: Invoke recipe `recipe--critical <TRACED RECIPE ARGUMENTS>`? [y/N] |
     And bx displays
       """
       'recipe--critical' invoked!
       """
     And bx traces
       """
-      + # recipe <RECIPE ARGUMENTS> {
-      ++ # recipe--critical <FORWARDED ARGUMENTS> {
+      + # recipe <TRACED RECIPE ARGUMENTS> {
+      ++ # recipe--critical <TRACED RECIPE ARGUMENTS> {
       ++ # }
       + # }
       """
     And bx does not error out
 
     Examples:
-      | RECIPE ARGUMENTS                 | FORWARDED ARGUMENTS         |
-      | arg-1                            | "arg-1"                     |
-      | arg-1 arg-2                      | "arg-1" "arg-2"             |
-      | arg\ 1 arg\ 2                    | "arg 1" "arg 2"             |
-      | "arg 1" "arg 2"                  | "arg 1" "arg 2"             |
-      | --arg=arg\ 1 --arg=arg\ 2        | "--arg=arg 1" "--arg=arg 2" |
-      | --arg="arg 1" --arg="arg 2"      | "--arg=arg 1" "--arg=arg 2" |
+      | RECIPE ARGUMENTS        | TRACED RECIPE ARGUMENTS   |
+      | arg-1                   | 'arg-1'                   |
+      | arg-1 arg-2             | 'arg-1' 'arg-2'           |
+      | arg\ 1 arg\ 2           | 'arg\ 1' 'arg\ 2'         |
+      | "arg 1" "arg 2"         | 'arg\ 1' 'arg\ 2'         |
+      | --arg=a\ 1 --arg=b\ 2   | '--arg=a\ 1' '--arg=b\ 2' |
+      | --arg="a 1" --arg="b 2" | '--arg=a\ 1' '--arg=b\ 2' |
 
   Scenario: Confirm multiple nested recipe invocations
     When executing bx with "recipe deep-recipe" and confirmation sequence

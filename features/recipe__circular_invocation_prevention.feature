@@ -8,7 +8,7 @@ Feature: Recipe--Circular Invocation Prevention
       ```bash
       trap-recipe() {
         echo "Entering trap..."
-        bx::invoke '<CIRCULAR RECIPE ARGUMENT>'
+        bx::invoke '<CIRCULAR RECIPE ARGUMENTS>'
         echo "Exiting trap..."
       }
 
@@ -18,7 +18,7 @@ Feature: Recipe--Circular Invocation Prevention
         echo "Post-processing..."
       }
       ```
-    When executing bx with "'<CIRCULAR RECIPE ARGUMENT>'"
+    When executing bx with "'<CIRCULAR RECIPE ARGUMENTS>'"
     Then bx displays
       """
       Pre-processing...
@@ -28,17 +28,17 @@ Feature: Recipe--Circular Invocation Prevention
       """
     And bx traces
       """
-      + # <CIRCULAR RECIPE ARGUMENT> {
+      + # <TRACED RECIPE ARGUMENTS> {
       ++ # trap-recipe {
       ++ # }
       + # }
       """
-    And bx warns with message "bx: Skipping re-invocation of `<CIRCULAR RECIPE ARGUMENT>`..."
+    And bx warns with message "bx: Skipping re-invocation of `<TRACED RECIPE ARGUMENTS>`..."
 
     Examples:
-      | CIRCULAR RECIPE ARGUMENT |
-      | recipe                   |
-      | recipe arg-1 arg-2       |
+      | CIRCULAR RECIPE ARGUMENTS | TRACED RECIPE ARGUMENTS |
+      | recipe                    | recipe                  |
+      | recipe arg-1 arg-2        | recipe 'arg-1' 'arg-2'  |
 
   Scenario: Invoke a recipe that invokes itself with different arguments
     Given the Bashfile
@@ -60,20 +60,18 @@ Feature: Recipe--Circular Invocation Prevention
     And bx traces
       """
       + # recipe {
-      ++ # recipe arg-1 arg-2 {
+      ++ # recipe 'arg-1' 'arg-2' {
       ++ # }
       + # }
       """
-    And bx warns with message "bx: Skipping re-invocation of `recipe arg-1 arg-2`..."
+    And bx warns with message "bx: Skipping re-invocation of `recipe 'arg-1' 'arg-2'`..."
 
-  @todo
-  # TODO: Normalize how we store the recipe arguments in the invocation stack
   Scenario: Invoke a recipe that invokes itself with same arguments formatted differently
     Given the Bashfile
       ```bash
       recipe() {
         echo "Pre-processing..."
-        bx::invoke "recipe ${@+"$(printf ' "%s"' "$@")"}"
+        bx::invoke 'recipe "arg 1" "arg 2"'
         echo "Post-processing..."
       }
       ```
@@ -85,7 +83,7 @@ Feature: Recipe--Circular Invocation Prevention
       """
     And bx traces
       """
-      + # recipe "arg 1" "arg 2" {
+      + # recipe 'arg\ 1' 'arg\ 2' {
       + # }
       """
-    And bx warns with message 'bx: Skipping re-invocation of `recipe "arg 1" "arg 2"`...'
+      And bx warns with message "bx: Skipping re-invocation of `recipe 'arg\ 1' 'arg\ 2'`..."
