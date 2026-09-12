@@ -1,41 +1,20 @@
 # frozen_string_literal: true
 
-require 'open3'
-
-module ShellWorld
-  class Shell
-    attr_writer :env
-    attr_reader :stdout, :confirmations, :xtrace, :stderr, :status
-
-    def initialize
-      @env = ''
-    end
-
-    def execute(command, stdin_data: nil)
-      stdout, stderr, status = Open3.capture3(
-        "#{@env}\nTERM= PS4='+ ' #{command}",
-        stdin_data:
-      )
-
-      traces, errors = stderr.sub(/\n\Z/, '').split("\n").partition do |line|
-        line.start_with?('+')
-      end
-
-      confirmations, errors = errors.partition do |line|
-        line.match?(%r{^bx: .*\? \[y/N\] $})
-      end
-
-      @stdout = stdout.sub(/\n\Z/, '')
-      @confirmations = confirmations.map(&:strip).join("\n")
-      @xtrace = traces.join("\n")
-      @stderr = errors.join("\n")
-      @status = status.exitstatus
-    end
+module GlobalScope
+  def env
+    @env ||= [
+      'export TERM=',
+      'export PS4="+ "'
+    ]
   end
 
-  def shell
-    @shell ||= Shell.new
+  def bx_options
+    @bx_options ||= []
+  end
+
+  def bx
+    @bx ||= BX.new(self)
   end
 end
 
-World(ShellWorld)
+World(GlobalScope)
