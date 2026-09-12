@@ -54,6 +54,9 @@ _bx::recipe::invoke() {
   _bx::invocation_stack::pop
 }
 
+# FIXME: In rare case, the canonic version is not executable. That's not a
+#        problem, because only use it for display, but it would be better to
+#        improve it.
 _bx::recipe::canonicalize_invocation() {
   local invocation=()
   local canonicalized_invocation=()
