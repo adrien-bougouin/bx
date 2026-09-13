@@ -1,7 +1,7 @@
 #!/bin/bash
 
 _bx::main() {
-  set -euo pipefail
+  builtin set -euo pipefail
 
   local __BX_WORKING_DIRECTORY__
   local __BX_SRC_PATH__

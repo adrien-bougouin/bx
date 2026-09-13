@@ -59,7 +59,7 @@ _bx::recipe::invoke() {
 #        improve it.
 _bx::recipe::canonicalize_invocation() {
   local invocation=()
-  local canonicalized_invocation=()
+  local canonical_invocation=()
 
   # Safely inject invocation component into array, preserving quote boundaries.
   # For instance, with invocation `recipe "arg 1" "arg 2"`
@@ -67,7 +67,7 @@ _bx::recipe::canonicalize_invocation() {
   # - eval "invocation+=($1)" #=> ('recipe' 'arg 1' 'arg 2')
   eval "invocation+=($1)"
 
-  canonicalized_invocation+=("${invocation[0]}")
+  canonical_invocation+=("${invocation[0]}")
 
   local i
   for ((i = 1; i < ${#invocation[@]}; i++)); do
@@ -75,8 +75,8 @@ _bx::recipe::canonicalize_invocation() {
 
     printf -v arg "'%q' " "${invocation[i]}"
 
-    canonicalized_invocation+=("${arg% }")
+    canonical_invocation+=("${arg% }")
   done
 
-  printf "%s" "${canonicalized_invocation[*]}"
+  printf "%s" "${canonical_invocation[*]}"
 }

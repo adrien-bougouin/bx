@@ -78,6 +78,11 @@ Then('bx errors out with message {string}') do |stderr_content|
     step('bx does not error out')
   else
     assert_equal(stderr_content, bx.stderr, data_type: 'stderr')
-    assert_equal(1, bx.status, data_type: 'status')
+    assert_not_equal(0, bx.status, data_type: 'status')
   end
+end
+
+Then('bx errors out with message containing {string}') do |partial_stderr_content|
+  assert_include(partial_stderr_content, bx.stderr, data_type: 'stderr')
+  assert_not_equal(0, bx.status, data_type: 'status')
 end

@@ -38,7 +38,13 @@ _bx::utils::shell::current_options() {
   printf "%s" "${replayable_options[*]}"
 }
 
-__BX_ORIGINAL_SHOPTS__="$(_bx::utils::shell::current_options)"
+# bx original options include errexit. However, according to subshell specs, it
+# is turned off in subshells. So `set -e` must be reiterated inside this
+# subshell for computing RESTORABLE bx original options.
+__BX_ORIGINAL_SHOPTS__="$(
+  set -e
+  _bx::utils::shell::current_options
+)"
 
 readonly __BX_ORIGINAL_SHOPTS__
 
