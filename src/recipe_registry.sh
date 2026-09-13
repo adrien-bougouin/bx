@@ -10,7 +10,7 @@ _bx::recipe_registry::register_ignore_patterns() {
 _bx::recipe_registry::full_ignore_pattern() {
   local patterns_join
 
-  patterns_join="$(printf "%s|" "${__BX_RECIPE_IGNORE_PATTERNS__[@]}")"
+  printf -v patterns_join "%s|" "${__BX_RECIPE_IGNORE_PATTERNS__[@]}"
 
   printf "(%s)" "${patterns_join%|}"
 }
