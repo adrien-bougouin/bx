@@ -20,7 +20,7 @@ Feature: Recipe Confirmation
     When invoking
       | recipe-1--critical | input('<CONFIRMATION INPUT>') |
     Then bx confirms
-      | bx: Invoke recipe `recipe-1--critical`? [y/N] |
+      | recipe-1--critical |
     And bx displays
       """
       'recipe-1--critical' invoked!
@@ -39,9 +39,9 @@ Feature: Recipe Confirmation
 
   Scenario Outline: Confirm a recipe invocation with arguments
     When invoking
-      | 'recipe-1--critical <RECIPE ARGUMENTS>' | input('y') |
+      | recipe-1--critical <RECIPE ARGUMENTS> | input('y') |
     Then bx confirms
-      | bx: Invoke recipe `recipe-1--critical <TRACED RECIPE ARGUMENTS>`? [y/N] |
+      | recipe-1--critical <RECIPE ARGUMENTS> |
     And bx displays
       """
       'recipe-1--critical' invoked!
@@ -67,8 +67,8 @@ Feature: Recipe Confirmation
       | recipe-1--critical | input('y') |
       | recipe-2--critical | input('y') |
     Then bx confirms
-      | bx: Invoke recipe `recipe-1--critical`? [y/N] |
-      | bx: Invoke recipe `recipe-2--critical`? [y/N] |
+      | recipe-1--critical |
+      | recipe-2--critical |
     And bx displays
       """
       'recipe-1--critical' invoked!
@@ -87,7 +87,7 @@ Feature: Recipe Confirmation
     When invoking
       | recipe-1--critical | input('<REJECTION INPUT>') |
     Then bx confirms
-      | bx: Invoke recipe `recipe-1--critical`? [y/N] |
+      | recipe-1--critical |
     And bx displays nothing
     And bx traces nothing
     And bx errors out with message "bx: Aborted!"
@@ -103,8 +103,8 @@ Feature: Recipe Confirmation
       | recipe-1--critical | input('y') |
       | recipe-2--critical | input('n') |
     Then bx confirms
-      | bx: Invoke recipe `recipe-1--critical`? [y/N] |
-      | bx: Invoke recipe `recipe-2--critical`? [y/N] |
+      | recipe-1--critical |
+      | recipe-2--critical |
     And bx displays
       """
       'recipe-1--critical' invoked!

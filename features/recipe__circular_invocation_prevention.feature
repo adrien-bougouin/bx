@@ -19,7 +19,7 @@ Feature: Recipe--Circular Invocation Prevention
       }
       ```
     When invoking
-      | '<CIRCULAR RECIPE ARGUMENTS>' |
+      | <CIRCULAR RECIPE ARGUMENTS> |
     Then bx displays
       """
       Pre-processing...
@@ -51,7 +51,7 @@ Feature: Recipe--Circular Invocation Prevention
       }
       ```
     When invoking
-      | 'recipe' |
+      | recipe |
     Then bx displays
       """
       Pre-processing...
@@ -78,7 +78,7 @@ Feature: Recipe--Circular Invocation Prevention
       }
       ```
     When invoking
-      | 'recipe arg\ 1 arg\ 2' |
+      | recipe arg\ 1 arg\ 2 |
     Then bx displays
       """
       Pre-processing...

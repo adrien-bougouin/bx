@@ -63,10 +63,10 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       |                       | input('y') |
       |                       | input('y') |
     Then bx confirms
-      | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
-      | bx: Invoke recipe `recipe-1--critical`? [y/N]    |
-      | bx: Invoke recipe `recipe-2--critical`? [y/N]    |
-      | bx: Invoke recipe `recipe-3--critical`? [y/N]    |
+      | deep-recipe--critical |
+      | recipe-1--critical    |
+      | recipe-2--critical    |
+      | recipe-3--critical    |
     And bx displays
       """
       'recipe-1--critical' invoked!

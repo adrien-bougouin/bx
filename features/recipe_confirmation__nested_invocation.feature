@@ -30,7 +30,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     When invoking
       | recipe | input('y') |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical`? [y/N] |
+      | recipe--critical |
     And bx displays
       """
       'recipe--critical' invoked!
@@ -46,9 +46,9 @@ Feature: Recipe Confirmation -- Nested Invocation
 
   Scenario Outline: Confirm a nested recipe invocation with arguments
     When invoking
-      | 'recipe <RECIPE ARGUMENTS>' | input('y') |
+      | recipe <RECIPE ARGUMENTS> | input('y') |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical <TRACED RECIPE ARGUMENTS>`? [y/N] |
+      | recipe--critical <RECIPE ARGUMENTS> |
     And bx displays
       """
       'recipe--critical' invoked!
@@ -77,9 +77,9 @@ Feature: Recipe Confirmation -- Nested Invocation
       | deep-recipe | input('y') |
       |             | input('y') |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical`? [y/N]      |
-      | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
-      | bx: Invoke recipe `recipe--critical`? [y/N]      |
+      | recipe--critical      |
+      | deep-recipe--critical |
+      | recipe--critical      |
     And bx displays
       """
       'recipe--critical' invoked!
@@ -105,7 +105,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     When invoking
       | recipe | input('n') |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical`? [y/N] |
+      | recipe--critical |
     And bx displays nothing
     And bx traces
       """
@@ -118,8 +118,8 @@ Feature: Recipe Confirmation -- Nested Invocation
       | recipe      | input('y') |
       | deep-recipe | input('n') |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical`? [y/N]      |
-      | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
+      | recipe--critical      |
+      | deep-recipe--critical |
     And bx displays
       """
       'recipe--critical' invoked!

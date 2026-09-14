@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
+require 'shellwords'
+
+# When #########################################################################
+
 When('setting options') do |options|
   bx.options.concat(options.raw.flatten)
 end
 
 When('invoking') do |*args|
-  invocations = args.first&.raw
+  table = args.first&.raw
 
   bx_arguments = ''
   bx_stdin_data = nil
@@ -15,19 +19,24 @@ When('invoking') do |*args|
     bx_stdin_data += confirm_sequence
   end
 
-  if invocations
-    bx_arguments = invocations.map(&:first).reject(&:empty?).join(' ')
+  if table
+    recipe_invocations = table.map(&:first).reject(&:empty?)
+    bx_arguments = recipe_invocations.map(&:inspect).join(' ')
 
-    invocations.each do |invocation|
-      confirmation_sequence = invocation[1] || []
+    table.each do |row|
+      confirmation_sequence = row[1] || []
       next if confirmation_sequence.empty?
 
-      eval(confirmation_sequence.gsub('input(', 'input.('), binding) # rubocop:disable Security/Eval
+      # rubocop:disable Security/Eval
+      eval(confirmation_sequence.gsub('input(', 'input.('), binding)
+      # rubocop:enable Security/Eval
     end
   end
 
   bx.call(arguments: bx_arguments, stdin_data: bx_stdin_data)
 end
+
+# Then #########################################################################
 
 Then('bx displays nothing') do
   assert_equal('', bx.stdout, data_type: 'stdout')
@@ -37,12 +46,20 @@ Then('bx displays') do |stdout_content|
   assert_equal(stdout_content, bx.stdout, data_type: 'stdout')
 end
 
-Then('bx confirms') do |confirmations|
-  assert_equal(confirmations.raw.join("\n"), bx.confirmations, data_type: 'confirmation')
-end
-
 Then('bx confirms nothing') do
   assert_equal('', bx.confirmations, data_type: 'confirmation')
+end
+
+Then('bx confirms') do |table|
+  expected_confirmations = table.raw.map do |row|
+    build_confirmation_string(row.first)
+  end
+
+  assert_equal(
+    expected_confirmations.join("\n"),
+    bx.confirmations,
+    data_type: 'confirmation'
+  )
 end
 
 Then('bx traces nothing') do
@@ -75,4 +92,23 @@ end
 Then('bx errors out with message containing {string}') do |partial_stderr_content|
   assert_include(partial_stderr_content, bx.stderr, data_type: 'stderr')
   assert_not_equal(0, bx.status, data_type: 'status')
+end
+
+# Helpers ######################################################################
+
+def build_confirmation_string(recipe_invocation)
+  "bx: Invoke recipe `#{canonicalize_recipe_invocation(recipe_invocation)}`? [y/N]"
+end
+
+def canonicalize_recipe_invocation(recipe_invocation)
+  script = <<~BASH
+    eval "words+=($1)"
+    printf "%s" "${words[0]}"
+    for word in "${words[@]:1}"; do
+      printf -v q "%q" "$word"
+      printf " '%s'" "$q"
+    done
+  BASH
+
+  `bash -c #{Shellwords.escape(script)} bx #{Shellwords.escape(recipe_invocation)}`.chomp
 end
