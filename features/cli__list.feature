@@ -9,7 +9,9 @@ Feature: CLI--List
 
       recipe-2() { :; }
       ```
-    When executing bx with "<LIST OPTION>"
+    When setting options
+      | <LIST OPTION> |
+    And invoking
     Then bx displays
       """
       Available recipes:
@@ -37,7 +39,9 @@ Feature: CLI--List
           "that continues on multiple lines."
       }
       ```
-    When executing bx with "-l"
+    When setting options
+      | -l |
+    And invoking
     Then bx displays
       """
       Available recipes:
@@ -59,7 +63,9 @@ Feature: CLI--List
 
       recipe-2() { :; }
       ```
-    When executing bx with "-l"
+    When setting options
+      | -l |
+    And invoking
     Then bx displays
       """
       Available recipes:
@@ -70,12 +76,16 @@ Feature: CLI--List
 
   Scenario: List available recipes when there are none
     Given an empty Bashfile
-    When executing bx with "-l"
+    When setting options
+      | -l |
+    And invoking
     Then bx displays nothing
     And bx does not error out
 
   Scenario: Ask for available recipes from uninitialized bx environment
     Given no Bashfile
-    When executing bx with "-l"
+    When setting options
+      | -l |
+    And invoking
     Then bx displays nothing
     And bx errors out with message "bx: No Bashfile!"

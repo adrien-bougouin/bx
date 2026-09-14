@@ -8,10 +8,6 @@ module GlobalScope
     ]
   end
 
-  def bx_options
-    @bx_options ||= []
-  end
-
   def bx
     @bx ||= BX.new(self)
   end

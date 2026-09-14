@@ -7,7 +7,10 @@ Feature: CLI--Quiet
         echo "Recipe was invoked!!!"
       }
       ```
-    When executing bx with "<QUIET OPTION> recipe"
+    When setting options
+      | <QUIET OPTION> |
+    And invoking
+      | recipe |
     Then bx displays
       """
       Recipe was invoked!!!
@@ -29,7 +32,10 @@ Feature: CLI--Quiet
         echo "Recipe was invoked!!!"
       }
       ```
-    When executing bx with "-q recipe"
+    When setting options
+      | -q |
+    And invoking
+      | recipe |
     Then bx displays
       """
       Recipe was invoked!!!

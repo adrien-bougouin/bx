@@ -16,7 +16,9 @@ Feature: Recipe--Shell Options
         echo "World!"
       }
       ```
-    When executing bx with "hello-xtrace world"
+    When invoking
+      | hello-xtrace |
+      | world |
     Then bx displays
       """
       Hello
@@ -50,7 +52,8 @@ Feature: Recipe--Shell Options
         set +x
       }
       ```
-    When executing bx with "hello-world-xtrace"
+    When invoking
+      | hello-world-xtrace |
     Then bx displays
       """
       -----
@@ -70,7 +73,7 @@ Feature: Recipe--Shell Options
       """
 
   Scenario: Invoke a recipe that alters shell options
-    Given the environment
+    Given the shell environment
       ```bash
       shopt -u shift_verbose
       ```
@@ -92,7 +95,9 @@ Feature: Recipe--Shell Options
         shopt -o | grep pipefail
       }
       ```
-    When executing bx with "recipe print-options"
+    When invoking
+      | recipe |
+      | print-options |
     Then bx displays
       """
       shift_verbose  	on

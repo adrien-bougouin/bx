@@ -18,7 +18,8 @@ Feature: Recipe -- Failure Handling
       }
       ```
   Scenario: Invoke a recipe that fails
-    When executing bx with "failing-recipe"
+    When invoking
+      | failing-recipe |
     Then bx displays
       """
       'failing-recipe' before failure!
@@ -30,7 +31,10 @@ Feature: Recipe -- Failure Handling
     And bx errors out with message containing "Bashfile: line 11: call-missing-function: command not found"
 
   Scenario: Invoke a mix of recipes that succeed and fail
-    When executing bx with "recipe-1 failing-recipe recipe-2"
+    When invoking
+      | recipe-1 |
+      | failing-recipe |
+      | recipe-2 |
     Then bx displays
       """
       'recipe-1' invoked!

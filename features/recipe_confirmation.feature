@@ -17,8 +17,8 @@ Feature: Recipe Confirmation
       ```
 
   Scenario Outline: Confirm a recipe invocation
-    When executing bx with "recipe-1--critical" and confirmation sequence
-      | <CONFIRMATION INPUT> |
+    When invoking
+      | recipe-1--critical | input('<CONFIRMATION INPUT>') |
     Then bx confirms
       | bx: Invoke recipe `recipe-1--critical`? [y/N] |
     And bx displays
@@ -38,8 +38,8 @@ Feature: Recipe Confirmation
       | Y                  |
 
   Scenario Outline: Confirm a recipe invocation with arguments
-    When executing bx with '\'recipe-1--critical <RECIPE ARGUMENTS>\'' and confirmation sequence
-      | y |
+    When invoking
+      | 'recipe-1--critical <RECIPE ARGUMENTS>' | input('y') |
     Then bx confirms
       | bx: Invoke recipe `recipe-1--critical <TRACED RECIPE ARGUMENTS>`? [y/N] |
     And bx displays
@@ -63,9 +63,9 @@ Feature: Recipe Confirmation
       | --arg="arg 1" --arg="arg 2" | '--arg=arg\ 1' '--arg=arg\ 2' |
 
   Scenario: Confirm multiple recipe invocations
-    When executing bx with "recipe-1--critical recipe-2--critical" and confirmation sequence
-      | y |
-      | y |
+    When invoking
+      | recipe-1--critical | input('y') |
+      | recipe-2--critical | input('y') |
     Then bx confirms
       | bx: Invoke recipe `recipe-1--critical`? [y/N] |
       | bx: Invoke recipe `recipe-2--critical`? [y/N] |
@@ -84,8 +84,8 @@ Feature: Recipe Confirmation
     And bx does not error out
 
   Scenario Outline: Reject a recipe invocation
-    When executing bx with "recipe-1--critical" and confirmation sequence
-      | <REJECTION INPUT> |
+    When invoking
+      | recipe-1--critical | input('<REJECTION INPUT>') |
     Then bx confirms
       | bx: Invoke recipe `recipe-1--critical`? [y/N] |
     And bx displays nothing
@@ -99,9 +99,9 @@ Feature: Recipe Confirmation
       | N               |
 
   Scenario: Confirm then reject recipe invocations
-    When executing bx with "recipe-1--critical recipe-2--critical" and confirmation sequence
-      | y |
-      | n |
+    When invoking
+      | recipe-1--critical | input('y') |
+      | recipe-2--critical | input('n') |
     Then bx confirms
       | bx: Invoke recipe `recipe-1--critical`? [y/N] |
       | bx: Invoke recipe `recipe-2--critical`? [y/N] |

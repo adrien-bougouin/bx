@@ -11,7 +11,8 @@ Feature: Bashfile
         echo "default"
       }
       ```
-    When executing bx with "which-bashfile"
+    When invoking
+      | which-bashfile |
     Then bx displays
       """
       default
@@ -37,7 +38,10 @@ Feature: Bashfile
         echo "another_alternative.bashfile"
       }
       ```
-    When executing bx with "<BASHFILE ARGUMENT> which-bashfile"
+    When setting options
+      | <BASHFILE ARGUMENT> |
+    And invoking
+      | which-bashfile |
     Then bx displays
       """
       <LOADED BASHFILE>
@@ -65,7 +69,10 @@ Feature: Bashfile
         echo "alternative.bashfile"
       }
       ```
-    When executing bx with "<BASHFILE ARGUMENTS> which-bashfile"
+    When setting options
+      | <BASHFILE ARGUMENTS> |
+    And invoking
+      | which-bashfile |
     Then bx displays nothing
     And bx errors out with message "<ERROR>"
 
@@ -76,6 +83,7 @@ Feature: Bashfile
 
   Scenario: Invoke a recipe without a Bashfile
     Given no Bashfile
-    When executing bx with "some-recipe"
+    When invoking
+      | some-recipe |
     Then bx displays nothing
     And bx errors out with message "bx: No Bashfile!"

@@ -18,7 +18,8 @@ Feature: Recipe--Circular Invocation Prevention
         echo "Post-processing..."
       }
       ```
-    When executing bx with "'<CIRCULAR RECIPE ARGUMENTS>'"
+    When invoking
+      | '<CIRCULAR RECIPE ARGUMENTS>' |
     Then bx displays
       """
       Pre-processing...
@@ -49,7 +50,8 @@ Feature: Recipe--Circular Invocation Prevention
         echo "Post-processing..."
       }
       ```
-    When executing bx with "'recipe'"
+    When invoking
+      | 'recipe' |
     Then bx displays
       """
       Pre-processing...
@@ -75,7 +77,8 @@ Feature: Recipe--Circular Invocation Prevention
         echo "Post-processing..."
       }
       ```
-    When executing bx with "'recipe arg\ 1 arg\ 2'"
+    When invoking
+      | 'recipe arg\ 1 arg\ 2' |
     Then bx displays
       """
       Pre-processing...

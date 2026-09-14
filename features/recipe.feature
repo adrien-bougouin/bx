@@ -21,7 +21,8 @@ Feature: Recipe
       ```
 
   Scenario: Invoke a recipe
-    When executing bx with "recipe-1"
+    When invoking
+      | recipe-1 |
     Then bx displays
       """
       'recipe-1' invoked!
@@ -34,7 +35,9 @@ Feature: Recipe
     And bx does not error out
 
   Scenario: Invoke a recipe multiple times
-    When executing bx with "recipe-1 recipe-1"
+    When invoking
+      | recipe-1 |
+      | recipe-1 |
     Then bx displays
       """
       'recipe-1' invoked!
@@ -50,17 +53,21 @@ Feature: Recipe
     And bx does not error out
 
   Scenario: Invoke a missing recipe
-    When executing bx with "missing"
+    When invoking
+      | missing |
     Then bx displays nothing
     And bx errors out with message "bx: No recipe `missing`!"
 
   Scenario: Invoke a private function instead of a recipe
-    When executing bx with "_not-a-recipe"
+    When invoking
+      | _not-a-recipe |
     Then bx displays nothing
     And bx errors out with message "bx: `_not-a-recipe` is a private function, not a recipe!"
 
   Scenario: Invoke multiple recipes
-    When executing bx with "recipe-1 recipe-2"
+    When invoking
+      | recipe-1 |
+      | recipe-2 |
     Then bx displays
       """
       'recipe-1' invoked!
@@ -76,7 +83,10 @@ Feature: Recipe
     And bx does not error out
 
   Scenario: Invoke a mix of existing and missing recipes
-    When executing bx with "recipe-1 missing recipe-2"
+    When invoking
+      | recipe-1 |
+      | missing |
+      | recipe-2 |
     Then bx displays
       """
       'recipe-1' invoked!

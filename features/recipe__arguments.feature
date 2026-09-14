@@ -13,7 +13,8 @@ Feature: Recipe--Arguments
       ```
 
   Scenario Outline: Invoke a recipe with arguments
-    When executing bx with '\'recipe-1 <RECIPE ARGUMENTS>\''
+    When invoking
+      | 'recipe-1 <RECIPE ARGUMENTS>' |
     Then bx displays
       """
       'recipe-1' invocation: <RECEIVED ARGUMENTS INFO>
@@ -35,7 +36,9 @@ Feature: Recipe--Arguments
       | --arg="a 1" --arg="b 2" | 2, '--arg=a 1', '--arg=b 2' | '--arg=a\ 1' '--arg=b\ 2' |
 
   Scenario: Invoke multiple recipes with arguments
-    When executing bx with "'recipe-1 arg-1 arg-2' 'recipe-2 arg-3 arg-4'"
+    When invoking
+      | 'recipe-1 arg-1 arg-2' |
+      | 'recipe-2 arg-3 arg-4' |
     Then bx displays
       """
       'recipe-1' invocation: 2, 'arg-1', 'arg-2'

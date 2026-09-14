@@ -10,7 +10,8 @@ Feature: Default Recipe
 
       default-recipe() { @default; }
       ```
-    When executing bx with "<RECIPE>"
+    When invoking
+      | <RECIPE> |
     Then bx traces
       """
       + # <INVOKED RECIPE> {
@@ -28,7 +29,7 @@ Feature: Default Recipe
       ```bash
       non-default-recipe() { :; }
       ```
-    When executing bx with ""
+    When invoking
     Then bx traces nothing
     And bx errors out with message "bx: Nothing to do!"
 
@@ -39,7 +40,7 @@ Feature: Default Recipe
 
       _not-a-recipe() { @default; }
       ```
-    When executing bx with ""
+    When invoking
     Then bx traces nothing
     And bx errors out with message "bx: Nothing to do!"
 
@@ -48,7 +49,8 @@ Feature: Default Recipe
       ```bash
       non-default-recipe() { :; }
       ```
-    When executing bx with "non-default-recipe"
+    When invoking
+      | non-default-recipe |
     Then bx traces
       """
       + # non-default-recipe {
@@ -63,7 +65,8 @@ Feature: Default Recipe
 
       default-recipe-2() { @default; }
       ```
-    When executing bx with "<RECIPE>"
+    When invoking
+      | <RECIPE> |
     Then bx displays nothing
     And bx traces nothing
     And bx errors out with message "<ERROR>"

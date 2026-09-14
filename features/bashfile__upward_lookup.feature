@@ -10,7 +10,8 @@ Feature: Bashfile--Upward Lookup
       }
       ```
     And the current working directory "./deeply/nested/working/directory"
-    When executing bx with "which-bashfile"
+    When invoking
+      | which-bashfile |
     Then bx displays
       """
       Parent Bashfile

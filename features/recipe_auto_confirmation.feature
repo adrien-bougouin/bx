@@ -28,7 +28,10 @@ Feature: Recipe Auto-Confirmation
       ```
 
   Scenario Outline: Auto-confirm a recipe invocation
-    When executing bx with "<CONFIRMATION ARGUMENT> recipe-1--critical"
+    When setting options
+      | <CONFIRMATION ARGUMENT> |
+    And invoking
+      | recipe-1--critical |
     Then bx confirms nothing
     And bx displays
       """
@@ -47,7 +50,11 @@ Feature: Recipe Auto-Confirmation
       | --yes                 |
 
   Scenario: Auto-confirm multiple recipe invocations
-    When executing bx with "-y recipe-1--critical recipe-2--critical"
+    When setting options
+      | --yes |
+    And invoking
+      | recipe-1--critical |
+      | recipe-2--critical |
     Then bx confirms nothing
     And bx displays
       """
@@ -64,7 +71,10 @@ Feature: Recipe Auto-Confirmation
     And bx does not error out
 
   Scenario: Auto-confirm nested recipe invocations
-    When executing bx with "-y deep-recipe"
+    When setting options
+      | --yes |
+    And invoking
+      | deep-recipe |
     Then bx confirms nothing
     And bx displays
       """

@@ -21,7 +21,11 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When executing bx with "-q <MUTATION RECIPE> <DISPLAY RECIPE>"
+    When setting options
+      | --quiet |
+    And invoking
+      | <MUTATION RECIPE> |
+      | <DISPLAY RECIPE>  |
     Then bx displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>
@@ -61,7 +65,10 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When executing bx with "-q <RECIPE>"
+    When setting options
+      | --quiet |
+    And invoking
+      | <RECIPE> |
     Then bx displays
       """
       GLOBAL=<FINAL GLOBAL VALUE>

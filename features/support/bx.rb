@@ -3,15 +3,16 @@
 require 'open3'
 
 class BX
-  attr_reader :stdout, :confirmations, :xtrace, :stderr, :status
+  attr_reader :options, :stdout, :confirmations, :xtrace, :stderr, :status
 
-  def initialize(context)
+  def initialize(context, options: [])
     @context = context
+    @options = options
   end
 
   def call(arguments: '', stdin_data: nil)
     stdout, stderr, status = Open3.capture3(
-      "#{@context.env.join("\n")}\nbx #{@context.bx_options.join(' ')} #{arguments}",
+      "#{@context.env.join("\n")}\nbx #{@options.join(' ')} #{arguments}",
       stdin_data:
     )
 

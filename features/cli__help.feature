@@ -2,7 +2,9 @@ Feature: CLI--Help
 
   Scenario Outline: Ask for help
     Given an empty Bashfile
-    When executing bx with "<HELP OPTION>"
+    When setting options
+      | <HELP OPTION> |
+    And invoking
     Then bx displays
       """
       Usage: bx [options] [--] [recipe] ...
@@ -31,7 +33,9 @@ Feature: CLI--Help
 
   Scenario: Ask for help from uninitialized bx environment
     Given no Bashfile
-    When executing bx with "-h"
+    When setting options
+      | -h |
+    And invoking
     Then bx displays
       """
       Usage: bx [options] [--] [recipe] ...
@@ -62,7 +66,9 @@ Feature: CLI--Help
 
       recipe-2() { :; }
       ```
-    When executing bx with "-h"
+    When setting options
+      | -h |
+    And invoking
     Then bx displays
       """
       Usage: bx [options] [--] [recipe] ...

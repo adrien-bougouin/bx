@@ -13,7 +13,8 @@ Feature: Recipe--Nested Invocation
         echo "'nested-recipe' invoked!"
       )
       ```
-    When executing bx with "recipe"
+    When invoking
+      | recipe |
     Then bx displays
       """
       Pre-processing...
@@ -51,7 +52,8 @@ Feature: Recipe--Nested Invocation
         echo "'nested-recipe-3' invoked!"
       )
       ```
-    When executing bx with "recipe"
+    When invoking
+      | recipe |
     Then bx displays
       """
       Pre-processing...
@@ -82,7 +84,8 @@ Feature: Recipe--Nested Invocation
         echo "Post-processing..."
       }
       ```
-    When executing bx with "recipe"
+    When invoking
+      | recipe |
     Then bx displays
       """
       Pre-processing...
@@ -106,7 +109,8 @@ Feature: Recipe--Nested Invocation
         echo "'nested-recipe' invocation: $#, '${1:-}', '${2:-}'"
       }
       ```
-    When executing bx with "recipe"
+    When invoking
+      | recipe |
     Then bx displays
       """
       Pre-processing...
@@ -145,7 +149,8 @@ Feature: Recipe--Nested Invocation
         echo "'nested-recipe' invocation: $#, '${1:-}', '${2:-}'"
       )
       ```
-    When executing bx with "recipe"
+    When invoking
+      | recipe |
     Then bx displays
       """
       Pre-processing...

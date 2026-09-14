@@ -1,42 +1,32 @@
 # frozen_string_literal: true
 
-Given('the environment') do |env|
-  self.env << env
+When('setting options') do |options|
+  bx.options.concat(options.raw.flatten)
 end
 
-# New steps proposal ###########################################################
+When('invoking') do |*args|
+  invocations = args.first&.raw
 
-# When using options
-#   | --quiet |
-#   | --yes   |
-#
-# When invoking
-#   | recipe               |
-#   | 'recipe with 3 args' |
-#
-# When invoking
-#   | recipe               |         |
-#   | 'recipe with 3 args' |         |
-#   | recipe-with-conf     | CONFIRM |
-#   | recipe-with-conf     | REJECT  |
+  bx_arguments = ''
+  bx_stdin_data = nil
 
-################################################################################
+  input = lambda do |confirm_sequence|
+    bx_stdin_data ||= ''
+    bx_stdin_data += confirm_sequence
+  end
 
-# TODO: Remove in favor of "When invoking..." or
-#       "When using options... And invoking..."
-When('executing bx with {string}') do |arguments|
-  bx.call(arguments:)
-end
+  if invocations
+    bx_arguments = invocations.map(&:first).reject(&:empty?).join(' ')
 
-# TODO: Remove in favor of last table CONFIRM/REJECT during "When invoking..."
-#       or "When using options... And invoking..."
-When('executing bx with {string} and confirmation sequence') do |arguments, confirmations|
-  bx.call(arguments:, stdin_data: confirmations.raw.join)
-end
+    invocations.each do |invocation|
+      confirmation_sequence = invocation[1] || []
+      next if confirmation_sequence.empty?
 
-# TODO: Remove in favor of When('invoking') with no table
-When('executing bx with no arguments') do
-  bx.call
+      eval(confirmation_sequence.gsub('input(', 'input.('), binding) # rubocop:disable Security/Eval
+    end
+  end
+
+  bx.call(arguments: bx_arguments, stdin_data: bx_stdin_data)
 end
 
 Then('bx displays nothing') do

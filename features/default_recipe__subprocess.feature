@@ -7,7 +7,7 @@ Feature: Default Recipe--Subprocess
 
       default-recipe() ( @default; )
       ```
-    When executing bx with no arguments
+    When invoking
     Then bx traces
       """
       + # default-recipe {
