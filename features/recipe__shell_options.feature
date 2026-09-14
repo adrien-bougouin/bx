@@ -18,7 +18,7 @@ Feature: Recipe--Shell Options
       ```
     When invoking
       | hello-xtrace |
-      | world |
+      | world        |
     Then bx displays
       """
       Hello
@@ -96,7 +96,7 @@ Feature: Recipe--Shell Options
       }
       ```
     When invoking
-      | recipe |
+      | recipe        |
       | print-options |
     Then bx displays
       """

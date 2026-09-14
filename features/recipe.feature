@@ -85,7 +85,7 @@ Feature: Recipe
   Scenario: Invoke a mix of existing and missing recipes
     When invoking
       | recipe-1 |
-      | missing |
+      | missing  |
       | recipe-2 |
     Then bx displays
       """

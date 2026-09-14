@@ -118,7 +118,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | recipe      | input('y') |
       | deep-recipe | input('n') |
     Then bx confirms
-      | bx: Invoke recipe `recipe--critical`? [y/N] |
+      | bx: Invoke recipe `recipe--critical`? [y/N]      |
       | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
     And bx displays
       """

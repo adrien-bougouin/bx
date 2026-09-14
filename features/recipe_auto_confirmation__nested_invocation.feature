@@ -57,16 +57,16 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
 
   Scenario: Invoking multiple recipes with only one that auto-confirms nested recipe invocations
     When invoking
-      | recipe--safe          |              |
+      | recipe--safe          |            |
       | deep-recipe--critical | input('y') |
       |                       | input('y') |
       |                       | input('y') |
       |                       | input('y') |
     Then bx confirms
       | bx: Invoke recipe `deep-recipe--critical`? [y/N] |
-      | bx: Invoke recipe `recipe-1--critical`? [y/N] |
-      | bx: Invoke recipe `recipe-2--critical`? [y/N] |
-      | bx: Invoke recipe `recipe-3--critical`? [y/N] |
+      | bx: Invoke recipe `recipe-1--critical`? [y/N]    |
+      | bx: Invoke recipe `recipe-2--critical`? [y/N]    |
+      | bx: Invoke recipe `recipe-3--critical`? [y/N]    |
     And bx displays
       """
       'recipe-1--critical' invoked!

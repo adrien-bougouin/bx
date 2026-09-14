@@ -32,9 +32,9 @@ Feature: Recipe -- Failure Handling
 
   Scenario: Invoke a mix of recipes that succeed and fail
     When invoking
-      | recipe-1 |
+      | recipe-1       |
       | failing-recipe |
-      | recipe-2 |
+      | recipe-2       |
     Then bx displays
       """
       'recipe-1' invoked!
