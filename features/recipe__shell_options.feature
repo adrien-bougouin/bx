@@ -17,6 +17,7 @@ Feature: Recipe--Shell Options
       }
       ```
     When invoking
+      | RECIPE       |
       | hello-xtrace |
       | world        |
     Then bx displays
@@ -53,6 +54,7 @@ Feature: Recipe--Shell Options
       }
       ```
     When invoking
+      | RECIPE             |
       | hello-world-xtrace |
     Then bx displays
       """
@@ -96,6 +98,7 @@ Feature: Recipe--Shell Options
       }
       ```
     When invoking
+      | RECIPE        |
       | recipe        |
       | print-options |
     Then bx displays

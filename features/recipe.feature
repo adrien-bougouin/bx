@@ -22,6 +22,7 @@ Feature: Recipe
 
   Scenario: Invoke a recipe
     When invoking
+      | RECIPE   |
       | recipe-1 |
     Then bx displays
       """
@@ -36,6 +37,7 @@ Feature: Recipe
 
   Scenario: Invoke a recipe multiple times
     When invoking
+      | RECIPE   |
       | recipe-1 |
       | recipe-1 |
     Then bx displays
@@ -54,18 +56,21 @@ Feature: Recipe
 
   Scenario: Invoke a missing recipe
     When invoking
+      | RECIPE  |
       | missing |
     Then bx displays nothing
     And bx errors out with message "bx: No recipe `missing`!"
 
   Scenario: Invoke a private function instead of a recipe
     When invoking
+      | RECIPE        |
       | _not-a-recipe |
     Then bx displays nothing
     And bx errors out with message "bx: `_not-a-recipe` is a private function, not a recipe!"
 
   Scenario: Invoke multiple recipes
     When invoking
+      | RECIPE   |
       | recipe-1 |
       | recipe-2 |
     Then bx displays
@@ -84,6 +89,7 @@ Feature: Recipe
 
   Scenario: Invoke a mix of existing and missing recipes
     When invoking
+      | RECIPE   |
       | recipe-1 |
       | missing  |
       | recipe-2 |

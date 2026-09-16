@@ -24,6 +24,7 @@ Feature: Recipe--Scope Boundaries
     When setting options
       | --quiet |
     And invoking
+      | RECIPE            |
       | <MUTATION RECIPE> |
       | <DISPLAY RECIPE>  |
     Then bx displays
@@ -68,6 +69,7 @@ Feature: Recipe--Scope Boundaries
     When setting options
       | --quiet |
     And invoking
+      | RECIPE   |
       | <RECIPE> |
     Then bx displays
       """

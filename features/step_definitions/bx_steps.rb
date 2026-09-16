@@ -9,28 +9,21 @@ When('setting options') do |options|
 end
 
 When('invoking') do |*args|
-  table = args.first&.raw
+  table = args.first
 
   bx_arguments = ''
   bx_stdin_data = nil
 
-  input = lambda do |confirm_sequence|
-    bx_stdin_data ||= ''
-    bx_stdin_data += confirm_sequence
-  end
-
   if table
-    recipe_invocations = table.map(&:first).reject(&:empty?)
-    bx_arguments = recipe_invocations.map(&:inspect).join(' ')
+    raise('Invalid invocation table!') unless table.headers.include?('RECIPE')
 
-    table.each do |row|
-      confirmation_sequence = row[1] || []
-      next if confirmation_sequence.empty?
+    invocation_list = table.hashes
 
-      # rubocop:disable Security/Eval
-      eval(confirmation_sequence.gsub('input(', 'input.('), binding)
-      # rubocop:enable Security/Eval
-    end
+    recipes = invocation_list.map { |r| r['RECIPE'] }.reject(&:empty?)
+    confirmations = invocation_list.map { |r| r['CONFIRMATION'] || '' }.reject(&:empty?)
+
+    bx_arguments = recipes.map(&:inspect).join(' ')
+    bx_stdin_data = confirmations.join unless confirmations.empty?
   end
 
   bx.call(arguments: bx_arguments, stdin_data: bx_stdin_data)
@@ -51,8 +44,10 @@ Then('bx confirms nothing') do
 end
 
 Then('bx confirms') do |table|
-  expected_confirmations = table.raw.map do |row|
-    build_confirmation_string(row.first)
+  raise('Invalid confirmation table!') unless table.headers.include?('RECIPE')
+
+  expected_confirmations = table.hashes.map do |row|
+    build_confirmation_string(row['RECIPE'])
   end
 
   assert_equal(

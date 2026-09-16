@@ -11,6 +11,7 @@ Feature: Bashfile--Upward Lookup
       ```
     And the current working directory "./deeply/nested/working/directory"
     When invoking
+      | RECIPE         |
       | which-bashfile |
     Then bx displays
       """

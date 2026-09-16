@@ -11,6 +11,7 @@ Feature: Default Recipe
       default-recipe() { @default; }
       ```
     When invoking
+      | RECIPE   |
       | <RECIPE> |
     Then bx traces
       """
@@ -50,6 +51,7 @@ Feature: Default Recipe
       non-default-recipe() { :; }
       ```
     When invoking
+      | RECIPE             |
       | non-default-recipe |
     Then bx traces
       """
@@ -66,6 +68,7 @@ Feature: Default Recipe
       default-recipe-2() { @default; }
       ```
     When invoking
+      | RECIPE   |
       | <RECIPE> |
     Then bx displays nothing
     And bx traces nothing

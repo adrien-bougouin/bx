@@ -19,6 +19,7 @@ Feature: Recipe--Circular Invocation Prevention
       }
       ```
     When invoking
+      | RECIPE                      |
       | <CIRCULAR RECIPE ARGUMENTS> |
     Then bx displays
       """
@@ -51,6 +52,7 @@ Feature: Recipe--Circular Invocation Prevention
       }
       ```
     When invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """
@@ -78,6 +80,7 @@ Feature: Recipe--Circular Invocation Prevention
       }
       ```
     When invoking
+      | RECIPE               |
       | recipe arg\ 1 arg\ 2 |
     Then bx displays
       """

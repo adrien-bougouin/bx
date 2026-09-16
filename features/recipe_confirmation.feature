@@ -18,8 +18,10 @@ Feature: Recipe Confirmation
 
   Scenario Outline: Confirm a recipe invocation
     When invoking
-      | recipe-1--critical | input('<CONFIRMATION INPUT>') |
+      | RECIPE             | CONFIRMATION         |
+      | recipe-1--critical | <CONFIRMATION INPUT> |
     Then bx confirms
+      | RECIPE             |
       | recipe-1--critical |
     And bx displays
       """
@@ -39,8 +41,10 @@ Feature: Recipe Confirmation
 
   Scenario Outline: Confirm a recipe invocation with arguments
     When invoking
-      | recipe-1--critical <RECIPE ARGUMENTS> | input('y') |
+      | RECIPE                                | CONFIRMATION |
+      | recipe-1--critical <RECIPE ARGUMENTS> | y            |
     Then bx confirms
+      | RECIPE                                |
       | recipe-1--critical <RECIPE ARGUMENTS> |
     And bx displays
       """
@@ -64,9 +68,11 @@ Feature: Recipe Confirmation
 
   Scenario: Confirm multiple recipe invocations
     When invoking
-      | recipe-1--critical | input('y') |
-      | recipe-2--critical | input('y') |
+      | RECIPE             | CONFIRMATION |
+      | recipe-1--critical | y            |
+      | recipe-2--critical | y            |
     Then bx confirms
+      | RECIPE             |
       | recipe-1--critical |
       | recipe-2--critical |
     And bx displays
@@ -85,8 +91,10 @@ Feature: Recipe Confirmation
 
   Scenario Outline: Reject a recipe invocation
     When invoking
-      | recipe-1--critical | input('<REJECTION INPUT>') |
+      | RECIPE             | CONFIRMATION      |
+      | recipe-1--critical | <REJECTION INPUT> |
     Then bx confirms
+      | RECIPE             |
       | recipe-1--critical |
     And bx displays nothing
     And bx traces nothing
@@ -94,15 +102,17 @@ Feature: Recipe Confirmation
 
     Examples:
       | REJECTION INPUT |
-      |                 |
+      | ?               |
       | n               |
       | N               |
 
   Scenario: Confirm then reject recipe invocations
     When invoking
-      | recipe-1--critical | input('y') |
-      | recipe-2--critical | input('n') |
+      | RECIPE             | CONFIRMATION |
+      | recipe-1--critical | y            |
+      | recipe-2--critical | n            |
     Then bx confirms
+      | RECIPE             |
       | recipe-1--critical |
       | recipe-2--critical |
     And bx displays

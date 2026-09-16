@@ -40,6 +40,7 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
 
   Scenario Outline: Invoke a recipe that auto-confirms all nested recipe invocations
     When invoking
+      | RECIPE   |
       | <RECIPE> |
     Then bx confirms nothing
     And bx displays
@@ -57,12 +58,11 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
 
   Scenario: Invoking multiple recipes with only one that auto-confirms nested recipe invocations
     When invoking
-      | recipe--safe          |            |
-      | deep-recipe--critical | input('y') |
-      |                       | input('y') |
-      |                       | input('y') |
-      |                       | input('y') |
+      | RECIPE                | CONFIRMATION |
+      | recipe--safe          |              |
+      | deep-recipe--critical | yyyy         |
     Then bx confirms
+      | RECIPE                |
       | deep-recipe--critical |
       | recipe-1--critical    |
       | recipe-2--critical    |

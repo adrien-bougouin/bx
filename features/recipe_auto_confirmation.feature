@@ -31,6 +31,7 @@ Feature: Recipe Auto-Confirmation
     When setting options
       | <CONFIRMATION ARGUMENT> |
     And invoking
+      | RECIPE             |
       | recipe-1--critical |
     Then bx confirms nothing
     And bx displays
@@ -53,6 +54,7 @@ Feature: Recipe Auto-Confirmation
     When setting options
       | --yes |
     And invoking
+      | RECIPE             |
       | recipe-1--critical |
       | recipe-2--critical |
     Then bx confirms nothing
@@ -74,6 +76,7 @@ Feature: Recipe Auto-Confirmation
     When setting options
       | --yes |
     And invoking
+      | RECIPE      |
       | deep-recipe |
     Then bx confirms nothing
     And bx displays

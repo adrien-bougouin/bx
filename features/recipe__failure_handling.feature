@@ -19,6 +19,7 @@ Feature: Recipe -- Failure Handling
       ```
   Scenario: Invoke a recipe that fails
     When invoking
+      | RECIPE         |
       | failing-recipe |
     Then bx displays
       """
@@ -32,6 +33,7 @@ Feature: Recipe -- Failure Handling
 
   Scenario: Invoke a mix of recipes that succeed and fail
     When invoking
+      | RECIPE         |
       | recipe-1       |
       | failing-recipe |
       | recipe-2       |

@@ -12,6 +12,7 @@ Feature: Bashfile
       }
       ```
     When invoking
+      | RECIPE         |
       | which-bashfile |
     Then bx displays
       """
@@ -41,6 +42,7 @@ Feature: Bashfile
     When setting options
       | <BASHFILE ARGUMENT> |
     And invoking
+      | RECIPE         |
       | which-bashfile |
     Then bx displays
       """
@@ -72,6 +74,7 @@ Feature: Bashfile
     When setting options
       | <BASHFILE ARGUMENTS> |
     And invoking
+      | RECIPE         |
       | which-bashfile |
     Then bx displays nothing
     And bx errors out with message "<ERROR>"
@@ -84,6 +87,7 @@ Feature: Bashfile
   Scenario: Invoke a recipe without a Bashfile
     Given no Bashfile
     When invoking
+      | RECIPE      |
       | some-recipe |
     Then bx displays nothing
     And bx errors out with message "bx: No Bashfile!"

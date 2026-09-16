@@ -14,6 +14,7 @@ Feature: Recipe--Arguments
 
   Scenario Outline: Invoke a recipe with arguments
     When invoking
+      | RECIPE                      |
       | recipe-1 <RECIPE ARGUMENTS> |
     Then bx displays
       """
@@ -37,6 +38,7 @@ Feature: Recipe--Arguments
 
   Scenario: Invoke multiple recipes with arguments
     When invoking
+      | RECIPE               |
       | recipe-1 arg-1 arg-2 |
       | recipe-2 arg-3 arg-4 |
     Then bx displays

@@ -10,6 +10,7 @@ Feature: CLI--Quiet
     When setting options
       | <QUIET OPTION> |
     And invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """
@@ -35,6 +36,7 @@ Feature: CLI--Quiet
     When setting options
       | -q |
     And invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """

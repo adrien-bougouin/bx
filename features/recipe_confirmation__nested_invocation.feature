@@ -28,8 +28,10 @@ Feature: Recipe Confirmation -- Nested Invocation
 
   Scenario: Confirm a nested recipe invocation
     When invoking
-      | recipe | input('y') |
+      | RECIPE | CONFIRMATION |
+      | recipe | y            |
     Then bx confirms
+      | RECIPE           |
       | recipe--critical |
     And bx displays
       """
@@ -46,8 +48,10 @@ Feature: Recipe Confirmation -- Nested Invocation
 
   Scenario Outline: Confirm a nested recipe invocation with arguments
     When invoking
-      | recipe <RECIPE ARGUMENTS> | input('y') |
+      | RECIPE                    | CONFIRMATION |
+      | recipe <RECIPE ARGUMENTS> | y            |
     Then bx confirms
+      | RECIPE                              |
       | recipe--critical <RECIPE ARGUMENTS> |
     And bx displays
       """
@@ -73,10 +77,11 @@ Feature: Recipe Confirmation -- Nested Invocation
 
   Scenario: Confirm multiple nested recipe invocations
     When invoking
-      | recipe      | input('y') |
-      | deep-recipe | input('y') |
-      |             | input('y') |
+      | RECIPE      | CONFIRMATION |
+      | recipe      | y            |
+      | deep-recipe | yy           |
     Then bx confirms
+      | RECIPE                |
       | recipe--critical      |
       | deep-recipe--critical |
       | recipe--critical      |
@@ -103,8 +108,10 @@ Feature: Recipe Confirmation -- Nested Invocation
 
   Scenario: Reject a nested recipe invocation
     When invoking
-      | recipe | input('n') |
+      | RECIPE | CONFIRMATION |
+      | recipe | n            |
     Then bx confirms
+      | RECIPE           |
       | recipe--critical |
     And bx displays nothing
     And bx traces
@@ -115,9 +122,11 @@ Feature: Recipe Confirmation -- Nested Invocation
 
   Scenario: Confirm then reject nested recipe invocations
     When invoking
-      | recipe      | input('y') |
-      | deep-recipe | input('n') |
+      | RECIPE      | CONFIRMATION |
+      | recipe      | y            |
+      | deep-recipe | n            |
     Then bx confirms
+      | RECIPE                |
       | recipe--critical      |
       | deep-recipe--critical |
     And bx displays

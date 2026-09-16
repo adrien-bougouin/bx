@@ -14,6 +14,7 @@ Feature: Recipe--Nested Invocation
       )
       ```
     When invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """
@@ -53,6 +54,7 @@ Feature: Recipe--Nested Invocation
       )
       ```
     When invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """
@@ -85,6 +87,7 @@ Feature: Recipe--Nested Invocation
       }
       ```
     When invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """
@@ -110,6 +113,7 @@ Feature: Recipe--Nested Invocation
       }
       ```
     When invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """
@@ -150,6 +154,7 @@ Feature: Recipe--Nested Invocation
       )
       ```
     When invoking
+      | RECIPE |
       | recipe |
     Then bx displays
       """
