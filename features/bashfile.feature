@@ -14,11 +14,10 @@ Feature: Bashfile
     When invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
-      """
-      default
-      """
-    And bx does not error out
+    Then recipes output
+      | STDOUT  |
+      | default |
+    And bx succeeds
 
   Scenario Outline: Invoke a recipe from a specific Bashfile
     Given the Bashfile at "Bashfile"
@@ -44,11 +43,10 @@ Feature: Bashfile
     And invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
-      """
-      <LOADED BASHFILE>
-      """
-    And bx does not error out
+    Then recipes output
+      | STDOUT            |
+      | <LOADED BASHFILE> |
+    And bx succeeds
 
     Examples:
       | BASHFILE ARGUMENT                       | LOADED BASHFILE              |
@@ -76,18 +74,22 @@ Feature: Bashfile
     And invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays nothing
-    And bx errors out with message "<ERROR>"
+    Then bx outputs
+      | TYPE     | DATA                |
+      | bx-error | Too many Bashfiles! |
+    And bx fails
 
     Examples:
-      | BASHFILE ARGUMENTS                  | ERROR                   |
-      | -f Bashfile -f alternative.bashfile | bx: Too many Bashfiles! |
-      | -f alternative.bashfile -f Bashfile | bx: Too many Bashfiles! |
+      | BASHFILE ARGUMENTS                  |
+      | -f Bashfile -f alternative.bashfile |
+      | -f alternative.bashfile -f Bashfile |
 
   Scenario: Invoke a recipe without a Bashfile
     Given no Bashfile
     When invoking
       | RECIPE      |
       | some-recipe |
-    Then bx displays nothing
-    And bx errors out with message "bx: No Bashfile!"
+    Then bx outputs
+      | TYPE     | DATA         |
+      | bx-error | No Bashfile! |
+    And bx fails

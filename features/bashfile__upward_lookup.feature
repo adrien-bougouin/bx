@@ -13,8 +13,7 @@ Feature: Bashfile--Upward Lookup
     When invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
-      """
-      Parent Bashfile
-      """
-    And bx does not error out
+    Then recipes output
+      | STDOUT          |
+      | Parent Bashfile |
+    And bx succeeds

@@ -12,12 +12,10 @@ Feature: CLI--Quiet
     And invoking
       | RECIPE |
       | recipe |
-    Then bx displays
-      """
-      Recipe was invoked!!!
-      """
-    And bx traces nothing
-    And bx does not error out
+    Then bx outputs
+      | TYPE   | DATA                  |
+      | stdout | Recipe was invoked!!! |
+    And bx succeeds
 
     Examples:
       | QUIET OPTION |
@@ -38,9 +36,7 @@ Feature: CLI--Quiet
     And invoking
       | RECIPE |
       | recipe |
-    Then bx displays
-      """
-      Recipe was invoked!!!
-      """
-    And bx traces nothing
-    And bx does not error out
+    Then bx outputs
+      | TYPE   | DATA                  |
+      | stdout | Recipe was invoked!!! |
+    And bx succeeds
