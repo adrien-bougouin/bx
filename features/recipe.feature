@@ -24,68 +24,60 @@ Feature: Recipe
     When invoking
       | RECIPE   |
       | recipe-1 |
-    Then bx displays
-      """
-      'recipe-1' invoked!
-      """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | TYPE   | DATA                |
+      | bx-in  | recipe-1            |
+      | stdout | 'recipe-1' invoked! |
+      | bx-out |                     |
+    And bx succeeds
 
   Scenario: Invoke a recipe multiple times
     When invoking
       | RECIPE   |
       | recipe-1 |
       | recipe-1 |
-    Then bx displays
-      """
-      'recipe-1' invoked!
-      'recipe-1' invoked!
-      """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      + # recipe-1 {
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | TYPE   | DATA                |
+      | bx-in  | recipe-1            |
+      | stdout | 'recipe-1' invoked! |
+      | bx-out |                     |
+      | bx-in  | recipe-1            |
+      | stdout | 'recipe-1' invoked! |
+      | bx-out |                     |
+    And bx succeeds
 
   Scenario: Invoke a missing recipe
     When invoking
       | RECIPE  |
       | missing |
-    Then bx displays nothing
-    And bx errors out with message "bx: No recipe `missing`!"
+    Then bx outputs
+      | TYPE     | DATA                 |
+      | bx-error | No recipe `missing`! |
+    And bx fails
 
   Scenario: Invoke a private function instead of a recipe
     When invoking
       | RECIPE        |
       | _not-a-recipe |
-    Then bx displays nothing
-    And bx errors out with message "bx: `_not-a-recipe` is a private function, not a recipe!"
+    Then bx outputs
+      | TYPE     | DATA                                                 |
+      | bx-error | `_not-a-recipe` is a private function, not a recipe! |
+    And bx fails
 
   Scenario: Invoke multiple recipes
     When invoking
       | RECIPE   |
       | recipe-1 |
       | recipe-2 |
-    Then bx displays
-      """
-      'recipe-1' invoked!
-      'recipe-2' invoked!
-      """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      + # recipe-2 {
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | TYPE   | DATA                |
+      | bx-in  | recipe-1            |
+      | stdout | 'recipe-1' invoked! |
+      | bx-out |                     |
+      | bx-in  | recipe-2            |
+      | stdout | 'recipe-2' invoked! |
+      | bx-out |                     |
+    And bx succeeds
 
   Scenario: Invoke a mix of existing and missing recipes
     When invoking
@@ -93,13 +85,10 @@ Feature: Recipe
       | recipe-1 |
       | missing  |
       | recipe-2 |
-    Then bx displays
-      """
-      'recipe-1' invoked!
-      """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      """
-    And bx errors out with message "bx: No recipe `missing`!"
+    Then bx outputs
+      | TYPE     | DATA                 |
+      | bx-in    | recipe-1             |
+      | stdout   | 'recipe-1' invoked!  |
+      | bx-out   |                      |
+      | bx-error | No recipe `missing`! |
+    And bx fails

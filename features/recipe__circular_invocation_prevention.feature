@@ -8,7 +8,7 @@ Feature: Recipe--Circular Invocation Prevention
       ```bash
       trap-recipe() {
         echo "Entering trap..."
-        bx::invoke '<CIRCULAR RECIPE ARGUMENTS>'
+        bx::invoke 'recipe <RECIPE ARGUMENTS>'
         echo "Exiting trap..."
       }
 
@@ -19,28 +19,25 @@ Feature: Recipe--Circular Invocation Prevention
       }
       ```
     When invoking
-      | RECIPE                      |
-      | <CIRCULAR RECIPE ARGUMENTS> |
-    Then bx displays
-      """
-      Pre-processing...
-      Entering trap...
-      Exiting trap...
-      Post-processing...
-      """
-    And bx traces
-      """
-      + # <TRACED RECIPE ARGUMENTS> {
-      ++ # trap-recipe {
-      ++ # }
-      + # }
-      """
-    And bx warns with message "bx: Skipping re-invocation of `<TRACED RECIPE ARGUMENTS>`..."
+      | RECIPE                    |
+      | recipe <RECIPE ARGUMENTS> |
+    Then bx outputs
+      | TYPE    | DATA                      |
+      | bx-in   | recipe <RECIPE ARGUMENTS> |
+      | stdout  | Pre-processing...         |
+      | bx-in   | trap-recipe               |
+      | stdout  | Entering trap...          |
+      | bx-skip | recipe <RECIPE ARGUMENTS> |
+      | stdout  | Exiting trap...           |
+      | bx-out  |                           |
+      | stdout  | Post-processing...        |
+      | bx-out  |                           |
+    And bx succeeds
 
     Examples:
-      | CIRCULAR RECIPE ARGUMENTS | TRACED RECIPE ARGUMENTS |
-      | recipe                    | recipe                  |
-      | recipe arg-1 arg-2        | recipe 'arg-1' 'arg-2'  |
+      | RECIPE ARGUMENTS |
+      |                  |
+      | arg-1 arg-2      |
 
   Scenario: Invoke a recipe that invokes itself with different arguments
     Given the Bashfile
@@ -54,21 +51,18 @@ Feature: Recipe--Circular Invocation Prevention
     When invoking
       | RECIPE |
       | recipe |
-    Then bx displays
-      """
-      Pre-processing...
-      Pre-processing...
-      Post-processing...
-      Post-processing...
-      """
-    And bx traces
-      """
-      + # recipe {
-      ++ # recipe 'arg-1' 'arg-2' {
-      ++ # }
-      + # }
-      """
-    And bx warns with message "bx: Skipping re-invocation of `recipe 'arg-1' 'arg-2'`..."
+    Then bx outputs
+      | TYPE    | DATA               |
+      | bx-in   | recipe             |
+      | stdout  | Pre-processing...  |
+      | bx-in   | recipe arg-1 arg-2 |
+      | stdout  | Pre-processing...  |
+      | bx-skip | recipe arg-1 arg-2 |
+      | stdout  | Post-processing... |
+      | bx-out  |                    |
+      | stdout  | Post-processing... |
+      | bx-out  |                    |
+    And bx succeeds
 
   Scenario: Invoke a recipe that invokes itself with same arguments formatted differently
     Given the Bashfile
@@ -82,14 +76,11 @@ Feature: Recipe--Circular Invocation Prevention
     When invoking
       | RECIPE               |
       | recipe arg\ 1 arg\ 2 |
-    Then bx displays
-      """
-      Pre-processing...
-      Post-processing...
-      """
-    And bx traces
-      """
-      + # recipe 'arg\ 1' 'arg\ 2' {
-      + # }
-      """
-      And bx warns with message "bx: Skipping re-invocation of `recipe 'arg\ 1' 'arg\ 2'`..."
+    Then bx outputs
+      | TYPE    | DATA                   |
+      | bx-in   | recipe arg\ 1 arg\ 2   |
+      | stdout  | Pre-processing...      |
+      | bx-skip | recipe "arg 1" "arg 2" |
+      | stdout  | Post-processing...     |
+      | bx-out  |                        |
+    And bx succeeds
