@@ -20,13 +20,19 @@ Feature: Recipe Confirmation
     When invoking
       | RECIPE             | CONFIRMATION         |
       | recipe-1--critical | <CONFIRMATION INPUT> |
-    Then bx outputs
-      | TYPE       | DATA                          |
-      | bx-confirm | recipe-1--critical            |
-      | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
-      | bx-out     |                               |
-    And bx succeeds
+    Then bx confirms
+      | RECIPE             |
+      | recipe-1--critical |
+    And bx displays
+      """
+      'recipe-1--critical' invoked!
+      """
+    And bx traces
+      """
+      + # recipe-1--critical {
+      + # }
+      """
+    And bx does not error out
 
     Examples:
       | CONFIRMATION INPUT |
@@ -37,49 +43,62 @@ Feature: Recipe Confirmation
     When invoking
       | RECIPE                                | CONFIRMATION |
       | recipe-1--critical <RECIPE ARGUMENTS> | y            |
-    Then bx outputs
-      | TYPE       | DATA                                  |
-      | bx-confirm | recipe-1--critical <RECIPE ARGUMENTS> |
-      | bx-in      | recipe-1--critical <RECIPE ARGUMENTS> |
-      | stdout     | 'recipe-1--critical' invoked!         |
-      | bx-out     |                                       |
-    And bx succeeds
+    Then bx confirms
+      | RECIPE                                |
+      | recipe-1--critical <RECIPE ARGUMENTS> |
+    And bx displays
+      """
+      'recipe-1--critical' invoked!
+      """
+    And bx traces
+      """
+      + # recipe-1--critical <TRACED RECIPE ARGUMENTS> {
+      + # }
+      """
+    And bx does not error out
 
     Examples:
-      | RECIPE ARGUMENTS            |
-      | arg-1                       |
-      | arg-1 arg-2                 |
-      | arg\ 1 arg\ 2               |
-      | "arg 1" "arg 2"             |
-      | --arg=arg\ 1 --arg=arg\ 2   |
-      | --arg="arg 1" --arg="arg 2" |
+      | RECIPE ARGUMENTS            | TRACED RECIPE ARGUMENTS       |
+      | arg-1                       | 'arg-1'                       |
+      | arg-1 arg-2                 | 'arg-1' 'arg-2'               |
+      | arg\ 1 arg\ 2               | 'arg\ 1' 'arg\ 2'             |
+      | "arg 1" "arg 2"             | 'arg\ 1' 'arg\ 2'             |
+      | --arg=arg\ 1 --arg=arg\ 2   | '--arg=arg\ 1' '--arg=arg\ 2' |
+      | --arg="arg 1" --arg="arg 2" | '--arg=arg\ 1' '--arg=arg\ 2' |
 
   Scenario: Confirm multiple recipe invocations
     When invoking
       | RECIPE             | CONFIRMATION |
       | recipe-1--critical | y            |
       | recipe-2--critical | y            |
-    Then bx outputs
-      | TYPE       | DATA                          |
-      | bx-confirm | recipe-1--critical            |
-      | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
-      | bx-out     |                               |
-      | bx-confirm | recipe-2--critical            |
-      | bx-in      | recipe-2--critical            |
-      | stdout     | 'recipe-2--critical' invoked! |
-      | bx-out     |                               |
-    And bx succeeds
+    Then bx confirms
+      | RECIPE             |
+      | recipe-1--critical |
+      | recipe-2--critical |
+    And bx displays
+      """
+      'recipe-1--critical' invoked!
+      'recipe-2--critical' invoked!
+      """
+    And bx traces
+      """
+      + # recipe-1--critical {
+      + # }
+      + # recipe-2--critical {
+      + # }
+      """
+    And bx does not error out
 
   Scenario Outline: Reject a recipe invocation
     When invoking
       | RECIPE             | CONFIRMATION      |
       | recipe-1--critical | <REJECTION INPUT> |
-    Then bx outputs
-      | TYPE       | DATA               |
-      | bx-confirm | recipe-1--critical |
-      | bx-error   |Aborted!            |
-    And bx fails
+    Then bx confirms
+      | RECIPE             |
+      | recipe-1--critical |
+    And bx displays nothing
+    And bx traces nothing
+    And bx errors out with message "bx: Aborted!"
 
     Examples:
       | REJECTION INPUT |
@@ -92,12 +111,17 @@ Feature: Recipe Confirmation
       | RECIPE             | CONFIRMATION |
       | recipe-1--critical | y            |
       | recipe-2--critical | n            |
-    Then bx outputs
-      | TYPE       | DATA                          |
-      | bx-confirm | recipe-1--critical            |
-      | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
-      | bx-out     |                               |
-      | bx-confirm | recipe-2--critical            |
-      | bx-error   | Aborted!                      |
-    And bx fails
+    Then bx confirms
+      | RECIPE             |
+      | recipe-1--critical |
+      | recipe-2--critical |
+    And bx displays
+      """
+      'recipe-1--critical' invoked!
+      """
+    And bx traces
+      """
+      + # recipe-1--critical {
+      + # }
+      """
+    And bx errors out with message "bx: Aborted!"

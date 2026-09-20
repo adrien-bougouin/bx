@@ -33,12 +33,17 @@ Feature: Recipe Auto-Confirmation
     And invoking
       | RECIPE             |
       | recipe-1--critical |
-    Then bx outputs
-      | TYPE   | DATA                          |
-      | bx-in  | recipe-1--critical            |
-      | stdout | 'recipe-1--critical' invoked! |
-      | bx-out |                               |
-    And bx succeeds
+    Then bx confirms nothing
+    And bx displays
+      """
+      'recipe-1--critical' invoked!
+      """
+    And bx traces
+      """
+      + # recipe-1--critical {
+      + # }
+      """
+    And bx does not error out
 
     Examples:
       | CONFIRMATION ARGUMENT |
@@ -52,15 +57,20 @@ Feature: Recipe Auto-Confirmation
       | RECIPE             |
       | recipe-1--critical |
       | recipe-2--critical |
-    Then bx outputs
-      | TYPE   | DATA                          |
-      | bx-in  | recipe-1--critical            |
-      | stdout | 'recipe-1--critical' invoked! |
-      | bx-out |                               |
-      | bx-in  | recipe-2--critical            |
-      | stdout | 'recipe-2--critical' invoked! |
-      | bx-out |                               |
-    And bx succeeds
+    Then bx confirms nothing
+    And bx displays
+      """
+      'recipe-1--critical' invoked!
+      'recipe-2--critical' invoked!
+      """
+    And bx traces
+      """
+      + # recipe-1--critical {
+      + # }
+      + # recipe-2--critical {
+      + # }
+      """
+    And bx does not error out
 
   Scenario: Auto-confirm nested recipe invocations
     When setting options
@@ -68,17 +78,22 @@ Feature: Recipe Auto-Confirmation
     And invoking
       | RECIPE      |
       | deep-recipe |
-    Then bx outputs
-      | TYPE   | DATA                          |
-      | bx-in  | deep-recipe                   |
-      | bx-in  | recipe-1--critical            |
-      | stdout | 'recipe-1--critical' invoked! |
-      | bx-out |                               |
-      | bx-in  | recipe-2--critical            |
-      | stdout | 'recipe-2--critical' invoked! |
-      | bx-out |                               |
-      | bx-in  | recipe-3--critical            |
-      | stdout | 'recipe-3--critical' invoked! |
-      | bx-out |                               |
-      | bx-out |                               |
-    And bx succeeds
+    Then bx confirms nothing
+    And bx displays
+      """
+      'recipe-1--critical' invoked!
+      'recipe-2--critical' invoked!
+      'recipe-3--critical' invoked!
+      """
+    And bx traces
+      """
+      + # deep-recipe {
+      ++ # recipe-1--critical {
+      ++ # }
+      ++ # recipe-2--critical {
+      ++ # }
+      ++ # recipe-3--critical {
+      ++ # }
+      + # }
+      """
+    And bx does not error out

@@ -8,8 +8,9 @@ Feature: Default Recipe--Subprocess
       default-recipe() ( @default; )
       ```
     When invoking
-    Then bx outputs
-      | TYPE   | DATA           |
-      | bx-in  | default-recipe |
-      | bx-out |                |
-    And bx succeeds
+    Then bx traces
+      """
+      + # default-recipe {
+      + # }
+      """
+    And bx does not error out

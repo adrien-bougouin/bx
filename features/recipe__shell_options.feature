@@ -20,16 +20,19 @@ Feature: Recipe--Shell Options
       | RECIPE       |
       | hello-xtrace |
       | world        |
-    Then bx outputs
-      | TYPE   | DATA         |
-      | bx-in  | hello-xtrace |
-      | stdout | Hello        |
-      | xtrace | echo Hello   |
-      | bx-out |              |
-      | bx-in  | world        |
-      | stdout | World!       |
-      | bx-out |              |
-    And bx succeeds
+    Then bx displays
+      """
+      Hello
+      World!
+      """
+    And bx traces
+      """
+      + # hello-xtrace {
+      ++ echo Hello
+      + # }
+      + # world {
+      + # }
+      """
 
   Scenario: Invoke a recipe that sets xtrace and then invokes another recipe
     Given the Bashfile
@@ -53,20 +56,23 @@ Feature: Recipe--Shell Options
     When invoking
       | RECIPE             |
       | hello-world-xtrace |
-    Then bx outputs
-      | TYPE   | DATA               |
-      | bx-in  | hello-world-xtrace |
-      | stdout | -----              |
-      | stdout | Hello              |
-      | xtrace | echo Hello         |
-      | xtrace | bx::invoke world   |
-      | bx-in  | world              |
-      | stdout | World!             |
-      | bx-out |                    |
-      | stdout | -----              |
-      | xtrace | echo -----         |
-      | bx-out |                    |
-    And bx succeeds
+    Then bx displays
+      """
+      -----
+      Hello
+      World!
+      -----
+      """
+    And bx traces
+      """
+      + # hello-world-xtrace {
+      ++ echo Hello
+      ++ bx::invoke world
+      ++ # world {
+      ++ # }
+      ++ echo -----
+      + # }
+      """
 
   Scenario: Invoke a recipe that alters shell options
     Given the shell environment
@@ -95,23 +101,26 @@ Feature: Recipe--Shell Options
       | RECIPE        |
       | recipe        |
       | print-options |
-    Then bx outputs
-      | TYPE   | DATA                 |
-      | bx-in  | recipe               |
-      | xtrace | shopt                |
-      | xtrace | grep shift_verbose   |
-      | stdout | shift_verbose  	on  |
-      | xtrace | shopt -o             |
-      | xtrace | grep xtrace          |
-      | stdout | xtrace         	on  |
-      | xtrace | shopt -o             |
-      | xtrace | grep pipefail        |
-      | stdout | pipefail       	off |
-      | bx-out |                      |
-      | bx-in  | print-options        |
-      | stdout | -----                |
-      | stdout | shift_verbose  	off |
-      | stdout | xtrace         	off |
-      | stdout | pipefail       	on  |
-      | bx-out |                      |
-    And bx succeeds
+    Then bx displays
+      """
+      shift_verbose  	on
+      xtrace         	on
+      pipefail       	off
+      -----
+      shift_verbose  	off
+      xtrace         	off
+      pipefail       	on
+      """
+    And bx traces
+      """
+      + # recipe {
+      ++ shopt
+      ++ grep shift_verbose
+      ++ shopt -o
+      ++ grep xtrace
+      ++ shopt -o
+      ++ grep pipefail
+      + # }
+      + # print-options {
+      + # }
+      """

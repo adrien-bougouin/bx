@@ -11,7 +11,7 @@ end
 When('invoking') do |*args|
   table = args.first
 
-  bx_arguments = []
+  bx_arguments = ''
   bx_stdin_data = nil
 
   if table
@@ -19,15 +19,10 @@ When('invoking') do |*args|
 
     invocation_list = table.hashes
 
-    recipe_invocations = invocation_list.map do |row|
-      row['RECIPE']
-    end.reject(&:empty?)
+    recipes = invocation_list.map { |r| r['RECIPE'] }.reject(&:empty?)
+    confirmations = invocation_list.map { |r| r['CONFIRMATION'] || '' }.reject(&:empty?)
 
-    confirmations = invocation_list.map do |row|
-      row['CONFIRMATION'] || ''
-    end.reject(&:empty?)
-
-    bx_arguments = recipe_invocations
+    bx_arguments = recipes.map(&:inspect).join(' ')
     bx_stdin_data = confirmations.join unless confirmations.empty?
   end
 
@@ -36,130 +31,68 @@ end
 
 # Then #########################################################################
 
+Then('bx displays nothing') do
+  assert_equal('', bx.stdout, data_type: 'stdout')
+end
+
+Then('bx displays') do |stdout_content|
+  assert_equal(stdout_content, bx.stdout, data_type: 'stdout')
+end
+
 Then('bx confirms nothing') do
-  assert_not_match(
-    %r{\[STDERR\] bx: Invoke recipe `[^`]+`\? \[y/N\] },
-    bx.outputs.join("\n")
+  assert_equal('', bx.confirmations, data_type: 'confirmation')
+end
+
+Then('bx confirms') do |table|
+  raise('Invalid confirmation table!') unless table.headers.include?('RECIPE')
+
+  expected_confirmations = table.hashes.map do |row|
+    build_confirmation_string(row['RECIPE'])
+  end
+
+  assert_equal(
+    expected_confirmations.join("\n"),
+    bx.confirmations,
+    data_type: 'confirmation'
   )
 end
 
-Then('bx outputs nothing') do
-  assert_equal('', bx.outputs.join("\n"))
+Then('bx traces nothing') do
+  assert_equal('', bx.xtrace, data_type: 'xtrace')
 end
 
-Then('bx outputs') do |table|
-  expected_output_lines = table.hashes
-  actual_output_lines = bx.outputs
+Then('bx traces') do |trace_content|
+  assert_equal(trace_content, bx.xtrace, data_type: 'xtrace')
+end
 
-  check_range = Range.new(
-    0,
-    [expected_output_lines.size, actual_output_lines.size].max - 1
-  )
+Then('bx warns with message {string}') do |warning|
+  assert_equal(warning, bx.stderr, data_type: 'warning')
+  assert_equal(0, bx.status, data_type: 'status')
+end
 
-  check_range.each_with_object([]) do |index, invocation_stack|
-    expected_output_line = build_expected_output_line(
-      expected_output_lines.fetch(index, {}),
-      invocation_stack:
-    )
-    actual_output_line = actual_output_lines.fetch(index, '')
+Then('bx does not error out') do
+  assert_equal('', bx.stderr, data_type: 'stderr')
+  assert_equal(0, bx.status, data_type: 'status')
+end
 
-    if expected_output_line.instance_of? Regexp
-      assert_match(
-        expected_output_line,
-        "Line #{index + 1}: #{actual_output_line}"
-      )
-    else
-      assert_equal(
-        "Line #{index + 1}: #{expected_output_line}",
-        "Line #{index + 1}: #{actual_output_line}"
-      )
-    end
+Then('bx errors out with message {string}') do |stderr_content|
+  if stderr_content.empty?
+    step('bx does not error out')
+  else
+    assert_equal(stderr_content, bx.stderr, data_type: 'stderr')
+    assert_not_equal(0, bx.status, data_type: 'status')
   end
 end
 
-Then('recipes output') do |table|
-  expected_output_lines = table.hashes
-
-  actual_output_lines =
-    bx.outputs.select do |line|
-      line.start_with?('[STDOUT] ')
-    end
-
-  check_range = Range.new(
-    0,
-    [expected_output_lines.size, actual_output_lines.size].max - 1
-  )
-
-  check_range.each do |index|
-    expected_output_line =
-      expected_output_lines.fetch(index, {}).fetch('STDOUT', '')
-
-    actual_output_line = actual_output_lines.fetch(index, '')
-
-    assert_equal(
-      "Line #{index + 1}: [STDOUT] #{expected_output_line}",
-      "Line #{index + 1}: #{actual_output_line}"
-    )
-  end
-end
-
-Then('bx succeeds') do
-  assert_equal(0, bx.exit_status)
-end
-
-Then('bx fails') do
-  assert_not_equal(0, bx.exit_status)
+Then('bx errors out with message containing {string}') do |partial_stderr_content|
+  assert_include(partial_stderr_content, bx.stderr, data_type: 'stderr')
+  assert_not_equal(0, bx.status, data_type: 'status')
 end
 
 # Helpers ######################################################################
 
-def build_expected_output_line(data, invocation_stack: [])
-  output_type = data.fetch('TYPE', '')
-  output_data = data.fetch('DATA', '')
-
-  stream_name = %w[stdout bx-help].include?(output_type) ? 'STDOUT' : 'STDERR'
-
-  if output_data.start_with?('/') && output_data.end_with?('/')
-    return /\[#{stream_name}\].*#{output_data.slice(1, -1)}/
-  end
-
-  formatted_output =
-    case output_type
-    when 'bx-help'
-      output_data.sub(/^(%%+)/) { |m| '    ' * (m.size / 2) }
-    when 'bx-confirm'
-      build_confirmation_string(output_data)
-    when 'bx-in'
-      invocation_stack << canonicalize_recipe_invocation(output_data)
-
-      "#{'+' * invocation_stack.size} # #{invocation_stack.last} {"
-    when 'bx-out'
-      invocation_stack.pop
-
-      "#{'+' * (invocation_stack.size + 1)} # }"
-    when 'bx-skip'
-      canonical_recipe_invocation = canonicalize_recipe_invocation(output_data)
-
-      "bx: Skipping re-invocation of `#{canonical_recipe_invocation}`..."
-    when 'bx-error'
-      "bx: #{output_data}"
-    when 'xtrace'
-      "#{'+' * (invocation_stack.size + 1)} #{output_data}"
-    when 'stdout', 'stderr'
-      output_data
-    else
-      raise("Invalid output type '#{output_type}'!")
-    end
-
-  "[#{stream_name}] #{formatted_output}"
-end
-
 def build_confirmation_string(recipe_invocation)
-  canonical_recipe_invocation = canonicalize_recipe_invocation(
-    recipe_invocation
-  )
-
-  "bx: Invoke recipe `#{canonical_recipe_invocation}`? [y/N] "
+  "bx: Invoke recipe `#{canonicalize_recipe_invocation(recipe_invocation)}`? [y/N]"
 end
 
 def canonicalize_recipe_invocation(recipe_invocation)
@@ -172,8 +105,5 @@ def canonicalize_recipe_invocation(recipe_invocation)
     done
   BASH
 
-  escaped_script = Shellwords.escape(script)
-  escaped_recipe_invocation = Shellwords.escape(recipe_invocation)
-
-  `bash -c #{escaped_script} bx #{escaped_recipe_invocation}`.chomp
+  `bash -c #{Shellwords.escape(script)} bx #{Shellwords.escape(recipe_invocation)}`.chomp
 end

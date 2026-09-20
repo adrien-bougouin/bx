@@ -5,25 +5,26 @@ Feature: CLI--Help
     When setting options
       | <HELP OPTION> |
     And invoking
-    Then bx outputs
-      | TYPE    | DATA                                                                 |
-      | bx-help | Usage: bx [options] [--] [recipe] ...                                |
-      | bx-help |                                                                      |
-      | bx-help | Options:                                                             |
-      | bx-help | %%-f FILE, --file=FILE, --bashfile=FILE                              |
-      | bx-help | %%%%Read FILE as a bashfile. Only one bashfile may be specified.     |
-      | bx-help | %%-h, --help                                                         |
-      | bx-help | %%%%Show this help.                                                  |
-      | bx-help | %%-l, --list                                                         |
-      | bx-help | %%%%Show the available recipes.                                      |
-      | bx-help | %%-q, --quiet                                                        |
-      | bx-help | %%%%Do not display the invoked recipe traces, nor the xtrace output. |
-      | bx-help | %%-v, --version                                                      |
-      | bx-help | %%%%Show version.                                                    |
-      | bx-help | %%-y, --yes                                                          |
-      | bx-help | %%%%Do not ask for confirmation before invoking a recipe             |
-      | bx-help | %%%%(automatically confirm).                                         |
-    And bx succeeds
+    Then bx displays
+      """
+      Usage: bx [options] [--] [recipe] ...
+
+      Options:
+          -f FILE, --file=FILE, --bashfile=FILE
+              Read FILE as a bashfile. Only one bashfile may be specified.
+          -h, --help
+              Show this help.
+          -l, --list
+              Show the available recipes.
+          -q, --quiet
+              Do not display the invoked recipe traces, nor the xtrace output.
+          -v, --version
+              Show version.
+          -y, --yes
+              Do not ask for confirmation before invoking a recipe
+              (automatically confirm).
+      """
+    And bx does not error out
 
     Examples:
       | HELP OPTION |
@@ -35,25 +36,26 @@ Feature: CLI--Help
     When setting options
       | -h |
     And invoking
-    Then bx outputs
-      | TYPE    | DATA                                                                 |
-      | bx-help | Usage: bx [options] [--] [recipe] ...                                |
-      | bx-help |                                                                      |
-      | bx-help | Options:                                                             |
-      | bx-help | %%-f FILE, --file=FILE, --bashfile=FILE                              |
-      | bx-help | %%%%Read FILE as a bashfile. Only one bashfile may be specified.     |
-      | bx-help | %%-h, --help                                                         |
-      | bx-help | %%%%Show this help.                                                  |
-      | bx-help | %%-l, --list                                                         |
-      | bx-help | %%%%Show the available recipes.                                      |
-      | bx-help | %%-q, --quiet                                                        |
-      | bx-help | %%%%Do not display the invoked recipe traces, nor the xtrace output. |
-      | bx-help | %%-v, --version                                                      |
-      | bx-help | %%%%Show version.                                                    |
-      | bx-help | %%-y, --yes                                                          |
-      | bx-help | %%%%Do not ask for confirmation before invoking a recipe             |
-      | bx-help | %%%%(automatically confirm).                                         |
-    And bx succeeds
+    Then bx displays
+      """
+      Usage: bx [options] [--] [recipe] ...
+
+      Options:
+          -f FILE, --file=FILE, --bashfile=FILE
+              Read FILE as a bashfile. Only one bashfile may be specified.
+          -h, --help
+              Show this help.
+          -l, --list
+              Show the available recipes.
+          -q, --quiet
+              Do not display the invoked recipe traces, nor the xtrace output.
+          -v, --version
+              Show version.
+          -y, --yes
+              Do not ask for confirmation before invoking a recipe
+              (automatically confirm).
+      """
+    And bx does not error out
 
   Scenario: Ask for help when there are recipes to document
     Given the Bashfile
@@ -67,27 +69,28 @@ Feature: CLI--Help
     When setting options
       | -h |
     And invoking
-    Then bx outputs
-      | TYPE   | DATA                                                                  |
-      | bx-help | Usage: bx [options] [--] [recipe] ...                                |
-      | bx-help |                                                                      |
-      | bx-help | Options:                                                             |
-      | bx-help | %%-f FILE, --file=FILE, --bashfile=FILE                              |
-      | bx-help | %%%%Read FILE as a bashfile. Only one bashfile may be specified.     |
-      | bx-help | %%-h, --help                                                         |
-      | bx-help | %%%%Show this help.                                                  |
-      | bx-help | %%-l, --list                                                         |
-      | bx-help | %%%%Show the available recipes.                                      |
-      | bx-help | %%-q, --quiet                                                        |
-      | bx-help | %%%%Do not display the invoked recipe traces, nor the xtrace output. |
-      | bx-help | %%-v, --version                                                      |
-      | bx-help | %%%%Show version.                                                    |
-      | bx-help | %%-y, --yes                                                          |
-      | bx-help | %%%%Do not ask for confirmation before invoking a recipe             |
-      | bx-help | %%%%(automatically confirm).                                         |
-      | bx-help |                                                                      |
-      | bx-help | Available recipes:                                                   |
-      | bx-help | %%recipe-1                                                           |
-      | bx-help | %%%%A short description of recipe-1.                                 |
-      | bx-help | %%recipe-2                                                           |
-    And bx succeeds
+    Then bx displays
+      """
+      Usage: bx [options] [--] [recipe] ...
+
+      Options:
+          -f FILE, --file=FILE, --bashfile=FILE
+              Read FILE as a bashfile. Only one bashfile may be specified.
+          -h, --help
+              Show this help.
+          -l, --list
+              Show the available recipes.
+          -q, --quiet
+              Do not display the invoked recipe traces, nor the xtrace output.
+          -v, --version
+              Show version.
+          -y, --yes
+              Do not ask for confirmation before invoking a recipe
+              (automatically confirm).
+
+      Available recipes:
+          recipe-1
+              A short description of recipe-1.
+          recipe-2
+      """
+    And bx does not error out
