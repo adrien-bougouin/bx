@@ -15,41 +15,17 @@ class BX
     bash_script = <<~BASH
       #{@context.env.join("\n")}
 
-      bx #{@options.join(' ')} #{arguments.map(&:inspect).join(' ')}
+      bx #{@options.join(' ')} #{arguments.map(&:inspect).join(' ')} \
+        2> >(awk '{print "[STDERR] " $0; fflush("")}' >&1) \
+        1> >(awk '{print "[STDOUT] " $0; fflush("")}')
     BASH
 
-    Open3.popen3(
-      "bash -c #{Shellwords.escape(bash_script)}"
-    ) do |stdin, stdout, stderr, wait_thr|
-      outputs = +''
+    stdout, status = Open3.capture2(
+      "bash -c #{Shellwords.escape(bash_script)}",
+      stdin_data:
+    )
 
-      stdin.write(stdin_data)
-      stdin.close
-
-      streams = [stderr, stdout]
-      until streams.empty?
-        readable, = IO.select(streams)
-
-        readable.each do |io|
-          line = io.gets
-
-          if line
-            stream_name = io == stdout ? 'STDOUT' : 'STDERR'
-
-            outputs << line.gsub(/^/, "[#{stream_name}] ")
-          else
-            streams.delete(io)
-          end
-        end
-      end
-
-      @outputs =
-        outputs.sub(/\n\Z/, '')
-               # Fix issue when capturing confirmation.
-               .gsub(%r{(\[y/N\] )\[STDERR\] $}, '\1')
-               .split("\n")
-
-      @exit_status = wait_thr.value
-    end
+    @outputs = stdout.sub(/\n\[STD(OUT|ERR)\] \Z/, '').split("\n")
+    @exit_status = status.exitstatus
   end
 end
