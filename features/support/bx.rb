@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'open3'
+require 'shellwords'
 
 class BX
   attr_reader :options, :outputs, :exit_status
@@ -11,13 +12,15 @@ class BX
   end
 
   def call(arguments: [], stdin_data: nil)
-    execution_script = <<~SH
+    bash_script = <<~BASH
       #{@context.env.join("\n")}
 
       bx #{@options.join(' ')} #{arguments.map(&:inspect).join(' ')}
-    SH
+    BASH
 
-    Open3.popen3(execution_script) do |stdin, stdout, stderr, wait_thr|
+    Open3.popen3(
+      "bash -c #{Shellwords.escape(bash_script)}"
+    ) do |stdin, stdout, stderr, wait_thr|
       outputs = +''
 
       stdin.write(stdin_data)
