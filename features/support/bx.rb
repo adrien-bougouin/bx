@@ -23,17 +23,20 @@ class BX
       stdin.write(stdin_data)
       stdin.close
 
-      streams = [stdout, stderr]
+      streams = [stderr, stdout]
       until streams.empty?
         readable, = IO.select(streams)
 
         readable.each do |io|
-          data = io.read_nonblock(4096)
-          stream_name = io == stdout ? 'STDOUT' : 'STDERR'
+          line = io.gets
 
-          outputs << data.gsub(/^/, "[#{stream_name}] ")
-        rescue EOFError
-          streams.delete(io)
+          if line
+            stream_name = io == stdout ? 'STDOUT' : 'STDERR'
+
+            outputs << line.gsub(/^/, "[#{stream_name}] ")
+          else
+            streams.delete(io)
+          end
         end
       end
 

@@ -23,8 +23,8 @@ Feature: Recipe--Shell Options
     Then bx outputs
       | TYPE   | DATA         |
       | bx-in  | hello-xtrace |
-      | stdout | Hello        |
       | xtrace | echo Hello   |
+      | stdout | Hello        |
       | bx-out |              |
       | bx-in  | world        |
       | stdout | World!       |
@@ -57,14 +57,14 @@ Feature: Recipe--Shell Options
       | TYPE   | DATA               |
       | bx-in  | hello-world-xtrace |
       | stdout | -----              |
-      | stdout | Hello              |
       | xtrace | echo Hello         |
+      | stdout | Hello              |
       | xtrace | bx::invoke world   |
       | bx-in  | world              |
       | stdout | World!             |
       | bx-out |                    |
-      | stdout | -----              |
       | xtrace | echo -----         |
+      | stdout | -----              |
       | bx-out |                    |
     And bx succeeds
 
