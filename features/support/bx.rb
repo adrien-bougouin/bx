@@ -3,8 +3,10 @@
 require 'open3'
 require 'shellwords'
 
-class BX
-  attr_reader :options, :outputs, :exit_status
+class Bx
+  attr_accessor :options
+
+  attr_reader :output, :exit_status
 
   def initialize(context, options: [])
     @context = context
@@ -23,7 +25,11 @@ class BX
       stdin_data:
     )
 
-    @outputs = stdout.sub(/\n\Z/, '').split("\n")
+    @output = stdout.sub(/\n\Z/, '')
     @exit_status = status.exitstatus
+  end
+
+  def output_lines
+    @output_lines ||= @output.split("\n")
   end
 end

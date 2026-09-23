@@ -37,19 +37,16 @@ end
 # Then #########################################################################
 
 Then('bx confirms nothing') do
-  assert_not_match(
-    %r{bx: Invoke recipe `[^`]+`\? \[y/N\] },
-    bx.outputs.join("\n")
-  )
+  assert_not_match(%r{bx: Invoke recipe `[^`]+`\? \[y/N\]}, bx.output)
 end
 
 Then('bx outputs nothing') do
-  assert_equal('', bx.outputs.join("\n"))
+  assert_equal('', bx.output)
 end
 
 Then('bx outputs') do |table|
   expected_output_lines = table.hashes
-  actual_output_lines = bx.outputs
+  actual_output_lines = bx.output_lines
 
   check_range = Range.new(
     0,
