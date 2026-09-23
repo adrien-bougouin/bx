@@ -24,10 +24,10 @@ Feature: Recipe--Shell Options
       | TYPE   | DATA         |
       | bx-in  | hello-xtrace |
       | xtrace | echo Hello   |
-      | stdout | Hello        |
+      |        | Hello        |
       | bx-out |              |
       | bx-in  | world        |
-      | stdout | World!       |
+      |        | World!       |
       | bx-out |              |
     And bx succeeds
 
@@ -56,15 +56,15 @@ Feature: Recipe--Shell Options
     Then bx outputs
       | TYPE   | DATA               |
       | bx-in  | hello-world-xtrace |
-      | stdout | -----              |
+      |        | -----              |
       | xtrace | echo Hello         |
-      | stdout | Hello              |
+      |        | Hello              |
       | xtrace | bx::invoke world   |
       | bx-in  | world              |
-      | stdout | World!             |
+      |        | World!             |
       | bx-out |                    |
       | xtrace | echo -----         |
-      | stdout | -----              |
+      |        | -----              |
       | bx-out |                    |
     And bx succeeds
 
@@ -100,18 +100,18 @@ Feature: Recipe--Shell Options
       | bx-in  | recipe               |
       | xtrace | shopt                |
       | xtrace | grep shift_verbose   |
-      | stdout | shift_verbose  	on  |
+      |        | shift_verbose  	on  |
       | xtrace | shopt -o             |
       | xtrace | grep xtrace          |
-      | stdout | xtrace         	on  |
+      |        | xtrace         	on  |
       | xtrace | shopt -o             |
       | xtrace | grep pipefail        |
-      | stdout | pipefail       	off |
+      |        | pipefail       	off |
       | bx-out |                      |
       | bx-in  | print-options        |
-      | stdout | -----                |
-      | stdout | shift_verbose  	off |
-      | stdout | xtrace         	off |
-      | stdout | pipefail       	on  |
+      |        | -----                |
+      |        | shift_verbose  	off |
+      |        | xtrace         	off |
+      |        | pipefail       	on  |
       | bx-out |                      |
     And bx succeeds

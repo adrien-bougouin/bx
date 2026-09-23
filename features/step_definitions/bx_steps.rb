@@ -93,10 +93,12 @@ def build_expected_output_line(data, invocation_stack: [])
   end
 
   case output_type
-  when 'bx-help'
-    output_data.sub(/^(%%+)/) { |m| '    ' * (m.size / 2) }
   when 'bx-confirm'
     build_confirmation_string(output_data)
+  when 'bx-error'
+    "bx: #{output_data}"
+  when 'bx-help'
+    output_data.sub(/^(%%+)/) { |m| '    ' * (m.size / 2) }
   when 'bx-in'
     invocation_stack << canonicalize_recipe_invocation(output_data)
 
@@ -109,11 +111,9 @@ def build_expected_output_line(data, invocation_stack: [])
     canonical_recipe_invocation = canonicalize_recipe_invocation(output_data)
 
     "bx: Skipping re-invocation of `#{canonical_recipe_invocation}`..."
-  when 'bx-error'
-    "bx: #{output_data}"
   when 'xtrace'
     "#{'+' * (invocation_stack.size + 1)} #{output_data}"
-  when 'stdout', 'stderr', ''
+  when ''
     output_data
   else
     raise("Invalid data type '#{output_type}'!")

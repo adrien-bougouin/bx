@@ -19,7 +19,7 @@ Feature: Recipe--Arguments
     Then bx outputs
       | TYPE   | DATA                                             |
       | bx-in  | recipe-1 <RECIPE ARGUMENTS>                      |
-      | stdout | 'recipe-1' invocation: <RECEIVED ARGUMENTS INFO> |
+      |        | 'recipe-1' invocation: <RECEIVED ARGUMENTS INFO> |
       | bx-out |                                                  |
     And bx succeeds
 
@@ -40,9 +40,9 @@ Feature: Recipe--Arguments
     Then bx outputs
       | TYPE   | DATA                                       |
       | bx-in  | recipe-1 arg-1 arg-2                       |
-      | stdout | 'recipe-1' invocation: 2, 'arg-1', 'arg-2' |
+      |        | 'recipe-1' invocation: 2, 'arg-1', 'arg-2' |
       | bx-out |                                            |
       | bx-in  | recipe-2 arg-3 arg-4                       |
-      | stdout | 'recipe-2' invocation: 2, 'arg-3', 'arg-4' |
+      |        | 'recipe-2' invocation: 2, 'arg-3', 'arg-4' |
       | bx-out |                                            |
     And bx succeeds

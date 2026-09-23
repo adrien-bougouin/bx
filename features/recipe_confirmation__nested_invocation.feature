@@ -35,7 +35,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx-in      | recipe                      |
       | bx-confirm | recipe--critical            |
       | bx-in      | recipe--critical            |
-      | stdout     | 'recipe--critical' invoked! |
+      |            | 'recipe--critical' invoked! |
       | bx-out     |                             |
       | bx-out     |                             |
     And bx succeeds
@@ -49,7 +49,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx-in      | recipe <RECIPE ARGUMENTS>           |
       | bx-confirm | recipe--critical <RECIPE ARGUMENTS> |
       | bx-in      | recipe--critical <RECIPE ARGUMENTS> |
-      | stdout     | 'recipe--critical' invoked!         |
+      |            | 'recipe--critical' invoked!         |
       | bx-out     |                                     |
       | bx-out     |                                     |
     And bx succeeds
@@ -73,7 +73,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx-in      | recipe                           |
       | bx-confirm | recipe--critical                 |
       | bx-in      | recipe--critical                 |
-      | stdout     | 'recipe--critical' invoked!      |
+      |            | 'recipe--critical' invoked!      |
       | bx-out     |                                  |
       | bx-out     |                                  |
       | bx-in      | deep-recipe                      |
@@ -81,9 +81,9 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx-in      | deep-recipe--critical            |
       | bx-confirm | recipe--critical                 |
       | bx-in      | recipe--critical                 |
-      | stdout     | 'recipe--critical' invoked!      |
+      |            | 'recipe--critical' invoked!      |
       | bx-out     |                                  |
-      | stdout     | 'deep-recipe--critical' invoked! |
+      |            | 'deep-recipe--critical' invoked! |
       | bx-out     |                                  |
       | bx-out     |                                  |
     And bx succeeds
@@ -109,7 +109,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | bx-in      | recipe                      |
       | bx-confirm | recipe--critical            |
       | bx-in      | recipe--critical            |
-      | stdout     | 'recipe--critical' invoked! |
+      |            | 'recipe--critical' invoked! |
       | bx-out     |                             |
       | bx-out     |                             |
       | bx-in      | deep-recipe                 |

@@ -46,10 +46,10 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | <RECIPE> |
     Then bx confirms nothing
     And bx outputs
-      | TYPE   | DATA                          |
-      | stdout | 'recipe-1--critical' invoked! |
-      | stdout | 'recipe-2--critical' invoked! |
-      | stdout | 'recipe-3--critical' invoked! |
+      | DATA                          |
+      | 'recipe-1--critical' invoked! |
+      | 'recipe-2--critical' invoked! |
+      | 'recipe-3--critical' invoked! |
     And bx succeeds
 
     Examples:
@@ -66,28 +66,28 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | TYPE       | DATA                          |
       | bx-in      | recipe--safe                  |
       | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
+      |            | 'recipe-1--critical' invoked! |
       | bx-out     |                               |
       | bx-in      | recipe-2--critical            |
-      | stdout     | 'recipe-2--critical' invoked! |
+      |            | 'recipe-2--critical' invoked! |
       | bx-out     |                               |
       | bx-in      | recipe-3--critical            |
-      | stdout     | 'recipe-3--critical' invoked! |
+      |            | 'recipe-3--critical' invoked! |
       | bx-out     |                               |
       | bx-out     |                               |
       | bx-confirm | deep-recipe--critical         |
       | bx-in      | deep-recipe--critical         |
       | bx-confirm | recipe-1--critical            |
       | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
+      |            | 'recipe-1--critical' invoked! |
       | bx-out     |                               |
       | bx-confirm | recipe-2--critical            |
       | bx-in      | recipe-2--critical            |
-      | stdout     | 'recipe-2--critical' invoked! |
+      |            | 'recipe-2--critical' invoked! |
       | bx-out     |                               |
       | bx-confirm | recipe-3--critical            |
       | bx-in      | recipe-3--critical            |
-      | stdout     | 'recipe-3--critical' invoked! |
+      |            | 'recipe-3--critical' invoked! |
       | bx-out     |                               |
       | bx-out     |                               |
     And bx succeeds

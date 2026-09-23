@@ -27,7 +27,7 @@ Feature: Recipe
     Then bx outputs
       | TYPE   | DATA                |
       | bx-in  | recipe-1            |
-      | stdout | 'recipe-1' invoked! |
+      |        | 'recipe-1' invoked! |
       | bx-out |                     |
     And bx succeeds
 
@@ -39,10 +39,10 @@ Feature: Recipe
     Then bx outputs
       | TYPE   | DATA                |
       | bx-in  | recipe-1            |
-      | stdout | 'recipe-1' invoked! |
+      |        | 'recipe-1' invoked! |
       | bx-out |                     |
       | bx-in  | recipe-1            |
-      | stdout | 'recipe-1' invoked! |
+      |        | 'recipe-1' invoked! |
       | bx-out |                     |
     And bx succeeds
 
@@ -72,10 +72,10 @@ Feature: Recipe
     Then bx outputs
       | TYPE   | DATA                |
       | bx-in  | recipe-1            |
-      | stdout | 'recipe-1' invoked! |
+      |        | 'recipe-1' invoked! |
       | bx-out |                     |
       | bx-in  | recipe-2            |
-      | stdout | 'recipe-2' invoked! |
+      |        | 'recipe-2' invoked! |
       | bx-out |                     |
     And bx succeeds
 
@@ -88,7 +88,7 @@ Feature: Recipe
     Then bx outputs
       | TYPE     | DATA                 |
       | bx-in    | recipe-1             |
-      | stdout   | 'recipe-1' invoked!  |
+      |          | 'recipe-1' invoked!  |
       | bx-out   |                      |
       | bx-error | No recipe `missing`! |
     And bx fails

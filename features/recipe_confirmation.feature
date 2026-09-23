@@ -24,7 +24,7 @@ Feature: Recipe Confirmation
       | TYPE       | DATA                          |
       | bx-confirm | recipe-1--critical            |
       | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
+      |            | 'recipe-1--critical' invoked! |
       | bx-out     |                               |
     And bx succeeds
 
@@ -42,7 +42,7 @@ Feature: Recipe Confirmation
     Then bx outputs
       | TYPE       | DATA                          |
       | bx-confirm | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
+      |            | 'recipe-1--critical' invoked! |
     And bx succeeds
 
   Scenario Outline: Confirm a recipe invocation with arguments
@@ -53,7 +53,7 @@ Feature: Recipe Confirmation
       | TYPE       | DATA                                  |
       | bx-confirm | recipe-1--critical <RECIPE ARGUMENTS> |
       | bx-in      | recipe-1--critical <RECIPE ARGUMENTS> |
-      | stdout     | 'recipe-1--critical' invoked!         |
+      |            | 'recipe-1--critical' invoked!         |
       | bx-out     |                                       |
     And bx succeeds
 
@@ -75,11 +75,11 @@ Feature: Recipe Confirmation
       | TYPE       | DATA                          |
       | bx-confirm | recipe-1--critical            |
       | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
+      |            | 'recipe-1--critical' invoked! |
       | bx-out     |                               |
       | bx-confirm | recipe-2--critical            |
       | bx-in      | recipe-2--critical            |
-      | stdout     | 'recipe-2--critical' invoked! |
+      |            | 'recipe-2--critical' invoked! |
       | bx-out     |                               |
     And bx succeeds
 
@@ -108,7 +108,7 @@ Feature: Recipe Confirmation
       | TYPE       | DATA                          |
       | bx-confirm | recipe-1--critical            |
       | bx-in      | recipe-1--critical            |
-      | stdout     | 'recipe-1--critical' invoked! |
+      |            | 'recipe-1--critical' invoked! |
       | bx-out     |                               |
       | bx-confirm | recipe-2--critical            |
       | bx-error   | Aborted!                      |

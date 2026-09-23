@@ -24,13 +24,13 @@ Feature: Recipe--Circular Invocation Prevention
     Then bx outputs
       | TYPE    | DATA                      |
       | bx-in   | recipe <RECIPE ARGUMENTS> |
-      | stdout  | Pre-processing...         |
+      |         | Pre-processing...         |
       | bx-in   | trap-recipe               |
-      | stdout  | Entering trap...          |
+      |         | Entering trap...          |
       | bx-skip | recipe <RECIPE ARGUMENTS> |
-      | stdout  | Exiting trap...           |
+      |         | Exiting trap...           |
       | bx-out  |                           |
-      | stdout  | Post-processing...        |
+      |         | Post-processing...        |
       | bx-out  |                           |
     And bx succeeds
 
@@ -54,13 +54,13 @@ Feature: Recipe--Circular Invocation Prevention
     Then bx outputs
       | TYPE    | DATA               |
       | bx-in   | recipe             |
-      | stdout  | Pre-processing...  |
+      |         | Pre-processing...  |
       | bx-in   | recipe arg-1 arg-2 |
-      | stdout  | Pre-processing...  |
+      |         | Pre-processing...  |
       | bx-skip | recipe arg-1 arg-2 |
-      | stdout  | Post-processing... |
+      |         | Post-processing... |
       | bx-out  |                    |
-      | stdout  | Post-processing... |
+      |         | Post-processing... |
       | bx-out  |                    |
     And bx succeeds
 
@@ -79,8 +79,8 @@ Feature: Recipe--Circular Invocation Prevention
     Then bx outputs
       | TYPE    | DATA                   |
       | bx-in   | recipe arg\ 1 arg\ 2   |
-      | stdout  | Pre-processing...      |
+      |         | Pre-processing...      |
       | bx-skip | recipe "arg 1" "arg 2" |
-      | stdout  | Post-processing...     |
+      |         | Post-processing...     |
       | bx-out  |                        |
     And bx succeeds

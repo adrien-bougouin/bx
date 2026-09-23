@@ -36,7 +36,7 @@ Feature: Recipe Auto-Confirmation
     Then bx outputs
       | TYPE   | DATA                          |
       | bx-in  | recipe-1--critical            |
-      | stdout | 'recipe-1--critical' invoked! |
+      |        | 'recipe-1--critical' invoked! |
       | bx-out |                               |
     And bx succeeds
 
@@ -55,10 +55,10 @@ Feature: Recipe Auto-Confirmation
     Then bx outputs
       | TYPE   | DATA                          |
       | bx-in  | recipe-1--critical            |
-      | stdout | 'recipe-1--critical' invoked! |
+      |        | 'recipe-1--critical' invoked! |
       | bx-out |                               |
       | bx-in  | recipe-2--critical            |
-      | stdout | 'recipe-2--critical' invoked! |
+      |        | 'recipe-2--critical' invoked! |
       | bx-out |                               |
     And bx succeeds
 
@@ -72,13 +72,13 @@ Feature: Recipe Auto-Confirmation
       | TYPE   | DATA                          |
       | bx-in  | deep-recipe                   |
       | bx-in  | recipe-1--critical            |
-      | stdout | 'recipe-1--critical' invoked! |
+      |        | 'recipe-1--critical' invoked! |
       | bx-out |                               |
       | bx-in  | recipe-2--critical            |
-      | stdout | 'recipe-2--critical' invoked! |
+      |        | 'recipe-2--critical' invoked! |
       | bx-out |                               |
       | bx-in  | recipe-3--critical            |
-      | stdout | 'recipe-3--critical' invoked! |
+      |        | 'recipe-3--critical' invoked! |
       | bx-out |                               |
       | bx-out |                               |
     And bx succeeds

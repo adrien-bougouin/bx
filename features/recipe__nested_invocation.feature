@@ -19,11 +19,11 @@ Feature: Recipe--Nested Invocation
     Then bx outputs
       | TYPE   | DATA                     |
       | bx-in  | recipe                   |
-      | stdout | Pre-processing...        |
+      |        | Pre-processing...        |
       | bx-in  | nested-recipe            |
-      | stdout | 'nested-recipe' invoked! |
+      |        | 'nested-recipe' invoked! |
       | bx-out |                          |
-      | stdout | Post-processing...       |
+      |        | Post-processing...       |
       | bx-out |                          |
     And bx succeeds
 
@@ -55,17 +55,17 @@ Feature: Recipe--Nested Invocation
     Then bx outputs
       | TYPE   | DATA                       |
       | bx-in  | recipe                     |
-      | stdout | Pre-processing...          |
+      |        | Pre-processing...          |
       | bx-in  | nested-recipe-1            |
-      | stdout | 'nested-recipe-1' invoked! |
+      |        | 'nested-recipe-1' invoked! |
       | bx-out |                            |
       | bx-in  | nested-recipe-2            |
-      | stdout | 'nested-recipe-2' invoked! |
+      |        | 'nested-recipe-2' invoked! |
       | bx-out |                            |
       | bx-in  | nested-recipe-3            |
-      | stdout | 'nested-recipe-3' invoked! |
+      |        | 'nested-recipe-3' invoked! |
       | bx-out |                            |
-      | stdout | Post-processing...         |
+      |        | Post-processing...         |
       | bx-out |                            |
     And bx succeeds
 
@@ -84,7 +84,7 @@ Feature: Recipe--Nested Invocation
     Then bx outputs
       | TYPE     | DATA                 |
       | bx-in    | recipe               |
-      | stdout   | Pre-processing...    |
+      |          | Pre-processing...    |
       | bx-error | No recipe `missing`! |
     And bx fails
 
@@ -107,11 +107,11 @@ Feature: Recipe--Nested Invocation
     Then bx outputs
       | TYPE   | DATA                                                  |
       | bx-in  | recipe                                                |
-      | stdout | Pre-processing...                                     |
+      |        | Pre-processing...                                     |
       | bx-in  | nested-recipe <NESTED RECIPE ARGUMENTS>               |
-      | stdout | 'nested-recipe' invocation: <RECEIVED ARGUMENTS INFO> |
+      |        | 'nested-recipe' invocation: <RECEIVED ARGUMENTS INFO> |
       | bx-out |                                                       |
-      | stdout | Post-processing...                                    |
+      |        | Post-processing...                                    |
       | bx-out |                                                       |
     And bx succeeds
 
@@ -144,22 +144,22 @@ Feature: Recipe--Nested Invocation
     Then bx outputs
       | TYPE   | DATA                                            |
       | bx-in  | recipe                                          |
-      | stdout | Pre-processing...                               |
+      |        | Pre-processing...                               |
       | bx-in  | nested-recipe                                   |
-      | stdout | 'nested-recipe' invocation: 0, '', ''           |
+      |        | 'nested-recipe' invocation: 0, '', ''           |
       | bx-out |                                                 |
       | bx-in  | nested-recipe arg-1                             |
-      | stdout | 'nested-recipe' invocation: 1, 'arg-1', ''      |
+      |        | 'nested-recipe' invocation: 1, 'arg-1', ''      |
       | bx-out |                                                 |
       | bx-in  | nested-recipe arg-2 arg-3                       |
-      | stdout | 'nested-recipe' invocation: 2, 'arg-2', 'arg-3' |
+      |        | 'nested-recipe' invocation: 2, 'arg-2', 'arg-3' |
       | bx-out |                                                 |
       | bx-in  | nested-recipe "arg 4" arg\ 5                    |
-      | stdout | 'nested-recipe' invocation: 2, 'arg 4', 'arg 5' |
+      |        | 'nested-recipe' invocation: 2, 'arg 4', 'arg 5' |
       | bx-out |                                                 |
       | bx-in  | nested-recipe                                   |
-      | stdout | 'nested-recipe' invocation: 0, '', ''           |
+      |        | 'nested-recipe' invocation: 0, '', ''           |
       | bx-out |                                                 |
-      | stdout | Post-processing...                              |
+      |        | Post-processing...                              |
       | bx-out |                                                 |
     And bx succeeds

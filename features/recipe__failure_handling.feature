@@ -23,10 +23,10 @@ Feature: Recipe -- Failure Handling
       | RECIPE         |
       | failing-recipe |
     Then bx outputs
-      | TYPE   | DATA                                                        |
-      | bx-in  | failing-recipe                                              |
-      | stdout | Before 'failing-recipe' failure!                            |
-      | stderr | /Bashfile: [^:]+: call-missing-function: command not found/ |
+      | TYPE  | DATA                                                        |
+      | bx-in | failing-recipe                                              |
+      |       | Before 'failing-recipe' failure!                            |
+      |       | /Bashfile: [^:]+: call-missing-function: command not found/ |
     And bx fails
 
   Scenario: Invoke a mix of recipes that succeed and fail
@@ -38,9 +38,9 @@ Feature: Recipe -- Failure Handling
     Then bx outputs
       | TYPE   | DATA                                                        |
       | bx-in  | recipe-1                                                    |
-      | stdout | 'recipe-1' invoked!                                         |
+      |        | 'recipe-1' invoked!                                         |
       | bx-out |                                                             |
       | bx-in  | failing-recipe                                              |
-      | stdout | Before 'failing-recipe' failure!                            |
-      | stderr | /Bashfile: [^:]+: call-missing-function: command not found/ |
+      |        | Before 'failing-recipe' failure!                            |
+      |        | /Bashfile: [^:]+: call-missing-function: command not found/ |
     And bx fails
