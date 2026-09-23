@@ -33,6 +33,18 @@ Feature: Recipe Confirmation
       | y                  |
       | Y                  |
 
+  Scenario: Confirm a recipe invocation while in quiet mode
+    When setting options
+      | -q |
+    And invoking
+      | RECIPE             | CONFIRMATION         |
+      | recipe-1--critical | y                    |
+    Then bx outputs
+      | TYPE       | DATA                          |
+      | bx-confirm | recipe-1--critical            |
+      | stdout     | 'recipe-1--critical' invoked! |
+    And bx succeeds
+
   Scenario Outline: Confirm a recipe invocation with arguments
     When invoking
       | RECIPE                                | CONFIRMATION |
