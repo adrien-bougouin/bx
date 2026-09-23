@@ -15,17 +15,15 @@ class BX
     bash_script = <<~BASH
       #{@context.env.join("\n")}
 
-      bx #{@options.join(' ')} #{arguments.map(&:inspect).join(' ')} \
-        2> >(awk '{print "[STDERR] " $0; fflush("")}' >&1) \
-        1> >(awk '{print "[STDOUT] " $0; fflush("")}')
+      bx #{@options.join(' ')} #{arguments.map(&:inspect).join(' ')}
     BASH
 
-    stdout, status = Open3.capture2(
+    stdout, status = Open3.capture2e(
       "bash -c #{Shellwords.escape(bash_script)}",
       stdin_data:
     )
 
-    @outputs = stdout.sub(/\n\[STD(OUT|ERR)\] \Z/, '').split("\n")
+    @outputs = stdout.sub(/\n\Z/, '').split("\n")
     @exit_status = status.exitstatus
   end
 end

@@ -11,11 +11,13 @@ Feature: Bashfile
         echo "default"
       }
       ```
-    When invoking
+    When setting options
+      | -q |
+    And invoking
       | RECIPE         |
       | which-bashfile |
-    Then recipes output
-      | STDOUT  |
+    Then bx outputs
+      | DATA    |
       | default |
     And bx succeeds
 
@@ -39,12 +41,13 @@ Feature: Bashfile
       }
       ```
     When setting options
+      | -q                  |
       | <BASHFILE ARGUMENT> |
     And invoking
       | RECIPE         |
       | which-bashfile |
-    Then recipes output
-      | STDOUT            |
+    Then bx outputs
+      | DATA              |
       | <LOADED BASHFILE> |
     And bx succeeds
 

@@ -39,15 +39,17 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       ```
 
   Scenario Outline: Invoke a recipe that auto-confirms all nested recipe invocations
-    When invoking
+    When setting options
+      | -q |
+    And invoking
       | RECIPE   |
       | <RECIPE> |
     Then bx confirms nothing
-    And recipes output
-      | STDOUT                        |
-      | 'recipe-1--critical' invoked! |
-      | 'recipe-2--critical' invoked! |
-      | 'recipe-3--critical' invoked! |
+    And bx outputs
+      | TYPE   | DATA                          |
+      | stdout | 'recipe-1--critical' invoked! |
+      | stdout | 'recipe-2--critical' invoked! |
+      | stdout | 'recipe-3--critical' invoked! |
     And bx succeeds
 
     Examples:

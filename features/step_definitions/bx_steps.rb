@@ -38,7 +38,7 @@ end
 
 Then('bx confirms nothing') do
   assert_not_match(
-    %r{\[STDERR\] bx: Invoke recipe `[^`]+`\? \[y/N\] },
+    %r{bx: Invoke recipe `[^`]+`\? \[y/N\] },
     bx.outputs.join("\n")
   )
 end
@@ -77,32 +77,6 @@ Then('bx outputs') do |table|
   end
 end
 
-Then('recipes output') do |table|
-  expected_output_lines = table.hashes
-
-  actual_output_lines =
-    bx.outputs.select do |line|
-      line.start_with?('[STDOUT] ')
-    end
-
-  check_range = Range.new(
-    0,
-    [expected_output_lines.size, actual_output_lines.size].max - 1
-  )
-
-  check_range.each do |index|
-    expected_output_line =
-      expected_output_lines.fetch(index, {}).fetch('STDOUT', '')
-
-    actual_output_line = actual_output_lines.fetch(index, '')
-
-    assert_equal(
-      "Line #{index + 1}: [STDOUT] #{expected_output_line}",
-      "Line #{index + 1}: #{actual_output_line}"
-    )
-  end
-end
-
 Then('bx succeeds') do
   assert_equal(0, bx.exit_status)
 end
@@ -117,41 +91,36 @@ def build_expected_output_line(data, invocation_stack: [])
   output_type = data.fetch('TYPE', '')
   output_data = data.fetch('DATA', '')
 
-  stream_name = %w[stdout bx-help].include?(output_type) ? 'STDOUT' : 'STDERR'
-
   if output_data.start_with?('/') && output_data.end_with?('/')
-    return /\[#{stream_name}\].*#{output_data.slice(1, -1)}/
+    return /#{output_data.slice(1, -1)}/
   end
 
-  formatted_output =
-    case output_type
-    when 'bx-help'
-      output_data.sub(/^(%%+)/) { |m| '    ' * (m.size / 2) }
-    when 'bx-confirm'
-      build_confirmation_string(output_data)
-    when 'bx-in'
-      invocation_stack << canonicalize_recipe_invocation(output_data)
+  case output_type
+  when 'bx-help'
+    output_data.sub(/^(%%+)/) { |m| '    ' * (m.size / 2) }
+  when 'bx-confirm'
+    build_confirmation_string(output_data)
+  when 'bx-in'
+    invocation_stack << canonicalize_recipe_invocation(output_data)
 
-      "#{'+' * invocation_stack.size} # #{invocation_stack.last} {"
-    when 'bx-out'
-      invocation_stack.pop
+    "#{'+' * invocation_stack.size} # #{invocation_stack.last} {"
+  when 'bx-out'
+    invocation_stack.pop
 
-      "#{'+' * (invocation_stack.size + 1)} # }"
-    when 'bx-skip'
-      canonical_recipe_invocation = canonicalize_recipe_invocation(output_data)
+    "#{'+' * (invocation_stack.size + 1)} # }"
+  when 'bx-skip'
+    canonical_recipe_invocation = canonicalize_recipe_invocation(output_data)
 
-      "bx: Skipping re-invocation of `#{canonical_recipe_invocation}`..."
-    when 'bx-error'
-      "bx: #{output_data}"
-    when 'xtrace'
-      "#{'+' * (invocation_stack.size + 1)} #{output_data}"
-    when 'stdout', 'stderr'
-      output_data
-    else
-      raise("Invalid output type '#{output_type}'!")
-    end
-
-  "[#{stream_name}] #{formatted_output}"
+    "bx: Skipping re-invocation of `#{canonical_recipe_invocation}`..."
+  when 'bx-error'
+    "bx: #{output_data}"
+  when 'xtrace'
+    "#{'+' * (invocation_stack.size + 1)} #{output_data}"
+  when 'stdout', 'stderr', ''
+    output_data
+  else
+    raise("Invalid data type '#{output_type}'!")
+  end
 end
 
 def build_confirmation_string(recipe_invocation)

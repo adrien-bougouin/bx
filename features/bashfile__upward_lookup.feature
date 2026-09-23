@@ -10,10 +10,12 @@ Feature: Bashfile--Upward Lookup
       }
       ```
     And the current working directory "./deeply/nested/working/directory"
-    When invoking
+    When setting options
+      | -q |
+    And invoking
       | RECIPE         |
       | which-bashfile |
-    Then recipes output
-      | STDOUT          |
+    Then bx outputs
+      | DATA            |
       | Parent Bashfile |
     And bx succeeds
