@@ -17,7 +17,7 @@ Feature: Recipe--Arguments
       | RECIPE                      |
       | recipe-1 <RECIPE ARGUMENTS> |
     Then bx outputs
-      | TYPE   | DATA                                             |
+      | FORMAT | DATA                                             |
       | bx-in  | recipe-1 <RECIPE ARGUMENTS>                      |
       |        | 'recipe-1' invocation: <RECEIVED ARGUMENTS INFO> |
       | bx-out |                                                  |
@@ -38,7 +38,7 @@ Feature: Recipe--Arguments
       | recipe-1 arg-1 arg-2 |
       | recipe-2 arg-3 arg-4 |
     Then bx outputs
-      | TYPE   | DATA                                       |
+      | FORMAT | DATA                                       |
       | bx-in  | recipe-1 arg-1 arg-2                       |
       |        | 'recipe-1' invocation: 2, 'arg-1', 'arg-2' |
       | bx-out |                                            |

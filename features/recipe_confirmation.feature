@@ -21,7 +21,7 @@ Feature: Recipe Confirmation
       | RECIPE             | CONFIRMATION         |
       | recipe-1--critical | <CONFIRMATION INPUT> |
     Then bx outputs
-      | TYPE       | DATA                          |
+      | FORMAT     | DATA                          |
       | bx-confirm | recipe-1--critical            |
       | bx-in      | recipe-1--critical            |
       |            | 'recipe-1--critical' invoked! |
@@ -41,7 +41,7 @@ Feature: Recipe Confirmation
       | RECIPE             | CONFIRMATION         |
       | recipe-1--critical | y                    |
     Then bx outputs
-      | TYPE       | DATA                          |
+      | FORMAT     | DATA                          |
       | bx-confirm | recipe-1--critical            |
       |            | 'recipe-1--critical' invoked! |
     And bx succeeds
@@ -51,7 +51,7 @@ Feature: Recipe Confirmation
       | RECIPE                                | CONFIRMATION |
       | recipe-1--critical <RECIPE ARGUMENTS> | y            |
     Then bx outputs
-      | TYPE       | DATA                                  |
+      | FORMAT     | DATA                                  |
       | bx-confirm | recipe-1--critical <RECIPE ARGUMENTS> |
       | bx-in      | recipe-1--critical <RECIPE ARGUMENTS> |
       |            | 'recipe-1--critical' invoked!         |
@@ -73,7 +73,7 @@ Feature: Recipe Confirmation
       | recipe-1--critical | y            |
       | recipe-2--critical | y            |
     Then bx outputs
-      | TYPE       | DATA                          |
+      | FORMAT     | DATA                          |
       | bx-confirm | recipe-1--critical            |
       | bx-in      | recipe-1--critical            |
       |            | 'recipe-1--critical' invoked! |
@@ -89,7 +89,7 @@ Feature: Recipe Confirmation
       | RECIPE             | CONFIRMATION      |
       | recipe-1--critical | <REJECTION INPUT> |
     Then bx outputs
-      | TYPE       | DATA               |
+      | FORMAT     | DATA               |
       | bx-confirm | recipe-1--critical |
       | bx-error   |Aborted!            |
     And bx fails
@@ -106,7 +106,7 @@ Feature: Recipe Confirmation
       | recipe-1--critical | y            |
       | recipe-2--critical | n            |
     Then bx outputs
-      | TYPE       | DATA                          |
+      | FORMAT     | DATA                          |
       | bx-confirm | recipe-1--critical            |
       | bx-in      | recipe-1--critical            |
       |            | 'recipe-1--critical' invoked! |

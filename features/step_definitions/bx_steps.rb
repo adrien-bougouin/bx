@@ -92,14 +92,14 @@ end
 # Helpers ######################################################################
 
 def build_expected_output_line(data, invocation_stack: [])
-  output_type = data.fetch('TYPE', '')
+  output_format = data.fetch('FORMAT', '')
   output_data = data.fetch('DATA', '')
 
   if output_data.start_with?('/') && output_data.end_with?('/')
     return /#{output_data.slice(1, -1)}/
   end
 
-  case output_type
+  case output_format
   when 'bx-confirm'
     build_confirmation_string(output_data)
   when 'bx-error'
@@ -121,7 +121,7 @@ def build_expected_output_line(data, invocation_stack: [])
   when ''
     output_data
   else
-    raise("Invalid data type '#{output_type}'!")
+    raise("Invalid format '#{output_format}'!")
   end
 end
 

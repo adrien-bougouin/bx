@@ -22,7 +22,7 @@ Feature: Recipe--Circular Invocation Prevention
       | RECIPE                    |
       | recipe <RECIPE ARGUMENTS> |
     Then bx outputs
-      | TYPE    | DATA                      |
+      | FORMAT  | DATA                      |
       | bx-in   | recipe <RECIPE ARGUMENTS> |
       |         | Pre-processing...         |
       | bx-in   | trap-recipe               |
@@ -52,7 +52,7 @@ Feature: Recipe--Circular Invocation Prevention
       | RECIPE |
       | recipe |
     Then bx outputs
-      | TYPE    | DATA               |
+      | FORMAT  | DATA               |
       | bx-in   | recipe             |
       |         | Pre-processing...  |
       | bx-in   | recipe arg-1 arg-2 |
@@ -77,7 +77,7 @@ Feature: Recipe--Circular Invocation Prevention
       | RECIPE               |
       | recipe arg\ 1 arg\ 2 |
     Then bx outputs
-      | TYPE    | DATA                   |
+      | FORMAT  | DATA                   |
       | bx-in   | recipe arg\ 1 arg\ 2   |
       |         | Pre-processing...      |
       | bx-skip | recipe "arg 1" "arg 2" |

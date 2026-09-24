@@ -65,7 +65,7 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | recipe--safe          |              |
       | deep-recipe--critical | yyyy         |
     Then bx outputs
-      | TYPE       | DATA                          |
+      | FORMAT     | DATA                          |
       | bx-in      | recipe--safe                  |
       | bx-in      | recipe-1--critical            |
       |            | 'recipe-1--critical' invoked! |

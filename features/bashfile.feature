@@ -83,7 +83,7 @@ Feature: Bashfile
       | RECIPE         |
       | which-bashfile |
     Then bx outputs
-      | TYPE     | DATA                |
+      | FORMAT   | DATA                |
       | bx-error | Too many Bashfiles! |
     And bx fails
 
@@ -98,6 +98,6 @@ Feature: Bashfile
       | RECIPE      |
       | some-recipe |
     Then bx outputs
-      | TYPE     | DATA         |
+      | FORMAT   | DATA         |
       | bx-error | No Bashfile! |
     And bx fails

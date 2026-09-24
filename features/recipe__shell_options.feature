@@ -21,7 +21,7 @@ Feature: Recipe--Shell Options
       | hello-xtrace |
       | world        |
     Then bx outputs
-      | TYPE   | DATA         |
+      | FORMAT | DATA         |
       | bx-in  | hello-xtrace |
       | xtrace | echo Hello   |
       |        | Hello        |
@@ -54,7 +54,7 @@ Feature: Recipe--Shell Options
       | RECIPE             |
       | hello-world-xtrace |
     Then bx outputs
-      | TYPE   | DATA               |
+      | FORMAT | DATA               |
       | bx-in  | hello-world-xtrace |
       |        | -----              |
       | xtrace | echo Hello         |
@@ -96,7 +96,7 @@ Feature: Recipe--Shell Options
       | recipe        |
       | print-options |
     Then bx outputs
-      | TYPE   | DATA                 |
+      | FORMAT | DATA                 |
       | bx-in  | recipe               |
       | xtrace | shopt                |
       | xtrace | grep shift_verbose   |

@@ -14,7 +14,7 @@ Feature: Default Recipe
       | RECIPE   |
       | <RECIPE> |
     Then bx outputs
-      | TYPE   | DATA             |
+      | FORMAT | DATA             |
       | bx-in  | <INVOKED RECIPE> |
       | bx-out |                  |
     And bx succeeds
@@ -31,7 +31,7 @@ Feature: Default Recipe
       ```
     When invoking
     Then bx outputs
-      | TYPE     | DATA           |
+      | FORMAT   | DATA           |
       | bx-error | Nothing to do! |
     And bx fails
 
@@ -44,7 +44,7 @@ Feature: Default Recipe
       ```
     When invoking
     Then bx outputs
-      | TYPE     | DATA           |
+      | FORMAT   | DATA           |
       | bx-error | Nothing to do! |
     And bx fails
 
@@ -57,7 +57,7 @@ Feature: Default Recipe
       | RECIPE             |
       | non-default-recipe |
     Then bx outputs
-      | TYPE   | DATA               |
+      | FORMAT | DATA               |
       | bx-in  | non-default-recipe |
       | bx-out |                    |
     And bx succeeds
@@ -73,7 +73,7 @@ Feature: Default Recipe
       | RECIPE   |
       | <RECIPE> |
     Then bx outputs
-      | TYPE     | DATA                      |
+      | FORMAT   | DATA                      |
       | bx-error | Too many default recipes! |
     And bx fails
 

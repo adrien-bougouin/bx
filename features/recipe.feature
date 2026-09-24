@@ -25,7 +25,7 @@ Feature: Recipe
       | RECIPE   |
       | recipe-1 |
     Then bx outputs
-      | TYPE   | DATA                |
+      | FORMAT | DATA                |
       | bx-in  | recipe-1            |
       |        | 'recipe-1' invoked! |
       | bx-out |                     |
@@ -37,7 +37,7 @@ Feature: Recipe
       | recipe-1 |
       | recipe-1 |
     Then bx outputs
-      | TYPE   | DATA                |
+      | FORMAT | DATA                |
       | bx-in  | recipe-1            |
       |        | 'recipe-1' invoked! |
       | bx-out |                     |
@@ -51,7 +51,7 @@ Feature: Recipe
       | RECIPE  |
       | missing |
     Then bx outputs
-      | TYPE     | DATA                 |
+      | FORMAT   | DATA                 |
       | bx-error | No recipe `missing`! |
     And bx fails
 
@@ -60,7 +60,7 @@ Feature: Recipe
       | RECIPE        |
       | _not-a-recipe |
     Then bx outputs
-      | TYPE     | DATA                                                 |
+      | FORMAT   | DATA                                                 |
       | bx-error | `_not-a-recipe` is a private function, not a recipe! |
     And bx fails
 
@@ -70,7 +70,7 @@ Feature: Recipe
       | recipe-1 |
       | recipe-2 |
     Then bx outputs
-      | TYPE   | DATA                |
+      | FORMAT | DATA                |
       | bx-in  | recipe-1            |
       |        | 'recipe-1' invoked! |
       | bx-out |                     |
@@ -86,7 +86,7 @@ Feature: Recipe
       | missing  |
       | recipe-2 |
     Then bx outputs
-      | TYPE     | DATA                 |
+      | FORMAT   | DATA                 |
       | bx-in    | recipe-1             |
       |          | 'recipe-1' invoked!  |
       | bx-out   |                      |

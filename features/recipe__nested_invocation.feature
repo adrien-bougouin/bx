@@ -17,7 +17,7 @@ Feature: Recipe--Nested Invocation
       | RECIPE |
       | recipe |
     Then bx outputs
-      | TYPE   | DATA                     |
+      | FORMAT | DATA                     |
       | bx-in  | recipe                   |
       |        | Pre-processing...        |
       | bx-in  | nested-recipe            |
@@ -53,7 +53,7 @@ Feature: Recipe--Nested Invocation
       | RECIPE |
       | recipe |
     Then bx outputs
-      | TYPE   | DATA                       |
+      | FORMAT | DATA                       |
       | bx-in  | recipe                     |
       |        | Pre-processing...          |
       | bx-in  | nested-recipe-1            |
@@ -82,7 +82,7 @@ Feature: Recipe--Nested Invocation
       | RECIPE |
       | recipe |
     Then bx outputs
-      | TYPE     | DATA                 |
+      | FORMAT   | DATA                 |
       | bx-in    | recipe               |
       |          | Pre-processing...    |
       | bx-error | No recipe `missing`! |
@@ -105,7 +105,7 @@ Feature: Recipe--Nested Invocation
       | RECIPE |
       | recipe |
     Then bx outputs
-      | TYPE   | DATA                                                  |
+      | FORMAT | DATA                                                  |
       | bx-in  | recipe                                                |
       |        | Pre-processing...                                     |
       | bx-in  | nested-recipe <NESTED RECIPE ARGUMENTS>               |
@@ -142,7 +142,7 @@ Feature: Recipe--Nested Invocation
       | RECIPE |
       | recipe |
     Then bx outputs
-      | TYPE   | DATA                                            |
+      | FORMAT | DATA                                            |
       | bx-in  | recipe                                          |
       |        | Pre-processing...                               |
       | bx-in  | nested-recipe                                   |

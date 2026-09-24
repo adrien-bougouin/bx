@@ -35,7 +35,7 @@ Feature: Recipe Auto-Confirmation
       | RECIPE             |
       | recipe-1--critical |
     Then bx outputs
-      | TYPE   | DATA                          |
+      | FORMAT | DATA                          |
       | bx-in  | recipe-1--critical            |
       |        | 'recipe-1--critical' invoked! |
       | bx-out |                               |
@@ -55,7 +55,7 @@ Feature: Recipe Auto-Confirmation
       | recipe-1--critical |
       | recipe-2--critical |
     Then bx outputs
-      | TYPE   | DATA                          |
+      | FORMAT | DATA                          |
       | bx-in  | recipe-1--critical            |
       |        | 'recipe-1--critical' invoked! |
       | bx-out |                               |
@@ -72,7 +72,7 @@ Feature: Recipe Auto-Confirmation
       | RECIPE      |
       | deep-recipe |
     Then bx outputs
-      | TYPE   | DATA                          |
+      | FORMAT | DATA                          |
       | bx-in  | deep-recipe                   |
       | bx-in  | recipe-1--critical            |
       |        | 'recipe-1--critical' invoked! |

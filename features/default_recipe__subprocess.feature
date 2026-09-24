@@ -9,7 +9,7 @@ Feature: Default Recipe--Subprocess
       ```
     When invoking
     Then bx outputs
-      | TYPE   | DATA           |
+      | FORMAT | DATA           |
       | bx-in  | default-recipe |
       | bx-out |                |
     And bx succeeds

@@ -31,7 +31,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | RECIPE | CONFIRMATION |
       | recipe | y            |
     Then bx outputs
-      | TYPE       | DATA                        |
+      | FORMAT     | DATA                        |
       | bx-in      | recipe                      |
       | bx-confirm | recipe--critical            |
       | bx-in      | recipe--critical            |
@@ -45,7 +45,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | RECIPE                    | CONFIRMATION |
       | recipe <RECIPE ARGUMENTS> | y            |
     Then bx outputs
-      | TYPE       | DATA                                |
+      | FORMAT     | DATA                                |
       | bx-in      | recipe <RECIPE ARGUMENTS>           |
       | bx-confirm | recipe--critical <RECIPE ARGUMENTS> |
       | bx-in      | recipe--critical <RECIPE ARGUMENTS> |
@@ -69,7 +69,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | recipe      | y            |
       | deep-recipe | yy           |
     Then bx outputs
-      | TYPE       | DATA                             |
+      | FORMAT     | DATA                             |
       | bx-in      | recipe                           |
       | bx-confirm | recipe--critical                 |
       | bx-in      | recipe--critical                 |
@@ -93,7 +93,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | RECIPE | CONFIRMATION |
       | recipe | n            |
     Then bx outputs
-      | TYPE       | DATA             |
+      | FORMAT     | DATA             |
       | bx-in      | recipe           |
       | bx-confirm | recipe--critical |
       | bx-error   | Aborted!         |
@@ -105,7 +105,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | recipe      | y            |
       | deep-recipe | n            |
     Then bx outputs
-      | TYPE       | DATA                        |
+      | FORMAT     | DATA                        |
       | bx-in      | recipe                      |
       | bx-confirm | recipe--critical            |
       | bx-in      | recipe--critical            |

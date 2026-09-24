@@ -93,6 +93,6 @@ Feature: CLI--List
       | -l     |
     And invoking
     Then bx outputs
-      | TYPE     | DATA         |
+      | FORMAT   | DATA         |
       | bx-error | No Bashfile! |
     And bx fails
