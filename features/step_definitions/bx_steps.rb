@@ -33,15 +33,15 @@ end
 # Then #########################################################################
 
 Then('bx displays nothing') do
-  assert_equal('', bx.stdout, data_type: 'stdout')
+  assert_equal('', bx.stdout)
 end
 
 Then('bx displays') do |stdout_content|
-  assert_equal(stdout_content, bx.stdout, data_type: 'stdout')
+  assert_equal(stdout_content, bx.stdout)
 end
 
 Then('bx confirms nothing') do
-  assert_equal('', bx.confirmations, data_type: 'confirmation')
+  assert_equal('', bx.confirmations)
 end
 
 Then('bx confirms') do |table|
@@ -51,45 +51,41 @@ Then('bx confirms') do |table|
     build_confirmation_string(row['RECIPE'])
   end
 
-  assert_equal(
-    expected_confirmations.join("\n"),
-    bx.confirmations,
-    data_type: 'confirmation'
-  )
+  assert_equal(expected_confirmations.join("\n"), bx.confirmations)
 end
 
 Then('bx traces nothing') do
-  assert_equal('', bx.xtrace, data_type: 'xtrace')
+  assert_equal('', bx.xtrace)
 end
 
 Then('bx traces') do |trace_content|
-  assert_equal(trace_content, bx.xtrace, data_type: 'xtrace')
+  assert_equal(trace_content, bx.xtrace)
 end
 
 Then('bx warns with message {string}') do |warning|
-  assert_equal(warning, bx.stderr, data_type: 'warning')
-  assert_equal(0, bx.status, data_type: 'status')
+  assert_equal(warning, bx.stderr)
+  assert_equal(0, bx.status)
 end
 
 Then('bx does not error out') do
-  assert_equal('', bx.stderr, data_type: 'stderr')
-  assert_equal(0, bx.status, data_type: 'status')
+  assert_equal('', bx.stderr)
+  assert_equal(0, bx.status)
 end
 
 Then('bx errors out with message {string}') do |stderr_content|
   if stderr_content.empty?
     step('bx does not error out')
   else
-    assert_equal(stderr_content, bx.stderr, data_type: 'stderr')
-    assert_not_equal(0, bx.status, data_type: 'status')
+    assert_equal(stderr_content, bx.stderr)
+    assert_not_equal(0, bx.status)
   end
 end
 
 Then(
   'bx errors out with message containing {string}'
 ) do |partial_stderr_content|
-  assert_include(partial_stderr_content, bx.stderr, data_type: 'stderr')
-  assert_not_equal(0, bx.status, data_type: 'status')
+  assert_match(partial_stderr_content, bx.stderr)
+  assert_not_equal(0, bx.status)
 end
 
 # Helpers ######################################################################

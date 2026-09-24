@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-module GlobalScope
+require 'test/unit/assertions'
+
+module TestContext
+  include Test::Unit::Assertions
+
   def env
     @env ||= [
       'export TERM=',
@@ -13,4 +17,4 @@ module GlobalScope
   end
 end
 
-World(GlobalScope)
+World(TestContext)
