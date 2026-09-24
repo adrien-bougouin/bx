@@ -39,8 +39,9 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       ```
 
   Scenario Outline: Invoke a recipe that auto-confirms all nested recipe invocations
-    When setting options
-      | -q |
+    When setting
+      | OPTION |
+      | -q     |
     And invoking
       | RECIPE   |
       | <RECIPE> |

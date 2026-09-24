@@ -4,8 +4,10 @@ require 'shellwords'
 
 # When #########################################################################
 
-When('setting options') do |options|
-  bx.options.concat(options.raw.flatten)
+When('setting') do |table|
+  raise('Invalid settings!') unless table.headers.include?('OPTION')
+
+  bx.options += table.hashes.map { |r| r['OPTION'] }
 end
 
 When('invoking') do |*args|
@@ -44,6 +46,8 @@ Then('bx outputs nothing') do
   assert_equal('', bx.output)
 end
 
+# TODO: Support string as well as table??
+#       => We could revert the help/list tests
 Then('bx outputs') do |table|
   expected_output_lines = table.hashes
   actual_output_lines = bx.output_lines

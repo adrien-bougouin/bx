@@ -7,7 +7,8 @@ Feature: CLI--Quiet
         echo "Recipe was invoked!!!"
       }
       ```
-    When setting options
+    When setting
+      | OPTION         |
       | <QUIET OPTION> |
     And invoking
       | RECIPE |
@@ -31,8 +32,9 @@ Feature: CLI--Quiet
         echo "Recipe was invoked!!!"
       }
       ```
-    When setting options
-      | -q |
+    When setting
+      | OPTION |
+      | -q     |
     And invoking
       | RECIPE |
       | recipe |

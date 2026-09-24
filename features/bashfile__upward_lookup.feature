@@ -10,8 +10,9 @@ Feature: Bashfile--Upward Lookup
       }
       ```
     And the current working directory "./deeply/nested/working/directory"
-    When setting options
-      | -q |
+    When setting
+      | OPTION |
+      | -q     |
     And invoking
       | RECIPE         |
       | which-bashfile |

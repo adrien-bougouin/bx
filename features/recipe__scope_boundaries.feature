@@ -21,8 +21,9 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When setting options
-      | -q |
+    When setting
+      | OPTION |
+      | -q     |
     And invoking
       | RECIPE            |
       | <MUTATION RECIPE> |
@@ -65,8 +66,9 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When setting options
-      | -q |
+    When setting
+      | OPTION |
+      | -q     |
     And invoking
       | RECIPE   |
       | <RECIPE> |

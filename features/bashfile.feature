@@ -11,8 +11,9 @@ Feature: Bashfile
         echo "default"
       }
       ```
-    When setting options
-      | -q |
+    When setting
+      | OPTION |
+      | -q     |
     And invoking
       | RECIPE         |
       | which-bashfile |
@@ -40,7 +41,8 @@ Feature: Bashfile
         echo "another_alternative.bashfile"
       }
       ```
-    When setting options
+    When setting
+      | OPTION              |
       | -q                  |
       | <BASHFILE ARGUMENT> |
     And invoking
@@ -72,7 +74,8 @@ Feature: Bashfile
         echo "alternative.bashfile"
       }
       ```
-    When setting options
+    When setting
+      | OPTION               |
       | <BASHFILE ARGUMENTS> |
     And invoking
       | RECIPE         |
