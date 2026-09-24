@@ -1,17 +1,20 @@
 AllCops:
   NewCops: enable
 
-Style/Documentation:
+Layout/LineLength:
+  Max: 80
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
   Enabled: false
 
+Style/Documentation:
+  Enabled: false
+
 Metrics/MethodLength:
   Enabled: false
-
-Metrics/AbcSize:
-  Enabled: false
-
-Layout/LineLength:
-  Max: 80

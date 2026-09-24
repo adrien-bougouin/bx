@@ -46,10 +46,13 @@ Then('bx outputs nothing') do
   assert_equal('', bx.output)
 end
 
-# TODO: Support string as well as table??
-#       => We could revert the help/list tests
-Then('bx outputs') do |table|
-  expected_output_lines = table.hashes
+Then('bx outputs') do |table_or_text|
+  if table_or_text.instance_of?(String)
+    assert_equal(table_or_text, bx.output)
+    next
+  end
+
+  expected_output_lines = table_or_text.hashes
   actual_output_lines = bx.output_lines
 
   check_range = Range.new(
@@ -64,7 +67,7 @@ Then('bx outputs') do |table|
     )
     actual_output_line = actual_output_lines.fetch(index, '')
 
-    if expected_output_line.instance_of? Regexp
+    if expected_output_line.instance_of?(Regexp)
       assert_match(
         expected_output_line,
         "Line #{index + 1}: #{actual_output_line}"
@@ -101,8 +104,6 @@ def build_expected_output_line(data, invocation_stack: [])
     build_confirmation_string(output_data)
   when 'bx-error'
     "bx: #{output_data}"
-  when 'bx-help'
-    output_data.sub(/^(%%+)/) { |m| '    ' * (m.size / 2) }
   when 'bx-in'
     invocation_stack << canonicalize_recipe_invocation(output_data)
 
