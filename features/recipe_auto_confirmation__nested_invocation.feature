@@ -50,6 +50,7 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       'recipe-3--critical' invoked!
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | RECIPE            |
@@ -96,3 +97,4 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds

@@ -36,6 +36,7 @@ Feature: Recipe--Circular Invocation Prevention
       + # }
       """
     And bx warns with message "bx: Skipping re-invocation of `<TRACED RECIPE ARGUMENTS>`..."
+    And bx succeeds
 
     Examples:
       | CIRCULAR RECIPE ARGUMENTS | TRACED RECIPE ARGUMENTS |
@@ -69,6 +70,7 @@ Feature: Recipe--Circular Invocation Prevention
       + # }
       """
     And bx warns with message "bx: Skipping re-invocation of `recipe 'arg-1' 'arg-2'`..."
+    And bx succeeds
 
   Scenario: Invoke a recipe that invokes itself with same arguments formatted differently
     Given the Bashfile
@@ -93,3 +95,4 @@ Feature: Recipe--Circular Invocation Prevention
       + # }
       """
       And bx warns with message "bx: Skipping re-invocation of `recipe 'arg\ 1' 'arg\ 2'`..."
+      And bx succeeds

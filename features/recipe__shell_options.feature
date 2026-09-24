@@ -125,3 +125,4 @@ Feature: Recipe--Shell Options
       + # }
       """
     And bx does not error out
+    And bx succeeds

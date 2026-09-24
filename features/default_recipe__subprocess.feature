@@ -14,3 +14,4 @@ Feature: Default Recipe--Subprocess
       + # }
       """
     And bx does not error out
+    And bx succeeds

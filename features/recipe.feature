@@ -34,6 +34,7 @@ Feature: Recipe
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Invoke a recipe multiple times
     When invoking
@@ -53,6 +54,7 @@ Feature: Recipe
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Invoke a missing recipe
     When invoking
@@ -60,6 +62,7 @@ Feature: Recipe
       | missing |
     Then bx displays nothing
     And bx errors out with message "bx: No recipe `missing`!"
+    And bx fails
 
   Scenario: Invoke a private function instead of a recipe
     When invoking
@@ -67,6 +70,7 @@ Feature: Recipe
       | _not-a-recipe |
     Then bx displays nothing
     And bx errors out with message "bx: `_not-a-recipe` is a private function, not a recipe!"
+    And bx fails
 
   Scenario: Invoke multiple recipes
     When invoking
@@ -86,6 +90,7 @@ Feature: Recipe
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Invoke a mix of existing and missing recipes
     When invoking
@@ -103,3 +108,4 @@ Feature: Recipe
       + # }
       """
     And bx errors out with message "bx: No recipe `missing`!"
+    And bx fails

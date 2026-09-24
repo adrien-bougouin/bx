@@ -45,6 +45,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario Outline: Confirm a nested recipe invocation with arguments
     When invoking
@@ -65,6 +66,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | RECIPE ARGUMENTS        | TRACED RECIPE ARGUMENTS   |
@@ -105,6 +107,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Reject a nested recipe invocation
     When invoking
@@ -119,6 +122,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       + # recipe {
       """
     And bx errors out with message "bx: Aborted!"
+    And bx fails
 
   Scenario: Confirm then reject nested recipe invocations
     When invoking
@@ -142,3 +146,4 @@ Feature: Recipe Confirmation -- Nested Invocation
       + # deep-recipe {
       """
     And bx errors out with message "bx: Aborted!"
+    And bx fails

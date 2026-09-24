@@ -33,6 +33,7 @@ Feature: Recipe Confirmation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | CONFIRMATION INPUT |
@@ -56,6 +57,7 @@ Feature: Recipe Confirmation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | RECIPE ARGUMENTS            | TRACED RECIPE ARGUMENTS       |
@@ -88,6 +90,7 @@ Feature: Recipe Confirmation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario Outline: Reject a recipe invocation
     When invoking
@@ -99,6 +102,7 @@ Feature: Recipe Confirmation
     And bx displays nothing
     And bx traces nothing
     And bx errors out with message "bx: Aborted!"
+    And bx fails
 
     Examples:
       | REJECTION INPUT |
@@ -125,3 +129,4 @@ Feature: Recipe Confirmation
       + # }
       """
     And bx errors out with message "bx: Aborted!"
+    And bx fails

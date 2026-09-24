@@ -32,6 +32,7 @@ Feature: Recipe--Scope Boundaries
       GLOBAL=<FINAL GLOBAL VALUE>
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | MUTATION RECIPE           | DISPLAY RECIPE           | FINAL GLOBAL VALUE |
@@ -76,6 +77,7 @@ Feature: Recipe--Scope Boundaries
       GLOBAL=<FINAL GLOBAL VALUE>
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | RECIPE             | MUTATION RECIPE           | FINAL GLOBAL VALUE |

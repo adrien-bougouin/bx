@@ -19,6 +19,7 @@ Feature: Bashfile
       default
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario Outline: Invoke a recipe from a specific Bashfile
     Given the Bashfile at "Bashfile"
@@ -49,6 +50,7 @@ Feature: Bashfile
       <LOADED BASHFILE>
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | BASHFILE ARGUMENT                       | LOADED BASHFILE              |
@@ -78,6 +80,7 @@ Feature: Bashfile
       | which-bashfile |
     Then bx displays nothing
     And bx errors out with message "<ERROR>"
+    And bx fails
 
     Examples:
       | BASHFILE ARGUMENTS                  | ERROR                   |
@@ -91,3 +94,4 @@ Feature: Bashfile
       | some-recipe |
     Then bx displays nothing
     And bx errors out with message "bx: No Bashfile!"
+    And bx fails

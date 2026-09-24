@@ -18,6 +18,7 @@ Feature: CLI--Quiet
       """
     And bx traces nothing
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | QUIET OPTION |
@@ -44,3 +45,4 @@ Feature: CLI--Quiet
       """
     And bx traces nothing
     And bx does not error out
+    And bx succeeds

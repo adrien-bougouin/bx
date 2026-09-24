@@ -25,6 +25,7 @@ Feature: CLI--Help
               (automatically confirm).
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | HELP OPTION |
@@ -56,6 +57,7 @@ Feature: CLI--Help
               (automatically confirm).
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Ask for help when there are recipes to document
     Given the Bashfile
@@ -94,3 +96,4 @@ Feature: CLI--Help
           recipe-2
       """
     And bx does not error out
+    And bx succeeds

@@ -26,6 +26,7 @@ Feature: Recipe--Arguments
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | RECIPE ARGUMENTS        | RECEIVED ARGUMENTS INFO     | TRACED RECIPE ARGUMENTS   |
@@ -54,3 +55,4 @@ Feature: Recipe--Arguments
       + # }
       """
     And bx does not error out
+    And bx succeeds

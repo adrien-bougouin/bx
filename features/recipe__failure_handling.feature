@@ -30,6 +30,7 @@ Feature: Recipe -- Failure Handling
       + # failing-recipe {
       """
     And bx errors out with message containing "Bashfile: line 11: call-missing-function: command not found"
+    And bx fails
 
   Scenario: Invoke a mix of recipes that succeed and fail
     When invoking
@@ -49,3 +50,4 @@ Feature: Recipe -- Failure Handling
       + # failing-recipe {
       """
     And bx errors out with message containing "Bashfile: line 11: call-missing-function: command not found"
+    And bx fails

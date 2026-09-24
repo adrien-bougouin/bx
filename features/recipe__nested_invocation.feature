@@ -30,6 +30,7 @@ Feature: Recipe--Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Invoke a recipe that invokes other recipes mid-execution
     Given the Bashfile
@@ -76,6 +77,7 @@ Feature: Recipe--Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Invoke a recipe that invokes a missing recipe mid-execution
     Given the Bashfile
@@ -98,6 +100,7 @@ Feature: Recipe--Nested Invocation
       + # recipe {
       """
     And bx errors out with message "bx: No recipe `missing`!"
+    And bx fails
 
   Scenario Outline: Invoke a recipe that invokes another recipe with arguments
     Given the Bashfile
@@ -129,6 +132,7 @@ Feature: Recipe--Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | NESTED RECIPE ARGUMENTS | RECEIVED ARGUMENTS INFO     | TRACED RECIPE ARGUMENTS   |
@@ -182,3 +186,4 @@ Feature: Recipe--Nested Invocation
       + # }
       """
     And bx does not error out
+    And bx succeeds

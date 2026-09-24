@@ -64,12 +64,10 @@ end
 
 Then('bx warns with message {string}') do |warning|
   assert_equal(warning, bx.stderr)
-  assert_equal(0, bx.status)
 end
 
 Then('bx does not error out') do
   assert_equal('', bx.stderr)
-  assert_equal(0, bx.status)
 end
 
 Then('bx errors out with message {string}') do |stderr_content|
@@ -77,7 +75,6 @@ Then('bx errors out with message {string}') do |stderr_content|
     step('bx does not error out')
   else
     assert_equal(stderr_content, bx.stderr)
-    assert_not_equal(0, bx.status)
   end
 end
 
@@ -85,6 +82,13 @@ Then(
   'bx errors out with message containing {string}'
 ) do |partial_stderr_content|
   assert_match(partial_stderr_content, bx.stderr)
+end
+
+Then('bx succeeds') do
+  assert_equal(0, bx.status)
+end
+
+Then('bx fails') do
   assert_not_equal(0, bx.status)
 end
 

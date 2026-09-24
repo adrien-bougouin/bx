@@ -44,6 +44,7 @@ Feature: Recipe Auto-Confirmation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | CONFIRMATION ARGUMENT |
@@ -71,6 +72,7 @@ Feature: Recipe Auto-Confirmation
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario: Auto-confirm nested recipe invocations
     When setting options
@@ -97,3 +99,4 @@ Feature: Recipe Auto-Confirmation
       + # }
       """
     And bx does not error out
+    And bx succeeds

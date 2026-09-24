@@ -19,6 +19,7 @@ Feature: Default Recipe
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
     Examples:
       | RECIPE             | INVOKED RECIPE     |
@@ -33,6 +34,7 @@ Feature: Default Recipe
     When invoking
     Then bx traces nothing
     And bx errors out with message "bx: Nothing to do!"
+    And bx fails
 
   Scenario: Invoke when the default is a private function instead of a recipe
     Given the Bashfile
@@ -44,6 +46,7 @@ Feature: Default Recipe
     When invoking
     Then bx traces nothing
     And bx errors out with message "bx: Nothing to do!"
+    And bx fails
 
   Scenario: Invoke an explicit recipe when there is no default recipe
     Given the Bashfile
@@ -59,6 +62,7 @@ Feature: Default Recipe
       + # }
       """
     And bx does not error out
+    And bx succeeds
 
   Scenario Outline: Invoke when there are multiple default recipes
     Given the Bashfile
@@ -73,6 +77,7 @@ Feature: Default Recipe
     Then bx displays nothing
     And bx traces nothing
     And bx errors out with message "<ERROR>"
+    And bx fails
 
     Examples:
       | RECIPE           | ERROR                         |
