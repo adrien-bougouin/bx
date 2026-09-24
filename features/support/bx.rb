@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'open3'
+require 'shellwords'
 
 class BX
   attr_reader :options, :stdout, :confirmations, :xtrace, :stderr, :status
@@ -10,9 +11,15 @@ class BX
     @options = options
   end
 
-  def call(arguments: '', stdin_data: nil)
+  def call(arguments: [], stdin_data: nil)
+    bash_script = <<~BASH
+      #{@context.env.join("\n")}
+
+      bx #{@options.join(' ')} #{arguments.map(&:inspect).join(' ')}
+    BASH
+
     stdout, stderr, status = Open3.capture3(
-      "#{@context.env.join("\n")}\nbx #{@options.join(' ')} #{arguments}",
+      "bash -c #{Shellwords.escape(bash_script)}",
       stdin_data:
     )
 

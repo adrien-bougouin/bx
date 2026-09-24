@@ -124,3 +124,4 @@ Feature: Recipe--Shell Options
       + # print-options {
       + # }
       """
+    And bx does not error out

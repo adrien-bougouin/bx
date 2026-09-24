@@ -11,7 +11,7 @@ end
 When('invoking') do |*args|
   table = args.first
 
-  bx_arguments = ''
+  bx_arguments = []
   bx_stdin_data = nil
 
   if table
@@ -19,10 +19,11 @@ When('invoking') do |*args|
 
     invocation_list = table.hashes
 
-    recipes = invocation_list.map { |r| r['RECIPE'] }.reject(&:empty?)
-    confirmations = invocation_list.map { |r| r['CONFIRMATION'] || '' }.reject(&:empty?)
+    confirmations = invocation_list.map do |row|
+      row['CONFIRMATION'] || ''
+    end.reject(&:empty?)
 
-    bx_arguments = recipes.map(&:inspect).join(' ')
+    bx_arguments = invocation_list.map { |r| r['RECIPE'] }.reject(&:empty?)
     bx_stdin_data = confirmations.join unless confirmations.empty?
   end
 
@@ -84,7 +85,9 @@ Then('bx errors out with message {string}') do |stderr_content|
   end
 end
 
-Then('bx errors out with message containing {string}') do |partial_stderr_content|
+Then(
+  'bx errors out with message containing {string}'
+) do |partial_stderr_content|
   assert_include(partial_stderr_content, bx.stderr, data_type: 'stderr')
   assert_not_equal(0, bx.status, data_type: 'status')
 end
@@ -92,7 +95,11 @@ end
 # Helpers ######################################################################
 
 def build_confirmation_string(recipe_invocation)
-  "bx: Invoke recipe `#{canonicalize_recipe_invocation(recipe_invocation)}`? [y/N]"
+  canonical_recipe_invocation = canonicalize_recipe_invocation(
+    recipe_invocation
+  )
+
+  "bx: Invoke recipe `#{canonical_recipe_invocation}`? [y/N]"
 end
 
 def canonicalize_recipe_invocation(recipe_invocation)
@@ -105,5 +112,8 @@ def canonicalize_recipe_invocation(recipe_invocation)
     done
   BASH
 
-  `bash -c #{Shellwords.escape(script)} bx #{Shellwords.escape(recipe_invocation)}`.chomp
+  escaped_script = Shellwords.escape(script)
+  escaped_recipe_invocation = Shellwords.escape(recipe_invocation)
+
+  `bash -c #{escaped_script} bx #{escaped_recipe_invocation}`.chomp
 end

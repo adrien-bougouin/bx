@@ -1,7 +1,20 @@
-inherit_from: .rubocop_todo.yml
-
 AllCops:
   NewCops: enable
 
+Layout/LineLength:
+  Max: 80
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
 Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
   Enabled: false
