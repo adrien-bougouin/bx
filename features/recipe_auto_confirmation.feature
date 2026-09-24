@@ -34,7 +34,7 @@ Feature: Recipe Auto-Confirmation
       | RECIPE             |
       | recipe-1--critical |
     Then bx confirms nothing
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       """
@@ -59,7 +59,7 @@ Feature: Recipe Auto-Confirmation
       | recipe-1--critical |
       | recipe-2--critical |
     Then bx confirms nothing
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!
@@ -81,7 +81,7 @@ Feature: Recipe Auto-Confirmation
       | RECIPE      |
       | deep-recipe |
     Then bx confirms nothing
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!

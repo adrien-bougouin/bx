@@ -13,7 +13,7 @@ Feature: Bashfile--Upward Lookup
     When invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Parent Bashfile
       """

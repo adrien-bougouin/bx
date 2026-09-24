@@ -20,7 +20,7 @@ Feature: Recipe--Shell Options
       | RECIPE       |
       | hello-xtrace |
       | world        |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Hello
       World!
@@ -56,7 +56,7 @@ Feature: Recipe--Shell Options
     When invoking
       | RECIPE             |
       | hello-world-xtrace |
-    Then bx displays
+    Then bx outputs to stdout
       """
       -----
       Hello
@@ -101,7 +101,7 @@ Feature: Recipe--Shell Options
       | RECIPE        |
       | recipe        |
       | print-options |
-    Then bx displays
+    Then bx outputs to stdout
       """
       shift_verbose  	on
       xtrace         	on

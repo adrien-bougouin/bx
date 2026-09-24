@@ -14,7 +14,7 @@ Feature: Bashfile
     When invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
+    Then bx outputs to stdout
       """
       default
       """
@@ -45,7 +45,7 @@ Feature: Bashfile
     And invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
+    Then bx outputs to stdout
       """
       <LOADED BASHFILE>
       """
@@ -78,7 +78,7 @@ Feature: Bashfile
     And invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays nothing
+    Then bx outputs nothing to stdout
     And bx errors out with message "<ERROR>"
     And bx fails
 
@@ -92,6 +92,6 @@ Feature: Bashfile
     When invoking
       | RECIPE      |
       | some-recipe |
-    Then bx displays nothing
+    Then bx outputs nothing to stdout
     And bx errors out with message "bx: No Bashfile!"
     And bx fails

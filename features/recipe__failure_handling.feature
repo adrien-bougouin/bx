@@ -21,7 +21,7 @@ Feature: Recipe -- Failure Handling
     When invoking
       | RECIPE         |
       | failing-recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'failing-recipe' before failure!
       """
@@ -38,7 +38,7 @@ Feature: Recipe -- Failure Handling
       | recipe-1       |
       | failing-recipe |
       | recipe-2       |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'recipe-1' invoked!
       'failing-recipe' before failure!

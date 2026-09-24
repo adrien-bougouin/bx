@@ -27,7 +27,7 @@ Feature: Recipe--Scope Boundaries
       | RECIPE            |
       | <MUTATION RECIPE> |
       | <DISPLAY RECIPE>  |
-    Then bx displays
+    Then bx outputs to stdout
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """
@@ -72,7 +72,7 @@ Feature: Recipe--Scope Boundaries
     And invoking
       | RECIPE   |
       | <RECIPE> |
-    Then bx displays
+    Then bx outputs to stdout
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """

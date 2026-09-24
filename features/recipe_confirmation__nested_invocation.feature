@@ -33,7 +33,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     Then bx confirms
       | RECIPE           |
       | recipe--critical |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe--critical' invoked!
       """
@@ -54,7 +54,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     Then bx confirms
       | RECIPE                              |
       | recipe--critical <RECIPE ARGUMENTS> |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe--critical' invoked!
       """
@@ -87,7 +87,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | recipe--critical      |
       | deep-recipe--critical |
       | recipe--critical      |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe--critical' invoked!
       'recipe--critical' invoked!
@@ -116,7 +116,7 @@ Feature: Recipe Confirmation -- Nested Invocation
     Then bx confirms
       | RECIPE           |
       | recipe--critical |
-    And bx displays nothing
+    And bx outputs nothing to stdout
     And bx traces
       """
       + # recipe {
@@ -133,7 +133,7 @@ Feature: Recipe Confirmation -- Nested Invocation
       | RECIPE                |
       | recipe--critical      |
       | deep-recipe--critical |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe--critical' invoked!
       """

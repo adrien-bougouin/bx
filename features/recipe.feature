@@ -24,7 +24,7 @@ Feature: Recipe
     When invoking
       | RECIPE   |
       | recipe-1 |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'recipe-1' invoked!
       """
@@ -41,7 +41,7 @@ Feature: Recipe
       | RECIPE   |
       | recipe-1 |
       | recipe-1 |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'recipe-1' invoked!
       'recipe-1' invoked!
@@ -60,7 +60,7 @@ Feature: Recipe
     When invoking
       | RECIPE  |
       | missing |
-    Then bx displays nothing
+    Then bx outputs nothing to stdout
     And bx errors out with message "bx: No recipe `missing`!"
     And bx fails
 
@@ -68,7 +68,7 @@ Feature: Recipe
     When invoking
       | RECIPE        |
       | _not-a-recipe |
-    Then bx displays nothing
+    Then bx outputs nothing to stdout
     And bx errors out with message "bx: `_not-a-recipe` is a private function, not a recipe!"
     And bx fails
 
@@ -77,7 +77,7 @@ Feature: Recipe
       | RECIPE   |
       | recipe-1 |
       | recipe-2 |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'recipe-1' invoked!
       'recipe-2' invoked!
@@ -98,7 +98,7 @@ Feature: Recipe
       | recipe-1 |
       | missing  |
       | recipe-2 |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'recipe-1' invoked!
       """

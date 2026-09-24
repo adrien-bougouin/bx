@@ -16,7 +16,7 @@ Feature: Recipe--Nested Invocation
     When invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       'nested-recipe' invoked!
@@ -57,7 +57,7 @@ Feature: Recipe--Nested Invocation
     When invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       'nested-recipe-1' invoked!
@@ -91,7 +91,7 @@ Feature: Recipe--Nested Invocation
     When invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       """
@@ -118,7 +118,7 @@ Feature: Recipe--Nested Invocation
     When invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       'nested-recipe' invocation: <RECEIVED ARGUMENTS INFO>
@@ -160,7 +160,7 @@ Feature: Recipe--Nested Invocation
     When invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       'nested-recipe' invocation: 0, '', ''

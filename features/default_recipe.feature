@@ -74,7 +74,7 @@ Feature: Default Recipe
     When invoking
       | RECIPE   |
       | <RECIPE> |
-    Then bx displays nothing
+    Then bx outputs nothing to stdout
     And bx traces nothing
     And bx errors out with message "<ERROR>"
     And bx fails

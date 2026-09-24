@@ -5,7 +5,7 @@ Feature: CLI--Help
     When setting options
       | <HELP OPTION> |
     And invoking
-    Then bx displays
+    Then bx outputs to stdout
       """
       Usage: bx [options] [--] [recipe] ...
 
@@ -37,7 +37,7 @@ Feature: CLI--Help
     When setting options
       | -h |
     And invoking
-    Then bx displays
+    Then bx outputs to stdout
       """
       Usage: bx [options] [--] [recipe] ...
 
@@ -71,7 +71,7 @@ Feature: CLI--Help
     When setting options
       | -h |
     And invoking
-    Then bx displays
+    Then bx outputs to stdout
       """
       Usage: bx [options] [--] [recipe] ...
 

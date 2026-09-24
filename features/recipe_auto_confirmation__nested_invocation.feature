@@ -43,7 +43,7 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | RECIPE   |
       | <RECIPE> |
     Then bx confirms nothing
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!
@@ -68,7 +68,7 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | recipe-1--critical    |
       | recipe-2--critical    |
       | recipe-3--critical    |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!

@@ -21,7 +21,7 @@ Feature: Recipe--Circular Invocation Prevention
     When invoking
       | RECIPE                      |
       | <CIRCULAR RECIPE ARGUMENTS> |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       Entering trap...
@@ -55,7 +55,7 @@ Feature: Recipe--Circular Invocation Prevention
     When invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       Pre-processing...
@@ -84,7 +84,7 @@ Feature: Recipe--Circular Invocation Prevention
     When invoking
       | RECIPE               |
       | recipe arg\ 1 arg\ 2 |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Pre-processing...
       Post-processing...

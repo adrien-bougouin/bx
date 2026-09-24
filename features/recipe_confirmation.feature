@@ -23,7 +23,7 @@ Feature: Recipe Confirmation
     Then bx confirms
       | RECIPE             |
       | recipe-1--critical |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       """
@@ -47,7 +47,7 @@ Feature: Recipe Confirmation
     Then bx confirms
       | RECIPE                                |
       | recipe-1--critical <RECIPE ARGUMENTS> |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       """
@@ -77,7 +77,7 @@ Feature: Recipe Confirmation
       | RECIPE             |
       | recipe-1--critical |
       | recipe-2--critical |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!
@@ -99,7 +99,7 @@ Feature: Recipe Confirmation
     Then bx confirms
       | RECIPE             |
       | recipe-1--critical |
-    And bx displays nothing
+    And bx outputs nothing to stdout
     And bx traces nothing
     And bx errors out with message "bx: Aborted!"
     And bx fails
@@ -119,7 +119,7 @@ Feature: Recipe Confirmation
       | RECIPE             |
       | recipe-1--critical |
       | recipe-2--critical |
-    And bx displays
+    And bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       """

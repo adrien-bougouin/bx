@@ -16,7 +16,7 @@ Feature: Recipe--Arguments
     When invoking
       | RECIPE                      |
       | recipe-1 <RECIPE ARGUMENTS> |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'recipe-1' invocation: <RECEIVED ARGUMENTS INFO>
       """
@@ -42,7 +42,7 @@ Feature: Recipe--Arguments
       | RECIPE               |
       | recipe-1 arg-1 arg-2 |
       | recipe-2 arg-3 arg-4 |
-    Then bx displays
+    Then bx outputs to stdout
       """
       'recipe-1' invocation: 2, 'arg-1', 'arg-2'
       'recipe-2' invocation: 2, 'arg-3', 'arg-4'

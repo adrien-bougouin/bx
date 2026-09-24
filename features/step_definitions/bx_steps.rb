@@ -32,11 +32,11 @@ end
 
 # Then #########################################################################
 
-Then('bx displays nothing') do
+Then('bx outputs nothing to stdout') do
   assert_equal('', bx.stdout)
 end
 
-Then('bx displays') do |stdout_content|
+Then('bx outputs to stdout') do |stdout_content|
   assert_equal(stdout_content, bx.stdout)
 end
 

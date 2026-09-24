@@ -12,7 +12,7 @@ Feature: CLI--List
     When setting options
       | <LIST OPTION> |
     And invoking
-    Then bx displays
+    Then bx outputs to stdout
       """
       Available recipes:
           recipe-1
@@ -43,7 +43,7 @@ Feature: CLI--List
     When setting options
       | -l |
     And invoking
-    Then bx displays
+    Then bx outputs to stdout
       """
       Available recipes:
           recipe-1
@@ -68,7 +68,7 @@ Feature: CLI--List
     When setting options
       | -l |
     And invoking
-    Then bx displays
+    Then bx outputs to stdout
       """
       Available recipes:
           recipe-1
@@ -82,7 +82,7 @@ Feature: CLI--List
     When setting options
       | -l |
     And invoking
-    Then bx displays nothing
+    Then bx outputs nothing to stdout
     And bx does not error out
     And bx succeeds
 
@@ -91,6 +91,6 @@ Feature: CLI--List
     When setting options
       | -l |
     And invoking
-    Then bx displays nothing
+    Then bx outputs nothing to stdout
     And bx errors out with message "bx: No Bashfile!"
     And bx fails

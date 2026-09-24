@@ -12,7 +12,7 @@ Feature: CLI--Quiet
     And invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Recipe was invoked!!!
       """
@@ -39,7 +39,7 @@ Feature: CLI--Quiet
     And invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs to stdout
       """
       Recipe was invoked!!!
       """
