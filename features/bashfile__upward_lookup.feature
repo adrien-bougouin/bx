@@ -17,6 +17,7 @@ Feature: Bashfile--Upward Lookup
       | RECIPE         |
       | which-bashfile |
     Then bx outputs
-      | DATA            |
-      | Parent Bashfile |
+      """
+      Parent Bashfile
+      """
     And bx succeeds

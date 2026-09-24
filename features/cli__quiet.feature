@@ -14,8 +14,9 @@ Feature: CLI--Quiet
       | RECIPE |
       | recipe |
     Then bx outputs
-      | DATA                  |
-      | Recipe was invoked!!! |
+      """
+      Recipe was invoked!!!
+      """
     And bx succeeds
 
     Examples:
@@ -39,6 +40,7 @@ Feature: CLI--Quiet
       | RECIPE |
       | recipe |
     Then bx outputs
-      | DATA                  |
-      | Recipe was invoked!!! |
+      """
+      Recipe was invoked!!!
+      """
     And bx succeeds

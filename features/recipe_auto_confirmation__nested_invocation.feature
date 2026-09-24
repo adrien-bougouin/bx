@@ -47,10 +47,11 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | <RECIPE> |
     Then bx confirms nothing
     And bx outputs
-      | DATA                          |
-      | 'recipe-1--critical' invoked! |
-      | 'recipe-2--critical' invoked! |
-      | 'recipe-3--critical' invoked! |
+      """
+      'recipe-1--critical' invoked!
+      'recipe-2--critical' invoked!
+      'recipe-3--critical' invoked!
+      """
     And bx succeeds
 
     Examples:

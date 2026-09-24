@@ -29,8 +29,9 @@ Feature: Recipe--Scope Boundaries
       | <MUTATION RECIPE> |
       | <DISPLAY RECIPE>  |
     Then bx outputs
-      | DATA                        |
-      | GLOBAL=<FINAL GLOBAL VALUE> |
+      """
+      GLOBAL=<FINAL GLOBAL VALUE>
+      """
     And bx succeeds
 
     Examples:
@@ -73,8 +74,9 @@ Feature: Recipe--Scope Boundaries
       | RECIPE   |
       | <RECIPE> |
     Then bx outputs
-      | DATA                        |
-      | GLOBAL=<FINAL GLOBAL VALUE> |
+      """
+      GLOBAL=<FINAL GLOBAL VALUE>
+      """
     And bx succeeds
 
     Examples:

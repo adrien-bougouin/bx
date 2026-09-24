@@ -18,8 +18,9 @@ Feature: Bashfile
       | RECIPE         |
       | which-bashfile |
     Then bx outputs
-      | DATA    |
-      | default |
+      """
+      default
+      """
     And bx succeeds
 
   Scenario Outline: Invoke a recipe from a specific Bashfile
@@ -49,8 +50,9 @@ Feature: Bashfile
       | RECIPE         |
       | which-bashfile |
     Then bx outputs
-      | DATA              |
-      | <LOADED BASHFILE> |
+      """
+      <LOADED BASHFILE>
+      """
     And bx succeeds
 
     Examples:
