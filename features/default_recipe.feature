@@ -13,12 +13,11 @@ Feature: Default Recipe
     When invoking
       | RECIPE   |
       | <RECIPE> |
-    Then bx traces
-      """
-      + # <INVOKED RECIPE> {
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | FORMAT | DATA             |
+      | bx-in  | <INVOKED RECIPE> |
+      | bx-out |                  |
+    And bx succeeds
 
     Examples:
       | RECIPE             | INVOKED RECIPE     |
@@ -31,8 +30,10 @@ Feature: Default Recipe
       non-default-recipe() { :; }
       ```
     When invoking
-    Then bx traces nothing
-    And bx errors out with message "bx: Nothing to do!"
+    Then bx outputs
+      | FORMAT   | DATA           |
+      | bx-error | Nothing to do! |
+    And bx fails
 
   Scenario: Invoke when the default is a private function instead of a recipe
     Given the Bashfile
@@ -42,8 +43,10 @@ Feature: Default Recipe
       _not-a-recipe() { @default; }
       ```
     When invoking
-    Then bx traces nothing
-    And bx errors out with message "bx: Nothing to do!"
+    Then bx outputs
+      | FORMAT   | DATA           |
+      | bx-error | Nothing to do! |
+    And bx fails
 
   Scenario: Invoke an explicit recipe when there is no default recipe
     Given the Bashfile
@@ -53,12 +56,11 @@ Feature: Default Recipe
     When invoking
       | RECIPE             |
       | non-default-recipe |
-    Then bx traces
-      """
-      + # non-default-recipe {
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | FORMAT | DATA               |
+      | bx-in  | non-default-recipe |
+      | bx-out |                    |
+    And bx succeeds
 
   Scenario Outline: Invoke when there are multiple default recipes
     Given the Bashfile
@@ -70,12 +72,13 @@ Feature: Default Recipe
     When invoking
       | RECIPE   |
       | <RECIPE> |
-    Then bx displays nothing
-    And bx traces nothing
-    And bx errors out with message "<ERROR>"
+    Then bx outputs
+      | FORMAT   | DATA                      |
+      | bx-error | Too many default recipes! |
+    And bx fails
 
     Examples:
-      | RECIPE           | ERROR                         |
-      |                  | bx: Too many default recipes! |
-      | default-recipe-1 | bx: Too many default recipes! |
-      | default-recipe-2 | bx: Too many default recipes! |
+      | RECIPE           |
+      |                  |
+      | default-recipe-1 |
+      | default-recipe-2 |

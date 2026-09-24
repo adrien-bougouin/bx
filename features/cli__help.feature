@@ -2,10 +2,11 @@ Feature: CLI--Help
 
   Scenario Outline: Ask for help
     Given an empty Bashfile
-    When setting options
+    When setting
+      | OPTION        |
       | <HELP OPTION> |
     And invoking
-    Then bx displays
+    Then bx outputs
       """
       Usage: bx [options] [--] [recipe] ...
 
@@ -24,7 +25,7 @@ Feature: CLI--Help
               Do not ask for confirmation before invoking a recipe
               (automatically confirm).
       """
-    And bx does not error out
+    And bx succeeds
 
     Examples:
       | HELP OPTION |
@@ -33,10 +34,11 @@ Feature: CLI--Help
 
   Scenario: Ask for help from uninitialized bx environment
     Given no Bashfile
-    When setting options
-      | -h |
+    When setting
+      | OPTION |
+      | -h     |
     And invoking
-    Then bx displays
+    Then bx outputs
       """
       Usage: bx [options] [--] [recipe] ...
 
@@ -55,7 +57,7 @@ Feature: CLI--Help
               Do not ask for confirmation before invoking a recipe
               (automatically confirm).
       """
-    And bx does not error out
+    And bx succeeds
 
   Scenario: Ask for help when there are recipes to document
     Given the Bashfile
@@ -66,10 +68,11 @@ Feature: CLI--Help
 
       recipe-2() { :; }
       ```
-    When setting options
-      | -h |
+    When setting
+      | OPTION |
+      | -h     |
     And invoking
-    Then bx displays
+    Then bx outputs
       """
       Usage: bx [options] [--] [recipe] ...
 
@@ -93,4 +96,4 @@ Feature: CLI--Help
               A short description of recipe-1.
           recipe-2
       """
-    And bx does not error out
+    And bx succeeds

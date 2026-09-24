@@ -12,24 +12,22 @@ Feature: Recipe -- Failure Handling
       }
 
       failing-recipe() {
-        echo "'failing-recipe' before failure!"
+        echo "Before 'failing-recipe' failure!"
         call-missing-function
-        echo "'failing-recipe' after failure!"
+        echo "After 'failing-recipe' failure!"
       }
       ```
+
   Scenario: Invoke a recipe that fails
     When invoking
       | RECIPE         |
       | failing-recipe |
-    Then bx displays
-      """
-      'failing-recipe' before failure!
-      """
-    And bx traces
-      """
-      + # failing-recipe {
-      """
-    And bx errors out with message containing "Bashfile: line 11: call-missing-function: command not found"
+    Then bx outputs
+      | FORMAT | DATA                                                        |
+      | bx-in  | failing-recipe                                              |
+      |        | Before 'failing-recipe' failure!                            |
+      |        | /Bashfile: [^:]+: call-missing-function: command not found/ |
+    And bx fails
 
   Scenario: Invoke a mix of recipes that succeed and fail
     When invoking
@@ -37,15 +35,12 @@ Feature: Recipe -- Failure Handling
       | recipe-1       |
       | failing-recipe |
       | recipe-2       |
-    Then bx displays
-      """
-      'recipe-1' invoked!
-      'failing-recipe' before failure!
-      """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      + # failing-recipe {
-      """
-    And bx errors out with message containing "Bashfile: line 11: call-missing-function: command not found"
+    Then bx outputs
+      | FORMAT | DATA                                                        |
+      | bx-in  | recipe-1                                                    |
+      |        | 'recipe-1' invoked!                                         |
+      | bx-out |                                                             |
+      | bx-in  | failing-recipe                                              |
+      |        | Before 'failing-recipe' failure!                            |
+      |        | /Bashfile: [^:]+: call-missing-function: command not found/ |
+    And bx fails

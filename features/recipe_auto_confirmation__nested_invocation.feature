@@ -39,17 +39,20 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       ```
 
   Scenario Outline: Invoke a recipe that auto-confirms all nested recipe invocations
-    When invoking
+    When setting
+      | OPTION |
+      | -q     |
+    And invoking
       | RECIPE   |
       | <RECIPE> |
     Then bx confirms nothing
-    And bx displays
+    And bx outputs
       """
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!
       'recipe-3--critical' invoked!
       """
-    And bx does not error out
+    And bx succeeds
 
     Examples:
       | RECIPE            |
@@ -61,38 +64,32 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | RECIPE                | CONFIRMATION |
       | recipe--safe          |              |
       | deep-recipe--critical | yyyy         |
-    Then bx confirms
-      | RECIPE                |
-      | deep-recipe--critical |
-      | recipe-1--critical    |
-      | recipe-2--critical    |
-      | recipe-3--critical    |
-    And bx displays
-      """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      'recipe-3--critical' invoked!
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      'recipe-3--critical' invoked!
-      """
-    And bx traces
-      """
-      + # recipe--safe {
-      ++ # recipe-1--critical {
-      ++ # }
-      ++ # recipe-2--critical {
-      ++ # }
-      ++ # recipe-3--critical {
-      ++ # }
-      + # }
-      + # deep-recipe--critical {
-      ++ # recipe-1--critical {
-      ++ # }
-      ++ # recipe-2--critical {
-      ++ # }
-      ++ # recipe-3--critical {
-      ++ # }
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | FORMAT     | DATA                          |
+      | bx-in      | recipe--safe                  |
+      | bx-in      | recipe-1--critical            |
+      |            | 'recipe-1--critical' invoked! |
+      | bx-out     |                               |
+      | bx-in      | recipe-2--critical            |
+      |            | 'recipe-2--critical' invoked! |
+      | bx-out     |                               |
+      | bx-in      | recipe-3--critical            |
+      |            | 'recipe-3--critical' invoked! |
+      | bx-out     |                               |
+      | bx-out     |                               |
+      | bx-confirm | deep-recipe--critical         |
+      | bx-in      | deep-recipe--critical         |
+      | bx-confirm | recipe-1--critical            |
+      | bx-in      | recipe-1--critical            |
+      |            | 'recipe-1--critical' invoked! |
+      | bx-out     |                               |
+      | bx-confirm | recipe-2--critical            |
+      | bx-in      | recipe-2--critical            |
+      |            | 'recipe-2--critical' invoked! |
+      | bx-out     |                               |
+      | bx-confirm | recipe-3--critical            |
+      | bx-in      | recipe-3--critical            |
+      |            | 'recipe-3--critical' invoked! |
+      | bx-out     |                               |
+      | bx-out     |                               |
+    And bx succeeds

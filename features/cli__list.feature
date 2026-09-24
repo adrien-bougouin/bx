@@ -9,17 +9,18 @@ Feature: CLI--List
 
       recipe-2() { :; }
       ```
-    When setting options
+    When setting
+      | OPTION        |
       | <LIST OPTION> |
     And invoking
-    Then bx displays
+    Then bx outputs
       """
       Available recipes:
           recipe-1
               A short description of recipe-1.
           recipe-2
       """
-    And bx does not error out
+    And bx succeeds
 
     Examples:
       | LIST OPTION |
@@ -39,10 +40,11 @@ Feature: CLI--List
           "that continues on multiple lines."
       }
       ```
-    When setting options
-      | -l |
+    When setting
+      | OPTION |
+      | -l     |
     And invoking
-    Then bx displays
+    Then bx outputs
       """
       Available recipes:
           recipe-1
@@ -52,7 +54,7 @@ Feature: CLI--List
               A short description of recipe-2
               that continues on multiple lines.
       """
-    And bx does not error out
+    And bx succeeds
 
   Scenario: List available recipes with empty help
     Given the Bashfile
@@ -63,29 +65,34 @@ Feature: CLI--List
 
       recipe-2() { :; }
       ```
-    When setting options
-      | -l |
+    When setting
+      | OPTION |
+      | -l     |
     And invoking
-    Then bx displays
+    Then bx outputs
       """
       Available recipes:
           recipe-1
           recipe-2
       """
-    And bx does not error out
+    And bx succeeds
 
   Scenario: List available recipes when there are none
     Given an empty Bashfile
-    When setting options
-      | -l |
+    When setting
+      | OPTION |
+      | -l     |
     And invoking
-    Then bx displays nothing
-    And bx does not error out
+    Then bx outputs nothing
+    And bx succeeds
 
   Scenario: Ask for available recipes from uninitialized bx environment
     Given no Bashfile
-    When setting options
-      | -l |
+    When setting
+      | OPTION |
+      | -l     |
     And invoking
-    Then bx displays nothing
-    And bx errors out with message "bx: No Bashfile!"
+    Then bx outputs
+      | FORMAT   | DATA         |
+      | bx-error | No Bashfile! |
+    And bx fails

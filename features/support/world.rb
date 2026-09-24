@@ -9,7 +9,7 @@ module GlobalScope
   end
 
   def bx
-    @bx ||= BX.new(self)
+    @bx ||= Bx.new(self)
   end
 end
 

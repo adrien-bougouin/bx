@@ -7,17 +7,17 @@ Feature: CLI--Quiet
         echo "Recipe was invoked!!!"
       }
       ```
-    When setting options
+    When setting
+      | OPTION         |
       | <QUIET OPTION> |
     And invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs
       """
       Recipe was invoked!!!
       """
-    And bx traces nothing
-    And bx does not error out
+    And bx succeeds
 
     Examples:
       | QUIET OPTION |
@@ -33,14 +33,14 @@ Feature: CLI--Quiet
         echo "Recipe was invoked!!!"
       }
       ```
-    When setting options
-      | -q |
+    When setting
+      | OPTION |
+      | -q     |
     And invoking
       | RECIPE |
       | recipe |
-    Then bx displays
+    Then bx outputs
       """
       Recipe was invoked!!!
       """
-    And bx traces nothing
-    And bx does not error out
+    And bx succeeds

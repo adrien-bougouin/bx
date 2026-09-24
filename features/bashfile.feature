@@ -11,14 +11,17 @@ Feature: Bashfile
         echo "default"
       }
       ```
-    When invoking
+    When setting
+      | OPTION |
+      | -q     |
+    And invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
+    Then bx outputs
       """
       default
       """
-    And bx does not error out
+    And bx succeeds
 
   Scenario Outline: Invoke a recipe from a specific Bashfile
     Given the Bashfile at "Bashfile"
@@ -39,16 +42,18 @@ Feature: Bashfile
         echo "another_alternative.bashfile"
       }
       ```
-    When setting options
+    When setting
+      | OPTION              |
+      | -q                  |
       | <BASHFILE ARGUMENT> |
     And invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays
+    Then bx outputs
       """
       <LOADED BASHFILE>
       """
-    And bx does not error out
+    And bx succeeds
 
     Examples:
       | BASHFILE ARGUMENT                       | LOADED BASHFILE              |
@@ -71,23 +76,28 @@ Feature: Bashfile
         echo "alternative.bashfile"
       }
       ```
-    When setting options
+    When setting
+      | OPTION               |
       | <BASHFILE ARGUMENTS> |
     And invoking
       | RECIPE         |
       | which-bashfile |
-    Then bx displays nothing
-    And bx errors out with message "<ERROR>"
+    Then bx outputs
+      | FORMAT   | DATA                |
+      | bx-error | Too many Bashfiles! |
+    And bx fails
 
     Examples:
-      | BASHFILE ARGUMENTS                  | ERROR                   |
-      | -f Bashfile -f alternative.bashfile | bx: Too many Bashfiles! |
-      | -f alternative.bashfile -f Bashfile | bx: Too many Bashfiles! |
+      | BASHFILE ARGUMENTS                  |
+      | -f Bashfile -f alternative.bashfile |
+      | -f alternative.bashfile -f Bashfile |
 
   Scenario: Invoke a recipe without a Bashfile
     Given no Bashfile
     When invoking
       | RECIPE      |
       | some-recipe |
-    Then bx displays nothing
-    And bx errors out with message "bx: No Bashfile!"
+    Then bx outputs
+      | FORMAT   | DATA         |
+      | bx-error | No Bashfile! |
+    And bx fails

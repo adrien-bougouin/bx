@@ -28,22 +28,18 @@ Feature: Recipe Auto-Confirmation
       ```
 
   Scenario Outline: Auto-confirm a recipe invocation
-    When setting options
+    When setting
+      | OPTION                  |
       | <CONFIRMATION ARGUMENT> |
     And invoking
       | RECIPE             |
       | recipe-1--critical |
-    Then bx confirms nothing
-    And bx displays
-      """
-      'recipe-1--critical' invoked!
-      """
-    And bx traces
-      """
-      + # recipe-1--critical {
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | FORMAT | DATA                          |
+      | bx-in  | recipe-1--critical            |
+      |        | 'recipe-1--critical' invoked! |
+      | bx-out |                               |
+    And bx succeeds
 
     Examples:
       | CONFIRMATION ARGUMENT |
@@ -51,49 +47,41 @@ Feature: Recipe Auto-Confirmation
       | --yes                 |
 
   Scenario: Auto-confirm multiple recipe invocations
-    When setting options
-      | --yes |
+    When setting
+      | OPTION |
+      | --yes  |
     And invoking
       | RECIPE             |
       | recipe-1--critical |
       | recipe-2--critical |
-    Then bx confirms nothing
-    And bx displays
-      """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      """
-    And bx traces
-      """
-      + # recipe-1--critical {
-      + # }
-      + # recipe-2--critical {
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | FORMAT | DATA                          |
+      | bx-in  | recipe-1--critical            |
+      |        | 'recipe-1--critical' invoked! |
+      | bx-out |                               |
+      | bx-in  | recipe-2--critical            |
+      |        | 'recipe-2--critical' invoked! |
+      | bx-out |                               |
+    And bx succeeds
 
   Scenario: Auto-confirm nested recipe invocations
-    When setting options
-      | --yes |
+    When setting
+      | OPTION |
+      | --yes  |
     And invoking
       | RECIPE      |
       | deep-recipe |
-    Then bx confirms nothing
-    And bx displays
-      """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      'recipe-3--critical' invoked!
-      """
-    And bx traces
-      """
-      + # deep-recipe {
-      ++ # recipe-1--critical {
-      ++ # }
-      ++ # recipe-2--critical {
-      ++ # }
-      ++ # recipe-3--critical {
-      ++ # }
-      + # }
-      """
-    And bx does not error out
+    Then bx outputs
+      | FORMAT | DATA                          |
+      | bx-in  | deep-recipe                   |
+      | bx-in  | recipe-1--critical            |
+      |        | 'recipe-1--critical' invoked! |
+      | bx-out |                               |
+      | bx-in  | recipe-2--critical            |
+      |        | 'recipe-2--critical' invoked! |
+      | bx-out |                               |
+      | bx-in  | recipe-3--critical            |
+      |        | 'recipe-3--critical' invoked! |
+      | bx-out |                               |
+      | bx-out |                               |
+    And bx succeeds
