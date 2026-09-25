@@ -3,19 +3,17 @@
 require 'open3'
 require 'shellwords'
 
-class BX
-  attr_reader :options, :stdout, :confirmations, :xtrace, :stderr, :status
-
-  def initialize(context, options: [])
-    @context = context
-    @options = options
+class Bx
+  def initialize(bash_env: [], options: [])
+    @bash_env = bash_env.join("\n")
+    @options = options.join(' ')
   end
 
   def call(arguments: [], stdin_data: nil)
     bash_script = <<~BASH
-      #{@context.env.join("\n")}
+      #{@bash_env}
 
-      bx #{@options.join(' ')} #{arguments.map(&:inspect).join(' ')}
+      bx #{@options} #{arguments.map(&:inspect).join(' ')}
     BASH
 
     stdout, stderr, status = Open3.capture3(
@@ -31,10 +29,20 @@ class BX
       line.match?(%r{^bx: .*\? \[y/N\] $})
     end
 
-    @stdout = stdout.sub(/\n\Z/, '')
-    @confirmations = confirmations.map(&:strip).join("\n")
-    @xtrace = traces.join("\n")
-    @stderr = errors.join("\n")
-    @status = status.exitstatus
+    [
+      clean_output(stdout),
+      clean_output(stderr),
+      status.exitstatus,
+      # TODO: Remove once implementing 'Then bx outputs to stderr'
+      confirmations.map(&:strip).join("\n"),
+      traces.join("\n"),
+      errors.join("\n")
+    ]
+  end
+
+  private
+
+  def clean_output(output)
+    output.sub(/\n\Z/, '')
   end
 end

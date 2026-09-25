@@ -2,7 +2,8 @@ Feature: CLI--Help
 
   Scenario Outline: Ask for help
     Given an empty Bashfile
-    When setting options
+    When setting
+      | OPTION        |
       | <HELP OPTION> |
     And invoking
     Then bx outputs to stdout
@@ -34,8 +35,9 @@ Feature: CLI--Help
 
   Scenario: Ask for help from uninitialized bx environment
     Given no Bashfile
-    When setting options
-      | -h |
+    When setting
+      | OPTION |
+      | -h     |
     And invoking
     Then bx outputs to stdout
       """
@@ -68,8 +70,9 @@ Feature: CLI--Help
 
       recipe-2() { :; }
       ```
-    When setting options
-      | -h |
+    When setting
+      | OPTION |
+      | -h     |
     And invoking
     Then bx outputs to stdout
       """

@@ -28,7 +28,8 @@ Feature: Recipe Auto-Confirmation
       ```
 
   Scenario Outline: Auto-confirm a recipe invocation
-    When setting options
+    When setting
+      | OPTION                  |
       | <CONFIRMATION ARGUMENT> |
     And invoking
       | RECIPE             |
@@ -52,8 +53,9 @@ Feature: Recipe Auto-Confirmation
       | --yes                 |
 
   Scenario: Auto-confirm multiple recipe invocations
-    When setting options
-      | --yes |
+    When setting
+      | OPTION |
+      | --yes  |
     And invoking
       | RECIPE             |
       | recipe-1--critical |
@@ -75,8 +77,9 @@ Feature: Recipe Auto-Confirmation
     And bx succeeds
 
   Scenario: Auto-confirm nested recipe invocations
-    When setting options
-      | --yes |
+    When setting
+      | OPTION |
+      | --yes  |
     And invoking
       | RECIPE      |
       | deep-recipe |

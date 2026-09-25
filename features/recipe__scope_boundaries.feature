@@ -21,7 +21,8 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When setting options
+    When setting
+      | OPTION  |
       | --quiet |
     And invoking
       | RECIPE            |
@@ -67,7 +68,8 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When setting options
+    When setting
+      | OPTION  |
       | --quiet |
     And invoking
       | RECIPE   |

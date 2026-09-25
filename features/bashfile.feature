@@ -40,7 +40,8 @@ Feature: Bashfile
         echo "another_alternative.bashfile"
       }
       ```
-    When setting options
+    When setting
+      | OPTION              |
       | <BASHFILE ARGUMENT> |
     And invoking
       | RECIPE         |
@@ -73,7 +74,8 @@ Feature: Bashfile
         echo "alternative.bashfile"
       }
       ```
-    When setting options
+    When setting
+      | OPTION               |
       | <BASHFILE ARGUMENTS> |
     And invoking
       | RECIPE         |

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Given('the shell environment') do |env|
-  self.env << env
+  bash_env.push(env)
 end
 
 Given('the current working directory {string}') do |path|
