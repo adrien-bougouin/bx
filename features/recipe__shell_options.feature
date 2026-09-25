@@ -85,16 +85,16 @@ Feature: Recipe--Shell Options
         shopt -s shift_verbose
         set -x +o pipefail
 
-        shopt | grep shift_verbose
-        shopt -o | grep xtrace
-        shopt -o | grep pipefail
+        shopt shift_verbose || true
+        shopt -o xtrace || true
+        shopt -o pipefail || true
       }
 
       print-options() {
         echo "-----"
-        shopt | grep shift_verbose
-        shopt -o | grep xtrace
-        shopt -o | grep pipefail
+        shopt shift_verbose || true
+        shopt -o xtrace || true
+        shopt -o pipefail || true
       }
       ```
     When invoking
@@ -114,12 +114,10 @@ Feature: Recipe--Shell Options
     And bx traces
       """
       + # recipe {
-      ++ shopt
-      ++ grep shift_verbose
-      ++ shopt -o
-      ++ grep xtrace
-      ++ shopt -o
-      ++ grep pipefail
+      ++ shopt shift_verbose
+      ++ shopt -o xtrace
+      ++ shopt -o pipefail
+      ++ true
       + # }
       + # print-options {
       + # }
