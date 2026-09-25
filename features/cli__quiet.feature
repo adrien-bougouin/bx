@@ -17,8 +17,7 @@ Feature: CLI--Quiet
       """
       Recipe was invoked!!!
       """
-    And bx traces nothing
-    And bx does not error out
+    And bx outputs nothing to stderr
     And bx succeeds
 
     Examples:
@@ -45,6 +44,5 @@ Feature: CLI--Quiet
       """
       Recipe was invoked!!!
       """
-    And bx traces nothing
-    And bx does not error out
+    And bx outputs nothing to stderr
     And bx succeeds

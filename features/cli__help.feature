@@ -25,7 +25,6 @@ Feature: CLI--Help
               Do not ask for confirmation before invoking a recipe
               (automatically confirm).
       """
-    And bx does not error out
     And bx succeeds
 
     Examples:
@@ -58,7 +57,6 @@ Feature: CLI--Help
               Do not ask for confirmation before invoking a recipe
               (automatically confirm).
       """
-    And bx does not error out
     And bx succeeds
 
   Scenario: Ask for help when there are recipes to document
@@ -98,5 +96,4 @@ Feature: CLI--Help
               A short description of recipe-1.
           recipe-2
       """
-    And bx does not error out
     And bx succeeds

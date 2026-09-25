@@ -42,6 +42,42 @@ Then('bx outputs to stdout') do |stdout_content|
   assert_equal(stdout_content, bx_result.stdout)
 end
 
+Then('bx outputs nothing to stderr') do
+  assert_equal('', bx_result.stderr)
+end
+
+Then('bx outputs to stderr') do |table|
+  expected_lines = table.hashes
+  actual_lines = bx_result.stderr.split("\n")
+
+  check_range =
+    Range.new(0, [expected_lines.size, actual_lines.size].max - 1)
+
+  check_range.each_with_object([]) do |index, invocation_stack|
+    expected_line = build_expected_output_line(
+      expected_lines.fetch(index, {}),
+      invocation_stack:
+    )
+    actual_line = actual_lines.fetch(index, '')
+
+    if expected_line.instance_of?(Regexp)
+      assert_match(expected_line, actual_line)
+    else
+      assert_equal(expected_line, actual_line)
+    end
+  end
+end
+
+Then('bx succeeds') do
+  assert_equal(0, bx_result.status)
+end
+
+Then('bx fails') do
+  assert_not_equal(0, bx_result.status)
+end
+
+# TODO: Remove below steps
+
 Then('bx confirms nothing') do
   assert_equal('', bx_result.c)
 end
@@ -86,15 +122,41 @@ Then(
   assert_match(partial_stderr_content, bx_result.e)
 end
 
-Then('bx succeeds') do
-  assert_equal(0, bx_result.status)
-end
-
-Then('bx fails') do
-  assert_not_equal(0, bx_result.status)
-end
-
 # Helpers ######################################################################
+
+def build_expected_output_line(data, invocation_stack: [])
+  format = data.fetch('FORMAT', '')
+  content = data.fetch('CONTENT', '')
+
+  if content.start_with?('/') && content.end_with?('/')
+    return /#{content.slice(1, -1)}/
+  end
+
+  case format
+  when 'bx-confirm'
+    build_confirmation_string(content)
+  when 'bx-error'
+    "bx: #{content}"
+  when 'bx-in'
+    invocation_stack << canonicalize_recipe_invocation(content)
+
+    "#{'+' * invocation_stack.size} # #{invocation_stack.last} {"
+  when 'bx-out'
+    invocation_stack.pop
+
+    "#{'+' * (invocation_stack.size + 1)} # }"
+  when 'bx-skip'
+    canonical_recipe_invocation = canonicalize_recipe_invocation(content)
+
+    "bx: Skipping re-invocation of `#{canonical_recipe_invocation}`..."
+  when 'xtrace'
+    "#{'+' * (invocation_stack.size + 1)} #{content}"
+  when ''
+    content
+  else
+    raise("Invalid format '#{content}'!")
+  end
+end
 
 def build_confirmation_string(recipe_invocation)
   canonical_recipe_invocation = canonicalize_recipe_invocation(

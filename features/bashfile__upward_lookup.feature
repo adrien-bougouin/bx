@@ -17,5 +17,4 @@ Feature: Bashfile--Upward Lookup
       """
       Parent Bashfile
       """
-    And bx does not error out
     And bx succeeds

@@ -20,7 +20,6 @@ Feature: CLI--List
               A short description of recipe-1.
           recipe-2
       """
-    And bx does not error out
     And bx succeeds
 
     Examples:
@@ -55,7 +54,6 @@ Feature: CLI--List
               A short description of recipe-2
               that continues on multiple lines.
       """
-    And bx does not error out
     And bx succeeds
 
   Scenario: List available recipes with empty help
@@ -77,7 +75,6 @@ Feature: CLI--List
           recipe-1
           recipe-2
       """
-    And bx does not error out
     And bx succeeds
 
   Scenario: List available recipes when there are none
@@ -97,5 +94,7 @@ Feature: CLI--List
       | -l     |
     And invoking
     Then bx outputs nothing to stdout
-    And bx errors out with message "bx: No Bashfile!"
+    And bx outputs to stderr
+      | FORMAT   | CONTENT      |
+      | bx-error | No Bashfile! |
     And bx fails

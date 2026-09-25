@@ -18,7 +18,6 @@ Feature: Bashfile
       """
       default
       """
-    And bx does not error out
     And bx succeeds
 
   Scenario Outline: Invoke a recipe from a specific Bashfile
@@ -50,7 +49,6 @@ Feature: Bashfile
       """
       <LOADED BASHFILE>
       """
-    And bx does not error out
     And bx succeeds
 
     Examples:
@@ -81,13 +79,15 @@ Feature: Bashfile
       | RECIPE         |
       | which-bashfile |
     Then bx outputs nothing to stdout
-    And bx errors out with message "<ERROR>"
+    And bx outputs to stderr
+      | FORMAT   | CONTENT             |
+      | bx-error | Too many Bashfiles! |
     And bx fails
 
     Examples:
-      | BASHFILE ARGUMENTS                  | ERROR                   |
-      | -f Bashfile -f alternative.bashfile | bx: Too many Bashfiles! |
-      | -f alternative.bashfile -f Bashfile | bx: Too many Bashfiles! |
+      | BASHFILE ARGUMENTS                  |
+      | -f Bashfile -f alternative.bashfile |
+      | -f alternative.bashfile -f Bashfile |
 
   Scenario: Invoke a recipe without a Bashfile
     Given no Bashfile
@@ -95,5 +95,7 @@ Feature: Bashfile
       | RECIPE      |
       | some-recipe |
     Then bx outputs nothing to stdout
-    And bx errors out with message "bx: No Bashfile!"
+    And bx outputs to stderr
+      | FORMAT   | CONTENT      |
+      | bx-error | No Bashfile! |
     And bx fails
