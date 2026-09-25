@@ -14,9 +14,9 @@ Feature: Default Recipe
       | RECIPE   |
       | <RECIPE> |
     Then bx outputs to stderr
-      | FORMAT | CONTENT          |
-      | bx-in  | <INVOKED RECIPE> |
-      | bx-out |                  |
+      | FORMAT       | CONTENT          |
+      | bx-trace-in  | <INVOKED RECIPE> |
+      | bx-trace-out |                  |
     And bx succeeds
 
     Examples:
@@ -56,9 +56,9 @@ Feature: Default Recipe
       | RECIPE             |
       | non-default-recipe |
     Then bx outputs to stderr
-      | FORMAT | CONTENT            |
-      | bx-in  | non-default-recipe |
-      | bx-out |                    |
+      | FORMAT       | CONTENT            |
+      | bx-trace-in  | non-default-recipe |
+      | bx-trace-out |                    |
     And bx succeeds
 
   Scenario Outline: Invoke when there are multiple default recipes

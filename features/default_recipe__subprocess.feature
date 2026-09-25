@@ -9,7 +9,7 @@ Feature: Default Recipe--Subprocess
       ```
     When invoking
     Then bx outputs to stderr
-      | FORMAT | CONTENT        |
-      | bx-in  | default-recipe |
-      | bx-out |                |
+      | FORMAT       | CONTENT        |
+      | bx-trace-in  | default-recipe |
+      | bx-trace-out |                |
     And bx succeeds
