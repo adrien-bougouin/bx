@@ -25,14 +25,14 @@ Feature: Recipe--Shell Options
       Hello
       World!
       """
-    And bx traces
-      """
-      + # hello-xtrace {
-      ++ echo Hello
-      + # }
-      + # world {
-      + # }
-      """
+    And bx outputs to stderr
+      | FORMAT       | CONTENT      |
+      | bx-trace-in  | hello-xtrace |
+      | xtrace       | echo Hello   |
+      | bx-trace-out |              |
+      | bx-trace-in  | world        |
+      | bx-trace-out |              |
+    And bx succeeds
 
   Scenario: Invoke a recipe that sets xtrace and then invokes another recipe
     Given the Bashfile
@@ -63,16 +63,16 @@ Feature: Recipe--Shell Options
       World!
       -----
       """
-    And bx traces
-      """
-      + # hello-world-xtrace {
-      ++ echo Hello
-      ++ bx::invoke world
-      ++ # world {
-      ++ # }
-      ++ echo -----
-      + # }
-      """
+    And bx outputs to stderr
+      | FORMAT       | CONTENT            |
+      | bx-trace-in  | hello-world-xtrace |
+      | xtrace       | echo Hello         |
+      | xtrace       | bx::invoke world   |
+      | bx-trace-in  | world              |
+      | bx-trace-out |                    |
+      | xtrace       | echo -----         |
+      | bx-trace-out |                    |
+    And bx succeeds
 
   Scenario: Invoke a recipe that alters shell options
     Given the shell environment
@@ -111,16 +111,14 @@ Feature: Recipe--Shell Options
       xtrace         	off
       pipefail       	on
       """
-    And bx traces
-      """
-      + # recipe {
-      ++ shopt shift_verbose
-      ++ shopt -o xtrace
-      ++ shopt -o pipefail
-      ++ true
-      + # }
-      + # print-options {
-      + # }
-      """
-    And bx does not error out
+    And bx outputs to stderr
+      | FORMAT       | CONTENT             |
+      | bx-trace-in  | recipe              |
+      | xtrace       | shopt shift_verbose |
+      | xtrace       | shopt -o xtrace     |
+      | xtrace       | shopt -o pipefail   |
+      | xtrace       | true                |
+      | bx-trace-out |                     |
+      | bx-trace-in  | print-options       |
+      | bx-trace-out |                     |
     And bx succeeds
