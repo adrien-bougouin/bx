@@ -34,7 +34,7 @@ class Bx
       clean_output(stderr),
       status.exitstatus,
       # TODO: Remove once implementing 'Then bx outputs to stderr'
-      confirmations.map(&:strip).join("\n"),
+      confirmations.join("\n"),
       traces.join("\n"),
       errors.join("\n")
     ]

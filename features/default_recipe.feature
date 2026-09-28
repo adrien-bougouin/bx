@@ -43,8 +43,9 @@ Feature: Default Recipe
       _not-a-recipe() { @default; }
       ```
     When invoking
-    Then bx traces nothing
-    And bx errors out with message "bx: Nothing to do!"
+    Then bx outputs to stderr
+      | FORMAT   | CONTENT        |
+      | bx-error | Nothing to do! |
     And bx fails
 
   Scenario: Invoke an explicit recipe when there is no default recipe

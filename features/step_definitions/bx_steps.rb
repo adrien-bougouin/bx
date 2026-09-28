@@ -92,10 +92,6 @@ Then('bx confirms') do |table|
   assert_equal(expected_confirmations.join("\n"), bx_result.c)
 end
 
-Then('bx traces nothing') do
-  assert_equal('', bx_result.t)
-end
-
 Then('bx traces') do |trace_content|
   assert_equal(trace_content, bx_result.t)
 end
@@ -154,7 +150,7 @@ def build_expected_output_line(data, invocation_stack: [])
   when ''
     content
   else
-    raise("Invalid format '#{content}'!")
+    raise("Invalid format '#{format}'!")
   end
 end
 
@@ -163,7 +159,7 @@ def build_confirmation_string(recipe_invocation)
     recipe_invocation
   )
 
-  "bx: Invoke recipe `#{canonical_recipe_invocation}`? [y/N]"
+  "bx: Invoke recipe `#{canonical_recipe_invocation}`? [y/N] "
 end
 
 def canonicalize_recipe_invocation(recipe_invocation)
