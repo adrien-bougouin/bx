@@ -28,20 +28,19 @@ Feature: Recipe--Circular Invocation Prevention
       Exiting trap...
       Post-processing...
       """
-    And bx traces
-      """
-      + # <TRACED RECIPE ARGUMENTS> {
-      ++ # trap-recipe {
-      ++ # }
-      + # }
-      """
-    And bx warns with message "bx: Skipping re-invocation of `<TRACED RECIPE ARGUMENTS>`..."
+    And bx outputs to stderr
+      | FORMAT       | CONTENT                     |
+      | bx-trace-in  | <CIRCULAR RECIPE ARGUMENTS> |
+      | bx-trace-in  | trap-recipe                 |
+      | bx-skip      | <CIRCULAR RECIPE ARGUMENTS> |
+      | bx-trace-out |                             |
+      | bx-trace-out |                             |
     And bx succeeds
 
     Examples:
-      | CIRCULAR RECIPE ARGUMENTS | TRACED RECIPE ARGUMENTS |
-      | recipe                    | recipe                  |
-      | recipe arg-1 arg-2        | recipe 'arg-1' 'arg-2'  |
+      | CIRCULAR RECIPE ARGUMENTS |
+      | recipe                    |
+      | recipe arg-1 arg-2        |
 
   Scenario: Invoke a recipe that invokes itself with different arguments
     Given the Bashfile
@@ -62,14 +61,13 @@ Feature: Recipe--Circular Invocation Prevention
       Post-processing...
       Post-processing...
       """
-    And bx traces
-      """
-      + # recipe {
-      ++ # recipe 'arg-1' 'arg-2' {
-      ++ # }
-      + # }
-      """
-    And bx warns with message "bx: Skipping re-invocation of `recipe 'arg-1' 'arg-2'`..."
+    And bx outputs to stderr
+      | FORMAT       | CONTENT            |
+      | bx-trace-in  | recipe             |
+      | bx-trace-in  | recipe arg-1 arg-2 |
+      | bx-skip      | recipe arg-1 arg-2 |
+      | bx-trace-out |                    |
+      | bx-trace-out |                    |
     And bx succeeds
 
   Scenario: Invoke a recipe that invokes itself with same arguments formatted differently
@@ -89,10 +87,9 @@ Feature: Recipe--Circular Invocation Prevention
       Pre-processing...
       Post-processing...
       """
-    And bx traces
-      """
-      + # recipe 'arg\ 1' 'arg\ 2' {
-      + # }
-      """
-      And bx warns with message "bx: Skipping re-invocation of `recipe 'arg\ 1' 'arg\ 2'`..."
-      And bx succeeds
+    And bx outputs to stderr
+      | FORMAT       | CONTENT              |
+      | bx-trace-in  | recipe arg\ 1 arg\ 2 |
+      | bx-skip      | recipe arg\ 1 arg\ 2 |
+      | bx-trace-out |                      |
+    And bx succeeds

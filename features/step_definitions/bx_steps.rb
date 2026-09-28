@@ -96,10 +96,6 @@ Then('bx traces') do |trace_content|
   assert_equal(trace_content, bx_result.t)
 end
 
-Then('bx warns with message {string}') do |warning|
-  assert_equal(warning, bx_result.e)
-end
-
 Then('bx does not error out') do
   assert_equal('', bx_result.e)
 end
