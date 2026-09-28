@@ -108,12 +108,6 @@ Then('bx errors out with message {string}') do |stderr_content|
   end
 end
 
-Then(
-  'bx errors out with message containing {string}'
-) do |partial_stderr_content|
-  assert_match(partial_stderr_content, bx_result.e)
-end
-
 # Helpers ######################################################################
 
 def build_expected_output_line(data, invocation_stack: [])

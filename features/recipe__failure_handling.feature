@@ -25,11 +25,10 @@ Feature: Recipe -- Failure Handling
       """
       'failing-recipe' before failure!
       """
-    And bx traces
-      """
-      + # failing-recipe {
-      """
-    And bx errors out with message containing "Bashfile: line 11: call-missing-function: command not found"
+    And bx outputs to stderr
+      | FORMAT      | CONTENT                                                        |
+      | bx-trace-in | failing-recipe                                                 |
+      | bx-error    | /Bashfile: line 11: call-missing-function: command not found$/ |
     And bx fails
 
   Scenario: Invoke a mix of recipes that succeed and fail
@@ -43,11 +42,10 @@ Feature: Recipe -- Failure Handling
       'recipe-1' invoked!
       'failing-recipe' before failure!
       """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      + # failing-recipe {
-      """
-    And bx errors out with message containing "Bashfile: line 11: call-missing-function: command not found"
+    And bx outputs to stderr
+      | FORMAT       | CONTENT                                                        |
+      | bx-trace-in  | recipe-1                                                       |
+      | bx-trace-out |                                                                |
+      | bx-trace-in  | failing-recipe                                                 |
+      | bx-error     | /Bashfile: line 11: call-missing-function: command not found$/ |
     And bx fails
