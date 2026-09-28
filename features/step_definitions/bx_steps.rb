@@ -38,12 +38,16 @@ Then('bx outputs nothing to stdout') do
   assert_equal('', bx_result.stdout)
 end
 
-Then('bx outputs to stdout') do |stdout_content|
-  assert_equal(stdout_content, bx_result.stdout)
-end
-
 Then('bx outputs nothing to stderr') do
   assert_equal('', bx_result.stderr)
+end
+
+Then('bx confirms nothing') do
+  assert_not_match(%r{^bx: Invoke recipe `[^`]+`? [y/N] $}, bx_result.stderr)
+end
+
+Then('bx outputs to stdout') do |stdout_content|
+  assert_equal(stdout_content, bx_result.stdout)
 end
 
 Then('bx outputs to stderr') do |table|
@@ -77,10 +81,6 @@ Then('bx fails') do
 end
 
 # TODO: Remove below steps
-
-Then('bx confirms nothing') do
-  assert_equal('', bx_result.c)
-end
 
 Then('bx confirms') do |table|
   raise('Invalid confirmation table!') unless table.headers.include?('RECIPE')

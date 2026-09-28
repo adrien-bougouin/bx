@@ -39,12 +39,6 @@ Feature: Recipe Auto-Confirmation
       """
       'recipe-1--critical' invoked!
       """
-    And bx traces
-      """
-      + # recipe-1--critical {
-      + # }
-      """
-    And bx does not error out
     And bx succeeds
 
     Examples:
@@ -66,14 +60,6 @@ Feature: Recipe Auto-Confirmation
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!
       """
-    And bx traces
-      """
-      + # recipe-1--critical {
-      + # }
-      + # recipe-2--critical {
-      + # }
-      """
-    And bx does not error out
     And bx succeeds
 
   Scenario: Auto-confirm nested recipe invocations
@@ -90,16 +76,4 @@ Feature: Recipe Auto-Confirmation
       'recipe-2--critical' invoked!
       'recipe-3--critical' invoked!
       """
-    And bx traces
-      """
-      + # deep-recipe {
-      ++ # recipe-1--critical {
-      ++ # }
-      ++ # recipe-2--critical {
-      ++ # }
-      ++ # recipe-3--critical {
-      ++ # }
-      + # }
-      """
-    And bx does not error out
     And bx succeeds

@@ -49,7 +49,6 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       'recipe-2--critical' invoked!
       'recipe-3--critical' invoked!
       """
-    And bx does not error out
     And bx succeeds
 
     Examples:
@@ -62,13 +61,7 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       | RECIPE                | CONFIRMATION |
       | recipe--safe          |              |
       | deep-recipe--critical | yyyy         |
-    Then bx confirms
-      | RECIPE                |
-      | deep-recipe--critical |
-      | recipe-1--critical    |
-      | recipe-2--critical    |
-      | recipe-3--critical    |
-    And bx outputs to stdout
+    Then bx outputs to stdout
       """
       'recipe-1--critical' invoked!
       'recipe-2--critical' invoked!
@@ -77,24 +70,26 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
       'recipe-2--critical' invoked!
       'recipe-3--critical' invoked!
       """
-    And bx traces
-      """
-      + # recipe--safe {
-      ++ # recipe-1--critical {
-      ++ # }
-      ++ # recipe-2--critical {
-      ++ # }
-      ++ # recipe-3--critical {
-      ++ # }
-      + # }
-      + # deep-recipe--critical {
-      ++ # recipe-1--critical {
-      ++ # }
-      ++ # recipe-2--critical {
-      ++ # }
-      ++ # recipe-3--critical {
-      ++ # }
-      + # }
-      """
-    And bx does not error out
+    And bx outputs to stderr
+      | FORMAT       | CONTENT               |
+      | bx-trace-in  | recipe--safe          |
+      | bx-trace-in  | recipe-1--critical    |
+      | bx-trace-out |                       |
+      | bx-trace-in  | recipe-2--critical    |
+      | bx-trace-out |                       |
+      | bx-trace-in  | recipe-3--critical    |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
+      | bx-confirm   | deep-recipe--critical |
+      | bx-trace-in  | deep-recipe--critical |
+      | bx-confirm   | recipe-1--critical    |
+      | bx-trace-in  | recipe-1--critical    |
+      | bx-trace-out |                       |
+      | bx-confirm   | recipe-2--critical    |
+      | bx-trace-in  | recipe-2--critical    |
+      | bx-trace-out |                       |
+      | bx-confirm   | recipe-3--critical    |
+      | bx-trace-in  | recipe-3--critical    |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
     And bx succeeds
