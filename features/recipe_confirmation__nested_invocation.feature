@@ -51,77 +51,66 @@ Feature: Recipe Confirmation -- Nested Invocation
     When invoking
       | RECIPE                    | CONFIRMATION |
       | recipe <RECIPE ARGUMENTS> | y            |
-    Then bx confirms
-      | RECIPE                              |
-      | recipe--critical <RECIPE ARGUMENTS> |
-    And bx outputs to stdout
+    Then bx outputs to stdout
       """
       'recipe--critical' invoked!
       """
-    And bx traces
-      """
-      + # recipe <TRACED RECIPE ARGUMENTS> {
-      ++ # recipe--critical <TRACED RECIPE ARGUMENTS> {
-      ++ # }
-      + # }
-      """
-    And bx does not error out
+    And bx outputs to stderr
+      | FORMAT       | CONTENT                             |
+      | bx-trace-in  | recipe <RECIPE ARGUMENTS>           |
+      | bx-confirm   | recipe--critical <RECIPE ARGUMENTS> |
+      | bx-trace-in  | recipe--critical <RECIPE ARGUMENTS> |
+      | bx-trace-out |                                     |
+      | bx-trace-out |                                     |
     And bx succeeds
 
     Examples:
-      | RECIPE ARGUMENTS        | TRACED RECIPE ARGUMENTS   |
-      | arg-1                   | 'arg-1'                   |
-      | arg-1 arg-2             | 'arg-1' 'arg-2'           |
-      | arg\ 1 arg\ 2           | 'arg\ 1' 'arg\ 2'         |
-      | "arg 1" "arg 2"         | 'arg\ 1' 'arg\ 2'         |
-      | --arg=a\ 1 --arg=b\ 2   | '--arg=a\ 1' '--arg=b\ 2' |
-      | --arg="a 1" --arg="b 2" | '--arg=a\ 1' '--arg=b\ 2' |
+      | RECIPE ARGUMENTS        |
+      | arg-1                   |
+      | arg-1 arg-2             |
+      | arg\ 1 arg\ 2           |
+      | "arg 1" "arg 2"         |
+      | --arg=a\ 1 --arg=b\ 2   |
+      | --arg="a 1" --arg="b 2" |
 
   Scenario: Confirm multiple nested recipe invocations
     When invoking
       | RECIPE      | CONFIRMATION |
       | recipe      | y            |
       | deep-recipe | yy           |
-    Then bx confirms
-      | RECIPE                |
-      | recipe--critical      |
-      | deep-recipe--critical |
-      | recipe--critical      |
-    And bx outputs to stdout
+    Then bx outputs to stdout
       """
       'recipe--critical' invoked!
       'recipe--critical' invoked!
       'deep-recipe--critical' invoked!
       """
-    And bx traces
-      """
-      + # recipe {
-      ++ # recipe--critical {
-      ++ # }
-      + # }
-      + # deep-recipe {
-      ++ # deep-recipe--critical {
-      +++ # recipe--critical {
-      +++ # }
-      ++ # }
-      + # }
-      """
-    And bx does not error out
+    And bx outputs to stderr
+      | FORMAT       | CONTENT               |
+      | bx-trace-in  | recipe                |
+      | bx-confirm   | recipe--critical      |
+      | bx-trace-in  | recipe--critical      |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
+      | bx-trace-in  | deep-recipe           |
+      | bx-confirm   | deep-recipe--critical |
+      | bx-trace-in  | deep-recipe--critical |
+      | bx-confirm   | recipe--critical      |
+      | bx-trace-in  | recipe--critical      |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
     And bx succeeds
 
   Scenario: Reject a nested recipe invocation
     When invoking
       | RECIPE | CONFIRMATION |
       | recipe | n            |
-    Then bx confirms
-      | RECIPE           |
-      | recipe--critical |
-    And bx outputs nothing to stdout
-    And bx traces
-      """
-      + # recipe {
-      """
-    And bx errors out with message "bx: Aborted!"
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT       | CONTENT          |
+      | bx-trace-in  | recipe           |
+      | bx-confirm   | recipe--critical |
+      | bx-error     | Aborted!         |
     And bx fails
 
   Scenario: Confirm then reject nested recipe invocations
@@ -129,21 +118,18 @@ Feature: Recipe Confirmation -- Nested Invocation
       | RECIPE      | CONFIRMATION |
       | recipe      | y            |
       | deep-recipe | n            |
-    Then bx confirms
-      | RECIPE                |
-      | recipe--critical      |
-      | deep-recipe--critical |
-    And bx outputs to stdout
+    Then bx outputs to stdout
       """
       'recipe--critical' invoked!
       """
-    And bx traces
-      """
-      + # recipe {
-      ++ # recipe--critical {
-      ++ # }
-      + # }
-      + # deep-recipe {
-      """
-    And bx errors out with message "bx: Aborted!"
+    And bx outputs to stderr
+      | FORMAT       | CONTENT               |
+      | bx-trace-in  | recipe                |
+      | bx-confirm   | recipe--critical      |
+      | bx-trace-in  | recipe--critical      |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
+      | bx-trace-in  | deep-recipe           |
+      | bx-confirm   | deep-recipe--critical |
+      | bx-error     | Aborted!              |
     And bx fails

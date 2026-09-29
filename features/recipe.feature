@@ -28,12 +28,10 @@ Feature: Recipe
       """
       'recipe-1' invoked!
       """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      """
-    And bx does not error out
+    And bx outputs to stderr
+      | FORMAT       | CONTENT  |
+      | bx-trace-in  | recipe-1 |
+      | bx-trace-out |          |
     And bx succeeds
 
   Scenario: Invoke a recipe multiple times
@@ -46,14 +44,12 @@ Feature: Recipe
       'recipe-1' invoked!
       'recipe-1' invoked!
       """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      + # recipe-1 {
-      + # }
-      """
-    And bx does not error out
+    And bx outputs to stderr
+      | FORMAT       | CONTENT  |
+      | bx-trace-in  | recipe-1 |
+      | bx-trace-out |          |
+      | bx-trace-in  | recipe-1 |
+      | bx-trace-out |          |
     And bx succeeds
 
   Scenario: Invoke a missing recipe
@@ -61,7 +57,9 @@ Feature: Recipe
       | RECIPE  |
       | missing |
     Then bx outputs nothing to stdout
-    And bx errors out with message "bx: No recipe `missing`!"
+    And bx outputs to stderr
+      | FORMAT  | CONTENT |
+      | bx-miss | missing |
     And bx fails
 
   Scenario: Invoke a private function instead of a recipe
@@ -69,7 +67,9 @@ Feature: Recipe
       | RECIPE        |
       | _not-a-recipe |
     Then bx outputs nothing to stdout
-    And bx errors out with message "bx: `_not-a-recipe` is a private function, not a recipe!"
+    And bx outputs to stderr
+      | FORMAT   | CONTENT                                              |
+      | bx-error | `_not-a-recipe` is a private function, not a recipe! |
     And bx fails
 
   Scenario: Invoke multiple recipes
@@ -82,14 +82,12 @@ Feature: Recipe
       'recipe-1' invoked!
       'recipe-2' invoked!
       """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      + # recipe-2 {
-      + # }
-      """
-    And bx does not error out
+    And bx outputs to stderr
+      | FORMAT       | CONTENT  |
+      | bx-trace-in  | recipe-1 |
+      | bx-trace-out |          |
+      | bx-trace-in  | recipe-2 |
+      | bx-trace-out |          |
     And bx succeeds
 
   Scenario: Invoke a mix of existing and missing recipes
@@ -102,10 +100,9 @@ Feature: Recipe
       """
       'recipe-1' invoked!
       """
-    And bx traces
-      """
-      + # recipe-1 {
-      + # }
-      """
-    And bx errors out with message "bx: No recipe `missing`!"
+    And bx outputs to stderr
+      | FORMAT       | CONTENT  |
+      | bx-trace-in  | recipe-1 |
+      | bx-trace-out |          |
+      | bx-miss      | missing  |
     And bx fails

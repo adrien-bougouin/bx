@@ -100,14 +100,6 @@ Then('bx does not error out') do
   assert_equal('', bx_result.e)
 end
 
-Then('bx errors out with message {string}') do |stderr_content|
-  if stderr_content.empty?
-    step('bx does not error out')
-  else
-    assert_equal(stderr_content, bx_result.e)
-  end
-end
-
 # Helpers ######################################################################
 
 def build_expected_output_line(data, invocation_stack: [])
@@ -123,6 +115,10 @@ def build_expected_output_line(data, invocation_stack: [])
     build_confirmation_string(content)
   when 'bx-error'
     "bx: #{content}"
+  when 'bx-miss'
+    canonical_recipe_invocation = canonicalize_recipe_invocation(content)
+
+    "bx: No recipe `#{canonical_recipe_invocation}`!"
   when 'bx-trace-in'
     invocation_stack << canonicalize_recipe_invocation(content)
 
