@@ -30,21 +30,17 @@ Feature: Recipe Confirmation -- Nested Invocation
     When invoking
       | RECIPE | CONFIRMATION |
       | recipe | y            |
-    Then bx confirms
-      | RECIPE           |
-      | recipe--critical |
-    And bx outputs to stdout
+    Then bx outputs to stdout
       """
       'recipe--critical' invoked!
       """
-    And bx traces
-      """
-      + # recipe {
-      ++ # recipe--critical {
-      ++ # }
-      + # }
-      """
-    And bx does not error out
+      And bx outputs to stderr
+        | FORMAT       | CONTENT          |
+        | bx-trace-in  | recipe           |
+        | bx-confirm   | recipe--critical |
+        | bx-trace-in  | recipe--critical |
+        | bx-trace-out |                  |
+        | bx-trace-out |                  |
     And bx succeeds
 
   Scenario Outline: Confirm a nested recipe invocation with arguments

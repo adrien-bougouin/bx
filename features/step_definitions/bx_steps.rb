@@ -82,16 +82,6 @@ end
 
 # TODO: Remove below steps
 
-Then('bx confirms') do |table|
-  raise('Invalid confirmation table!') unless table.headers.include?('RECIPE')
-
-  expected_confirmations = table.hashes.map do |row|
-    build_confirmation_string(row['RECIPE'])
-  end
-
-  assert_equal(expected_confirmations.join("\n"), bx_result.c)
-end
-
 Then('bx traces') do |trace_content|
   assert_equal(trace_content, bx_result.t)
 end
