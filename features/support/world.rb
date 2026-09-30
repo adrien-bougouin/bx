@@ -6,19 +6,13 @@ class TestContext
   include Test::Unit::Assertions
 
   class BxResult
-    attr_reader :stdout, :stderr, :status, :c, :t, :e
+    attr_reader :stdout, :stderr, :status
 
-    # rubocop:disable Metrics/ParameterLists, Naming/MethodParameterName
-    def initialize(stdout, stderr, status, c, t, e)
+    def initialize(stdout, stderr, status)
       @stdout = stdout
       @stderr = stderr
       @status = status
-      # TODO: Remove once implementing 'Then bx outputs to stderr'
-      @c = c
-      @t = t
-      @e = e
     end
-    # rubocop:enable Metrics/ParameterLists, Naming/MethodParameterName
   end
 
   attr_accessor :bash_env, :bx_options
@@ -36,11 +30,11 @@ class TestContext
   end
 
   def call_bx(arguments: [], stdin_data: nil)
-    stdout, stderr, status, c, t, e =
+    stdout, stderr, status =
       Bx.new(bash_env: @bash_env, options: @bx_options)
         .call(arguments:, stdin_data:)
 
-    @bx_result = BxResult.new(stdout, stderr, status, c, t, e)
+    @bx_result = BxResult.new(stdout, stderr, status)
   end
 end
 

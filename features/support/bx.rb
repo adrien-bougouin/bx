@@ -21,23 +21,7 @@ class Bx
       stdin_data:
     )
 
-    traces, errors = stderr.sub(/\n\Z/, '').split("\n").partition do |line|
-      line.start_with?('+')
-    end
-
-    confirmations, errors = errors.partition do |line|
-      line.match?(%r{^bx: .*\? \[y/N\] $})
-    end
-
-    [
-      clean_output(stdout),
-      clean_output(stderr),
-      status.exitstatus,
-      # TODO: Remove once implementing 'Then bx outputs to stderr'
-      confirmations.join("\n"),
-      traces.join("\n"),
-      errors.join("\n")
-    ]
+    [clean_output(stdout), clean_output(stderr), status.exitstatus]
   end
 
   private
