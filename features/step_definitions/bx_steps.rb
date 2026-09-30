@@ -87,7 +87,7 @@ def build_expected_output_line(data, invocation_stack: [])
   content = data.fetch('CONTENT', '')
 
   if content.start_with?('/') && content.end_with?('/')
-    return /#{content.slice(1, -1)}/
+    return /#{content[1..-2]}/
   end
 
   case format
@@ -128,18 +128,27 @@ def build_confirmation_string(recipe_invocation)
   "bx: Invoke recipe `#{canonical_recipe_invocation}`? [y/N] "
 end
 
+# Format test arguments as expected from bx's canonicalization.
+#
+# Its important that this function remains dumb simple. It does not have to
+# handle every cases, as long as it supports the arguments we use in our tests.
+#
+# Note: The current expected canonical format produced by bx is not compatible
+#       with Bash arguments.
 def canonicalize_recipe_invocation(recipe_invocation)
-  script = <<~BASH
-    eval "words+=($1)"
-    printf "%s" "${words[0]}"
-    for word in "${words[@]:1}"; do
-      printf -v q "%q" "$word"
-      printf " '%s'" "$q"
-    done
-  BASH
+  recipe, arguments_string = recipe_invocation.split(' ', 2)
+  return recipe if arguments_string.nil?
 
-  escaped_script = Shellwords.escape(script)
-  escaped_recipe_invocation = Shellwords.escape(recipe_invocation)
+  # 1. Remove single/double quotes around arguments' partial/full content and
+  #    escape their enclosed spaces.
+  #    Example: `--arg="arg 1"` => `--arg=arg\ 1`
+  # 2. Surround args with single quotes.
+  #    Example: `--arg=arg\ 1 --arg=arg\ 2` => `'--arg=arg\ 1' '--arg=arg\ 2'`
+  canonical_arguments_string =
+    arguments_string&.gsub(/"[^"]+"/) { |m| m[1..-2].gsub(' ', '\ ') } # Step 1
+                    &.gsub(/'[^']+'/) { |m| m[1..-2].gsub(' ', '\ ') } # "
+                    &.gsub(/([^\\]) (.)/, '\1\' \'\2')                 # Step 2
+                    &.gsub(/^|$/, "'")                                 # "
 
-  `bash -c #{escaped_script} bx #{escaped_recipe_invocation}`.chomp
+  "#{recipe} #{canonical_arguments_string}"
 end
