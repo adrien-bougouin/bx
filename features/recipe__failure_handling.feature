@@ -12,9 +12,9 @@ Feature: Recipe -- Failure Handling
       }
 
       failing-recipe() {
-        echo "'failing-recipe' before failure!"
+        echo "Before 'failing-recipe' failure!"
         call-missing-function
-        echo "'failing-recipe' after failure!"
+        echo "After 'failing-recipe' failure!"
       }
       ```
   Scenario: Invoke a recipe that fails
@@ -23,7 +23,7 @@ Feature: Recipe -- Failure Handling
       | failing-recipe |
     Then bx outputs to stdout
       """
-      'failing-recipe' before failure!
+      Before 'failing-recipe' failure!
       """
     And bx outputs to stderr
       | FORMAT      | CONTENT                                                        |
@@ -40,7 +40,7 @@ Feature: Recipe -- Failure Handling
     Then bx outputs to stdout
       """
       'recipe-1' invoked!
-      'failing-recipe' before failure!
+      Before 'failing-recipe' failure!
       """
     And bx outputs to stderr
       | FORMAT       | CONTENT                                                        |
