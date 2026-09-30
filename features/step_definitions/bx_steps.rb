@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'shellwords'
-
 # When #########################################################################
 
 When('setting') do |table|
