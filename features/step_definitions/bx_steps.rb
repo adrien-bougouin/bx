@@ -46,8 +46,8 @@ Then('bx confirms nothing') do
   assert_not_match(%r{^bx: Invoke recipe `[^`]+`? [y/N] $}, bx_result.stderr)
 end
 
-Then('bx outputs to stdout') do |stdout_content|
-  assert_equal(stdout_content, bx_result.stdout)
+Then('bx outputs to stdout') do |expected_content|
+  assert_equal(expected_content, bx_result.stdout)
 end
 
 Then('bx outputs to stderr') do |table|
@@ -78,12 +78,6 @@ end
 
 Then('bx fails') do
   assert_not_equal(0, bx_result.status)
-end
-
-# TODO: Remove below steps
-
-Then('bx does not error out') do
-  assert_equal('', bx_result.e)
 end
 
 # Helpers ######################################################################

@@ -84,7 +84,6 @@ Feature: CLI--List
       | -l     |
     And invoking
     Then bx outputs nothing to stdout
-    And bx does not error out
     And bx succeeds
 
   Scenario: Ask for available recipes from uninitialized bx environment

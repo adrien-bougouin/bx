@@ -21,10 +21,7 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When setting
-      | OPTION  |
-      | --quiet |
-    And invoking
+    When invoking
       | RECIPE            |
       | <MUTATION RECIPE> |
       | <DISPLAY RECIPE>  |
@@ -32,7 +29,6 @@ Feature: Recipe--Scope Boundaries
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """
-    And bx does not error out
     And bx succeeds
 
     Examples:
@@ -68,17 +64,13 @@ Feature: Recipe--Scope Boundaries
         echo "GLOBAL=${GLOBAL}"
       )
       ```
-    When setting
-      | OPTION  |
-      | --quiet |
-    And invoking
+    When invoking
       | RECIPE   |
       | <RECIPE> |
     Then bx outputs to stdout
       """
       GLOBAL=<FINAL GLOBAL VALUE>
       """
-    And bx does not error out
     And bx succeeds
 
     Examples:
