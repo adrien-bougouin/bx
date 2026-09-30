@@ -20,21 +20,17 @@ class TestContext
   attr_reader :bx_result
 
   def initialize
-    @bash_env = [
-      'export TERM=',
-      'export PS4="+ "'
-    ]
-
+    @bash_env = ['export TERM=', 'export PS4="+ "']
     @bx_options = []
     @bx_result = nil
   end
 
   def call_bx(arguments: [], stdin_data: nil)
-    stdout, stderr, status =
-      Bx.new(bash_env: @bash_env, options: @bx_options)
-        .call(arguments:, stdin_data:)
+    bx = Bx.new(bash_env: @bash_env, options: @bx_options)
 
-    @bx_result = BxResult.new(stdout, stderr, status)
+    @bx_result = BxResult.new(
+      *bx.call(arguments:, stdin_data:)
+    )
   end
 end
 
