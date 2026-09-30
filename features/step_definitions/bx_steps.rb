@@ -82,10 +82,6 @@ end
 
 # TODO: Remove below steps
 
-Then('bx traces') do |trace_content|
-  assert_equal(trace_content, bx_result.t)
-end
-
 Then('bx does not error out') do
   assert_equal('', bx_result.e)
 end
