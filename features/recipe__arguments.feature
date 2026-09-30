@@ -27,13 +27,13 @@ Feature: Recipe--Arguments
     And bx succeeds
 
     Examples:
-      | RECIPE ARGUMENTS        | RECEIVED ARGUMENTS INFO     |
-      | arg-1                   | 1, 'arg-1', ''              |
-      | arg-1 arg-2             | 2, 'arg-1', 'arg-2'         |
-      | arg\ 1 arg\ 2           | 2, 'arg 1', 'arg 2'         |
-      | "arg 1" "arg 2"         | 2, 'arg 1', 'arg 2'         |
-      | --arg=a\ 1 --arg=b\ 2   | 2, '--arg=a 1', '--arg=b 2' |
-      | --arg="a 1" --arg="b 2" | 2, '--arg=a 1', '--arg=b 2' |
+      | RECIPE ARGUMENTS            | RECEIVED ARGUMENTS INFO         |
+      | arg-1                       | 1, 'arg-1', ''                  |
+      | arg-1 arg-2                 | 2, 'arg-1', 'arg-2'             |
+      | arg\ 1 arg\ 2               | 2, 'arg 1', 'arg 2'             |
+      | "arg 1" "arg 2"             | 2, 'arg 1', 'arg 2'             |
+      | --arg=arg\ 1 --arg=arg\ 2   | 2, '--arg=arg 1', '--arg=arg 2' |
+      | --arg="arg 1" --arg="arg 2" | 2, '--arg=arg 1', '--arg=arg 2' |
 
   Scenario: Invoke multiple recipes with arguments
     When invoking

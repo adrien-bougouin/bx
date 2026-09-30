@@ -61,13 +61,13 @@ Feature: Recipe Confirmation -- Nested Invocation
     And bx succeeds
 
     Examples:
-      | RECIPE ARGUMENTS        |
-      | arg-1                   |
-      | arg-1 arg-2             |
-      | arg\ 1 arg\ 2           |
-      | "arg 1" "arg 2"         |
-      | --arg=a\ 1 --arg=b\ 2   |
-      | --arg="a 1" --arg="b 2" |
+      | RECIPE ARGUMENTS            |
+      | arg-1                       |
+      | arg-1 arg-2                 |
+      | arg\ 1 arg\ 2               |
+      | "arg 1" "arg 2"             |
+      | --arg=arg\ 1 --arg=arg\ 2   |
+      | --arg="arg 1" --arg="arg 2" |
 
   Scenario: Confirm multiple nested recipe invocations
     When invoking
