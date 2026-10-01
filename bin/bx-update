@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/update.sh" | bash
