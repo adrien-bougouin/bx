@@ -175,7 +175,7 @@ jobs:
           export PATH="${HOME}/.local/opt/bx/bin:${PATH}"
 
           # Simulate older version
-          sed -i "s/\"${__BX_CONSTANT_VERSION__}\"/\"0.0.0\"" "${HOME}/.local/opt/bx/src/constants.sh"
+          sed -i "s/\"${__BX_CONSTANT_VERSION__}\"/\"0.0.0\"/" "${HOME}/.local/opt/bx/src/constants.sh"
           if ! grep -q '"0.0.0"' "${HOME}/.local/opt/bx/src/constants.sh"; then
             echo "::error::failed to simulate older version"
             exit 1
