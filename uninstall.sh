@@ -16,13 +16,13 @@ fi
 
 info() {
   printf "%s %s\n" \
-    "${DISPLAY_STYLE_BOLD}bx-installer:${DISPLAY_STYLE_NORMAL}" \
+    "${DISPLAY_STYLE_BOLD}bx-uninstaller:${DISPLAY_STYLE_NORMAL}" \
     "$1"
 }
 
 error() {
   printf "%s %s\n" \
-    "${DISPLAY_STYLE_BOLD}bx-installer:${DISPLAY_STYLE_NORMAL}" \
+    "${DISPLAY_STYLE_BOLD}bx-uninstaller:${DISPLAY_STYLE_NORMAL}" \
     "$1" \
     >&2
 }

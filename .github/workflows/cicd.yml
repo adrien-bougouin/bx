@@ -166,3 +166,47 @@ jobs:
             echo "::error::bx --version mismatch (expected '${expected}', got '${actual}')"
             exit 1
           fi
+
+      - name: Check update
+        shell: bash
+        run: |
+          source ./src/constants.sh
+
+          export PATH="${HOME}/.local/opt/bx/bin:${PATH}"
+
+          # Simulate older version
+          sed -i "s/\"${__BX_CONSTANT_VERSION__}\"/\"0.0.0\"" "${HOME}/.local/opt/bx/src/constants.sh"
+          if ! grep -q '"0.0.0"' "${HOME}/.local/opt/bx/src/constants.sh"; then
+            echo "::error::failed to simulate older version"
+            exit 1
+          fi
+
+          bx-update
+
+      - name: Check updated version
+        shell: bash
+        run: |
+          source ./src/constants.sh
+
+          expected="${__BX_CONSTANT_VERSION__}"
+          actual="$("${HOME}/.local/opt/bx/bin/bx" --version | sed 's/^bx: //')"
+
+          if [[ "${actual}" != "${expected}" ]]; then
+            echo "::error::bx --version mismatch (expected '${expected}', got '${actual}')"
+            exit 1
+          fi
+
+      - name: Check cleaned update path
+        run: |
+          if [[ -d ${HOME}/.local/opt/bx.bkp ]] || [[ -d ${HOME}/.local/opt/bx.new ]]; then
+            echo "::error::bx-update left the installation path dirty"
+
+            exit 1
+          fi
+
+      - name: Check up-to-date update
+        shell: bash
+        run: |
+          export PATH="${HOME}/.local/opt/bx/bin:${PATH}"
+
+          [[ $(bx-update) == "bx-updater: bx is already up-to-date!" ]]

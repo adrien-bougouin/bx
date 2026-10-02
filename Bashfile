@@ -5,8 +5,9 @@ MAN_PATH="${ROOT_PATH}/man"
 SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
-SOURCES=("${BIN_PATH}/bx" $(find "${SRC_PATH}" -name "*.sh"))
+SOURCES=($(find "${BIN_PATH}" -name "bx*") $(find "${SRC_PATH}" -name "*.sh"))
 BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/dist.bashfile" "${ROOT_PATH}/features/Bashfile")
+DIST_SCRIPTS=("${ROOT_PATH}/install.sh" "${ROOT_PATH}/update.sh" "${ROOT_PATH}/uninstall.sh")
 
 source "${ROOT_PATH}/dist.bashfile"
 source "${ROOT_PATH}/features/Bashfile"
@@ -15,7 +16,7 @@ format() {
   set -x
 
   # https://google.github.io/styleguide/shellguide.html
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${BASHFILES[@]}" "${ROOT_PATH}/install.sh" "${ROOT_PATH}/uninstall.sh"
+  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}" "${BASHFILES[@]}" "${DIST_SCRIPTS[@]}"
 }
 
 lint() {
@@ -23,7 +24,7 @@ lint() {
 
   set -x
 
-  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${ROOT_PATH}/install.sh" "${BASHFILES[@]}"
+  shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${BASHFILES[@]}" "${DIST_SCRIPTS[@]}"
 }
 
 dist() {
@@ -67,6 +68,8 @@ dist() {
     "${dist_bx_path}/Bashfile"
   cp -r "${BIN_PATH}/${bx_name}" \
     "${dist_bin_path}/${bx_name}"
+  cp -r "${BIN_PATH}/${bx_name}-update" \
+    "${dist_bin_path}/${bx_name}-update"
   cp -r "${MAN_PATH}" \
     "${dist_man_path}"
   cp -r "${SRC_PATH}" \
@@ -85,6 +88,14 @@ dist() {
     -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
     "${ROOT_PATH}/install.sh" \
     >"${dist_path}/install.sh"
+
+  sed \
+    -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
+    -e "s/^BX_VERSION=\$/BX_VERSION=${bx_version}/" \
+    -e "s/^BX_TARBALL_URL=\$/BX_TARBALL_URL=${download_host//\//\\/}\/${bx_archive_name//\//\\/}/" \
+    -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
+    "${ROOT_PATH}/update.sh" \
+    >"${dist_path}/update.sh"
 
   sed \
     -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
