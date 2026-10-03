@@ -62,9 +62,9 @@ update_bx() {
   fi
 
   if ! command -v bx &>/dev/null; then
-    error "bx is not installed!"
+    info "bx is not installed!"
 
-    return 1
+    return 0
   fi
 
   local_bx_version="$(bx --version | grep -oE "\b[0-9]+\.[0-9]+\.[0-9]+$" || true)"

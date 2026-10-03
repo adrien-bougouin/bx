@@ -70,6 +70,8 @@ dist() {
     "${dist_bin_path}/${bx_name}"
   cp -r "${BIN_PATH}/${bx_name}-update" \
     "${dist_bin_path}/${bx_name}-update"
+  cp -r "${BIN_PATH}/${bx_name}-uninstall" \
+    "${dist_bin_path}/${bx_name}-uninstall"
   cp -r "${MAN_PATH}" \
     "${dist_man_path}"
   cp -r "${SRC_PATH}" \
@@ -99,7 +101,6 @@ dist() {
 
   sed \
     -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
-    -e "s/^BX_VERSION=\$/BX_VERSION=${bx_version}/" \
     "${ROOT_PATH}/uninstall.sh" \
     >"${dist_path}/uninstall.sh"
 }

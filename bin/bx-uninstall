@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -euo pipefail
+
+BX_DOWNLOAD_HOST="${BX_DOWNLOAD_HOST:-https://github.com/adrien-bougouin/bx/releases/latest/download}"
+
+curl -fsSL "${BX_DOWNLOAD_HOST}/uninstall.sh" | bash

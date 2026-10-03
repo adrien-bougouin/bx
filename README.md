@@ -42,7 +42,12 @@ Update an existing installation with:
 bx-update
 ```
 
-Also uninstall with:
+Uninstall with:
+```shell
+bx-uninstall
+```
+
+Alternatively, uninstall with:
 ```shell
 curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/uninstall.sh" | bash
 ```

@@ -1,10 +1,8 @@
 #!/bin/bash
 #
-# bx installer.
+# bx uninstaller.
 #
 # Usage: curl -fsSL "{{DOWNLOAD_HOST}}/uninstall.sh" | bash
-
-BX_VERSION=
 
 DISPLAY_STYLE_NORMAL=
 DISPLAY_STYLE_BOLD=
@@ -30,12 +28,20 @@ error() {
 uninstall_bx() {
   set -euo pipefail
 
-  local bx_path="${HOME}/.local/opt/bx"
+  local bx_path
 
-  if [[ ! -d ${bx_path} ]]; then
-    info "bx ${BX_VERSION} is not installed!"
+  if ! command -v bx &>/dev/null; then
+    info "bx is not installed!"
 
     return 0
+  fi
+
+  bx_path="$(dirname "$(dirname "$(realpath "$(command -v bx)")")")"
+
+  if [[ $(basename "${bx_path}") != "bx" ]]; then
+    error "Cannot find the bx installation directory!"
+
+    return 1
   fi
 
   info "Uninstalling bx..."

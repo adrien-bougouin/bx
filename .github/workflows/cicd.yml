@@ -210,3 +210,30 @@ jobs:
           export PATH="${HOME}/.local/opt/bx/bin:${PATH}"
 
           [[ $(bx-update) == "bx-updater: bx is already up-to-date!" ]]
+
+      - name: Check uninstall
+        shell: bash
+        run: |
+          export PATH="${HOME}/.local/opt/bx/bin:${PATH}"
+
+          bx-uninstall
+
+      - name: Check cleaned uninstall path
+        run: |
+          if [[ -d ${HOME}/.local/opt/bx ]]; then
+            echo "::error::bx-uninstall left the installation path dirty"
+
+            exit 1
+          fi
+
+      - name: Check repeated uninstall
+        run: |
+          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
+
+          output="$(curl -fsSL "${REPO_URL}/releases/latest/download/uninstall.sh" | bash 2>&1)"
+
+          if [[ ${output} != "bx-uninstaller: bx is not installed!" ]]; then
+            echo "::error::unexpected uninstall output (got '${output}')"
+
+            exit 1
+          fi
