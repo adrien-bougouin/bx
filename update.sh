@@ -70,7 +70,9 @@ update_bx() {
   local_bx_version="$(bx --version | grep -oE "\b[0-9]+\.[0-9]+\.[0-9]+$" || true)"
 
   if [[ -z ${local_bx_version} ]]; then
-    info "Could not determine the installed bx version, updating anyway..."
+    error "Could not determine the installed bx version!"
+
+    return 1
   elif [[ ${local_bx_version} == "${BX_VERSION}" ]]; then
     info "bx is already up-to-date!"
 
@@ -110,7 +112,7 @@ update_bx() {
     return 1
   fi
 
-  info "Updating to bx ${BX_VERSION}..."
+  info "Updating to bx ${BX_VERSION} in '${local_bx_path}'..."
 
   rm -rf "${bx_swap_path}"
   mkdir -p "${bx_swap_path}"

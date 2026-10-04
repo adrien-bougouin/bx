@@ -56,7 +56,7 @@ install_bx() {
   local bx_path="${HOME}/.local/opt/bx"
 
   if [[ -d ${bx_path} ]]; then
-    info "bx ${BX_VERSION} is already installed!"
+    info "bx is already installed at '${bx_path}'!"
 
     return 0
   fi
@@ -82,7 +82,7 @@ install_bx() {
   mkdir -p "${bx_path}"
   tar -xzf "${bx_tarball_path}" -C "${bx_path}" --strip-components 1
 
-  info "Installing bx..."
+  info "Installing bx in '${bx_path}'..."
   (cd "${bx_path}" && ./bin/bx -q install)
 
   info "Done!"

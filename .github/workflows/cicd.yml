@@ -105,6 +105,8 @@ jobs:
     name: Release
     needs: [ check-style, check-features, check-releasable-state ]
     if: ${{ needs.check-releasable-state.outputs.should-release == 'true' }}
+    env:
+      REPO_URL: "${{ github.server_url }}/${{ github.repository }}"
 
     runs-on: ubuntu-latest
 
@@ -118,8 +120,6 @@ jobs:
         shell: bash
         run: |
           source ./src/constants.sh
-
-          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
 
           ./bin/bx "dist ${REPO_URL}/releases/download/v${__BX_CONSTANT_VERSION__}"
 
@@ -142,6 +142,8 @@ jobs:
     name: Validate Release
     needs: [ release ]
     if: ${{ needs.release.outputs.released == 'true' }}
+    env:
+      REPO_URL: "${{ github.server_url }}/${{ github.repository }}"
 
     runs-on: ubuntu-latest
 
@@ -149,10 +151,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Check installation
-        run: |
-          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
-
-          curl -fsSL "${REPO_URL}/releases/latest/download/install.sh" | bash
+        run: curl -fsSL "${REPO_URL}/releases/latest/download/install.sh" | bash
 
       - name: Check installed version
         shell: bash
@@ -228,8 +227,6 @@ jobs:
 
       - name: Check repeated uninstall
         run: |
-          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
-
           output="$(curl -fsSL "${REPO_URL}/releases/latest/download/uninstall.sh" | bash 2>&1)"
 
           if [[ ${output} != "bx-uninstaller: bx is not installed!" ]]; then

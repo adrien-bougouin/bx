@@ -44,7 +44,7 @@ uninstall_bx() {
     return 1
   fi
 
-  info "Uninstalling bx..."
+  info "Uninstalling bx from '${bx_path}'..."
   (cd "${bx_path}" && ./bin/bx -q uninstall)
   rm -rf "${bx_path}"
 
