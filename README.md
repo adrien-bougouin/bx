@@ -38,29 +38,29 @@ curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/insta
 ```
 
 <details>
-    <summary>Updating</summary>
+  <summary>Updating</summary>
 
-    ```shell
-    bx-update
-    ```
+  ```shell
+  bx-update
+  ```
 
-    Or:
-    ```shell
-    curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/update.sh" | bash
-    ```
+  Or:
+  ```shell
+  curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/update.sh" | bash
+  ```
 </details>
 
 <details>
-    <summary>Uninstalling</summary>
+  <summary>Uninstalling</summary>
 
-    ```shell
-    bx-uninstall
-    ```
+  ```shell
+  bx-uninstall
+  ```
 
-    Or:
-    ```shell
-    curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/uninstall.sh" | bash
-    ```
+  Or:
+  ```shell
+  curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/uninstall.sh" | bash
+  ```
 </details>
 
 
