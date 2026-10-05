@@ -37,20 +37,32 @@ format() {
 curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/install.sh" | bash
 ```
 
-Update an existing installation with:
-```shell
-bx-update
-```
+<details>
+    <summary>Update</summary>
 
-Uninstall with:
-```shell
-bx-uninstall
-```
+    ```shell
+    bx-update
+    ```
 
-Alternatively, uninstall with:
-```shell
-curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/uninstall.sh" | bash
-```
+    Or:
+    ```shell
+    curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/update.sh" | bash
+    ```
+</details>
+
+<details>
+    <summary>Uninstall</summary>
+
+    ```shell
+    bx-uninstall
+    ```
+
+    Or:
+    ```shell
+    curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/uninstall.sh" | bash
+    ```
+</details>
+
 
 ## Quick Reference
 ```
