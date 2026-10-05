@@ -44,18 +44,21 @@ _bx::main() {
 
   _bx::cli::parse_options positional_arguments_ref "$@"
 
-  if _bx::options::version || _bx::options::help; then
+  if _bx::options::version; then
+    _bx::display::info "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BX_CONSTANT_VERSION__}"
+
+    exit 0
+  fi
+
+  # TODO: Stop listing recipes in help (simplifies flow)
+  if _bx::options::help; then
     abort_missing_bashfile="${__BOOL_FALSE__}"
   fi
 
   _bx::bashfile::load "${abort_missing_bashfile}"
   _bx::recipe_registry::load
 
-  if _bx::options::version; then
-    _bx::display::info "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BX_CONSTANT_VERSION__}"
-
-    exit 0
-  elif _bx::options::help; then
+  if _bx::options::help; then
     _bx::cli::print_help
 
     [[ $(_bx::recipe_registry::size) -gt 0 ]] && printf "\n"
