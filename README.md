@@ -38,7 +38,7 @@ curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/insta
 ```
 
 <details>
-    <summary>Update</summary>
+    <summary>Updating</summary>
 
     ```shell
     bx-update
@@ -51,7 +51,7 @@ curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/insta
 </details>
 
 <details>
-    <summary>Uninstall</summary>
+    <summary>Uninstalling</summary>
 
     ```shell
     bx-uninstall
