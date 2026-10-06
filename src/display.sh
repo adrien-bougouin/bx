@@ -8,10 +8,12 @@ __BX_DISPLAY_INDENT__="    "
 __BX_DISPLAY_STYLE_NORMAL__=""
 __BX_DISPLAY_STYLE_BOLD__=""
 
-# BASH unset ${TERM} value is 'dumb'!
-if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
-  __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0)"
-  __BX_DISPLAY_STYLE_BOLD__="$(tput bold)"
+if [[ -t 1 ]] && [[ -t 2 ]]; then
+  # BASH unset ${TERM} value is 'dumb'!
+  if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
+    __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0 2>/dev/null || true)"
+    __BX_DISPLAY_STYLE_BOLD__="$(tput bold 2>/dev/null || true)"
+  fi
 fi
 
 readonly __BX_DISPLAY_INDENT__

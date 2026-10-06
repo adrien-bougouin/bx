@@ -20,7 +20,7 @@ class TestContext
   attr_reader :bx_result
 
   def initialize
-    @bash_env = ['export TERM=', 'export PS4="+ "']
+    @bash_env = ['export PS4="+ "']
     @bx_options = []
     @bx_result = nil
   end
