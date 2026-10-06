@@ -39,7 +39,6 @@ _bx::main() {
 
   ##############################################################################
 
-  local abort_missing_bashfile="${__BOOL_TRUE__}"
   local positional_arguments_ref
 
   _bx::cli::parse_options positional_arguments_ref "$@"
@@ -50,23 +49,16 @@ _bx::main() {
     exit 0
   fi
 
-  # TODO: Stop listing recipes in help (simplifies flow)
-  if _bx::options::help; then
-    abort_missing_bashfile="${__BOOL_FALSE__}"
-  fi
-
-  _bx::bashfile::load "${abort_missing_bashfile}"
-  _bx::recipe_registry::load
-
   if _bx::options::help; then
     _bx::cli::print_help
 
-    [[ $(_bx::recipe_registry::size) -gt 0 ]] && printf "\n"
-
-    _bx::recipe_registry::print_list
-
     exit 0
-  elif _bx::options::list; then
+  fi
+
+  _bx::bashfile::load
+  _bx::recipe_registry::load
+
+  if _bx::options::list; then
     _bx::recipe_registry::print_list
 
     exit 0
