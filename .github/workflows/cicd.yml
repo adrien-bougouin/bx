@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   check-style:
@@ -107,6 +107,8 @@ jobs:
     if: ${{ needs.check-releasable-state.outputs.should-release == 'true' }}
     env:
       REPO_URL: "${{ github.server_url }}/${{ github.repository }}"
+    permissions:
+      contents: write
 
     runs-on: ubuntu-latest
 
@@ -121,7 +123,7 @@ jobs:
         run: |
           source ./src/constants.sh
 
-          ./bin/bx "dist ${REPO_URL}/releases/download/v${__BX_CONSTANT_VERSION__}"
+          ./bin/bx -y "dist ${REPO_URL}/releases/download/v${__BX_CONSTANT_VERSION__}"
 
       - name: Release on GitHub
         id: release-on-github

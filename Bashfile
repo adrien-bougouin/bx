@@ -106,7 +106,7 @@ dist() {
 }
 
 clean-dist() {
-  # @confirm
+  @confirm
 
   set -x
 
