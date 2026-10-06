@@ -25,6 +25,11 @@ Feature: Recipe Auto-Confirmation
 
         echo "'recipe-3--critical' invoked!"
       }
+
+      # Regression: "-y" suffix should not be interpretted as yes
+      tricky-recipe-y() {
+        bx::invoke "$1"
+      }
       ```
 
   Scenario Outline: Auto-confirm a recipe invocation
@@ -77,3 +82,16 @@ Feature: Recipe Auto-Confirmation
       'recipe-3--critical' invoked!
       """
     And bx succeeds
+
+  @regression
+  Scenario: Invoking, without auto-confirm, a tricky recipe with -y in the name
+    When invoking
+      | RECIPE                             | CONFIRMATION |
+      | tricky-recipe-y recipe-1--critical | n            |
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT      | CONTENT                            |
+      | bx-trace-in | tricky-recipe-y recipe-1--critical |
+      | bx-confirm  | recipe-1--critical                 |
+      | bx-error    | Aborted!                           |
+    And bx fails
