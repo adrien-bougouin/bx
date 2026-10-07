@@ -30,5 +30,4 @@ _bx::ui::confirm() {
   fi
 
   return "${__BOOL_FALSE__}"
-
 }
