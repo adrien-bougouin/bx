@@ -41,7 +41,7 @@ Then('bx outputs nothing to stderr') do
 end
 
 Then('bx confirms nothing') do
-  assert_not_match(%r{^bx: Invoke recipe `[^`]+`? [y/N] $}, bx_result.stderr)
+  assert_not_match(%r{^bx: Invoke recipe `[^`]+`\? [y/N] $}, bx_result.stderr)
 end
 
 Then('bx outputs to stdout') do |expected_content|
