@@ -42,9 +42,13 @@ _bx::recipe_registry::print_list() {
   [[ $(_bx::recipe_registry::size) -eq 0 ]] && return
 
   _bx::display::info "Available recipes:"
+  local recipe
   for recipe in "${__BX_RECIPES__[@]}"; do
     local help_lines
 
+    # FIXME: Prevent glob expansion. Iterate the help output line-by-line
+    #        (e.g. while IFS= read -r line; do … done < <(...)) rather than
+    #        flattening it into an array.
     # shellcheck disable=SC2207
     IFS=$'\n' help_lines=(
       $(_bx::recipe::help "${recipe}")
