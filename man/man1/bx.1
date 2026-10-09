@@ -43,7 +43,13 @@ A recipe is a set of instructions declared in a
 .I Bashfile
 as a Bash function.  Private functions, prefixed by
 .B _
-by convention, are not treated as recipes.
+by convention, are not treated as recipes.  The names
+.BR bx
+and
+.BR bx::*
+are reserved by
+.I bx
+and cannot be used as recipes either.
 .PP
 When no recipe is given,
 .I bx
@@ -196,6 +202,50 @@ for tracing, are isolated locally.  Changes made inside a recipe do not leak
 into other recipes, nor into
 .I bx
 itself.
+.PP
+To preserve quiet mode,
+.I bx
+shadows the
+.B set
+builtin with a function of its own.  When
+.B \-q
+(or
+.BR \-\-quiet )
+is in effect, an xtrace enabled by a recipe's
+.B set
+.BI \-x
+is turned back off, without affecting the rest of the recipe.
+.SH TRACES
+.PP
+Unless
+.B \-q
+(or
+.BR \-\-quiet )
+is given,
+.I bx
+prints a trace line to standard error before and after each invoked recipe:
+.PP
+.RS
+.nf
++ # format {
++ # }
+.fi
+.RE
+.PP
+The trace prefix is taken from
+.BR PS4
+(default
+.BR + ),
+and its first character is repeated once per nesting level:
+.PP
+.RS
+.nf
++ # outer {
+++ # inner {
+++ # }
++ # }
+.fi
+.RE
 .SH ANNOTATIONS
 .PP
 Annotations are directives placed inside a recipe body.  They are read by

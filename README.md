@@ -97,6 +97,25 @@ Invoke multiple recipes in one go.
 bx format lint
 ```
 
+### Recipe traces
+Unless `-q` (or `--quiet`) is given, `bx` prints a trace line to standard error before and after each invoked recipe:
+
+```shell
++ # format {
++ # lint {
++ # }
++ # }
+```
+
+The trace prefix is taken from `PS4` (default `+`), and the prefix character is repeated once per nesting level, so nested invocations (see `bx::invoke` below) are indented:
+
+```shell
++ # outer {
+++ # inner {
+++ # }
++ # }
+```
+
 ### Recipe arguments
 Pass arguments to recipes by quoting the recipe name and its arguments.
 
@@ -228,3 +247,9 @@ recipe-1() {
   # Instructions here will be traced.
 }
 ```
+
+`bx` shadows the `set` builtin so that quiet mode is preserved: when `-q` (or `--quiet`) is given, an xtrace enabled by a recipe's `set -x` is turned back off, without affecting the rest of the recipe.
+
+### Private functions and reserved names
+Functions whose names begin with `_` are private and are never treated as recipes.
+The names `bx` and any name beginning with `bx::` are reserved by `bx` and cannot be used as recipes.
