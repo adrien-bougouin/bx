@@ -59,6 +59,7 @@ install() {
 }
 
 uninstall() {
+  @confirm
   @help \
     "Undo \`${__BX_CONSTANT_COMMAND_NAME__} install\`: Remove '${BIN_PATH/#${HOME}/~}' from binary path." \
     "Supported shells: sh, dash, bash, zsh, and fish."

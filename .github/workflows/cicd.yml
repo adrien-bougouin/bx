@@ -226,13 +226,3 @@ jobs:
 
             exit 1
           fi
-
-      - name: Check repeated uninstall
-        run: |
-          output="$(curl -fsSL "${REPO_URL}/releases/latest/download/uninstall.sh" | bash 2>&1)"
-
-          if [[ ${output} != "bx-uninstaller: bx is not installed!" ]]; then
-            echo "::error::unexpected uninstall output (got '${output}')"
-
-            exit 1
-          fi

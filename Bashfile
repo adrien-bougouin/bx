@@ -7,7 +7,7 @@ SRC_PATH="${ROOT_PATH}/src"
 # shellcheck disable=SC2207
 SOURCES=($(find "${BIN_PATH}" -name "bx*") $(find "${SRC_PATH}" -name "*.sh"))
 BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/dist.bashfile" "${ROOT_PATH}/features/Bashfile")
-DIST_SCRIPTS=("${ROOT_PATH}/install.sh" "${ROOT_PATH}/update.sh" "${ROOT_PATH}/uninstall.sh")
+DIST_SCRIPTS=("${ROOT_PATH}/install.sh" "${ROOT_PATH}/update.sh")
 
 source "${ROOT_PATH}/dist.bashfile"
 source "${ROOT_PATH}/features/Bashfile"
@@ -98,11 +98,6 @@ dist() {
     -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
     "${ROOT_PATH}/update.sh" \
     >"${dist_path}/update.sh"
-
-  sed \
-    -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
-    "${ROOT_PATH}/uninstall.sh" \
-    >"${dist_path}/uninstall.sh"
 }
 
 clean-dist() {
