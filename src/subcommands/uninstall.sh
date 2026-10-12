@@ -6,7 +6,7 @@ _bx::uninstall::main() {
   local __BX_PATH__
   local __BX_SRC_PATH__
 
-  __BX_SRC_PATH__="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+  __BX_SRC_PATH__="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
   __BX_PATH__="$(dirname "${__BX_SRC_PATH__}")"
 
   readonly __BX_PATH__
