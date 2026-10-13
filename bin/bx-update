@@ -2,6 +2,4 @@
 
 set -euo pipefail
 
-BX_DOWNLOAD_HOST="${BX_DOWNLOAD_HOST:-https://github.com/adrien-bougouin/bx/releases/latest/download}"
-
-curl -fsSL "${BX_DOWNLOAD_HOST}/update.sh" | bash
+"$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/src/subcommands/update.sh" "$@"
