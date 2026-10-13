@@ -99,7 +99,7 @@ dist() {
     "${ROOT_PATH}/update.sh" \
     >"${dist_path}/update.sh"
 
-  (cd "${dist_path}"; $(_checksum * > "${dist_path}/SHA256SUMS"))
+  (cd "${dist_path}" && _checksum ./* >"${dist_path}/SHA256SUMS")
 }
 
 clean-dist() {
