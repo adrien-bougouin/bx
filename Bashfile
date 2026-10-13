@@ -98,6 +98,8 @@ dist() {
     -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
     "${ROOT_PATH}/update.sh" \
     >"${dist_path}/update.sh"
+
+  (cd "${dist_path}"; $(_checksum * > "${dist_path}/SHA256SUMS"))
 }
 
 clean-dist() {
@@ -110,8 +112,8 @@ clean-dist() {
 
 _checksum() {
   if command -v sha256sum >/dev/null 2>&1; then
-    sha256sum "$1"
+    sha256sum "$@"
   else
-    shasum -a 256 "$1"
+    shasum -a 256 "$@"
   fi
 }
