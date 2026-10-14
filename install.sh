@@ -5,8 +5,11 @@
 # Usage: curl -fsSL "{{DOWNLOAD_HOST}}/install.sh" | bash
 
 BX_VERSION=
-BX_TARBALL_URL=
-BX_TARBALL_SHA256=
+BX_DOWNLOAD_HOST=
+
+BX_RELEASE_SHA256SUMS_URL="${BX_DOWNLOAD_HOST}/SHA256SUMS"
+BX_RELEASE_TARBALL_NAME="bx_${BX_VERSION}.tar.gz"
+BX_RELEASE_TARBALL_URL="${BX_DOWNLOAD_HOST}/${BX_RELEASE_TARBALL_NAME}"
 
 DISPLAY_STYLE_NORMAL=
 DISPLAY_STYLE_BOLD=
@@ -47,7 +50,7 @@ check_checksum() {
 install_bx() {
   set -euo pipefail
 
-  if [[ -z "${BX_VERSION}${BX_TARBALL_URL}${BX_TARBALL_SHA256}" ]]; then
+  if [[ -z "${BX_VERSION}${BX_DOWNLOAD_HOST}" ]]; then
     error "Invalid install script configuration!"
 
     return 1
@@ -63,17 +66,23 @@ install_bx() {
 
   local tmp_path
   local bx_tarball_path
+  local bx_tarball_sha256sum
 
   tmp_path="$(mktemp -d)"
-  bx_tarball_path="${tmp_path}/bx_${BX_VERSION}.tar.gz"
+  bx_tarball_path="${tmp_path}/${BX_RELEASE_TARBALL_NAME}"
 
   # shellcheck disable=SC2064
   trap "rm -rf '${tmp_path}'" EXIT
 
   info "Downloading bx ${BX_VERSION}..."
-  curl -fL --progress-bar "${BX_TARBALL_URL}" -o "${bx_tarball_path}"
+  curl -fL --progress-bar "${BX_RELEASE_TARBALL_URL}" -o "${bx_tarball_path}"
 
-  if ! check_checksum "${bx_tarball_path}" "${BX_TARBALL_SHA256}"; then
+  bx_tarball_sha256sum="$(
+    curl -fsSL "${BX_RELEASE_SHA256SUMS_URL}" \
+      | grep -F "  ./${BX_RELEASE_TARBALL_NAME}"
+  )"
+
+  if ! check_checksum "${bx_tarball_path}" "${bx_tarball_sha256sum%%  ./*}"; then
     error "Download corrupted (checksum mismatch), try again!"
 
     return 1

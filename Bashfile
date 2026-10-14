@@ -86,8 +86,7 @@ dist() {
   sed \
     -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
     -e "s/^BX_VERSION=\$/BX_VERSION=${bx_version}/" \
-    -e "s/^BX_TARBALL_URL=\$/BX_TARBALL_URL=${download_host//\//\\/}\/${bx_archive_name//\//\\/}/" \
-    -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
+    -e "s/^BX_DOWNLOAD_HOST=\$/BX_DOWNLOAD_HOST=${download_host//\//\\/}/" \
     "${ROOT_PATH}/install.sh" \
     >"${dist_path}/install.sh"
 
