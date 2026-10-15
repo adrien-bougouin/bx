@@ -43,11 +43,6 @@ curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/insta
   ```shell
   bx-update
   ```
-
-  Or:
-  ```shell
-  curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/update.sh" | bash
-  ```
 </details>
 
 <details>

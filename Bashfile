@@ -7,7 +7,7 @@ SRC_PATH="${ROOT_PATH}/src"
 # shellcheck disable=SC2207
 SOURCES=($(find "${BIN_PATH}" -name "bx*") $(find "${SRC_PATH}" -name "*.sh"))
 BASHFILES=("${ROOT_PATH}/Bashfile" "${ROOT_PATH}/dist.bashfile" "${ROOT_PATH}/features/Bashfile")
-DIST_SCRIPTS=("${ROOT_PATH}/install.sh" "${ROOT_PATH}/update.sh")
+DIST_SCRIPTS=("${ROOT_PATH}/install.sh")
 
 source "${ROOT_PATH}/dist.bashfile"
 source "${ROOT_PATH}/features/Bashfile"
@@ -39,7 +39,6 @@ dist() {
   local bx_name="${__BX_CONSTANT_COMMAND_NAME__}"
   local bx_version="${__BX_CONSTANT_VERSION__}"
   local bx_dirname="${bx_name}_${bx_version}"
-  local bx_archive_name="${bx_dirname}.tar.gz"
 
   local dist_path="${ROOT_PATH}/dist"
   local dist_bx_path="${dist_path}/${bx_dirname}"
@@ -55,8 +54,6 @@ dist() {
 
   local download_host="${1:-file://${dist_path}}"
   download_host="${download_host%/}"
-
-  local checksum
 
   set -x
 
@@ -80,23 +77,12 @@ dist() {
   tar -czf "${bx_archive_path}" -C "${dist_path}" "${bx_dirname}"
   rm -rf "${dist_bx_path}"
 
-  # shellcheck disable=SC2207
-  checksum=($(_checksum "${bx_archive_path}"))
-
   sed \
-    -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
-    -e "s/^BX_VERSION=\$/BX_VERSION=${bx_version}/" \
-    -e "s/^BX_DOWNLOAD_HOST=\$/BX_DOWNLOAD_HOST=${download_host//\//\\/}/" \
+    -e "s/{{__BX_DOWNLOAD_HOST__}}/${download_host//\//\\/}/g" \
+    -e "s/^__BX_VERSION__=\$/__BX_VERSION__=${bx_version}/" \
+    -e "s/^__BX_DOWNLOAD_HOST__=\$/__BX_DOWNLOAD_HOST__=${download_host//\//\\/}/" \
     "${ROOT_PATH}/install.sh" \
     >"${dist_path}/install.sh"
-
-  sed \
-    -e "s/{{DOWNLOAD_HOST}}/${download_host//\//\\/}/g" \
-    -e "s/^BX_VERSION=\$/BX_VERSION=${bx_version}/" \
-    -e "s/^BX_TARBALL_URL=\$/BX_TARBALL_URL=${download_host//\//\\/}\/${bx_archive_name//\//\\/}/" \
-    -e "s/^BX_TARBALL_SHA256=\$/BX_TARBALL_SHA256=${checksum[0]}/" \
-    "${ROOT_PATH}/update.sh" \
-    >"${dist_path}/update.sh"
 
   (cd "${dist_path}" && _checksum ./* >"${dist_path}/SHA256SUMS")
 }
