@@ -77,6 +77,39 @@ Feature: CLI--List
       """
     And bx succeeds
 
+  Scenario: List available recipes emphasizing default and confirmable ones
+    Given the Bashfile
+      ```bash
+      recipe-1() {
+        @default
+        @help "Default recipe."
+      }
+
+      recipe-2() {
+        @confirm
+        @help "Confirmable recipe."
+      }
+
+      recipe-3() {
+        @help "Normal recipe."
+      }
+      ```
+    When setting
+      | OPTION |
+      | -l     |
+    And invoking
+    Then bx outputs to stdout
+      """
+      Available recipes:
+          recipe-1 [@default]
+              Default recipe.
+          recipe-2 [@confirm]
+              Confirmable recipe.
+          recipe-3
+              Normal recipe.
+      """
+    And bx succeeds
+
   Scenario: List available recipes when there are none
     Given an empty Bashfile
     When setting
