@@ -13,8 +13,6 @@
 ```bash
 # file: Bashfile
 
-BIN_PATH="$(realpath ./bin)"
-
 SOURCES=(./bin/bx $(find ./src -name "*.sh"))
 
 lint() {
@@ -88,16 +86,9 @@ bx format lint
 ```
 
 ### Recipe traces
-Unless `-q` (or `--quiet`) is given, `bx` prints a trace line to standard error before and after each invoked recipe:
-
-```shell
-+ # format {
-+ # lint {
-+ # }
-+ # }
-```
-
-The trace prefix is taken from `PS4` (default `+`), and the prefix character is repeated once per nesting level, so nested invocations (see `bx::invoke` below) are indented:
+Unless `-q` (or `--quiet`) is given, `bx` prints a trace line to standard error before and after each invoked recipe.
+The trace is prefixed with a character consistent with `PS4` (default `+`).
+The prefix character is repeated once per nesting level, so nested invocations (see `bx::invoke` below) are indented:
 
 ```shell
 + # outer {
