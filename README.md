@@ -85,10 +85,48 @@ Invoke multiple recipes in one go.
 bx format lint
 ```
 
+### Nested invocation (`bx::invoke`)
+Invoke other recipes from within a recipe at runtime.
+
+```bash
+# Bashfile
+
+complex-recipe() {
+  echo "Pre-processing..."
+  bx::invoke simple-recipe
+  echo "Post-processing..."
+}
+
+simple-recipe() {
+  echo "Simple recipe executed!"
+}
+```
+
+Pass `-y` (or `--yes`) to `bx::invoke` to temporarily auto-confirm all nested recipes invocations:
+
+```bash
+# Bashfile
+
+recipe() {
+  @confirm
+
+  echo "Pre-processing..."
+  # bx will not ask for confirmation before invoking dangerous-recipe
+  bx::invoke --yes dangerous-recipe
+  echo "Post-processing..."
+}
+
+dangerous-recipe() {
+  @confirm
+
+  # Do something critical...
+}
+```
+
 ### Recipe traces
 Unless `-q` (or `--quiet`) is given, `bx` prints a trace line to standard error before and after each invoked recipe.
 The trace is prefixed with a character consistent with `PS4` (default `+`).
-The prefix character is repeated once per nesting level, so nested invocations (see `bx::invoke` below) are indented:
+The prefix character is repeated once per nesting level, so nested invocations are indented:
 
 ```shell
 + # outer {
@@ -129,44 +167,6 @@ my_recipe() {
   @default
 
   # ...
-}
-```
-
-### Nested invocation (`bx::invoke`)
-Invoke other recipes from within a recipe at runtime.
-
-```bash
-# Bashfile
-
-complex-recipe() {
-  echo "Pre-processing..."
-  bx::invoke simple-recipe
-  echo "Post-processing..."
-}
-
-simple-recipe() {
-  echo "Simple recipe executed!"
-}
-```
-
-Pass `-y` (or `--yes`) to `bx::invoke` to temporarily auto-confirm all nested recipes invocations:
-
-```bash
-# Bashfile
-
-recipe() {
-  @confirm
-
-  echo "Pre-processing..."
-  # bx will not ask for confirmation before invoking dangerous-recipe
-  bx::invoke --yes dangerous-recipe
-  echo "Post-processing..."
-}
-
-dangerous-recipe() {
-  @confirm
-
-  # Do something critical...
 }
 ```
 
