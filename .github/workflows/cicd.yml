@@ -146,6 +146,8 @@ jobs:
     if: ${{ needs.release.outputs.released == 'true' }}
     env:
       REPO_URL: "${{ github.server_url }}/${{ github.repository }}"
+    permissions:
+      contents: write
 
     runs-on: ubuntu-latest
 
@@ -226,3 +228,22 @@ jobs:
 
             exit 1
           fi
+
+      - name: Delete invalid release
+        if: ${{ failure() }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          source ./src/constants.sh
+
+          if ! gh release view "v${__BX_CONSTANT_VERSION__}" > /dev/null 2>&1; then
+            echo "::notice::release v${__BX_CONSTANT_VERSION__} not found, nothing to delete"
+            exit 0
+          fi
+
+          gh release delete "v${__BX_CONSTANT_VERSION__}" \
+            --yes \
+            --cleanup-tag
+
+          echo "::notice::deleted invalid release v${__BX_CONSTANT_VERSION__}"
