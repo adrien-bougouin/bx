@@ -35,6 +35,17 @@ Feature: Recipe--Arguments
       | --arg=arg\ 1 --arg=arg\ 2   | 2, '--arg=arg 1', '--arg=arg 2' |
       | --arg="arg 1" --arg="arg 2" | 2, '--arg=arg 1', '--arg=arg 2' |
 
+  Scenario: Invoke a recipe with arguments including single quote
+    When invoking
+      | RECIPE                            |
+      | recipe-1 "'it's a tricky argument'" |
+    Then bx outputs to stderr
+      """
+      + # recipe-1 ''\''it'\''s a tricky argument'\''' {
+      + # }
+      """
+    And bx succeeds
+
   Scenario: Invoke multiple recipes with arguments
     When invoking
       | RECIPE               |

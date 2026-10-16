@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'shellwords'
+
 # When #########################################################################
 
 When('setting') do |table|
@@ -48,8 +50,13 @@ Then('bx outputs to stdout') do |expected_content|
   assert_equal(expected_content, bx_result.stdout)
 end
 
-Then('bx outputs to stderr') do |table|
-  expected_lines = table.hashes
+Then('bx outputs to stderr') do |table_or_text|
+  if table_or_text.is_a?(String)
+    assert_equal(table_or_text, bx_result.stderr)
+    next
+  end
+
+  expected_lines = table_or_text.hashes
   actual_lines = bx_result.stderr.split("\n")
 
   check_range =
@@ -130,24 +137,16 @@ end
 #
 # It's important that this function remains dumb simple. It does not have to
 # handle every cases, as long as it supports the arguments we use in our tests.
-#
-# Note: The current expected canonical format produced by bx is not compatible
-#       with Bash arguments.
 def canonicalize_recipe_invocation(recipe_invocation)
   recipe, arguments_string = recipe_invocation.strip.split(' ', 2)
 
   return recipe if arguments_string.nil?
 
-  # 1. Remove single/double quotes around arguments' partial/full content and
-  #    escape their enclosed spaces.
-  #    Example: `--arg="arg 1"` => `--arg=arg\ 1`
-  # 2. Surround args with single quotes.
-  #    Example: `--arg=arg\ 1 --arg=arg\ 2` => `'--arg=arg\ 1' '--arg=arg\ 2'`
-  canonical_arguments_string =
-    arguments_string.gsub(/"[^"]+"/) { |m| m[1..-2].gsub(' ', '\ ') } # Step 1
-                    .gsub(/'[^']+'/) { |m| m[1..-2].gsub(' ', '\ ') } # --
-                    .gsub(/([^\\]) +/, '\1\' \'')                     # Step 2
-                    .gsub(/^|$/, "'")                                 # --
+  arguments = Shellwords.split(arguments_string)
 
-  "#{recipe} #{canonical_arguments_string}"
+  canonical_arguments = arguments.map do |argument|
+    "'#{argument.split("'").join("'\\''")}'"
+  end
+
+  "#{recipe} #{canonical_arguments.join(' ')}"
 end

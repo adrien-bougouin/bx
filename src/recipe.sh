@@ -1,5 +1,9 @@
 #!/bin/bash
 
+__BX_RECIPE_CANONICAL_QUOTE_ESCAPE__="'\\''"
+
+readonly __BX_RECIPE_CANONICAL_QUOTE_ESCAPE__
+
 _bx::recipe::invoke() {
   local invocation_tokens
 
@@ -54,9 +58,6 @@ _bx::recipe::invoke() {
   _bx::invocation_stack::pop
 }
 
-# FIXME: In rare case, the canonic version is not executable. That's not a
-#        problem, because only use it for display, but it would be better to
-#        improve it.
 _bx::recipe::canonicalize_invocation() {
   local invocation=()
   local canonical_invocation=()
@@ -74,8 +75,16 @@ _bx::recipe::canonicalize_invocation() {
     local arg
 
     printf -v arg "'%q' " "${invocation[i]}"
+    arg="${arg% }"
 
-    canonical_invocation+=("${arg% }")
+    # Single quotes can't be escaped inside single quote string. Instead, close
+    # the string before the single quote, then concatenate the single quote, and
+    # finally concatenat the reminder of the string by reopening with single
+    # quote.
+    arg="${arg//\\\'/${__BX_RECIPE_CANONICAL_QUOTE_ESCAPE__}}"
+    arg="${arg//\\ / }"
+
+    canonical_invocation+=("${arg}")
   done
 
   printf "%s" "${canonical_invocation[*]}"
