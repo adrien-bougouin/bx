@@ -46,6 +46,7 @@ _bx::recipe_registry::print_list() {
   for recipe in "${__BX_RECIPES__[@]}"; do
     local annotations=""
     local help_lines=()
+    local help_line
 
     if [[ ${recipe} == "$(_bx::recipe_registry::default)" ]]; then
       annotations="${annotations} [@default]"
@@ -55,13 +56,9 @@ _bx::recipe_registry::print_list() {
       annotations="${annotations} [@confirm]"
     fi
 
-    # FIXME: Prevent glob expansion. Iterate the help output line-by-line
-    #        (e.g. while IFS= read -r line; do … done < <(...)) rather than
-    #        flattening it into an array.
-    # shellcheck disable=SC2207
-    IFS=$'\n' help_lines=(
-      $(_bx::recipe::help "${recipe}")
-    )
+    while IFS= read -r help_line || [[ -n ${help_line} ]]; do
+      help_lines+=("${help_line}")
+    done < <(_bx::recipe::help "${recipe}")
 
     _bx::display::info "{{indent}}${recipe}{{bold}}${annotations}{{normal}}"
     if [[ ${#help_lines[@]} -gt 0 ]]; then
