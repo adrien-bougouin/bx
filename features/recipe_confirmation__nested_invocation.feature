@@ -114,6 +114,16 @@ Feature: Recipe Confirmation -- Nested Invocation
       | RECIPE      | CONFIRMATION |
       | recipe      | y            |
       | deep-recipe | n            |
+    Then bx outputs to stderr
+      | FORMAT       | CONTENT               |
+      | bx-trace-in  | recipe                |
+      | bx-confirm   | recipe--critical      |
+      | bx-trace-in  | recipe--critical      |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
+      | bx-trace-in  | deep-recipe           |
+      | bx-confirm   | deep-recipe--critical |
+      | bx-error     | Aborted!              |
     Then bx outputs to stdout
       """
       'recipe--critical' invoked!
