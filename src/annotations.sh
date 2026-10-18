@@ -61,8 +61,8 @@ _bx::recipe::load_annotations() {
         _bx::abort "Invalid Bashfile at recipe \`${recipe}\` - Found annotation '${line_head}' after executable code!"
       fi
     else
-      # Once a Bash instruction is found instead of an annotation, not more
-      # annotation is allowed.
+      # Once a Bash instruction is found instead of an annotation, no more
+      # annotations are allowed.
       done_parsing_annotations="${__BOOL_TRUE__}"
     fi
   done < <(declare -f "${recipe}")

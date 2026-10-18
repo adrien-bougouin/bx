@@ -24,7 +24,7 @@ Feature: Recipe--Validation
       | bx-trace-out |                          |
     And bx succeeds
 
-  Scenario: Invoke a recipe with a invalid annotation
+  Scenario: Invoke a recipe with an invalid annotation
     Given the Bashfile
       ```bash
         recipe--invalid-annotation() {
@@ -48,7 +48,7 @@ Feature: Recipe--Validation
     Given the Bashfile
       ```bash
         recipe--valid-annotation() {
-          @help "valid recipe."
+          @help "Valid recipe."
 
           echo "'recipe--valid-annotation' invoked!"
         }
