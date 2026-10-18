@@ -30,7 +30,8 @@ _bx::recipe::load_annotations() {
 
   local line
   local inside_recipe="${__BOOL_FALSE__}"
-  local done_parsing_annotations="${__BOOL_FALSE__}"
+      # TODO
+  # local done_parsing_annotations="${__BOOL_FALSE__}"
   while IFS='' read -r line; do
     if [[ ${inside_recipe} != "${__BOOL_TRUE__}" ]]; then
       if [[ ${line} =~ ${__BX_RECIPE_ANNOTATION_START_PATTERN__} ]]; then
@@ -55,15 +56,16 @@ _bx::recipe::load_annotations() {
     line_head="${line_head%;}"
 
     if _bx::annotations::include "${line_head}"; then
-      if [[ ${done_parsing_annotations} == "${__BOOL_FALSE__}" ]]; then
-        eval "${line}"
-      else
-        _bx::abort "Invalid Bashfile at recipe \`${recipe}\` - Found annotation '${line_head}' after executable code!"
-      fi
-    else
+      # TODO
+      # if [[ ${done_parsing_annotations} == "${__BOOL_FALSE__}" ]]; then
+      eval "${line}"
+      # else
+      #   _bx::abort "Invalid Bashfile at recipe \`${recipe}\` - Found annotation '${line_head}' after executable code!"
+      # fi
+      # else
       # Once a Bash instruction is found instead of an annotation, no more
       # annotations are allowed.
-      done_parsing_annotations="${__BOOL_TRUE__}"
+      # done_parsing_annotations="${__BOOL_TRUE__}"
     fi
   done < <(declare -f "${recipe}")
 
