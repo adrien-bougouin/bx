@@ -1,34 +1,26 @@
-# `bx` (Bash eXecutor)
+# `bx`
 
 [![CI/CD](https://img.shields.io/github/actions/workflow/status/adrien-bougouin/bx/cicd.yml?branch=main&logo=github&label=CI/CD)](https://github.com/adrien-bougouin/bx/actions/workflows/cicd.yml)
 [![License](https://img.shields.io/github/license/adrien-bougouin/bx?label=License)](https://github.com/adrien-bougouin/bx/blob/main/LICENSE)
 [![Latest](https://img.shields.io/github/v/release/adrien-bougouin/bx?logo=github&label=Latest)](https://github.com/adrien-bougouin/bx/releases/latest)
-[![Installs](https://img.shields.io/github/downloads/adrien-bougouin/bx/install.sh?displayAssetName=false&label=Installs
-)](https://github.com/adrien-bougouin/bx#installation)
+[![Installs](https://img.shields.io/github/downloads/adrien-bougouin/bx/install.sh?displayAssetName=false&label=Installs)](https://github.com/adrien-bougouin/bx#installation)
 
-`bx` is a Bash configurable build automation and recipe invocation tool.
+A pure Bash-configurable build automation and recipe invocation tool.
 
-`bx` reads a `Bashfile`, treats Bash functions as recipes, and invokes them via `bx <recipe>`.
-
+`bx` reads a Bas[118;1:3uh configuration file, `Bashfile`, treats the functions as recipes, and invokes them by name.
+A recipe declared in the `Bashfile` as follows:
 ```bash
-# file: Bashfile
-
-SOURCES=(./bin/bx $(find ./src -name "*.sh"))
-
 lint() {
-  local args=("--exclude" "SC1090,SC1091,SC2329" "$@")
-
-  set -x
-
-  shellcheck "${args[@]}" "${SOURCES[@]}"
-}
-
-format() {
-  set -x
-
-  shfmt -i 2 -ci -bn -s -w "${SOURCES[@]}"
+  shellcheck "src/*.sh"
 }
 ```
+is invoked with
+```bash
+bx lint
+```
+
+## Requirements
+All you need is Bash 3.2 or above.
 
 ## Installation
 ```shell
