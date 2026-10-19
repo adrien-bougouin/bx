@@ -253,6 +253,28 @@ Annotations are directives placed inside a recipe body.  They are read by
 when loading the
 .I Bashfile
 and instruct it on how to treat the recipe.
+.PP
+All annotations must appear at the top of the recipe body, before any
+executable instruction.  When the
+.I Bashfile
+is loaded,
+.I bx
+validates this placement: an annotation found after executable code is an
+error, and
+.I bx
+aborts with a message such as:
+.PP
+.RS
+.nf
+bx: Invalid Bashfile at recipe `my-recipe` \- Found annotation '@help' after executable code!
+.fi
+.RE
+.PP
+The validation applies to the whole
+.IR Bashfile :
+if any recipe contains a misplaced annotation,
+.I bx
+fails, even when a different recipe is invoked.
 .TP 0.5i
 .B @help
 .I "description ..."
