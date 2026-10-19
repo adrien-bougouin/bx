@@ -149,26 +149,7 @@ simple-recipe() {
 }
 ```
 
-Pass option `-y` (or `--yes`) to `bx::invoke` to auto-confirm all nested recipe invocations:
-
-```bash
-# Bashfile
-
-recipe() {
-  @confirm
-
-  echo "Pre-processing..."
-  # bx will not ask for confirmation before invoking dangerous-recipe
-  bx::invoke --yes dangerous-recipe
-  echo "Post-processing..."
-}
-
-dangerous-recipe() {
-  @confirm
-
-  # Do something critical...
-}
-```
+Similar to when invoking recipes with `bx`, pass option `-y` (or `--yes`) to `bx::invoke` to auto-confirm.
 
 ### Scope boundaries
 Recipes declared as regular functions (syntax `recipe_name() { ... }`) share the same scope.
