@@ -66,7 +66,6 @@ Options:
 ```
 
 ## Features
-
 ### `Bashfile` lookup
 `bx` looks for the nearest `Bashfile`, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
 
@@ -76,6 +75,56 @@ Invoke multiple recipes in one go.
 ```shell
 bx format lint
 ```
+
+### Annotations
+Annotations are directives placed inside a recipe body.
+They instruct `bx` on how to treat the recipe.
+
+All annotations must appear at the top of the recipe body, before any executable instruction.
+
+#### `@help`
+Describe a recipe with the annotation `@help`.
+The description is displayed by `bx --list`, and can span multiple lines by passing several arguments.
+
+```bash
+# Bashfile
+
+my_recipe() {
+  @help "Line 1" \
+    "Line 2"
+
+  # ...
+}
+```
+
+#### `@default`
+Set which recipe to invoke when executing `bx` without an explicit recipe.
+
+```bash
+# Bashfile
+
+my_recipe() {
+  @default
+
+  # ...
+}
+```
+
+#### `@confirm`
+Mark a recipe as requiring user confirmation before it is executed.
+When a recipe carries the `@confirm` annotation, `bx` displays a `[y/N]` prompt and only proceeds if the user answers `y`.
+
+```bash
+# Bashfile
+
+dangerous-recipe() {
+  @confirm
+
+  rm -rf ./build
+}
+```
+
+Pass option `-y` (or `--yes`) to skip all confirmation prompts and run every recipe automatically.
 
 ### Nested invocation (`bx::invoke`)
 Invoke other recipes from within a recipe at runtime.
@@ -94,7 +143,7 @@ simple-recipe() {
 }
 ```
 
-Pass `-y` (or `--yes`) to `bx::invoke` to temporarily auto-confirm all nested recipes invocations:
+Pass option `-y` (or `--yes`) to `bx::invoke` to auto-confirm all nested recipe invocations:
 
 ```bash
 # Bashfile
@@ -134,34 +183,6 @@ Pass arguments to recipes by quoting the recipe name and its arguments.
 bx format 'lint --some-lint-option'
 ```
 
-### Recipe documentation (`@help`)
-Describe a recipe with the annotation `@help`.
-The description is displayed by `bx --list` and `bx --help`, and can span multiple lines by passing several arguments.
-
-```bash
-# Bashfile
-
-my_recipe() {
-  @help "Line 1" \
-    "Line 2"
-
-  # ...
-}
-```
-
-### Default recipe (`@default`)
-Set which recipe to invoke when executing `bx` without an explicit recipe.
-
-```bash
-# Bashfile
-
-my_recipe() {
-  @default
-
-  # ...
-}
-```
-
 ### Scope boundaries
 Recipes defined with `()` (subprocess) have their own scope: if they modify global variables, the changes won't be visible from other recipes.
 Recipes defined with `{}` (function) share the parent scope: if they modify global variables, the changes will be visible from other recipes.
@@ -188,23 +209,6 @@ print-global() {
 bx -q change-global print-global              # GLOBAL=changed-value
 bx -q change-global--subprocess print-global  # GLOBAL=default-value
 ```
-
-### Recipe confirmation (`@confirm`)
-Mark a recipe as requiring user confirmation before it is executed.
-When a recipe carries the `@confirm` annotation, `bx` displays a `[y/N]` prompt and only proceeds if the user answers `y`.
-
-```bash
-# Bashfile
-
-dangerous-recipe() {
-  @confirm
-
-  rm -rf ./build
-}
-```
-
-The confirmation prompt is shown for each matching recipe in a chain and works with nested invocations (`bx::invoke`).
-Pass `-y` (or `--yes`) to skip all confirmation prompts and run every recipe automatically.
 
 ### Shell options isolation
 `bx` isolates shell options locally (e.g. `set -x` to trace execution), preventing changes from leaking into other recipes or into `bx` itself.
