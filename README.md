@@ -227,7 +227,3 @@ recipe() {
 
 Shell options set from a recipe are isolated to that recipe.
 Subsequent recipe invocations, or nested recipe invocations, will not be impacted by shell option changes from another recipe.
-
-### Private functions and reserved names
-Functions whose names begin with `_` are private and are never treated as recipes.
-The names `bx` and any name beginning with `bx::` are reserved by `bx` and cannot be used as recipes.
