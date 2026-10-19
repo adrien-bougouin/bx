@@ -2,7 +2,7 @@
 
 __BX_ANNOTATIONS__=()
 
-__BX_RECIPE_ANNOTATION_START_PATTERN__="{ *$"
+__BX_RECIPE_ANNOTATION_START_PATTERN__='\{ *$'
 
 _bx::annotations::register() {
   __BX_ANNOTATIONS__+=("$1")
