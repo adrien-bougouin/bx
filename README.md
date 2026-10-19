@@ -23,14 +23,14 @@ bx lint
 All you need is Bash 3.2 or above.
 
 ## Installation
-```shell
+```bash
 curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/install.sh" | bash
 ```
 
 <details>
   <summary>Updating</summary>
 
-  ```shell
+  ```bash
   bx-update
   ```
 </details>
@@ -38,7 +38,7 @@ curl -fsSL "https://github.com/adrien-bougouin/bx/releases/latest/download/insta
 <details>
   <summary>Uninstalling</summary>
 
-  ```shell
+  ```bash
   bx-uninstall
   ```
 </details>
@@ -65,20 +65,26 @@ Options:
         (automatically confirm).
 ```
 
-## Features
+## Key Features
 ### `Bashfile` lookup
 `bx` looks for the nearest `Bashfile`, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
 
 ### Recipe chaining
 Invoke multiple recipes in one go.
 
-```shell
+```bash
 bx format lint
 ```
 
-### Annotations
-Annotations are directives placed inside a recipe body.
-They instruct `bx` on how to treat the recipe.
+### Recipe arguments
+Pass arguments to recipes by quoting the recipe name and its arguments.
+
+```bash
+bx format 'lint --some-lint-option'
+```
+
+### Recipe annotations
+Annotations are directives placed inside a recipe body to instruct `bx` on how to treat the recipe.
 
 All annotations must appear at the top of the recipe body, before any executable instruction.
 
@@ -126,7 +132,7 @@ dangerous-recipe() {
 
 Pass option `-y` (or `--yes`) to skip all confirmation prompts and run every recipe automatically.
 
-### Nested invocation (`bx::invoke`)
+### Nested recipe invocation (`bx::invoke`)
 Invoke other recipes from within a recipe at runtime.
 
 ```bash
@@ -164,59 +170,53 @@ dangerous-recipe() {
 }
 ```
 
-### Recipe traces
-Unless `-q` (or `--quiet`) is given, `bx` prints a trace line to standard error before and after each invoked recipe.
-The trace is prefixed with a character consistent with `PS4` (default `+`).
-The prefix character is repeated once per nesting level, so nested invocations are indented:
-
-```shell
-+ # outer {
-++ # inner {
-++ # }
-+ # }
-```
-
-### Recipe arguments
-Pass arguments to recipes by quoting the recipe name and its arguments.
-
-```shell
-bx format 'lint --some-lint-option'
-```
-
 ### Scope boundaries
-Recipes defined with `()` (subprocess) have their own scope: if they modify global variables, the changes won't be visible from other recipes.
-Recipes defined with `{}` (function) share the parent scope: if they modify global variables, the changes will be visible from other recipes.
+Recipes declared as regular functions (syntax `recipe_name() { ... }`) share the same scope.
+If they modify global variables, the changes will be visible from other recipes.
+
+Recipes declared as a subprocess (syntax `recipe_name() ( ... )`) operate in a fork.
+Nested invocations inside a subprocess recipe see its global changes; later top-level invocations do not.
 
 ```bash
 # Bashfile
 
 GLOBAL="default-value"
 
+print-global() {
+  echo "GLOBAL=${GLOBAL}"
+}
+
 change-global() {
   GLOBAL="changed-value"
+
+  bx::invoke print-global
 }
 
 change-global--subprocess() (
   GLOBAL="changed-value"
+
+  bx::invoke print-global
 )
-
-print-global() {
-  echo "GLOBAL=${GLOBAL}"
-}
 ```
 
-```shell
-bx -q change-global print-global              # GLOBAL=changed-value
-bx -q change-global--subprocess print-global  # GLOBAL=default-value
+```bash
+bx -q change-global print-global
+# stdout: GLOBAL=changed-value
+# stdout: GLOBAL=changed-value
+
+bx -q change-global--subprocess print-global
+# stdout: GLOBAL=changed-value
+# stdout: GLOBAL=default-value
 ```
 
-### Shell options isolation
-`bx` isolates shell options locally (e.g. `set -x` to trace execution), preventing changes from leaking into other recipes or into `bx` itself.
+### Shell options
+Recipes can set their own shell options.
+For instance, a recipe can set `set -x` to trace the recipe instructions.
 
 ```bash
 # Bashfile
 
-recipe-1() {
+recipe() {
   # Instructions here will never be traced.
 
   set -x
@@ -225,7 +225,8 @@ recipe-1() {
 }
 ```
 
-`bx` shadows the `set` builtin so that quiet mode is preserved: when `-q` (or `--quiet`) is given, an xtrace enabled by a recipe's `set -x` is turned back off, without affecting the rest of the recipe.
+Shell options set from a recipe are isolated to that recipe.
+Subsequent recipe invocations, or nested recipe invocations, will not be impacted by shell option changes from another recipe.
 
 ### Private functions and reserved names
 Functions whose names begin with `_` are private and are never treated as recipes.
