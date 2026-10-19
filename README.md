@@ -7,7 +7,7 @@
 
 A pure Bash-configurable build automation and recipe invocation tool.
 
-`bx` reads a Bas[118;1:3uh configuration file, `Bashfile`, treats the functions as recipes, and invokes them by name.
+`bx` reads a Bash configuration file, `Bashfile`, treats the functions as recipes, and invokes them by name.
 A recipe declared in the `Bashfile` as follows:
 ```bash
 lint() {
