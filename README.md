@@ -68,6 +68,7 @@ Options:
 ## Key Features
 ### `Bashfile` lookup
 `bx` looks for the nearest `Bashfile`, walking up the directory tree from the current working directory, allowing invocation of recipes from any subdirectory of a project.
+However, the user is responsible for ensuring the `Bashfile` works regardless of the directory `bx` is invoked from.
 
 ### Recipe chaining
 Invoke multiple recipes in one go.
@@ -118,12 +119,13 @@ my_recipe() {
 
 #### `@confirm`
 Mark a recipe as requiring user confirmation before it is executed.
-When a recipe carries the `@confirm` annotation, `bx` displays a `[y/N]` prompt and only proceeds if the user answers `y`.
+When the recipe is about to be invoked, `bx` prompts with a `[y/N]` question and waits for a single-character reply.
+Pressing `y` confirms the invocation; any other input (including an empty reply) cancels it and aborts the `bx` execution.
 
 ```bash
 # Bashfile
 
-dangerous-recipe() {
+destructive-recipe() {
   @confirm
 
   rm -rf ./build
@@ -138,18 +140,17 @@ Invoke other recipes from within a recipe at runtime.
 ```bash
 # Bashfile
 
-complex-recipe() {
-  echo "Pre-processing..."
-  bx::invoke simple-recipe
-  echo "Post-processing..."
-}
+composite-recipe() {
+  # Pre-processing...
 
-simple-recipe() {
-  echo "Simple recipe executed!"
+  bx::invoke recipe-1
+  bx::invoke recipe-2
+
+  # Post-processing...
 }
 ```
 
-Similar to when invoking recipes with `bx`, pass option `-y` (or `--yes`) to `bx::invoke` to auto-confirm.
+Similar to when invoking recipes with `bx`, pass option `-y` (or `--yes`) to `bx::invoke` to auto-confirm the nested recipe invocations that require confirmation.
 
 ### Scope boundaries
 Recipes declared as regular functions (syntax `recipe_name() { ... }`) share the same scope.
@@ -207,4 +208,4 @@ recipe() {
 ```
 
 Shell options set from a recipe are isolated to that recipe.
-Subsequent recipe invocations, or nested recipe invocations, will not be impacted by shell option changes from another recipe.
+Subsequent recipe invocations, or nested recipe invocations, will not be impacted by shell option changes from another recipe, nor by those of `bx` itself.

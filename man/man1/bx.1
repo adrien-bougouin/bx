@@ -1,15 +1,20 @@
-.TH BX 1 "" bx "User Commands"
+.TH BX 1 "2026-10-20" bx "User Commands"
 .SH NAME
 bx \- Bash eXecutor, a configurable build automation and recipe invocation tool
 .SH SYNOPSIS
 \fBbx\fR [\fB\-f\fR \fIbashfile\fR] [options] [\fB\-\-\fR] [recipe ...]
 .SH DESCRIPTION
+The \fIbx\fR utility is a build automation and recipe invocation tool that runs entirely in \fBBash 3.2+\fR.
+It reads a configuration file called a \fIBashfile\fR, treats Bash functions declared in it as \fIrecipes\fR, and invokes them by name:
 .PP
-The \fIbx\fR utility is a build automation and recipe invocation tool that runs entirely in Bash.  It reads a configuration file called a \fIBashfile\fR, treats Bash functions declared in it as \fIrecipes\fR, and invokes them by name:
-.PP
+.RS
 \fBbx\fR \fIrecipe\fR
+.RE
 .PP
-Any valid Bash 3.2+ code may be used in a \fIBashfile\fR, so recipes may use the full power of the shell.  A recipe declared in the file \fIBashfile\fR as follows:
+Recipes are Bash functions declared in the \fIBashfile\fR; private functions prefixed by \fB_\fR, by convention, are not treated as recipes.
+The names \fBbx\fR and \fBbx::*\fR are also reserved by \fIbx\fR and cannot be used as recipes either.
+.PP
+A recipe declared in the file \fIBashfile\fR as follows:
 .PP
 .RS
 .nf
@@ -25,16 +30,18 @@ is invoked with
 \fBbx\fR \fIlint\fR
 .RE
 .PP
-A recipe is a set of instructions declared in a \fIBashfile\fR as a Bash function.  Private functions, prefixed by \fB_\fR by convention, are not treated as recipes.  The names \fBbx\fR and \fBbx::*\fR are reserved by \fIbx\fR and cannot be used as recipes either.
+When no recipe is given, \fIbx\fR invokes the default recipe, marked with the \fB@default\fR annotation (see ANNOTATIONS below).
+If no default recipe is declared, \fIbx\fR fails with an error.
 .PP
-When no recipe is given, \fIbx\fR invokes the default recipe, marked with the \fB@default\fR annotation (see ANNOTATIONS below).  If no default recipe is declared, \fIbx\fR fails with an error.
-.PP
-The \fIBashfile\fR may be specified explicitly with the \fB\-f\fR option.  Otherwise, \fIbx\fR looks for the nearest \fIBashfile\fR by walking up the directory tree from the current working directory (see FILES below).  This allows recipes to be invoked from any subdirectory of a project.
+The \fIBashfile\fR may be specified explicitly with the \fB\-f\fR option.
+Otherwise, \fIbx\fR looks for the nearest \fIBashfile\fR by walking up the directory tree from the current working directory (see FILES below).
+This allows recipes to be invoked from any subdirectory of a project.
+However, the user is responsible for ensuring the \fIBashfile\fR works regardless of the directory \fIbx\fR is invoked from.
 .SH OPTIONS
-.sp 1
 .TP 0.5i
 \fB\-f\fR \fIfile\fR, \fB\-\-file\fR=\fIfile\fR, \fB\-\-bashfile\fR=\fIfile\fR
-Read \fIfile\fR as a bashfile instead of searching for the default \fIBashfile\fR.  Only one bashfile may be specified.
+Read \fIfile\fR as a bashfile instead of searching for the default \fIBashfile\fR.
+Only one bashfile may be specified.
 .TP 0.5i
 \fB\-h\fR, \fB\-\-help\fR
 Display the usage line, the list of options, and the available recipes, together with any recipe descriptions declared with the \fB@help\fR annotation.
@@ -43,7 +50,8 @@ Display the usage line, the list of options, and the available recipes, together
 Display the available recipes, together with any recipe descriptions declared with the \fB@help\fR annotation.
 .TP 0.5i
 \fB\-q\fR, \fB\-\-quiet\fR
-Do not display the invoked recipe traces, nor the xtrace output.  This is useful when the recipes themselves print the desired output.
+Do not display the invoked recipe traces, nor the xtrace output.
+This is useful when the recipes themselves print the desired output.
 .TP 0.5i
 \fB\-v\fR, \fB\-\-version\fR
 Display the version of \fIbx\fR and exit without requiring a \fIBashfile\fR.
@@ -54,105 +62,98 @@ Skip all confirmation prompts and invoke every recipe automatically (see \fB@con
 \fB\-\-\fR
 Treat all remaining arguments as recipes, even if they begin with a hyphen.
 .SH RECIPES
-.PP
 \fIbx\fR may invoke several recipes in a single execution, in the order given:
 .PP
 .RS
 \fBbx\fR \fIformat\fR \fIlint\fR
 .RE
 .PP
-Arguments may be passed to a recipe by quoting the recipe name together with its arguments.  They are made available to the recipe as \fI$1\fR, \fI$2\fR, etc:
+Arguments may be passed to a recipe by quoting the recipe name together with its arguments.
+They are made available to the recipe as \fI$1\fR, \fI$2\fR, etc:
 .PP
 .RS
 \fBbx\fR \fI'lint --some-lint-option'\fR
 .RE
 .PP
-A recipe that has already been invoked may legitimately be invoked again with different arguments.  However, when a recipe is already in the middle of being invoked, directly or indirectly, and is invoked again on the same invocation path, the re\-invocation is skipped with a warning.  This prevents circular invocation.
+A recipe that has already been invoked may legitimately be invoked again with different arguments.
+However, when a recipe is already in the middle of being invoked, directly or indirectly, and is invoked again on the same invocation path, the re\-invocation is skipped with a warning.
+This prevents circular invocation.
 .SS "Nested invocation"
-.PP
 A recipe may invoke other recipes at runtime, without spawning a separate \fBbx\fR process, using the \fBbx::invoke\fR helper:
 .PP
 .RS
 .nf
-complex-recipe() {
-  echo "Pre-processing..."
-  bx::invoke simple-recipe
-  echo "Post-processing..."
+composite-recipe() {
+  # Pre-processing...
+
+  bx::invoke recipe-1
+  bx::invoke recipe-2
+
+  # Post-processing...
 }
 .fi
 .RE
 .PP
 The \fBbx::invoke\fR helper accepts the same syntax as the command line: several recipes may be passed, and arguments are forwarded to the invoked recipe.
 .PP
-Passing \fB\-y\fR (or \fB\-\-yes\fR) to \fBbx::invoke\fR temporarily auto\-confirms all nested recipe invocations:
+Passing \fB\-y\fR (or \fB\-\-yes\fR) to \fBbx::invoke\fR temporarily auto\-confirms all nested recipe invocations that require confirmation (see ANNOTATIONS below):
 .PP
 .RS
 .nf
-recipe() {
-  @confirm
+daredevil-recipe() {
+  # Pre-processing...
 
-  echo "Pre-processing..."
-  # bx will not ask for confirmation before invoking dangerous-recipe
-  bx::invoke --yes dangerous-recipe
-  echo "Post-processing..."
+  bx::invoke --yes destructive-recipe
+
+  # Post-processing...
 }
 
-dangerous-recipe() {
+destructive-recipe() {
   @confirm
 
-  # Do something critical...
+  # Do something destructive...
 }
 .fi
 .RE
 .SS "Scope boundaries"
+Recipes declared as regular functions (syntax \fIrecipe_name() { ... }\fR) share the same scope:
+if they modify global variables, the changes will be visible from other recipes.
 .PP
-Recipes declared with \fB()\fR (subshell) run in their own scope: if they modify global variables, the changes are not visible to other recipes.  Recipes declared with \fB{}\fR (functions) share the parent scope: if they modify global variables, the changes are visible to other recipes.
+Recipes declared as a subprocess (syntax \fIrecipe_name() ( ... )\fR) operate in a fork.
+Nested invocations inside a subprocess recipe see its global changes; later top-level invocations do not.
 .SS "Shell options isolation"
+Shell options, such as \fBset\fR \fI\-x\fR for tracing, are isolated locally.
+Option changes made inside a recipe do not leak into other recipes, nor into \fIbx\fR itself.
 .PP
-Shell options, such as \fBset\fR \fI\-x\fR for tracing, are isolated locally.  Changes made inside a recipe do not leak into other recipes, nor into \fIbx\fR itself.
-.PP
-To preserve quiet mode, \fIbx\fR shadows the \fBset\fR builtin with a function of its own.  When \fB\-q\fR (or \fB\-\-quiet\fR) is in effect, an xtrace enabled by a recipe's \fBset\fR \fI\-x\fR is turned back off, without affecting the rest of the recipe.
+To preserve quiet mode, \fIbx\fR shadows the \fBset\fR builtin with a function of its own.
+When \fB\-q\fR (or \fB\-\-quiet\fR) is in effect, an \fIxtrace\fR enabled by a recipe's \fBset\fR \fI\-x\fR is turned back off, without affecting the rest of the recipe.
 .SH TRACES
-.PP
-Unless \fB\-q\fR (or \fB\-\-quiet\fR) is given, \fIbx\fR prints a trace line to standard error before and after each invoked recipe:
-.PP
-.RS
-.nf
-+ # format {
-+ # }
-.fi
-.RE
-.PP
-The trace is prefixed with a character consistent with \fBPS4\fR (default \fB+\fR).  The prefix character is repeated once per nesting level:
+Unless \fB\-q\fR (or \fB\-\-quiet\fR) is given, \fIbx\fR prints a trace line to standard error before and after each invoked recipe.
+The trace is prefixed with a character consistent with \fBPS4\fR (default \fB+\fR), and repeated once per nesting level:
 .PP
 .RS
 .nf
-+ # outer {
-++ # inner {
++ # top-level-recipe {
+++ # nested-recipe {
 ++ # }
 + # }
 .fi
 .RE
 .SH ANNOTATIONS
+Annotations are directives placed inside a recipe body.
+They are read by \fIbx\fR when loading the \fIBashfile\fR and instruct it on how to treat the recipe.
 .PP
-Annotations are directives placed inside a recipe body.  They are read by \fIbx\fR when loading the \fIBashfile\fR and instruct it on how to treat the recipe.
-.PP
-All annotations must appear at the top of the recipe body, before any executable instruction.  When the \fIBashfile\fR is loaded, \fIbx\fR validates this placement: an annotation found after executable code is an error, and \fIbx\fR aborts with a message such as:
-.PP
-.RS
-.nf
-bx: Invalid Bashfile at recipe `my-recipe` \- Found annotation '@help' after executable code!
-.fi
-.RE
-.PP
+All annotations must appear at the top of the recipe body, before any executable instruction.
+When the \fIBashfile\fR is loaded, \fIbx\fR validates this placement.
 The validation applies to the whole \fIBashfile\fR: if any recipe contains a misplaced annotation, \fIbx\fR fails, even when a different recipe is invoked.
 .TP 0.5i
 \fB@help\fR \fIdescription ...\fR
-Associate a short description with the recipe.  The description is displayed by \fBbx\fR \fB\-l\fR and \fBbx\fR \fB\-h\fR, and may span multiple lines by passing several arguments:
+Associates a short description with the recipe.
+The description is displayed by \fBbx\fR \fB\-l\fR, and may span multiple lines by passing several arguments:
 .PP
 .RS
 .nf
-my-recipe() {
+recipe() {
   @help "Line 1" \\
     "Line 2"
 }
@@ -160,24 +161,27 @@ my-recipe() {
 .RE
 .TP 0.5i
 \fB@default\fR
-Mark the recipe as the default recipe, invoked when \fBbx\fR is executed without an explicit recipe:
+Marks the recipe as the default recipe, invoked when \fBbx\fR is executed without an explicit recipe:
 .PP
 .RS
 .nf
-my-recipe() {
+recipe() {
   @default
 }
 .fi
 .RE
 .PP
-At most one recipe may be marked as the default.  A default recipe must not be a private function (a name prefixed by \fB_\fR).
+At most one recipe may be marked as the default.
+A default recipe must not be a private function (prefixed by \fB_\fR by convention).
 .TP 0.5i
 \fB@confirm\fR
-Mark the recipe as requiring interactive confirmation before execution.  When the recipe is about to be invoked, \fIbx\fR prompts the user with a \fB[y/N]\fR question on standard error and waits for a single\-character reply.  Pressing \fBy\fR confirms the invocation; any other input (including an empty reply) cancels it and aborts the chain.
+Marks the recipe as requiring interactive confirmation before execution.
+When the recipe is about to be invoked, \fIbx\fR prompts the user with a \fB[y/N]\fR question and waits for a single\-character reply.
+Pressing \fBy\fR confirms the invocation; any other input (including an empty reply) cancels it and aborts the \fIbx\fR execution.
 .PP
 .RS
 .nf
-dangerous-recipe() {
+destructive-recipe() {
   @confirm
 
   rm -rf ./build
@@ -186,29 +190,29 @@ dangerous-recipe() {
 .RE
 .PP
 The prompt is shown for every matching recipe in a chain, including recipes invoked through nested invocation via \fBbx::invoke\fR.
-.PP
 Passing \fB\-y\fR (or \fB\-\-yes\fR) on the command line bypasses all confirmation prompts so that every recipe runs automatically.
 .SH FILES
 .TP 0.5i
 \fIBashfile\fR
-The default configuration file read by \fIbx\fR.  When the \fB\-f\fR option is not given, \fIbx\fR searches for the nearest \fIBashfile\fR starting from the current working directory and walking up its parents, until one is found or the root directory is reached.  If none is found, \fIbx\fR fails, unless \fB\-h\fR or \fB\-v\fR was requested.
+The default configuration file read by \fIbx\fR.
+When the \fB\-f\fR option is not given, \fIbx\fR searches for the nearest \fIBashfile\fR starting from the current working directory and walking up its parents, until one is found or the root directory is reached.
+If none is found, \fIbx\fR fails, unless \fB\-h\fR or \fB\-v\fR was requested.
 .SH UPDATE
-.PP
 Update an existing \fIbx\fR installation with:
 .PP
 .RS
 \fBbx\-update\fR
 .RE
 .SH UNINSTALL
-.PP
 Uninstall an existing \fIbx\fR installation with:
 .PP
 .RS
 \fBbx\-uninstall\fR
 .RE
 .SH "EXIT STATUS"
-.PP
-\fIbx\fR exits with a status of zero if all invoked recipes completed successfully.  A nonzero status is returned if any recipe, or \fIbx\fR itself, encountered an error.  Error messages are printed to standard error with the \fBbx:\fR prefix.
+\fIbx\fR exits with a status of zero if all invoked recipes completed successfully.
+A nonzero status is returned if any recipe, or \fIbx\fR itself, encountered an error.
+Error messages are printed to standard error with the \fBbx:\fR prefix.
 .SH "SEE ALSO"
 \fIbash\fR(1) and the \fIbx\fR project documentation.
 .SH AUTHOR
@@ -216,4 +220,6 @@ Uninstall an existing \fIbx\fR installation with:
 .SH "COPYRIGHT"
 Copyright (c) 2026 Adrien Bougouin.
 .PP
-\fIbx\fR is free software, released under the MIT License.  It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT License for more details.
+\fIbx\fR is free software, released under the MIT License.
+It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the MIT License for more details.
