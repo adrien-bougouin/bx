@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHFMT_VERSION: "3.13.1"
+      MANDOC_VERSION: "1.14.6-1"
 
     steps:
       - uses: actions/checkout@v6
@@ -45,10 +46,28 @@ jobs:
       - name: Add shfmt to PATH
         run: echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
 
+      - id: cache-mandoc
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/mandoc
+          key: mandoc-${{ runner.os }}-${{ env.MANDOC_VERSION }}
+
+      - name: Download mandoc
+        if: steps.cache-mandoc.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ${HOME}/.cache/mandoc
+
+          curl -fsSL -o ${HOME}/.cache/mandoc/mandoc_${MANDOC_VERSION}_amd64.deb \
+            "http://archive.ubuntu.com/ubuntu/pool/universe/m/mdocml/mandoc_${MANDOC_VERSION}_amd64.deb"
+
+      - name: Install mandoc
+        run: sudo dpkg -i ${HOME}/.cache/mandoc/mandoc_${MANDOC_VERSION}_amd64.deb
+
       - name: Check coding style
         run: |
           ./bin/bx format && git diff --exit-code
           ./bin/bx "lint --exclude SC2317,SC2015"
+          ./bin/bx man::lint
           ./bin/bx features::lint
 
   check-features:

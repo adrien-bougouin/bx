@@ -27,6 +27,12 @@ lint() {
   shellcheck --shell bash ${args+"${args[@]}"} "${SOURCES[@]}" "${BASHFILES[@]}" "${DIST_SCRIPTS[@]}"
 }
 
+man::lint() {
+  set -x
+
+  mandoc -T lint "${MAN_PATH}"/*/*
+}
+
 dist() {
   @help \
     "Prepare downloadable bx archive and installer." \
