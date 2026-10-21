@@ -84,8 +84,7 @@ _bx::display::error() {
 ################################################################################
 # Print a trace message to stderr.
 #
-# The trace formatting is consistent with xtrace's repeat character, and is
-# designed to not cause issues if user wants to replay the traces.
+# The trace formatting is consistent with xtrace's repeat character.
 #
 # Formatting:
 #   - {{indent}}: 4 space indentation
@@ -101,8 +100,8 @@ _bx::display::error() {
 # Outputs:
 #   Writes the formatted message to stderr.
 #   For instance, with PS4='+ ':
-#     + # <message-of-level-1>
-#     ++ # <message-of-level-2>
+#     + <message-of-level-1>
+#     ++ <message-of-level-2>
 ################################################################################
 _bx::display::trace() {
   local level="$1"
@@ -118,7 +117,7 @@ _bx::display::trace() {
     xtrace_repeated_character="${xtrace_repeated_character}${xtrace_repeat_character}"
   done
 
-  _bx::display::format "${xtrace_repeated_character} # ${trace}\n" >&2
+  _bx::display::format "${xtrace_repeated_character} ${trace}\n" >&2
 }
 
 ################################################################################

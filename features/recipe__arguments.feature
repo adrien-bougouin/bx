@@ -41,8 +41,8 @@ Feature: Recipe--Arguments
       | recipe-1 "'it's a tricky argument'" |
     Then bx outputs to stderr
       """
-      + # recipe-1 ''\''it'\''s a tricky argument'\''' {
-      + # }
+      + recipe-1 ''\''it'\''s a tricky argument'\''' {
+      + }
       """
     And bx succeeds
 

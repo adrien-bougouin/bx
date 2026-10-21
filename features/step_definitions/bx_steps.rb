@@ -107,11 +107,11 @@ def build_expected_output_line(data, invocation_stack: [])
   when 'bx-trace-in'
     invocation_stack << canonicalize_recipe_invocation(content)
 
-    "#{'+' * invocation_stack.size} # #{invocation_stack.last} {"
+    "#{'+' * invocation_stack.size} #{invocation_stack.last} {"
   when 'bx-trace-out'
     invocation_stack.pop
 
-    "#{'+' * (invocation_stack.size + 1)} # }"
+    "#{'+' * (invocation_stack.size + 1)} }"
   when 'bx-skip'
     canonical_recipe_invocation = canonicalize_recipe_invocation(content)
 
