@@ -19,6 +19,8 @@ is invoked with
 bx lint
 ```
 
+For the design principles and the scope of `bx`, see [VISION.md](VISION.md).
+
 ## Requirements
 All you need is Bash 3.2 or above.
 
