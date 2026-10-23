@@ -4,9 +4,8 @@ This document states what `bx` is, why `bx` exists, and the principles it is bui
 `bx` is a `make`-like task runner in which **Bash is the configuration language**: it reads a Bashfile, treats the functions it declares as recipes, and invokes them by name.
 
 Bash is usually already at hand and well suited to describing what to do, but it is less comfortable as an entry point for running tasks.
-
 Existing task runners tend to fill that gap with a second language.
-A `Makefile`, for instance, has its own syntax, tab-sensitive rules and escaping rules; embedding a shell command in a recipe often becomes an escaping exercise.
+A `Makefile`, for instance, has its own syntax, tab-sensitive rules and escaping rules; embedding a shell command in a task/recipe often becomes an escaping exercise.
 Escaping is not the only cost: a second syntax and a second set of rules must also be maintained for what is ultimately shell work.
 
 **`bx` is a thin layer around Bash.**
