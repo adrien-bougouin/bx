@@ -1,16 +1,9 @@
 # `bx` Vision
-`bx` is a `make`-like task runner in which **Bash is the configuration language**.
+This document states what `bx` is, why `bx` exists, and the principles it is built on.
 
-This document states what `bx` is, why it exists, and the principles it is built on.
+`bx` is a `make`-like task runner in which **Bash is the configuration language**: it reads a Bashfile, treats the functions it declares as recipes, and invokes them by name.
 
-## What `bx` is
-`bx` reads a `Bashfile`, treats the Bash functions it declares as *recipes*, and invokes them by name.
-
-The `Bashfile` is plain Bash, not a configuration format.
-It can be read and linted like any other script, and its recipes are ordinary Bash functions.
-
-## Why `bx` exists
-Bash is usually already at hand and well suited to describing *what* to do, but it is less comfortable as an *entry point*.
+Bash is usually already at hand and well suited to describing what to do, but it is less comfortable as an entry point for running tasks.
 
 Existing task runners tend to fill that gap with a second language.
 A `Makefile`, for instance, has its own syntax, tab-sensitive rules and escaping rules; embedding a shell command in a recipe often becomes an escaping exercise.
@@ -20,20 +13,18 @@ Escaping is not the only cost: a second syntax and a second set of rules must al
 It provides the affordances people tend to expect from a task runner--discovery, listing, chaining, arguments, tracing, confirmation, nested invocation--while leaving the work itself to the Bash the user already writes.
 
 ## Principles
-The vision rests on three principles.
-
-### 1. Favor Bash features over `bx` features
+### Favor Bash features over `bx` features
 Using `bx` should not require learning another language: the `Bashfile` is Bash, the recipes are Bash functions, and the arguments are Bash arguments.
 Someone who knows Bash already knows most of `bx`.
 
-`bx` does not re-invent what Bash already does.
-For instance, it prints a recipe-level trace and leaves command-level tracing to xtrace (`set -x`), rather than implementing its own tracing system.
-Both use the same `PS4`-derived prefix, so they interleave cleanly.
+Tracing illustrates this principle.
+`bx` prints recipe-level traces itself but leaves command-level tracing to `xtrace` (`set -x`).
+Like `xtrace`, `bx` derives its trace prefix from `PS4`, so the two interleave cleanly.
 
-### 2. Keep code short and simple
-`bx` must support old Bash 3.2 (the version shipped with macOS), so keeping its code thin is more a maintenance strategy than an aesthetic preference: a smaller `bx` is easier to trust and to keep working.
+### Keep code simple
+`bx` must support old Bash 3.2 (the version shipped with macOS), so keeping the code thin is a maintenance strategy rather than an aesthetic preference: a smaller bx is easier to trust and to keep working.
 
-### 3. Only implement what improves the UX
+### Only implement UX improvements
 `bx` adds behaviour only where the `Bashfile` cannot remove friction on its own--the friction of **invoking** recipes, rather than of **authoring** them.
 
 | Friction                                           | What `bx` provides                       |
