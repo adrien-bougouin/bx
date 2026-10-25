@@ -17,7 +17,7 @@ class Bx
     BASH
 
     stdout, stderr, status = Open3.capture3(
-      "bash -c #{Shellwords.escape(bash_script)}",
+      "/usr/bin/env bash -c #{Shellwords.escape(bash_script)}",
       stdin_data:
     )
 
