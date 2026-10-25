@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 __BX_OPTION_HELP__="${__BOOL_FALSE__}"
 __BX_OPTION_LIST__="${__BOOL_FALSE__}"

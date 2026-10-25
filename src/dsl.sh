@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Domain Specific Language to be used within a Bashfile.
 

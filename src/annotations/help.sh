@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ( <recipe> <line_count> <line> ... )
 __BX_RECIPE_HELPS__=()

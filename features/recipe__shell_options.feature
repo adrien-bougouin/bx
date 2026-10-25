@@ -85,16 +85,22 @@ Feature: Recipe--Shell Options
         shopt -s shift_verbose
         set -x +o pipefail
 
-        shopt shift_verbose || true
-        shopt -o xtrace || true
-        shopt -o pipefail || true
+        _shopt shift_verbose
+        _shopt -o xtrace
+        _shopt -o pipefail
       }
 
       print-options() {
         echo "-----"
-        shopt shift_verbose || true
-        shopt -o xtrace || true
-        shopt -o pipefail || true
+        _shopt shift_verbose
+        _shopt -o xtrace
+        _shopt -o pipefail
+      }
+
+      _shopt() {
+        {
+          shopt "$@" | sed -E 's/[[:space:]]+/ /g' || true
+        } 2>/dev/null
       }
       ```
     When invoking
@@ -103,22 +109,21 @@ Feature: Recipe--Shell Options
       | print-options |
     Then bx outputs to stdout
       """
-      shift_verbose  	on
-      xtrace         	on
-      pipefail       	off
+      shift_verbose on
+      xtrace on
+      pipefail off
       -----
-      shift_verbose  	off
-      xtrace         	off
-      pipefail       	on
+      shift_verbose off
+      xtrace off
+      pipefail on
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT             |
-      | bx-trace-in  | recipe              |
-      | xtrace       | shopt shift_verbose |
-      | xtrace       | shopt -o xtrace     |
-      | xtrace       | shopt -o pipefail   |
-      | xtrace       | true                |
-      | bx-trace-out |                     |
-      | bx-trace-in  | print-options       |
-      | bx-trace-out |                     |
+      | FORMAT       | CONTENT              |
+      | bx-trace-in  | recipe               |
+      | xtrace       | _shopt shift_verbose |
+      | xtrace       | _shopt -o xtrace     |
+      | xtrace       | _shopt -o pipefail   |
+      | bx-trace-out |                      |
+      | bx-trace-in  | print-options        |
+      | bx-trace-out |                      |
     And bx succeeds

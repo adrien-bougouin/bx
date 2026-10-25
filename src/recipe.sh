@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 __BX_RECIPE_CANONICAL_QUOTE_ESCAPE__="'\\''"
 

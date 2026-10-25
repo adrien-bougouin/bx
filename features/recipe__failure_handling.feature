@@ -17,6 +17,7 @@ Feature: Recipe -- Failure Handling
         echo "After 'failing-recipe' failure!"
       }
       ```
+
   Scenario: Invoke a recipe that fails
     When invoking
       | RECIPE         |

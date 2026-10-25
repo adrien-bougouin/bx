@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Display utilities for info and error messaging with consistent formatting
 # across the bx tool.

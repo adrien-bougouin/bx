@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # User interface utilities for interactive prompts and confirmations.
 

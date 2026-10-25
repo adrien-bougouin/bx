@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 __BX_RECIPE_IGNORE_PATTERNS__=("^_" "^_?bx::" "^_?bx$")
 __BX_RECIPES__=()

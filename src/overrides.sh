@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Builtins overrides to enforce bx's runtime behavior.
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # CLI option parsing and help output for the bx tool.
 

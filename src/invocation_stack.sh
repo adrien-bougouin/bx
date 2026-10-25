@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Stack of currently invoked recipes.
 # The first recipe is a recipe invoked by user. The other recipes are nested

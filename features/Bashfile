@@ -11,7 +11,7 @@ features::doctor() (
   local failures=0
 
   _features::doctor::check "Bash 3.2 or above" \
-    /bin/bash -c '((BASH_VERSINFO[0] > 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] >= 2)))' \
+    /usr/bin/env bash -c '((BASH_VERSINFO[0] > 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] >= 2)))' \
     || failures=$((failures + 1))
 
   _features::doctor::check "Ruby ${RBENV_VERSION}" \

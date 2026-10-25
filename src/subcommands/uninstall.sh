@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 _bx::uninstall::main() {
   set -euo pipefail

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 readonly __BOOL_TRUE__=0
 readonly __BOOL_FALSE__=1
