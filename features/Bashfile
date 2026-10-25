@@ -1,6 +1,34 @@
 FEATURES_PATH="${FEATURES_PATH:-$(realpath "$(dirname "${BASH_SOURCE[0]}")")}"
 BIN_PATH="${BIN_PATH:-$(dirname "${FEATURES_PATH}")/bin}"
 
+features::doctor() (
+  @help "Check for requirements to run the feature checks."
+
+  RBENV_VERSION="$(cat "${FEATURES_PATH}/.ruby-version")"
+
+  export RBENV_VERSION
+
+  local failures=0
+
+  _features::doctor::check "Bash 3.2 or above" \
+    /bin/bash -c '((BASH_VERSINFO[0] > 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] >= 2)))' \
+    || failures=$((failures + 1))
+
+  _features::doctor::check "Ruby ${RBENV_VERSION}" \
+    test "$(ruby -e 'print RUBY_VERSION' 2>/dev/null)" = "${RBENV_VERSION}" \
+    || failures=$((failures + 1))
+
+  _features::doctor::check "Bundler" \
+    bundle --version \
+    || failures=$((failures + 1))
+
+  if [[ ${failures} -gt 0 ]]; then
+    printf "\n%s\n" "Missing requirements for running the feature checks!"
+
+    return 1
+  fi
+)
+
 features::lint() (
   _features::env
 
@@ -31,6 +59,23 @@ features::check() (
 features::todo() (
   bx::invoke 'features::check --tags="@skip or @todo"'
 )
+
+_features::doctor::check() {
+  local description="$1"
+  shift
+
+  printf "Looking for %s... " "${description}"
+
+  if "$@" >/dev/null 2>/dev/null; then
+    printf "Found!\n"
+
+    return 0
+  fi
+
+  printf "Not found!\n"
+
+  return 1
+}
 
 _features::env() {
   RBENV_VERSION="$(cat "${FEATURES_PATH}/.ruby-version")"
