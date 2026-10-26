@@ -12,6 +12,26 @@ DIST_SCRIPTS=("${ROOT_PATH}/install.sh")
 source "${ROOT_PATH}/dist.bashfile"
 source "${ROOT_PATH}/features/Bashfile"
 
+doctor() {
+  @help "Check for requirements to develop bx."
+
+  local failures=0
+
+  _doctor::check "Bash 3.2 or above" \
+    /usr/bin/env bash -c '((BASH_VERSINFO[0] > 3 || (BASH_VERSINFO[0] == 3 && BASH_VERSINFO[1] >= 2)))' \
+    || failures=$((failures + 1))
+
+  _doctor::check "shfmt" command -v shfmt || failures=$((failures + 1))
+  _doctor::check "ShellCheck" command -v shellcheck || failures=$((failures + 1))
+  _doctor::check "mandoc" command -v mandoc || failures=$((failures + 1))
+
+  if [[ ${failures} -gt 0 ]]; then
+    printf "\n%s\n" "Missing requirements for developing bx!"
+
+    return 1
+  fi
+}
+
 format() {
   set -x
 
@@ -99,6 +119,23 @@ clean-dist() {
   set -x
 
   rm -rf "${ROOT_PATH}/dist"
+}
+
+_doctor::check() {
+  local description="$1"
+  shift
+
+  printf "Looking for %s... " "${description}"
+
+  if "$@" >/dev/null 2>/dev/null; then
+    printf "Found!\n"
+
+    return 0
+  fi
+
+  printf "Not found!\n"
+
+  return 1
 }
 
 _checksum() {

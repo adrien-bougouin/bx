@@ -211,3 +211,7 @@ recipe() {
 
 Shell options set from a recipe are isolated to that recipe.
 Subsequent recipe invocations, or nested recipe invocations, will not be impacted by shell option changes from another recipe, nor by those of `bx` itself.
+
+## Contributing
+Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for the setup, test, and style guidelines.
+Read [VISION.md](VISION.md) before proposing a change.
