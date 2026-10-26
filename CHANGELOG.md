@@ -1,10 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.13.0] - 2026-10-26
+### Added
+- Distribute `CHANGELOG.md` together with the release.
 
 ## [0.12.0] - 2026-10-25
 ### Changed
@@ -28,7 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.10.0] - 2026-10-19
 ### Added
-- Validate that annotations appear before executable code in a recipe body. A misplaced annotation now aborts Bashfile loading, even when a different recipe is invoked.
+- Validate that annotations appear before executable code in a recipe body.
+  A misplaced annotation now aborts Bashfile loading, even when a different recipe is invoked.
 
 ### Fixed
 - Made annotation-start detection compatible with stricter glibc regular-expression behavior.
@@ -159,7 +163,8 @@ Initial release.
 - Scope boundaries: function recipes share scope, while subprocess recipes operate in a fork.
 - Options: `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--`.
 
-[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/adrien-bougouin/bx/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/adrien-bougouin/bx/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/adrien-bougouin/bx/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/adrien-bougouin/bx/compare/v0.10.2...v0.11.0

@@ -85,8 +85,7 @@ dist() {
 
   mkdir -p "${dist_bin_path}"
 
-  cp -r "${ROOT_PATH}/CHANGELOG.md" \
-    "${dist_bx_path}/CHANGELOG.md"
+  _changelog::without_unreleased >"${dist_bx_path}/CHANGELOG.md"
   cp -r "${ROOT_PATH}/LICENSE" \
     "${dist_bx_path}/LICENSE"
   cp -r "${ROOT_PATH}/dist.bashfile" \
@@ -123,6 +122,14 @@ clean-dist() {
   rm -rf "${ROOT_PATH}/dist"
 }
 
+_checksum() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$@"
+  else
+    shasum -a 256 "$@"
+  fi
+}
+
 _doctor::check() {
   local description="$1"
   shift
@@ -140,10 +147,19 @@ _doctor::check() {
   return 1
 }
 
-_checksum() {
-  if command -v sha256sum >/dev/null 2>&1; then
-    sha256sum "$@"
-  else
-    shasum -a 256 "$@"
-  fi
+_changelog::without_unreleased() {
+  local line
+  local in_unreleased=0
+
+  while IFS= read -r line || [[ -n ${line} ]]; do
+    case ${line} in
+      "## [Unreleased]") in_unreleased=1 ;;
+      "## "*)
+        in_unreleased=0
+        printf "%s\n" "${line}"
+        ;;
+      "[Unreleased]:"*) ;;
+      *) [[ ${in_unreleased} == 1 ]] || printf "%s\n" "${line}" ;;
+    esac
+  done <"${ROOT_PATH}/CHANGELOG.md"
 }
