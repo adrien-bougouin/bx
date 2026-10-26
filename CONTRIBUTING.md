@@ -26,7 +26,7 @@ Run `./bin/bx format lint man::lint features::lint` before commiting and opening
 
 ## Pull Requests
 Use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
-Update `README.md` and `man/man1/bx.1` when user-facing behavior changes.
+When user-facing behavior changes, update `README.md`, `man/man1/bx.1`, and the `[Unreleased]` section of `CHANGELOG.md`.
 
 ## License
 `bx` is released under the [MIT License](LICENSE).

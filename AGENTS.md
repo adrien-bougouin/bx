@@ -8,6 +8,9 @@ AI-assisted contributions are welcome in this project, under the same terms as a
 3. Adhere to the contribution rules: read and follow [CONTRIBUTING.md](CONTRIBUTING.md).
 4. Do not modify [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Changelog
+Add user-facing changes to the `[Unreleased]` section of [CHANGELOG.md](CHANGELOG.md).
+
 ## Verification
 - Verify commands, options, and behavior against the source, tests, README, and manual page; do not invent them.
 - Run the checks required by [CONTRIBUTING.md](CONTRIBUTING.md).
