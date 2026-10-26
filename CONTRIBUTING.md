@@ -22,7 +22,7 @@ Add or update a scenario for every behavior change.
 ## Coding Style
 Follow the [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html).
 Keep the code compatible with Bash 3.2, the version shipped with macOS.
-Run `./bin/bx format lint man::lint features::lint` before commitinh and opening a pull request.
+Run `./bin/bx format lint man::lint features::lint` before commiting and opening a pull request.
 
 ## Pull Requests
 Use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
