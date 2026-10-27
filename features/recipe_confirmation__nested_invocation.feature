@@ -3,61 +3,61 @@ Feature: Recipe Confirmation -- Nested Invocation
   Background:
     Given the Bashfile
       ```bash
-      recipe() {
-        bx::invoke "recipe--critical${@+"$(printf ' "%s"' "$@")"}"
+      composite-recipe() {
+        bx::invoke "destructive-recipe${@+"$(printf ' "%s"' "$@")"}"
       }
 
-      recipe--critical() {
+      deep-composite-recipe() {
+        bx::invoke destructive-composite-recipe
+      }
+
+      destructive-recipe() {
         @confirm
 
-        echo "'recipe--critical' invoked!"
+        echo "'destructive-recipe' invoked!"
       }
 
-      deep-recipe() {
-        bx::invoke deep-recipe--critical
-      }
-
-      deep-recipe--critical() {
+      destructive-composite-recipe() {
         @confirm
 
-        bx::invoke recipe--critical
+        bx::invoke destructive-recipe
 
-        echo "'deep-recipe--critical' invoked!"
+        echo "'destructive-composite-recipe' invoked!"
       }
       ```
 
   Scenario: Confirm a nested recipe invocation
     When invoking
-      | RECIPE | CONFIRMATION |
-      | recipe | y            |
+      | RECIPE           | CONFIRMATION |
+      | composite-recipe | y            |
     Then bx outputs to stdout
       """
-      'recipe--critical' invoked!
+      'destructive-recipe' invoked!
       """
       And bx outputs to stderr
-        | FORMAT       | CONTENT          |
-        | bx-trace-in  | recipe           |
-        | bx-confirm   | recipe--critical |
-        | bx-trace-in  | recipe--critical |
-        | bx-trace-out |                  |
-        | bx-trace-out |                  |
+        | FORMAT       | CONTENT            |
+        | bx-trace-in  | composite-recipe   |
+        | bx-confirm   | destructive-recipe |
+        | bx-trace-in  | destructive-recipe |
+        | bx-trace-out |                    |
+        | bx-trace-out |                    |
     And bx succeeds
 
   Scenario Outline: Confirm a nested recipe invocation with arguments
     When invoking
-      | RECIPE                    | CONFIRMATION |
-      | recipe <RECIPE ARGUMENTS> | y            |
+      | RECIPE                              | CONFIRMATION |
+      | composite-recipe <RECIPE ARGUMENTS> | y            |
     Then bx outputs to stdout
       """
-      'recipe--critical' invoked!
+      'destructive-recipe' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT                             |
-      | bx-trace-in  | recipe <RECIPE ARGUMENTS>           |
-      | bx-confirm   | recipe--critical <RECIPE ARGUMENTS> |
-      | bx-trace-in  | recipe--critical <RECIPE ARGUMENTS> |
-      | bx-trace-out |                                     |
-      | bx-trace-out |                                     |
+      | FORMAT       | CONTENT                               |
+      | bx-trace-in  | composite-recipe <RECIPE ARGUMENTS>   |
+      | bx-confirm   | destructive-recipe <RECIPE ARGUMENTS> |
+      | bx-trace-in  | destructive-recipe <RECIPE ARGUMENTS> |
+      | bx-trace-out |                                       |
+      | bx-trace-out |                                       |
     And bx succeeds
 
     Examples:
@@ -71,71 +71,71 @@ Feature: Recipe Confirmation -- Nested Invocation
 
   Scenario: Confirm multiple nested recipe invocations
     When invoking
-      | RECIPE      | CONFIRMATION |
-      | recipe      | y            |
-      | deep-recipe | yy           |
+      | RECIPE                | CONFIRMATION |
+      | composite-recipe      | y            |
+      | deep-composite-recipe | yy           |
     Then bx outputs to stdout
       """
-      'recipe--critical' invoked!
-      'recipe--critical' invoked!
-      'deep-recipe--critical' invoked!
+      'destructive-recipe' invoked!
+      'destructive-recipe' invoked!
+      'destructive-composite-recipe' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT               |
-      | bx-trace-in  | recipe                |
-      | bx-confirm   | recipe--critical      |
-      | bx-trace-in  | recipe--critical      |
-      | bx-trace-out |                       |
-      | bx-trace-out |                       |
-      | bx-trace-in  | deep-recipe           |
-      | bx-confirm   | deep-recipe--critical |
-      | bx-trace-in  | deep-recipe--critical |
-      | bx-confirm   | recipe--critical      |
-      | bx-trace-in  | recipe--critical      |
-      | bx-trace-out |                       |
-      | bx-trace-out |                       |
-      | bx-trace-out |                       |
+      | FORMAT       | CONTENT                      |
+      | bx-trace-in  | composite-recipe             |
+      | bx-confirm   | destructive-recipe           |
+      | bx-trace-in  | destructive-recipe           |
+      | bx-trace-out |                              |
+      | bx-trace-out |                              |
+      | bx-trace-in  | deep-composite-recipe        |
+      | bx-confirm   | destructive-composite-recipe |
+      | bx-trace-in  | destructive-composite-recipe |
+      | bx-confirm   | destructive-recipe           |
+      | bx-trace-in  | destructive-recipe           |
+      | bx-trace-out |                              |
+      | bx-trace-out |                              |
+      | bx-trace-out |                              |
     And bx succeeds
 
   Scenario: Reject a nested recipe invocation
     When invoking
-      | RECIPE | CONFIRMATION |
-      | recipe | n            |
+      | RECIPE           | CONFIRMATION |
+      | composite-recipe | n            |
     Then bx outputs nothing to stdout
     And bx outputs to stderr
-      | FORMAT       | CONTENT          |
-      | bx-trace-in  | recipe           |
-      | bx-confirm   | recipe--critical |
-      | bx-error     | Aborted!         |
+      | FORMAT      | CONTENT            |
+      | bx-trace-in | composite-recipe   |
+      | bx-confirm  | destructive-recipe |
+      | bx-error    | Aborted!           |
     And bx fails
 
   Scenario: Confirm then reject nested recipe invocations
     When invoking
-      | RECIPE      | CONFIRMATION |
-      | recipe      | y            |
-      | deep-recipe | n            |
+      | RECIPE                | CONFIRMATION |
+      | composite-recipe      | y            |
+      | deep-composite-recipe | n            |
     Then bx outputs to stderr
-      | FORMAT       | CONTENT               |
-      | bx-trace-in  | recipe                |
-      | bx-confirm   | recipe--critical      |
-      | bx-trace-in  | recipe--critical      |
-      | bx-trace-out |                       |
-      | bx-trace-out |                       |
-      | bx-trace-in  | deep-recipe           |
-      | bx-confirm   | deep-recipe--critical |
-      | bx-error     | Aborted!              |
+      | FORMAT       | CONTENT                      |
+      | bx-trace-in  | composite-recipe             |
+      | bx-confirm   | destructive-recipe           |
+      | bx-trace-in  | destructive-recipe           |
+      | bx-trace-out |                              |
+      | bx-trace-out |                              |
+      | bx-trace-in  | deep-composite-recipe        |
+      | bx-confirm   | destructive-composite-recipe |
+      | bx-error     | Aborted!                     |
     Then bx outputs to stdout
       """
-      'recipe--critical' invoked!
+      'destructive-recipe' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT               |
-      | bx-trace-in  | recipe                |
-      | bx-confirm   | recipe--critical      |
-      | bx-trace-in  | recipe--critical      |
-      | bx-trace-out |                       |
-      | bx-trace-out |                       |
-      | bx-trace-in  | deep-recipe           |
-      | bx-confirm   | deep-recipe--critical |
-      | bx-error     | Aborted!              |
+      | FORMAT       | CONTENT                      |
+      | bx-trace-in  | composite-recipe             |
+      | bx-confirm   | destructive-recipe           |
+      | bx-trace-in  | destructive-recipe           |
+      | bx-trace-out |                              |
+      | bx-trace-out |                              |
+      | bx-trace-in  | deep-composite-recipe        |
+      | bx-confirm   | destructive-composite-recipe |
+      | bx-error     | Aborted!                     |
     And bx fails

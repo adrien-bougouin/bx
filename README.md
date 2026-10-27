@@ -98,7 +98,7 @@ The description is displayed by `bx --list`, and can span multiple lines by pass
 ```bash
 # Bashfile
 
-my_recipe() {
+recipe() {
   @help "Line 1" \
     "Line 2"
 
@@ -112,7 +112,7 @@ Set which recipe to invoke when executing `bx` without an explicit recipe.
 ```bash
 # Bashfile
 
-my_recipe() {
+recipe() {
   @default
 
   # ...

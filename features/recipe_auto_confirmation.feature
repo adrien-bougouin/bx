@@ -3,27 +3,27 @@ Feature: Recipe Auto-Confirmation
   Background:
     Given the Bashfile
       ```bash
-      deep-recipe() {
-        bx::invoke recipe-1--critical recipe-2--critical
-        bx::invoke recipe-3--critical
+      composite-recipe() {
+        bx::invoke destructive-recipe-1 destructive-recipe-2
+        bx::invoke destructive-recipe-3
       }
 
-      recipe-1--critical() {
+      destructive-recipe-1() {
         @confirm
 
-        echo "'recipe-1--critical' invoked!"
+        echo "'destructive-recipe-1' invoked!"
       }
 
-      recipe-2--critical() {
+      destructive-recipe-2() {
         @confirm
 
-        echo "'recipe-2--critical' invoked!"
+        echo "'destructive-recipe-2' invoked!"
       }
 
-      recipe-3--critical() {
+      destructive-recipe-3() {
         @confirm
 
-        echo "'recipe-3--critical' invoked!"
+        echo "'destructive-recipe-3' invoked!"
       }
 
       # Regression: "-y" suffix should not be interpretted as yes
@@ -37,12 +37,12 @@ Feature: Recipe Auto-Confirmation
       | OPTION                  |
       | <CONFIRMATION ARGUMENT> |
     And invoking
-      | RECIPE             |
-      | recipe-1--critical |
+      | RECIPE               |
+      | destructive-recipe-1 |
     Then bx confirms nothing
     And bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
+      'destructive-recipe-1' invoked!
       """
     And bx succeeds
 
@@ -56,14 +56,14 @@ Feature: Recipe Auto-Confirmation
       | OPTION |
       | --yes  |
     And invoking
-      | RECIPE             |
-      | recipe-1--critical |
-      | recipe-2--critical |
+      | RECIPE               |
+      | destructive-recipe-1 |
+      | destructive-recipe-2 |
     Then bx confirms nothing
     And bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
+      'destructive-recipe-1' invoked!
+      'destructive-recipe-2' invoked!
       """
     And bx succeeds
 
@@ -72,26 +72,26 @@ Feature: Recipe Auto-Confirmation
       | OPTION |
       | --yes  |
     And invoking
-      | RECIPE      |
-      | deep-recipe |
+      | RECIPE           |
+      | composite-recipe |
     Then bx confirms nothing
     And bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      'recipe-3--critical' invoked!
+      'destructive-recipe-1' invoked!
+      'destructive-recipe-2' invoked!
+      'destructive-recipe-3' invoked!
       """
     And bx succeeds
 
   @regression
   Scenario: Invoking, without auto-confirm, a tricky recipe with -y in the name
     When invoking
-      | RECIPE                             | CONFIRMATION |
-      | tricky-recipe-y recipe-1--critical | n            |
+      | RECIPE                               | CONFIRMATION |
+      | tricky-recipe-y destructive-recipe-1 | n            |
     Then bx outputs nothing to stdout
     And bx outputs to stderr
-      | FORMAT      | CONTENT                            |
-      | bx-trace-in | tricky-recipe-y recipe-1--critical |
-      | bx-confirm  | recipe-1--critical                 |
-      | bx-error    | Aborted!                           |
+      | FORMAT      | CONTENT                              |
+      | bx-trace-in | tricky-recipe-y destructive-recipe-1 |
+      | bx-confirm  | destructive-recipe-1                 |
+      | bx-error    | Aborted!                             |
     And bx fails

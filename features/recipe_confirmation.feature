@@ -3,32 +3,32 @@ Feature: Recipe Confirmation
   Background:
     Given the Bashfile
       ```bash
-      recipe-1--critical() {
+      destructive-recipe-1() {
         @confirm
 
-        echo "'recipe-1--critical' invoked!"
+        echo "'destructive-recipe-1' invoked!"
       }
 
-      recipe-2--critical() {
+      destructive-recipe-2() {
         @confirm
 
-        echo "'recipe-2--critical' invoked!"
+        echo "'destructive-recipe-2' invoked!"
       }
       ```
 
   Scenario Outline: Confirm a recipe invocation
     When invoking
-      | RECIPE             | CONFIRMATION         |
-      | recipe-1--critical | <CONFIRMATION INPUT> |
+      | RECIPE               | CONFIRMATION         |
+      | destructive-recipe-1 | <CONFIRMATION INPUT> |
     Then bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
+      'destructive-recipe-1' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT            |
-      | bx-confirm   | recipe-1--critical |
-      | bx-trace-in  | recipe-1--critical |
-      | bx-trace-out |                    |
+      | FORMAT       | CONTENT              |
+      | bx-confirm   | destructive-recipe-1 |
+      | bx-trace-in  | destructive-recipe-1 |
+      | bx-trace-out |                      |
     And bx succeeds
 
     Examples:
@@ -38,17 +38,17 @@ Feature: Recipe Confirmation
 
   Scenario Outline: Confirm a recipe invocation with arguments
     When invoking
-      | RECIPE                                | CONFIRMATION |
-      | recipe-1--critical <RECIPE ARGUMENTS> | y            |
+      | RECIPE                                  | CONFIRMATION |
+      | destructive-recipe-1 <RECIPE ARGUMENTS> | y            |
     Then bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
+      'destructive-recipe-1' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT                               |
-      | bx-confirm   | recipe-1--critical <RECIPE ARGUMENTS> |
-      | bx-trace-in  | recipe-1--critical <RECIPE ARGUMENTS> |
-      | bx-trace-out |                                       |
+      | FORMAT       | CONTENT                                 |
+      | bx-confirm   | destructive-recipe-1 <RECIPE ARGUMENTS> |
+      | bx-trace-in  | destructive-recipe-1 <RECIPE ARGUMENTS> |
+      | bx-trace-out |                                         |
     And bx succeeds
 
     Examples:
@@ -62,33 +62,33 @@ Feature: Recipe Confirmation
 
   Scenario: Confirm multiple recipe invocations
     When invoking
-      | RECIPE             | CONFIRMATION |
-      | recipe-1--critical | y            |
-      | recipe-2--critical | y            |
+      | RECIPE               | CONFIRMATION |
+      | destructive-recipe-1 | y            |
+      | destructive-recipe-2 | y            |
     Then bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
+      'destructive-recipe-1' invoked!
+      'destructive-recipe-2' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT            |
-      | bx-confirm   | recipe-1--critical |
-      | bx-trace-in  | recipe-1--critical |
-      | bx-trace-out |                    |
-      | bx-confirm   | recipe-2--critical |
-      | bx-trace-in  | recipe-2--critical |
-      | bx-trace-out |                    |
+      | FORMAT       | CONTENT              |
+      | bx-confirm   | destructive-recipe-1 |
+      | bx-trace-in  | destructive-recipe-1 |
+      | bx-trace-out |                      |
+      | bx-confirm   | destructive-recipe-2 |
+      | bx-trace-in  | destructive-recipe-2 |
+      | bx-trace-out |                      |
     And bx succeeds
 
   Scenario Outline: Reject a recipe invocation
     When invoking
-      | RECIPE             | CONFIRMATION      |
-      | recipe-1--critical | <REJECTION INPUT> |
+      | RECIPE               | CONFIRMATION      |
+      | destructive-recipe-1 | <REJECTION INPUT> |
     Then bx outputs nothing to stdout
     And bx outputs to stderr
-      | FORMAT       | CONTENT            |
-      | bx-confirm   | recipe-1--critical |
-      | bx-error     | Aborted!           |
+      | FORMAT     | CONTENT              |
+      | bx-confirm | destructive-recipe-1 |
+      | bx-error   | Aborted!             |
     And bx fails
 
     Examples:
@@ -99,18 +99,18 @@ Feature: Recipe Confirmation
 
   Scenario: Confirm then reject recipe invocations
     When invoking
-      | RECIPE             | CONFIRMATION |
-      | recipe-1--critical | y            |
-      | recipe-2--critical | n            |
+      | RECIPE               | CONFIRMATION |
+      | destructive-recipe-1 | y            |
+      | destructive-recipe-2 | n            |
     Then bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
+      'destructive-recipe-1' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT            |
-      | bx-confirm   | recipe-1--critical |
-      | bx-trace-in  | recipe-1--critical |
-      | bx-trace-out |                    |
-      | bx-confirm   | recipe-2--critical |
-      | bx-error     | Aborted!           |
+      | FORMAT       | CONTENT              |
+      | bx-confirm   | destructive-recipe-1 |
+      | bx-trace-in  | destructive-recipe-1 |
+      | bx-trace-out |                      |
+      | bx-confirm   | destructive-recipe-2 |
+      | bx-error     | Aborted!             |
     And bx fails

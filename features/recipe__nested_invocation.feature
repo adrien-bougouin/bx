@@ -3,128 +3,136 @@ Feature: Recipe--Nested Invocation
   Scenario: Invoke a recipe that invokes another recipe mid-execution
     Given the Bashfile
       ```bash
-      recipe() {
+      composite-recipe() {
         echo "Pre-processing..."
-        bx::invoke nested-recipe
+
+        bx::invoke recipe
+
         echo "Post-processing..."
       }
 
-      nested-recipe() (
-        echo "'nested-recipe' invoked!"
+      recipe() (
+        echo "'recipe' invoked!"
       )
       ```
     When invoking
-      | RECIPE |
-      | recipe |
+      | RECIPE           |
+      | composite-recipe |
     Then bx outputs to stdout
       """
       Pre-processing...
-      'nested-recipe' invoked!
+      'recipe' invoked!
       Post-processing...
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT       |
-      | bx-trace-in  | recipe        |
-      | bx-trace-in  | nested-recipe |
-      | bx-trace-out |               |
-      | bx-trace-out |               |
+      | FORMAT       | CONTENT          |
+      | bx-trace-in  | composite-recipe |
+      | bx-trace-in  | recipe           |
+      | bx-trace-out |                  |
+      | bx-trace-out |                  |
     And bx succeeds
 
   Scenario: Invoke a recipe that invokes other recipes mid-execution
     Given the Bashfile
       ```bash
-      recipe() {
+      composite-recipe() {
         echo "Pre-processing..."
-        bx::invoke nested-recipe-1 nested-recipe-2
-        bx::invoke nested-recipe-3
+
+        bx::invoke recipe-1 recipe-2
+        bx::invoke recipe-3
+
         echo "Post-processing..."
       }
 
-      nested-recipe-1() (
-        echo "'nested-recipe-1' invoked!"
+      recipe-1() (
+        echo "'recipe-1' invoked!"
       )
 
-      nested-recipe-2() (
-        echo "'nested-recipe-2' invoked!"
+      recipe-2() (
+        echo "'recipe-2' invoked!"
       )
 
-      nested-recipe-3() (
-        echo "'nested-recipe-3' invoked!"
+      recipe-3() (
+        echo "'recipe-3' invoked!"
       )
       ```
     When invoking
-      | RECIPE |
-      | recipe |
+      | RECIPE           |
+      | composite-recipe |
     Then bx outputs to stdout
       """
       Pre-processing...
-      'nested-recipe-1' invoked!
-      'nested-recipe-2' invoked!
-      'nested-recipe-3' invoked!
+      'recipe-1' invoked!
+      'recipe-2' invoked!
+      'recipe-3' invoked!
       Post-processing...
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT         |
-      | bx-trace-in  | recipe          |
-      | bx-trace-in  | nested-recipe-1 |
-      | bx-trace-out |                 |
-      | bx-trace-in  | nested-recipe-2 |
-      | bx-trace-out |                 |
-      | bx-trace-in  | nested-recipe-3 |
-      | bx-trace-out |                 |
-      | bx-trace-out |                 |
+      | FORMAT       | CONTENT          |
+      | bx-trace-in  | composite-recipe |
+      | bx-trace-in  | recipe-1         |
+      | bx-trace-out |                  |
+      | bx-trace-in  | recipe-2         |
+      | bx-trace-out |                  |
+      | bx-trace-in  | recipe-3         |
+      | bx-trace-out |                  |
+      | bx-trace-out |                  |
     And bx succeeds
 
   Scenario: Invoke a recipe that invokes a missing recipe mid-execution
     Given the Bashfile
       ```bash
-      recipe() {
+      composite-recipe() {
         echo "Pre-processing..."
+
         bx::invoke missing
+
         echo "Post-processing..."
       }
       ```
     When invoking
-      | RECIPE |
-      | recipe |
+      | RECIPE           |
+      | composite-recipe |
     Then bx outputs to stdout
       """
       Pre-processing...
       """
     And bx outputs to stderr
-      | FORMAT      | CONTENT |
-      | bx-trace-in | recipe  |
-      | bx-miss     | missing |
+      | FORMAT      | CONTENT          |
+      | bx-trace-in | composite-recipe |
+      | bx-miss     | missing          |
     And bx fails
 
   Scenario Outline: Invoke a recipe that invokes another recipe with arguments
     Given the Bashfile
       ```bash
-      recipe() {
+      composite-recipe() {
         echo "Pre-processing..."
-        bx::invoke 'nested-recipe <NESTED RECIPE ARGUMENTS>'
+
+        bx::invoke 'recipe <NESTED RECIPE ARGUMENTS>'
+
         echo "Post-processing..."
       }
 
-      nested-recipe() {
-        echo "'nested-recipe' invocation: $#, '${1:-}', '${2:-}'"
+      recipe() {
+        echo "'recipe' invocation: $#, '${1:-}', '${2:-}'"
       }
       ```
     When invoking
-      | RECIPE |
-      | recipe |
+      | RECIPE           |
+      | composite-recipe |
     Then bx outputs to stdout
       """
       Pre-processing...
-      'nested-recipe' invocation: <RECEIVED ARGUMENTS INFO>
+      'recipe' invocation: <RECEIVED ARGUMENTS INFO>
       Post-processing...
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT                                 |
-      | bx-trace-in  | recipe                                  |
-      | bx-trace-in  | nested-recipe <NESTED RECIPE ARGUMENTS> |
-      | bx-trace-out |                                         |
-      | bx-trace-out |                                         |
+      | FORMAT       | CONTENT                          |
+      | bx-trace-in  | composite-recipe                 |
+      | bx-trace-in  | recipe <NESTED RECIPE ARGUMENTS> |
+      | bx-trace-out |                                  |
+      | bx-trace-out |                                  |
     And bx succeeds
 
     Examples:
@@ -139,42 +147,44 @@ Feature: Recipe--Nested Invocation
   Scenario: Invoke a recipe that invokes multiple recipes with arguments
     Given the Bashfile
       ```bash
-      recipe() {
+      composite-recipe() {
         echo "Pre-processing..."
-        bx::invoke nested-recipe 'nested-recipe arg-1' 'nested-recipe arg-2 arg-3'
-        bx::invoke 'nested-recipe "arg 4" arg\ 5' nested-recipe
+
+        bx::invoke recipe 'recipe arg-1' 'recipe arg-2 arg-3'
+        bx::invoke 'recipe "arg 4" arg\ 5' recipe
+
         echo "Post-processing..."
       }
 
-      nested-recipe() (
-        echo "'nested-recipe' invocation: $#, '${1:-}', '${2:-}'"
+      recipe() (
+        echo "'recipe' invocation: $#, '${1:-}', '${2:-}'"
       )
       ```
     When invoking
-      | RECIPE |
-      | recipe |
+      | RECIPE           |
+      | composite-recipe |
     Then bx outputs to stdout
       """
       Pre-processing...
-      'nested-recipe' invocation: 0, '', ''
-      'nested-recipe' invocation: 1, 'arg-1', ''
-      'nested-recipe' invocation: 2, 'arg-2', 'arg-3'
-      'nested-recipe' invocation: 2, 'arg 4', 'arg 5'
-      'nested-recipe' invocation: 0, '', ''
+      'recipe' invocation: 0, '', ''
+      'recipe' invocation: 1, 'arg-1', ''
+      'recipe' invocation: 2, 'arg-2', 'arg-3'
+      'recipe' invocation: 2, 'arg 4', 'arg 5'
+      'recipe' invocation: 0, '', ''
       Post-processing...
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT                      |
-      | bx-trace-in  | recipe                       |
-      | bx-trace-in  | nested-recipe                |
-      | bx-trace-out |                              |
-      | bx-trace-in  | nested-recipe arg-1          |
-      | bx-trace-out |                              |
-      | bx-trace-in  | nested-recipe arg-2 arg-3    |
-      | bx-trace-out |                              |
-      | bx-trace-in  | nested-recipe "arg 4" arg\ 5 |
-      | bx-trace-out |                              |
-      | bx-trace-in  | nested-recipe                |
-      | bx-trace-out |                              |
-      | bx-trace-out |                              |
+      | FORMAT       | CONTENT               |
+      | bx-trace-in  | composite-recipe      |
+      | bx-trace-in  | recipe                |
+      | bx-trace-out |                       |
+      | bx-trace-in  | recipe arg-1          |
+      | bx-trace-out |                       |
+      | bx-trace-in  | recipe arg-2 arg-3    |
+      | bx-trace-out |                       |
+      | bx-trace-in  | recipe "arg 4" arg\ 5 |
+      | bx-trace-out |                       |
+      | bx-trace-in  | recipe                |
+      | bx-trace-out |                       |
+      | bx-trace-out |                       |
     And bx succeeds

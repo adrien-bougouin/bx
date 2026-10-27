@@ -3,38 +3,38 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
   Background:
     Given the Bashfile
       ```bash
-      recipe--safe() {
-        bx::invoke --yes recipe-1--critical recipe-2--critical
-        bx::invoke -y recipe-3--critical
+      safe-composite-recipe() {
+        bx::invoke --yes destructive-recipe-1 destructive-recipe-2
+        bx::invoke -y destructive-recipe-3
       }
 
-      deep-recipe--safe() {
-        bx::invoke --yes deep-recipe--critical
+      safe-deep-composite-recipe() {
+        bx::invoke --yes destructive-composite-recipe
       }
 
-      deep-recipe--critical() {
+      destructive-composite-recipe() {
         @confirm
 
-        bx::invoke recipe-1--critical recipe-2--critical
-        bx::invoke recipe-3--critical
+        bx::invoke destructive-recipe-1 destructive-recipe-2
+        bx::invoke destructive-recipe-3
       }
 
-      recipe-1--critical() {
+      destructive-recipe-1() {
         @confirm
 
-        echo "'recipe-1--critical' invoked!"
+        echo "'destructive-recipe-1' invoked!"
       }
 
-      recipe-2--critical() {
+      destructive-recipe-2() {
         @confirm
 
-        echo "'recipe-2--critical' invoked!"
+        echo "'destructive-recipe-2' invoked!"
       }
 
-      recipe-3--critical() {
+      destructive-recipe-3() {
         @confirm
 
-        echo "'recipe-3--critical' invoked!"
+        echo "'destructive-recipe-3' invoked!"
       }
       ```
 
@@ -45,51 +45,51 @@ Feature: Recipe Auto-Confirmation -- Nested Invocation
     Then bx confirms nothing
     And bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      'recipe-3--critical' invoked!
+      'destructive-recipe-1' invoked!
+      'destructive-recipe-2' invoked!
+      'destructive-recipe-3' invoked!
       """
     And bx succeeds
 
     Examples:
-      | RECIPE            |
-      | recipe--safe      |
-      | deep-recipe--safe |
+      | RECIPE                     |
+      | safe-composite-recipe      |
+      | safe-deep-composite-recipe |
 
   Scenario: Invoking multiple recipes with only one that auto-confirms nested recipe invocations
     When invoking
-      | RECIPE                | CONFIRMATION |
-      | recipe--safe          |              |
-      | deep-recipe--critical | yyyy         |
+      | RECIPE                       | CONFIRMATION |
+      | safe-composite-recipe        |              |
+      | destructive-composite-recipe | yyyy         |
     Then bx outputs to stdout
       """
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      'recipe-3--critical' invoked!
-      'recipe-1--critical' invoked!
-      'recipe-2--critical' invoked!
-      'recipe-3--critical' invoked!
+      'destructive-recipe-1' invoked!
+      'destructive-recipe-2' invoked!
+      'destructive-recipe-3' invoked!
+      'destructive-recipe-1' invoked!
+      'destructive-recipe-2' invoked!
+      'destructive-recipe-3' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT               |
-      | bx-trace-in  | recipe--safe          |
-      | bx-trace-in  | recipe-1--critical    |
-      | bx-trace-out |                       |
-      | bx-trace-in  | recipe-2--critical    |
-      | bx-trace-out |                       |
-      | bx-trace-in  | recipe-3--critical    |
-      | bx-trace-out |                       |
-      | bx-trace-out |                       |
-      | bx-confirm   | deep-recipe--critical |
-      | bx-trace-in  | deep-recipe--critical |
-      | bx-confirm   | recipe-1--critical    |
-      | bx-trace-in  | recipe-1--critical    |
-      | bx-trace-out |                       |
-      | bx-confirm   | recipe-2--critical    |
-      | bx-trace-in  | recipe-2--critical    |
-      | bx-trace-out |                       |
-      | bx-confirm   | recipe-3--critical    |
-      | bx-trace-in  | recipe-3--critical    |
-      | bx-trace-out |                       |
-      | bx-trace-out |                       |
+      | FORMAT       | CONTENT                      |
+      | bx-trace-in  | safe-composite-recipe        |
+      | bx-trace-in  | destructive-recipe-1         |
+      | bx-trace-out |                              |
+      | bx-trace-in  | destructive-recipe-2         |
+      | bx-trace-out |                              |
+      | bx-trace-in  | destructive-recipe-3         |
+      | bx-trace-out |                              |
+      | bx-trace-out |                              |
+      | bx-confirm   | destructive-composite-recipe |
+      | bx-trace-in  | destructive-composite-recipe |
+      | bx-confirm   | destructive-recipe-1         |
+      | bx-trace-in  | destructive-recipe-1         |
+      | bx-trace-out |                              |
+      | bx-confirm   | destructive-recipe-2         |
+      | bx-trace-in  | destructive-recipe-2         |
+      | bx-trace-out |                              |
+      | bx-confirm   | destructive-recipe-3         |
+      | bx-trace-in  | destructive-recipe-3         |
+      | bx-trace-out |                              |
+      | bx-trace-out |                              |
     And bx succeeds
