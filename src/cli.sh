@@ -11,7 +11,7 @@
 #                              args from.
 #
 # Side effects:
-#   - May update bashfile path via _bx::set_bashfile.
+#   - May update bashfile path via _bx::bashfile::set_path.
 #   - May set option flags via _bx::options::enable_* helpers.
 ################################################################################
 _bx::cli::parse_options() {
@@ -26,13 +26,13 @@ _bx::cli::parse_options() {
         break
         ;;
       --bashfile=*)
-        _bx::set_bashfile "${1#--bashfile=}"
+        _bx::bashfile::set_path "${1#--bashfile=}"
         ;;
       --file=*)
-        _bx::set_bashfile "${1#--file=}"
+        _bx::bashfile::set_path "${1#--file=}"
         ;;
       -f | --file | --bashfile)
-        _bx::set_bashfile "$2"
+        _bx::bashfile::set_path "$2"
         shift
         ;;
       -h | --help) _bx::options::enable_help ;;

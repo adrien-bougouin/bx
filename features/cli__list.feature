@@ -15,10 +15,11 @@ Feature: CLI--List
     And invoking
     Then bx outputs to stdout
       """
-      Available recipes:
-          recipe-1
-              A short description of recipe-1.
-          recipe-2
+      recipe-1
+          A short description of recipe-1.
+      recipe-2
+
+      Sourced from {{PWD}}/Bashfile
       """
     And bx succeeds
 
@@ -46,13 +47,14 @@ Feature: CLI--List
     And invoking
     Then bx outputs to stdout
       """
-      Available recipes:
-          recipe-1
-              A short description of recipe-1
-              that continues on multiple lines.
-          recipe-2
-              A short description of recipe-2
-              that continues on multiple lines.
+      recipe-1
+          A short description of recipe-1
+          that continues on multiple lines.
+      recipe-2
+          A short description of recipe-2
+          that continues on multiple lines.
+
+      Sourced from {{PWD}}/Bashfile
       """
     And bx succeeds
 
@@ -71,9 +73,10 @@ Feature: CLI--List
     And invoking
     Then bx outputs to stdout
       """
-      Available recipes:
-          recipe-1
-          recipe-2
+      recipe-1
+      recipe-2
+
+      Sourced from {{PWD}}/Bashfile
       """
     And bx succeeds
 
@@ -100,13 +103,14 @@ Feature: CLI--List
     And invoking
     Then bx outputs to stdout
       """
-      Available recipes:
-          recipe-1 [@default]
-              Default recipe.
-          recipe-2 [@confirm]
-              Confirmable recipe.
-          recipe-3
-              Normal recipe.
+      recipe-1 [@default]
+          Default recipe.
+      recipe-2 [@confirm]
+          Confirmable recipe.
+      recipe-3
+          Normal recipe.
+
+      Sourced from {{PWD}}/Bashfile
       """
     And bx succeeds
 

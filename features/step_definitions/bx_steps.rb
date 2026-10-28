@@ -47,7 +47,10 @@ Then('bx confirms nothing') do
 end
 
 Then('bx outputs to stdout') do |expected_content|
-  assert_equal(expected_content, bx_result.stdout)
+  assert_equal(
+    expected_content.gsub('{{PWD}}', Dir.pwd),
+    bx_result.stdout
+  )
 end
 
 Then('bx outputs to stderr') do |table_or_text|

@@ -41,7 +41,6 @@ _bx::recipe_registry::size() {
 _bx::recipe_registry::print_list() {
   [[ $(_bx::recipe_registry::size) -eq 0 ]] && return
 
-  _bx::display::info "Available recipes:"
   local recipe
   for recipe in "${__BX_RECIPES__[@]}"; do
     local annotations=""
@@ -60,13 +59,15 @@ _bx::recipe_registry::print_list() {
       help_lines+=("${help_line}")
     done < <(_bx::recipe::help "${recipe}")
 
-    _bx::display::info "{{indent}}${recipe}{{bold}}${annotations}{{normal}}"
+    _bx::display::info "${recipe}{{bold}}${annotations}{{normal}}"
     if [[ ${#help_lines[@]} -gt 0 ]]; then
       for help_line in "${help_lines[@]}"; do
-        _bx::display::info "{{indent}}{{indent}}${help_line}"
+        _bx::display::info "{{indent}}${help_line}"
       done
     fi
   done
+
+  _bx::display::info "\nSourced from $(_bx::bashfile::path)"
 }
 
 _bx::recipe_registry::include() {

@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.13.1] - 2026-10-28
+### Changed
+- Reformatted `bx --list` to now included sourced bashfile path
+
 ## [0.13.0] - 2026-10-26
 ### Added
 - Distribute `CHANGELOG.md` together with the release.
@@ -163,7 +167,8 @@ Initial release.
 - Scope boundaries: function recipes share scope, while subprocess recipes operate in a fork.
 - Options: `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--`.
 
-[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.13.1...HEAD
+[0.13.1]: https://github.com/adrien-bougouin/bx/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/adrien-bougouin/bx/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/adrien-bougouin/bx/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/adrien-bougouin/bx/compare/v0.11.0...v0.11.1

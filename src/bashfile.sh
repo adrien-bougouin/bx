@@ -2,6 +2,24 @@
 
 __BX_BASHFILE__=
 
+_bx::bashfile::path() {
+  printf "%s" "${__BX_BASHFILE__}"
+}
+
+_bx::bashfile::set_path() {
+  if [[ -n ${__BX_BASHFILE__} ]]; then
+    _bx::abort "Too many Bashfiles!"
+  fi
+
+  local input_bashfile
+  local absolute_bashfile
+
+  input_bashfile="$1"
+  absolute_bashfile="$(realpath "${input_bashfile}" 2>/dev/null || true)"
+
+  __BX_BASHFILE__="${absolute_bashfile:-"${input_bashfile}"}"
+}
+
 _bx::bashfile::load() {
   if [[ -z ${__BX_BASHFILE__} ]]; then
     local lookup_path="${__BX_WORKING_DIRECTORY__}"
@@ -9,7 +27,9 @@ _bx::bashfile::load() {
     while [[ ${lookup_path} != "/" ]] && [[ -z ${__BX_BASHFILE__} ]]; do
       local bashfile_candidate="${lookup_path}/Bashfile"
 
-      [[ -f ${bashfile_candidate} ]] && _bx::set_bashfile "${bashfile_candidate}"
+      if [[ -f ${bashfile_candidate} ]]; then
+        _bx::bashfile::set_path "${bashfile_candidate}"
+      fi
 
       lookup_path="$(dirname "${lookup_path}")"
     done
@@ -22,18 +42,4 @@ _bx::bashfile::load() {
   else
     _bx::abort "No Bashfile!"
   fi
-}
-
-_bx::set_bashfile() {
-  if [[ -n ${__BX_BASHFILE__} ]]; then
-    _bx::abort "Too many Bashfiles!"
-  fi
-
-  local input_bashfile
-  local absolute_bashfile
-
-  input_bashfile="$1"
-  absolute_bashfile="$(realpath "${input_bashfile}" 2>/dev/null || true)"
-
-  __BX_BASHFILE__="${absolute_bashfile:-"${input_bashfile}"}"
 }
