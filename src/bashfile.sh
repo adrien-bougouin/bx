@@ -1,30 +1,36 @@
 #!/usr/bin/env bash
 
-__BX_BASHFILE__=
+__BX_BASHFILE_LOADED__="${__BOOL_FALSE__}"
 
-_bx::bashfile::path() {
-  printf "%s" "${__BX_BASHFILE__}"
+__BX_BASHFILE_PATH__=
+
+_bx::bashfile::loaded_path() {
+  if [[ ${__BX_BASHFILE_LOADED__} == "${__BOOL_FALSE__}" ]]; then
+    return
+  fi
+
+  printf "%s" "${__BX_BASHFILE_PATH__}"
 }
 
 _bx::bashfile::set_path() {
-  if [[ -n ${__BX_BASHFILE__} ]]; then
+  if [[ -n ${__BX_BASHFILE_PATH__} ]]; then
     _bx::abort "Too many Bashfiles!"
   fi
 
-  local input_bashfile
-  local absolute_bashfile
+  local bashfile_directory
 
-  input_bashfile="$1"
-  absolute_bashfile="$(realpath "${input_bashfile}" 2>/dev/null || true)"
-
-  __BX_BASHFILE__="${absolute_bashfile:-"${input_bashfile}"}"
+  if bashfile_directory="$(CDPATH="" cd "$(dirname "$1")" 2>/dev/null && pwd)"; then
+    __BX_BASHFILE_PATH__="${bashfile_directory}/$(basename "$1")"
+  else
+    __BX_BASHFILE_PATH__="$1"
+  fi
 }
 
 _bx::bashfile::load() {
-  if [[ -z ${__BX_BASHFILE__} ]]; then
+  if [[ -z ${__BX_BASHFILE_PATH__} ]]; then
     local lookup_path="${__BX_WORKING_DIRECTORY__}"
 
-    while [[ ${lookup_path} != "/" ]] && [[ -z ${__BX_BASHFILE__} ]]; do
+    while [[ ${lookup_path} != "/" ]] && [[ -z ${__BX_BASHFILE_PATH__} ]]; do
       local bashfile_candidate="${lookup_path}/Bashfile"
 
       if [[ -f ${bashfile_candidate} ]]; then
@@ -35,11 +41,15 @@ _bx::bashfile::load() {
     done
   fi
 
-  readonly __BX_BASHFILE__
+  readonly __BX_BASHFILE_PATH__
 
-  if [[ -f ${__BX_BASHFILE__} ]]; then
-    source "${__BX_BASHFILE__}"
+  if [[ -f ${__BX_BASHFILE_PATH__} ]]; then
+    source "${__BX_BASHFILE_PATH__}"
   else
     _bx::abort "No Bashfile!"
   fi
+
+  __BX_BASHFILE_LOADED__="${__BOOL_TRUE__}"
+
+  readonly __BX_BASHFILE_LOADED__
 }

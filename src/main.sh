@@ -7,7 +7,7 @@ _bx::main() {
   local __BX_SRC_PATH__
 
   __BX_WORKING_DIRECTORY__="$(pwd)"
-  __BX_SRC_PATH__="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+  __BX_SRC_PATH__="$(dirname "${BASH_SOURCE[0]}")"
 
   readonly __BX_WORKING_DIRECTORY__
   readonly __BX_SRC_PATH__

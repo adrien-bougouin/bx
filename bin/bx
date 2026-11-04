@@ -1,3 +1,21 @@
 #!/usr/bin/env bash
 
-"$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/src/main.sh" "$@"
+set -euo pipefail
+
+################################################################################
+# Portable absolute path resolution, supporting symlinks.
+__BX_BIN__="${BASH_SOURCE[0]}"
+
+while [[ -L ${__BX_BIN__} ]]; do
+  __BX_BIN_PATH__="$(cd -P "$(dirname "${__BX_BIN__}")" && pwd)"
+  __BX_BIN__="$(readlink "${__BX_BIN__}")"
+
+  if [[ ${__BX_BIN__} != /* ]]; then
+    __BX_BIN__="${__BX_BIN_PATH__}/${__BX_BIN__}"
+  fi
+done
+
+__BX_PATH__="$(dirname "$(cd -P "$(dirname "${__BX_BIN__}")" && pwd)")"
+################################################################################
+
+"${__BX_PATH__}/src/main.sh" "$@"

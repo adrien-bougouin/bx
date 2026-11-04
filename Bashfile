@@ -1,4 +1,4 @@
-ROOT_PATH="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+ROOT_PATH="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 BIN_PATH="${ROOT_PATH}/bin"
 MAN_PATH="${ROOT_PATH}/man"

@@ -67,7 +67,7 @@ _bx::recipe_registry::print_list() {
     fi
   done
 
-  _bx::display::info "\nSourced from $(_bx::bashfile::path)"
+  _bx::display::info "\nSourced from $(_bx::bashfile::loaded_path)"
 }
 
 _bx::recipe_registry::include() {

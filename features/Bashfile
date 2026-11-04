@@ -1,4 +1,4 @@
-FEATURES_PATH="${FEATURES_PATH:-$(realpath "$(dirname "${BASH_SOURCE[0]}")")}"
+FEATURES_PATH="${FEATURES_PATH:-$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 BIN_PATH="${BIN_PATH:-$(dirname "${FEATURES_PATH}")/bin}"
 
 features::doctor() (
