@@ -66,7 +66,7 @@ _bx::main() {
     _bx::abort "No recipes!"
   fi
 
-  if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && ! _bx::options::quiet; then
+  if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && ! _bx::options::xtrace_quiet; then
     _bx::display::warning "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} BASH_XTRACEFD is not supported, resetting it to stderr."
 
     BASH_XTRACEFD=2

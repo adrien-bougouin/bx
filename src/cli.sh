@@ -37,7 +37,10 @@ _bx::cli::parse_options() {
         ;;
       -h | --help) _bx::options::enable_help ;;
       -l | --list) _bx::options::enable_list ;;
-      -q | --quiet) _bx::options::enable_quiet ;;
+      -q | --quiet)
+        _bx::options::enable_recipe_trace_quiet
+        _bx::options::enable_xtrace_quiet
+        ;;
       -v | --version) _bx::options::enable_version ;;
       -y | --yes) _bx::options::enable_auto_confirm ;;
       *) _bx::abort "Unknown option '$1'!" ;;
