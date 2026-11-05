@@ -27,7 +27,7 @@ bx::invoke() {
   local temporary_auto_confirm="${__BOOL_FALSE__}"
 
   if [[ $1 =~ ^(-y|--yes)$ ]]; then
-    if ! _bx::options::auto_confirm; then
+    if ! _bx::options::auto_confirm_enabled; then
       temporary_auto_confirm="${__BOOL_TRUE__}"
 
       _bx::options::enable_auto_confirm

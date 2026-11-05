@@ -9,12 +9,12 @@ _bx::recipe_registry::register_ignore_patterns "^set$"
 # xtrace disabled.
 #
 # Side effects:
-#   - Disables xtrace via `builtin set +x` when `_bx::options::xtracing`
+#   - Disables xtrace via `builtin set +x` when `_bx::options::xtrace_enabled`
 #     returns false.
 ################################################################################
 set() {
   {
     builtin set "$@"
-    _bx::options::xtracing || builtin set +x
+    _bx::options::xtrace_enabled || builtin set +x
   } 2>/dev/null
 }

@@ -41,7 +41,7 @@ _bx::recipe::invoke() {
 
   invocation_level="$(_bx::invocation_stack::size)"
 
-  if _bx::options::recipe_tracing; then
+  if _bx::options::recipe_trace_enabled; then
     _bx::display::trace "${invocation_level}" "{{bold}}${canonical_invocation}{{normal}} {"
   fi
 
@@ -51,7 +51,7 @@ _bx::recipe::invoke() {
   # Use `{ ... } 2>/dev/null` in case the invoking recipe did `set -x`.
   { _bx::utils::shell::reset_options; } 2>/dev/null
 
-  if _bx::options::recipe_tracing; then
+  if _bx::options::recipe_trace_enabled; then
     _bx::display::trace "${invocation_level}" "}"
   fi
 

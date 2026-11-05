@@ -1,62 +1,78 @@
 #!/usr/bin/env bash
+#
+# Runtime options controlling bx's behavior.
 
-__BX_OPTION_HELP__="${__BOOL_FALSE__}"
-__BX_OPTION_LIST__="${__BOOL_FALSE__}"
-__BX_OPTION_VERSION__="${__BOOL_FALSE__}"
-
-__BX_OPTION_RECIPE_TRACING__="${__BOOL_TRUE__}"
-__BX_OPTION_XTRACING__="${__BOOL_TRUE__}"
+__BX_OPTION_RECIPE_TRACE__="${__BOOL_TRUE__}"
+__BX_OPTION_XTRACE__="${__BOOL_TRUE__}"
 
 __BX_OPTION_AUTO_CONFIRM__="${__BOOL_FALSE__}"
 
-_bx::options::help() {
-  return "${__BX_OPTION_HELP__}"
+################################################################################
+# Check whether recipe-level traces are enabled.
+#
+# Returns:
+#   0 (true) if recipe traces are enabled, 1 (false) otherwise.
+################################################################################
+_bx::options::recipe_trace_enabled() {
+  return "${__BX_OPTION_RECIPE_TRACE__}"
 }
 
-_bx::options::enable_help() {
-  __BX_OPTION_HELP__="${__BOOL_TRUE__}"
+################################################################################
+# Disable recipe-level traces.
+#
+# Side effects:
+#   Sets __BX_OPTION_RECIPE_TRACE__ to false.
+################################################################################
+_bx::options::disable_recipe_trace() {
+  __BX_OPTION_RECIPE_TRACE__="${__BOOL_FALSE__}"
 }
 
-_bx::options::list() {
-  return "${__BX_OPTION_LIST__}"
+################################################################################
+# Check whether xtrace output is enabled.
+#
+# Returns:
+#   0 (true) if xtrace output is enabled, 1 (false) otherwise.
+################################################################################
+_bx::options::xtrace_enabled() {
+  return "${__BX_OPTION_XTRACE__}"
 }
 
-_bx::options::enable_list() {
-  __BX_OPTION_LIST__="${__BOOL_TRUE__}"
+################################################################################
+# Disable xtrace output.
+#
+# Side effects:
+#   Sets __BX_OPTION_XTRACE__ to false.
+################################################################################
+_bx::options::disable_xtrace() {
+  __BX_OPTION_XTRACE__="${__BOOL_FALSE__}"
 }
 
-_bx::options::version() {
-  return "${__BX_OPTION_VERSION__}"
-}
-
-_bx::options::enable_version() {
-  __BX_OPTION_VERSION__="${__BOOL_TRUE__}"
-}
-
-_bx::options::recipe_tracing() {
-  return "${__BX_OPTION_RECIPE_TRACING__}"
-}
-
-_bx::options::disable_recipe_tracing() {
-  __BX_OPTION_RECIPE_TRACING__="${__BOOL_FALSE__}"
-}
-
-_bx::options::xtracing() {
-  return "${__BX_OPTION_XTRACING__}"
-}
-
-_bx::options::disable_xtracing() {
-  __BX_OPTION_XTRACING__="${__BOOL_FALSE__}"
-}
-
-_bx::options::auto_confirm() {
+################################################################################
+# Check whether confirmation prompts are automatically accepted.
+#
+# Returns:
+#   0 (true) if confirmations are automatically accepted, 1 (false) otherwise.
+################################################################################
+_bx::options::auto_confirm_enabled() {
   return "${__BX_OPTION_AUTO_CONFIRM__}"
 }
 
+################################################################################
+# Enable automatic confirmation.
+#
+# Side effects:
+#   Sets __BX_OPTION_AUTO_CONFIRM__ to true.
+################################################################################
 _bx::options::enable_auto_confirm() {
   __BX_OPTION_AUTO_CONFIRM__="${__BOOL_TRUE__}"
 }
 
+################################################################################
+# Disable automatic confirmation.
+#
+# Side effects:
+#   Sets __BX_OPTION_AUTO_CONFIRM__ to false.
+################################################################################
 _bx::options::disable_auto_confirm() {
   __BX_OPTION_AUTO_CONFIRM__="${__BOOL_FALSE__}"
 }

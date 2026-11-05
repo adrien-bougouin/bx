@@ -43,13 +43,13 @@ _bx::main() {
 
   _bx::cli::parse_options positional_arguments_ref "$@"
 
-  if _bx::options::version; then
+  if _bx::cli::version_requested; then
     _bx::display::info "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BX_CONSTANT_VERSION__}"
 
     exit 0
   fi
 
-  if _bx::options::help; then
+  if _bx::cli::help_requested; then
     _bx::cli::print_help
 
     exit 0
@@ -58,7 +58,7 @@ _bx::main() {
   _bx::bashfile::load
   _bx::recipe_registry::load
 
-  if _bx::options::list; then
+  if _bx::cli::list_requested; then
     _bx::recipe_registry::print_list
 
     exit 0
@@ -66,7 +66,7 @@ _bx::main() {
     _bx::abort "No recipes!"
   fi
 
-  if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && _bx::options::xtracing; then
+  if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && _bx::options::xtrace_enabled; then
     _bx::display::warning "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} BASH_XTRACEFD is not supported, resetting it to stderr."
 
     BASH_XTRACEFD=2

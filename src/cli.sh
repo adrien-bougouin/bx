@@ -2,6 +2,70 @@
 #
 # CLI option parsing and help output for the bx tool.
 
+__BX_CLI_HELP_REQUESTED__="${__BOOL_FALSE__}"
+__BX_CLI_LIST_REQUESTED__="${__BOOL_FALSE__}"
+__BX_CLI_VERSION_REQUESTED__="${__BOOL_FALSE__}"
+
+################################################################################
+# Check whether help was requested on the command line.
+#
+# Returns:
+#   0 (true) if -h or --help was given, 1 (false) otherwise.
+################################################################################
+_bx::cli::help_requested() {
+  return "${__BX_CLI_HELP_REQUESTED__}"
+}
+
+################################################################################
+# Mark help as requested.
+#
+# Side effects:
+#   Sets __BX_CLI_HELP_REQUESTED__ to true.
+################################################################################
+_bx::cli::request_help() {
+  __BX_CLI_HELP_REQUESTED__="${__BOOL_TRUE__}"
+}
+
+################################################################################
+# Check whether listing recipes was requested on the command line.
+#
+# Returns:
+#   0 (true) if -l or --list was given, 1 (false) otherwise.
+################################################################################
+_bx::cli::list_requested() {
+  return "${__BX_CLI_LIST_REQUESTED__}"
+}
+
+################################################################################
+# Mark listing recipes as requested.
+#
+# Side effects:
+#   Sets __BX_CLI_LIST_REQUESTED__ to true.
+################################################################################
+_bx::cli::request_list() {
+  __BX_CLI_LIST_REQUESTED__="${__BOOL_TRUE__}"
+}
+
+################################################################################
+# Check whether the version was requested on the command line.
+#
+# Returns:
+#   0 (true) if -v or --version was given, 1 (false) otherwise.
+################################################################################
+_bx::cli::version_requested() {
+  return "${__BX_CLI_VERSION_REQUESTED__}"
+}
+
+################################################################################
+# Mark the version as requested.
+#
+# Side effects:
+#   Sets __BX_CLI_VERSION_REQUESTED__ to true.
+################################################################################
+_bx::cli::request_version() {
+  __BX_CLI_VERSION_REQUESTED__="${__BOOL_TRUE__}"
+}
+
 ################################################################################
 # Parse CLI flags and options, capturing remaining positional arguments into a
 # caller-specified array variable.
@@ -12,6 +76,7 @@
 #
 # Side effects:
 #   - May update bashfile path via _bx::bashfile::set_path.
+#   - May set CLI requests via _bx::cli::request_* helpers.
 #   - May set option flags via _bx::options::{enable,disable}_* helpers.
 ################################################################################
 _bx::cli::parse_options() {
@@ -35,13 +100,13 @@ _bx::cli::parse_options() {
         _bx::bashfile::set_path "$2"
         shift
         ;;
-      -h | --help) _bx::options::enable_help ;;
-      -l | --list) _bx::options::enable_list ;;
+      -h | --help) _bx::cli::request_help ;;
+      -l | --list) _bx::cli::request_list ;;
       -q | --quiet)
-        _bx::options::disable_recipe_tracing
-        _bx::options::disable_xtracing
+        _bx::options::disable_recipe_trace
+        _bx::options::disable_xtrace
         ;;
-      -v | --version) _bx::options::enable_version ;;
+      -v | --version) _bx::cli::request_version ;;
       -y | --yes) _bx::options::enable_auto_confirm ;;
       *) _bx::abort "Unknown option '$1'!" ;;
     esac
