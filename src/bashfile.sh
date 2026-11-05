@@ -17,12 +17,13 @@ _bx::bashfile::set_path() {
     _bx::abort "Too many Bashfiles!"
   fi
 
-  local bashfile_directory
+  local input_bashfile="$1"
 
-  if bashfile_directory="$(CDPATH="" cd "$(dirname "$1")" 2>/dev/null && pwd)"; then
-    __BX_BASHFILE_PATH__="${bashfile_directory}/$(basename "$1")"
+  local bashfile_directory
+  if bashfile_directory="$(CDPATH="" cd "$(dirname "${input_bashfile}")" 2>/dev/null && pwd)"; then
+    __BX_BASHFILE_PATH__="${bashfile_directory}/$(basename "${input_bashfile}")"
   else
-    __BX_BASHFILE_PATH__="$1"
+    __BX_BASHFILE_PATH__="${input_bashfile}"
   fi
 }
 
