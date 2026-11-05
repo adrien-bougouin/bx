@@ -4,8 +4,8 @@ __BX_OPTION_HELP__="${__BOOL_FALSE__}"
 __BX_OPTION_LIST__="${__BOOL_FALSE__}"
 __BX_OPTION_VERSION__="${__BOOL_FALSE__}"
 
-__BX_OPTION_RECIPE_TRACE_QUIET__="${__BOOL_FALSE__}"
-__BX_OPTION_XTRACE_QUIET__="${__BOOL_FALSE__}"
+__BX_OPTION_RECIPE_TRACING__="${__BOOL_TRUE__}"
+__BX_OPTION_XTRACING__="${__BOOL_TRUE__}"
 
 __BX_OPTION_AUTO_CONFIRM__="${__BOOL_FALSE__}"
 
@@ -33,20 +33,20 @@ _bx::options::enable_version() {
   __BX_OPTION_VERSION__="${__BOOL_TRUE__}"
 }
 
-_bx::options::recipe_trace_quiet() {
-  return "${__BX_OPTION_RECIPE_TRACE_QUIET__}"
+_bx::options::recipe_tracing() {
+  return "${__BX_OPTION_RECIPE_TRACING__}"
 }
 
-_bx::options::enable_recipe_trace_quiet() {
-  __BX_OPTION_RECIPE_TRACE_QUIET__="${__BOOL_TRUE__}"
+_bx::options::disable_recipe_tracing() {
+  __BX_OPTION_RECIPE_TRACING__="${__BOOL_FALSE__}"
 }
 
-_bx::options::xtrace_quiet() {
-  return "${__BX_OPTION_XTRACE_QUIET__}"
+_bx::options::xtracing() {
+  return "${__BX_OPTION_XTRACING__}"
 }
 
-_bx::options::enable_xtrace_quiet() {
-  __BX_OPTION_XTRACE_QUIET__="${__BOOL_TRUE__}"
+_bx::options::disable_xtracing() {
+  __BX_OPTION_XTRACING__="${__BOOL_FALSE__}"
 }
 
 _bx::options::auto_confirm() {

@@ -5,16 +5,16 @@
 _bx::recipe_registry::register_ignore_patterns "^set$"
 
 ################################################################################
-# Override the `set` builtin to prevent xtrace output when bx executes in
-# quiet mode.
+# Override the `set` builtin to prevent xtrace output when bx executes with
+# xtrace disabled.
 #
 # Side effects:
-#   - Disables xtrace via `builtin set +x` when `_bx::options::xtrace_quiet`
-#     returns true.
+#   - Disables xtrace via `builtin set +x` when `_bx::options::xtracing`
+#     returns false.
 ################################################################################
 set() {
   {
     builtin set "$@"
-    _bx::options::xtrace_quiet && builtin set +x || true
+    _bx::options::xtracing || builtin set +x
   } 2>/dev/null
 }

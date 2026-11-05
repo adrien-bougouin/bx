@@ -12,7 +12,7 @@
 #
 # Side effects:
 #   - May update bashfile path via _bx::bashfile::set_path.
-#   - May set option flags via _bx::options::enable_* helpers.
+#   - May set option flags via _bx::options::{enable,disable}_* helpers.
 ################################################################################
 _bx::cli::parse_options() {
   local positional_arguments_var="$1"
@@ -38,8 +38,8 @@ _bx::cli::parse_options() {
       -h | --help) _bx::options::enable_help ;;
       -l | --list) _bx::options::enable_list ;;
       -q | --quiet)
-        _bx::options::enable_recipe_trace_quiet
-        _bx::options::enable_xtrace_quiet
+        _bx::options::disable_recipe_tracing
+        _bx::options::disable_xtracing
         ;;
       -v | --version) _bx::options::enable_version ;;
       -y | --yes) _bx::options::enable_auto_confirm ;;
