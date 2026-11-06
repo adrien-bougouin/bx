@@ -20,7 +20,11 @@ class TestContext
   attr_reader :bx_result
 
   def initialize
-    @bash_env = ['export LANG=en_US.UTF-8', 'export PS4="+ "']
+    @bash_env = [
+      'export LANG=en_US.UTF-8',
+      'export PS4="+ "',
+      'export BX_RECIPE_TRACE=1'
+    ]
     @bx_options = []
     @bx_result = nil
   end
