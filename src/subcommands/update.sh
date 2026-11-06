@@ -17,12 +17,14 @@ _bx::update::main() {
 
   ##############################################################################
 
+  local __BX_DISPLAY_PREFIX__="{{bold}}${__BX_CONSTANT_COMMAND_NAME__}-update:{{normal}}"
   local __BX_REPOSITORY__="${__BX_CONSTANT_AUTHOR__}/${__BX_CONSTANT_COMMAND_NAME__}"
 
+  readonly __BX_DISPLAY_PREFIX__
   readonly __BX_REPOSITORY__
 
   _bx::update::abort() {
-    _bx::display::error "{{bold}}bx-updater:{{normal}} $1"
+    _bx::display::error "${__BX_DISPLAY_PREFIX__} $1"
 
     exit 1
   }
@@ -75,7 +77,7 @@ _bx::update::main() {
   latest_version="$(_bx::update::latest_version)"
 
   if [[ ${local_version} == "${latest_version}" ]]; then
-    _bx::display::info "{{bold}}bx-updater:{{normal}} bx is already up-to-date!"
+    _bx::display::info "${__BX_DISPLAY_PREFIX__} bx is already up-to-date!"
 
     return 0
   fi
@@ -106,7 +108,7 @@ _bx::update::main() {
     rm -rf '${tmp_path}'
   " EXIT
 
-  _bx::display::info "{{bold}}bx-updater:{{normal}} Downloading bx ${latest_version}..."
+  _bx::display::info "${__BX_DISPLAY_PREFIX__} Downloading bx ${latest_version}..."
   curl -fL --proto '=https' --progress-bar "${tarball_url}" -o "${tarball_path}"
 
   tarball_sha256sum="$(
@@ -119,7 +121,7 @@ _bx::update::main() {
     _bx::update::abort "Download corrupted (checksum mismatch), try again!"
   fi
 
-  _bx::display::info "{{bold}}bx-updater:{{normal}} Updating to bx ${latest_version} in '${__BX_PATH__}'..."
+  _bx::display::info "${__BX_DISPLAY_PREFIX__} Updating to bx ${latest_version} in '${__BX_PATH__}'..."
 
   rm -rf "${swap_path}"
   mkdir -p "${swap_path}"
@@ -129,7 +131,7 @@ _bx::update::main() {
   mv "${__BX_PATH__}" "${local_backup_path}"
   mv "${swap_path}" "${__BX_PATH__}"
 
-  _bx::display::info "{{bold}}bx-updater:{{normal}} Done!"
+  _bx::display::info "${__BX_DISPLAY_PREFIX__} Done!"
 }
 
 _bx::update::main "$@"

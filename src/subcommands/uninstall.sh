@@ -17,20 +17,24 @@ _bx::uninstall::main() {
 
   ##############################################################################
 
+  local __BX_DISPLAY_PREFIX__="{{bold}}${__BX_CONSTANT_COMMAND_NAME__}-uninstall:{{normal}}"
+
+  readonly __BX_DISPLAY_PREFIX__
+
   if [[ ! -f "${__BX_PATH__}/Bashfile" ]]; then
     _bx::display::error \
-      "{{bold}}bx-uninstaller:{{normal}} Cannot confirm the installation of bx at '${__BX_PATH__}'!"
+      "${__BX_DISPLAY_PREFIX__} Cannot confirm the installation of bx at '${__BX_PATH__}'!"
 
     return 1
   fi
 
   _bx::display::info \
-    "{{bold}}bx-uninstaller:{{normal}} Uninstalling bx from '${__BX_PATH__}'..."
+    "${__BX_DISPLAY_PREFIX__} Uninstalling bx from '${__BX_PATH__}'..."
 
   (cd "${__BX_PATH__}" && ./bin/bx -q -y uninstall)
   rm -rf "${__BX_PATH__}"
 
-  _bx::display::info "{{bold}}bx-uninstaller:{{normal}} Done!"
+  _bx::display::info "${__BX_DISPLAY_PREFIX__} Done!"
 }
 
 _bx::uninstall::main "$@"

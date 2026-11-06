@@ -19,15 +19,17 @@ if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
   __BX_DISPLAY_STYLE_BOLD__="$(tput bold)"
 fi
 
+__BX_DISPLAY_PREFIX__="${__BX_DISPLAY_STYLE_BOLD__}install.sh:${__BX_DISPLAY_STYLE_NORMAL__}"
+
 info() {
   printf "%s %s\n" \
-    "${__BX_DISPLAY_STYLE_BOLD__}bx-installer:${__BX_DISPLAY_STYLE_NORMAL__}" \
+    "${__BX_DISPLAY_PREFIX__}" \
     "$1"
 }
 
 error() {
   printf "%s %s\n" \
-    "${__BX_DISPLAY_STYLE_BOLD__}bx-installer:${__BX_DISPLAY_STYLE_NORMAL__}" \
+    "${__BX_DISPLAY_PREFIX__}" \
     "$1" \
     >&2
 }

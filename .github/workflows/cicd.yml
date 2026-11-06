@@ -231,7 +231,7 @@ jobs:
         run: |
           export PATH="${HOME}/.local/opt/bx/bin:${PATH}"
 
-          [[ $(bx-update) == "bx-updater: bx is already up-to-date!" ]]
+          [[ $(bx-update) == "bx-update: bx is already up-to-date!" ]]
 
       - name: Check uninstall
         shell: bash
