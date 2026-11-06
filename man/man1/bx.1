@@ -166,6 +166,10 @@ The trace is prefixed with a character consistent with \fBPS4\fR (default
 + }
 .fi
 .RE
+.PP
+To disable recipe traces by default, set the \fBBX_RECIPE_TRACE\fR environment
+variable to \fB0\fR.
+This does not affect \fIxtrace\fR output enabled by recipes.
 .SH ANNOTATIONS
 Annotations are directives placed inside a recipe body.
 They are read by \fIbx\fR when loading the \fIBashfile\fR and instruct it on how

@@ -193,6 +193,11 @@ bx -q change-global--subprocess print-global
 # stdout: GLOBAL=default-value
 ```
 
+### Recipe traces
+`bx` prints a trace line to standard error before and after each invoked recipe, prefixed consistently with `PS4` (default `+`).
+Use `-q` (or `--quiet`) to disable traces for a single invocation.
+To disable recipe traces by default, export `BX_RECIPE_TRACE=0`.
+
 ### Shell options
 Recipes can set their own shell options.
 For instance, a recipe can set `set -x` to trace the recipe instructions.

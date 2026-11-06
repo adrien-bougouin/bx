@@ -7,6 +7,11 @@ __BX_OPTION_XTRACE__="${__BOOL_TRUE__}"
 
 __BX_OPTION_AUTO_CONFIRM__="${__BOOL_FALSE__}"
 
+# Allow users to disable recipe traces by default through the environment.
+if [[ ${BX_RECIPE_TRACE:-} == "0" ]]; then
+  __BX_OPTION_RECIPE_TRACE__="${__BOOL_FALSE__}"
+fi
+
 ################################################################################
 # Check whether recipe-level traces are enabled.
 #

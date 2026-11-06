@@ -120,7 +120,7 @@ def build_expected_output_line(data, invocation_stack: [])
 
     "bx: Skipping re-invocation of `#{canonical_recipe_invocation}`..."
   when 'xtrace'
-    "#{'+' * (invocation_stack.size + 1)} #{content}"
+    "#{'+' * [2, invocation_stack.size + 1].max} #{content}"
   when ''
     content
   else
