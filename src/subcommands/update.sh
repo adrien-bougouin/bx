@@ -12,6 +12,7 @@ _bx::update::main() {
   readonly __BX_PATH__
   readonly __BX_SRC_PATH__
 
+  source "${__BX_SRC_PATH__}/utils.sh"
   source "${__BX_SRC_PATH__}/constants.sh"
   source "${__BX_SRC_PATH__}/display.sh"
 
@@ -62,6 +63,32 @@ _bx::update::main() {
     fi
 
     printf "%s  %s" "${file_sha}" "${filepath}" | ${shasum_cmd} -c - >/dev/null
+  }
+
+  _bx::update::display_changelog() {
+    local changelog_path="$1"
+    local previous_version="$2"
+
+    if [[ ! -f ${changelog_path} ]]; then
+      return 0
+    fi
+
+    _bx::display::info ""
+    _bx::display::info "# Changelog"
+
+    local passed_changelog_header="${__BOOL_FALSE__}"
+
+    local changelog_line
+    while IFS= read -r changelog_line; do
+      case ${changelog_line} in
+        "## [${previous_version}]"*) break ;;
+        "## ["*) passed_changelog_header="${__BOOL_TRUE__}" ;;
+      esac
+
+      if [[ ${passed_changelog_header} == "${__BOOL_TRUE__}" ]]; then
+        printf "%s\n" "${changelog_line}"
+      fi
+    done <"${changelog_path}"
   }
 
   ##############################################################################
@@ -130,6 +157,11 @@ _bx::update::main() {
   rm -rf "${local_backup_path}"
   mv "${__BX_PATH__}" "${local_backup_path}"
   mv "${swap_path}" "${__BX_PATH__}"
+
+  _bx::update::display_changelog \
+    "${__BX_PATH__}/CHANGELOG.md" \
+    "${local_version}" \
+    || true
 
   _bx::display::info "${__BX_DISPLAY_PREFIX__} Done!"
 }
