@@ -13,8 +13,7 @@ _bx::recipe_registry::register_ignore_patterns "^set$"
 #     returns false.
 ################################################################################
 set() {
-  {
-    builtin set "$@"
-    _bx::options::xtrace_enabled || builtin set +x
-  } 2>/dev/null
+  builtin set "$@"
+
+  { _bx::options::xtrace_enabled || builtin set +x; } 2>/dev/null
 }
