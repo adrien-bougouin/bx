@@ -13,7 +13,17 @@ _bx::recipe_registry::register_ignore_patterns "^set$"
 #     returns false.
 ################################################################################
 set() {
-  builtin set "$@"
+  local caller_source="${BASH_SOURCE[1]}"
+  local caller_lineno="${BASH_LINENO[0]}"
+
+  if ! builtin set "$@" 2>/dev/null; then
+    printf "%s: line %d: set: %s: invalid option(s)\n" \
+      "${caller_source}" \
+      "${caller_lineno}" \
+      "$*" >&2
+
+    exit 1
+  fi
 
   { _bx::options::xtrace_enabled || builtin set +x; } 2>/dev/null
 }

@@ -127,3 +127,20 @@ Feature: Recipe--Shell Options
       | bx-trace-in  | print-options        |
       | bx-trace-out |                      |
     And bx succeeds
+
+  Scenario: Invoke a recipe that uses an invalid shell option
+    Given the Bashfile
+      ```bash
+      invalid-recipe() {
+        set -o bogus
+      }
+      ```
+    When invoking
+      | RECIPE         |
+      | invalid-recipe |
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT      | CONTENT                                                 |
+      | bx-trace-in | invalid-recipe                                          |
+      |             | /Bashfile: line 2: set: -o bogus: invalid option\(s\)$/ |
+    And bx fails
