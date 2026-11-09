@@ -11,6 +11,8 @@ _bx::recipe_registry::register_ignore_patterns "^set$"
 # Side effects:
 #   - Disables xtrace via `builtin set +x` when `_bx::options::xtrace_enabled`
 #     returns false.
+#   - On invalid options, reports the caller's source and line, then exits with
+#     status 1.
 ################################################################################
 set() {
   local caller_source="${BASH_SOURCE[1]}"
