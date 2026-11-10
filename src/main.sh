@@ -58,12 +58,12 @@ _bx::main() {
   _bx::bashfile::load
   _bx::recipe_registry::load
 
-  if _bx::cli::list_requested; then
+  if [[ $(_bx::recipe_registry::size) -eq 0 ]]; then
+    _bx::abort "No recipes!"
+  elif _bx::cli::list_requested; then
     _bx::recipe_registry::print_list
 
     exit 0
-  elif [[ $(_bx::recipe_registry::size) -eq 0 ]]; then
-    _bx::abort "No recipes!"
   fi
 
   if [[ -n ${BASH_XTRACEFD-} ]] && [[ ${BASH_XTRACEFD} != "2" ]] && _bx::options::xtrace_enabled; then

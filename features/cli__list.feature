@@ -121,9 +121,12 @@ Feature: CLI--List
       | -l     |
     And invoking
     Then bx outputs nothing to stdout
-    And bx succeeds
+    And bx outputs to stderr
+      | FORMAT   | CONTENT     |
+      | bx-error | No recipes! |
+    And bx fails
 
-  Scenario: Ask for available recipes from uninitialized bx environment
+  Scenario: List available recipes from uninitialized bx environment
     Given no Bashfile
     When setting
       | OPTION |
