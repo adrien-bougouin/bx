@@ -4,31 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changed
-- `bx --list` now fails with `No recipes!` when the Bashfile defines no recipes.
-
 ### Fixed
 - Prevent hidden `set` failures.
 - Prevent `install.sh` and `bx-update` from exiting silently when checksum verification fails.
+- Make `bx --list` fail with `No recipes!` when the Bashfile defines no recipes.
 
 ## [0.16.0] - 2026-11-07
 ### Added
-- `bx-update` now displays the release notes added since the previously installed version.
+- Make `bx-update` display the release notes added since the previously installed version.
 
 ### Changed
-- Updated `install.sh`, `bx-update` and `bx-uninstall` messages to use `install.sh:`, `bx-update:` and `bx-uninstall:` prefixes instead of `bx-installer:`, `bx-updater:` and `bx-uninstaller:`.
+- Update `install.sh`, `bx-update` and `bx-uninstall` messages to use `install.sh:`, `bx-update:` and `bx-uninstall:` prefixes instead of `bx-installer:`, `bx-updater:` and `bx-uninstaller:`.
 
 ## [0.15.0] - 2026-11-06
 ### Added
-- Support `BX_RECIPE_TRACE=0` environment variable to disable recipe traces by default.
+- Support the `BX_RECIPE_TRACE=0` environment variable to disable recipe traces by default.
 
 ## [0.14.0] - 2026-11-05
 ### Changed
-- Improved portability by removing `realpath` dependency.
+- Improve portability by removing the `realpath` dependency.
 
 ## [0.13.1] - 2026-10-28
 ### Changed
-- Reformatted `bx --list` to now included sourced bashfile path.
+- Reformat `bx --list` to include the sourced Bashfile path.
 
 ## [0.13.0] - 2026-10-26
 ### Added
@@ -36,157 +34,156 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [0.12.0] - 2026-10-25
 ### Changed
-- `bx`, `bx-update`, `bx-uninstall`, the installer, and internal scripts now use `/usr/bin/env bash` instead of `/bin/bash`, so the Bash found on `PATH` is used.
+- Use `/usr/bin/env bash` instead of `/bin/bash` in `bx`, `bx-update`, `bx-uninstall`, the installer, and internal scripts, so the Bash found on `PATH` is used.
 
 ## [0.11.1] - 2026-10-22
 ### Changed
-- Corrected the `--help` description in `bx(1)` so it no longer claims that recipes are listed.
+- Correct the `--help` description in `bx(1)` so it no longer claims that recipes are listed.
 
 ## [0.11.0] - 2026-10-21
 ### Changed
-- Simplified recipe traces by removing the `# ` separator: traces now look like `+ recipe {` instead of `+ # recipe {`.
+- Simplify recipe traces by removing the `# ` separator: traces now look like `+ recipe {` instead of `+ # recipe {`.
 
 ## [0.10.2] - 2026-10-20
 ### Changed
-- Reformatted and clarified `bx(1)`.
+- Reformat and clarify `bx(1)`.
 
 ## [0.10.1] - 2026-10-19
 ### Changed
-- Documented the annotation-placement rule and its error message in `bx(1)`.
+- Document the annotation-placement rule and its error message in `bx(1)`.
 
 ## [0.10.0] - 2026-10-19
 ### Added
-- Validate that annotations appear before executable code in a recipe body.
-  A misplaced annotation now aborts Bashfile loading, even when a different recipe is invoked.
+- Validate that annotations appear before executable code in a recipe body and abort Bashfile loading on a misplaced annotation, even when a different recipe is invoked.
 
 ### Fixed
-- Made annotation-start detection compatible with stricter glibc regular-expression behavior.
+- Make annotation-start detection compatible with stricter glibc regular-expression behavior.
 
 ## [0.9.0] - 2026-10-16
 ### Fixed
-- Prevented glob expansion in `@help` descriptions when listing recipes.
+- Prevent glob expansion in `@help` descriptions when listing recipes.
 
 ## [0.8.0] - 2026-10-16
 ### Fixed
-- Recipe traces now render arguments with shell-safe quoting so they can be copied and re-run.
+- Make recipe traces render arguments with shell-safe quoting so they can be copied and re-run.
 
 ## [0.7.0] - 2026-10-15
 ### Changed
-- `bx --list` now marks default and confirmation-required recipes with `[@default]` and `[@confirm]`.
+- Mark default and confirmation-required recipes with `[@default]` and `[@confirm]` in `bx --list`.
 
 ## [0.6.12] - 2026-10-15
 ### Changed
-- `bx-update` now runs update logic shipped with the installation, no longer downloads a separate `update.sh`, and verifies the downloaded archive against `SHA256SUMS`.
+- Run update logic shipped with the installation in `bx-update`, stop downloading a separate `update.sh`, and verify the downloaded archive against `SHA256SUMS`.
 
 ## [0.6.11] - 2026-10-14
 ### Changed
-- The installer verifies the downloaded archive against the release's `SHA256SUMS`.
+- Make the installer verify the downloaded archive against the release's `SHA256SUMS`.
 
 ## [0.6.9] - 2026-10-13
 ### Changed
-- `bx-update` now uses a locally installed updater that resolves the latest release and runs that release's updater.
+- Make `bx-update` use a locally installed updater that resolves the latest release and runs that release's updater.
 
 ## [0.6.8] - 2026-10-12
 ### Changed
-- `bx-uninstall` now uninstalls from the local installation without downloading `uninstall.sh`.
+- Make `bx-uninstall` uninstall from the local installation without downloading `uninstall.sh`.
 
 ### Fixed
-- Corrected the local uninstaller's source path.
+- Correct the local uninstaller's source path.
 
 ## [0.6.7] - 2026-10-09
 ### Changed
-- Documented recipe traces, private functions, reserved names, and quiet-mode `set` behavior in `bx(1)`.
+- Document recipe traces, private functions, reserved names, and quiet-mode `set` behavior in `bx(1)`.
 
 ## [0.6.6] - 2026-10-06
 ### Fixed
-- `bx::invoke` only treats an exact `-y` or `--yes` argument as auto-confirm; recipe names containing those strings are no longer affected.
+- Treat only an exact `-y` or `--yes` argument as auto-confirm in `bx::invoke`, so recipe names containing those strings are not affected.
 
 ## [0.6.4] - 2026-10-06
 ### Fixed
-- ANSI styling is now emitted only when stdout and stderr are terminals.
+- Emit ANSI styling only when stdout and stderr are terminals.
 
 ## [0.6.3] - 2026-10-06
 ### Changed
-- `--help` no longer loads the Bashfile or lists recipes; use `--list` to list recipes.
+- Stop loading the Bashfile or listing recipes for `--help`; use `--list` to list recipes.
 
 ## [0.6.2] - 2026-10-05
 ### Fixed
-- `bx --version` no longer loads or executes the Bashfile.
+- Stop loading or executing the Bashfile for `bx --version`.
 
 ## [0.6.1] - 2026-10-04
 ### Changed
-- Clarified installer, updater, and uninstaller messages; `bx-update` now fails when the installed version cannot be determined.
+- Clarify installer, updater, and uninstaller messages; make `bx-update` fail when the installed version cannot be determined.
 
 ## [0.6.0] - 2026-10-03
 ### Added
-- `bx-uninstall` command.
+- Add the `bx-uninstall` command.
 
 ## [0.5.1] - 2026-10-02
 ### Changed
-- Documented `bx-update` in `bx(1)`.
+- Document `bx-update` in `bx(1)`.
 
 ## [0.5.0] - 2026-10-02
 ### Added
-- `bx-update` command and update script for updating an existing installation.
+- Add the `bx-update` command and update script for updating an existing installation.
 
 ## [0.4.2] - 2026-09-13
 ### Fixed
-- Circular invocation detection now canonicalizes invocations, so equivalent formatting such as `"a b"` and `a\ b` is recognized as the same invocation.
-- `bx` now preserves its original `errexit` shell option correctly.
+- Make circular invocation detection canonicalize invocations, so equivalent formatting such as `"a b"` and `a\ b` is recognized as the same invocation.
+- Preserve the original `errexit` shell option in `bx`.
 
 ## [0.4.1] - 2026-09-09
 ### Changed
-- Improved annotation parsing performance.
+- Improve annotation parsing performance.
 
 ## [0.4.0] - 2026-09-09
 ### Fixed
-- Recipe isolation now restores `shopt` options as well as `set` options.
+- Make recipe isolation restore `shopt` options as well as `set` options.
 
 ## [0.3.1] - 2026-09-08
 ### Added
-- `bx::invoke -y` / `--yes` to temporarily auto-confirm nested recipes that require confirmation.
+- Add `bx::invoke -y` / `--yes` to temporarily auto-confirm nested recipes that require confirmation.
 
 ## [0.3.0] - 2026-09-07
 ### Added
-- `-y` / `--yes` option to automatically confirm recipes that require confirmation.
+- Add the `-y` / `--yes` option to automatically confirm recipes that require confirmation.
 
 ### Fixed
-- Argument forwarding for recipe arguments containing spaces, such as `--arg="arg 1"`.
+- Forward recipe arguments containing spaces, such as `--arg="arg 1"`.
 
 ## [0.2.2] - 2026-09-02
 ### Fixed
-- Recipe invocation messages now use backticks, avoiding quote conflicts in errors and warnings.
+- Use backticks in recipe invocation messages to avoid quote conflicts in errors and warnings.
 
 ## [0.2.1] - 2026-09-01
 ### Fixed
-- Prevented `bx::invoke` from invoking the default recipe when called without arguments.
+- Prevent `bx::invoke` from invoking the default recipe when called without arguments.
 
 ## [0.2.0] - 2026-09-01
 ### Added
-- `@confirm` annotation for interactive `[y/N]` confirmation before a recipe is invoked.
+- Add the `@confirm` annotation for interactive `[y/N]` confirmation before a recipe is invoked.
 
 ## [0.1.2] - 2026-08-28
 ### Added
-- Added the `bx(1)` manual page.
+- Add the `bx(1)` manual page.
 
 ## [0.1.1] - 2026-08-27
 ### Added
-- MIT License.
+- Add the MIT License.
 
 ## [0.1.0] - 2026-08-27
 Initial release.
 
 ### Added
-- Bashfile discovery, including upward lookup from the current directory.
-- Bash functions as recipes, with private `_`-prefixed functions and reserved `bx`/`bx::*` names excluded.
-- Recipe chaining and quoted recipe arguments.
-- `@help` and `@default` annotations.
-- Nested recipe invocation with `bx::invoke`.
-- Circular invocation prevention.
-- Recipe-level tracing using a prefix consistent with `PS4`.
-- Shell option isolation between recipes and from `bx`.
-- Scope boundaries: function recipes share scope, while subprocess recipes operate in a fork.
-- Options: `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--`.
+- Discover Bashfiles, including upward lookup from the current directory.
+- Treat Bash functions as recipes, excluding private `_`-prefixed functions and reserved `bx`/`bx::*` names.
+- Support recipe chaining and quoted recipe arguments.
+- Add `@help` and `@default` annotations.
+- Invoke nested recipes with `bx::invoke`.
+- Prevent circular invocations.
+- Trace recipes using a prefix consistent with `PS4`.
+- Isolate shell options between recipes and from `bx`.
+- Keep function recipes in the same scope and run subprocess recipes in a fork.
+- Support the `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--` options.
 
 [Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.16.0...HEAD
 [0.16.0]: https://github.com/adrien-bougouin/bx/compare/v0.15.0...v0.16.0
