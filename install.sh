@@ -79,7 +79,13 @@ install_bx() {
   info "Downloading bx ${__BX_VERSION__}..."
   curl -fL --progress-bar "${__BX_TARBALL_URL__}" -o "${tarball_path}"
 
-  tarball_sha256sum="$(curl -fsSL "${__BX_SHA256SUMS_URL__}" | grep -F "  ./${__BX_TARBALL_NAME__}")"
+  if ! tarball_sha256sum="$(
+    curl -fsSL "${__BX_SHA256SUMS_URL__}" | grep -F "  ./${__BX_TARBALL_NAME__}"
+  )"; then
+    error "Could not verify the download, try again!"
+
+    return 1
+  fi
 
   if ! check_checksum "${tarball_path}" "${tarball_sha256sum%%  ./*}"; then
     error "Download corrupted (checksum mismatch), try again!"

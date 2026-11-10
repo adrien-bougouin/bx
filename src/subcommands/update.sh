@@ -138,13 +138,13 @@ _bx::update::main() {
   _bx::display::info "${__BX_DISPLAY_PREFIX__} Downloading bx ${latest_version}..."
   curl -fL --proto '=https' --progress-bar "${tarball_url}" -o "${tarball_path}"
 
-  tarball_sha256sum="$(
-    curl -fsSL --proto '=https' "${sha256sums_url}" \
-      | grep -F "  ./${tarball_name}"
-  )"
+  if ! tarball_sha256sum="$(
+    curl -fsSL --proto '=https' "${sha256sums_url}" | grep -F "  ./${tarball_name}"
+  )"; then
+    _bx::update::abort "Could not verify the update, try again!"
+  fi
 
-  if [[ -z ${tarball_sha256sum} ]] \
-    || ! _bx::update::check_checksum "${tarball_path}" "${tarball_sha256sum%%  ./*}"; then
+  if ! _bx::update::check_checksum "${tarball_path}" "${tarball_sha256sum%%  ./*}"; then
     _bx::update::abort "Download corrupted (checksum mismatch), try again!"
   fi
 

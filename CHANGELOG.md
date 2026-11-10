@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 ### Fixed
-- Prevent hidden `set` failures
+- Prevent hidden `set` failures.
+- Prevent `install.sh` and `bx-update` from exiting silently when checksum verification fails.
 
 ## [0.16.0] - 2026-11-07
 ### Added
