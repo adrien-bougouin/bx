@@ -85,20 +85,36 @@ _bx::cli::parse_options() {
   shift
 
   while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
-    case "$1" in
+    local option="$1"
+
+    case "${option}" in
       --)
         shift
         break
         ;;
-      --bashfile=*)
-        _bx::bashfile::set_path "${1#--bashfile=}"
-        ;;
-      --file=*)
-        _bx::bashfile::set_path "${1#--file=}"
-        ;;
-      -f | --file | --bashfile)
-        _bx::bashfile::set_path "$2"
-        shift
+      -f | --file | --file=* | --bashfile | --bashfile=*)
+        local bashfile_path=""
+
+        case "${option}" in
+          --bashfile=*)
+            bashfile_path="${option#--bashfile=}"
+            ;;
+          --file=*)
+            bashfile_path="${option#--file=}"
+            ;;
+          -f | --file | --bashfile)
+            if [[ $# -ge 2 ]]; then
+              bashfile_path="$2"
+              shift
+            fi
+            ;;
+        esac
+
+        if [[ -z ${bashfile_path} ]] || [[ ${bashfile_path} == -* ]]; then
+          _bx::abort "Option '${option%%=*}' requires an argument!"
+        fi
+
+        _bx::bashfile::set_path "${bashfile_path}"
         ;;
       -h | --help) _bx::cli::request_help ;;
       -l | --list) _bx::cli::request_list ;;
@@ -108,7 +124,7 @@ _bx::cli::parse_options() {
         ;;
       -v | --version) _bx::cli::request_version ;;
       -y | --yes) _bx::options::enable_auto_confirm ;;
-      *) _bx::abort "Unknown option '$1'!" ;;
+      *) _bx::abort "Unknown option '${option}'!" ;;
     esac
 
     shift

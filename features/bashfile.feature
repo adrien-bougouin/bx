@@ -89,6 +89,48 @@ Feature: Bashfile
       | -f Bashfile -f alternative.bashfile |
       | -f alternative.bashfile -f Bashfile |
 
+  Scenario Outline: Invoke a recipe with invalid Bashfile option
+    Given no Bashfile
+    When setting
+      | OPTION              |
+      | <BASHFILE ARGUMENT> |
+    And invoking
+      | RECIPE         |
+      | which-bashfile |
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT   | CONTENT                                         |
+      | bx-error | Option '<INVALID OPTION>' requires an argument! |
+    And bx fails
+
+    Examples:
+      | BASHFILE ARGUMENT | INVALID OPTION |
+      | --file=           | --file         |
+      | --bashfile=       | --bashfile     |
+
+  Scenario Outline: Invoke no recipe with invalid Bashfile option
+    Given no Bashfile
+    When setting
+      | OPTION              |
+      | <BASHFILE ARGUMENT> |
+    And invoking
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT   | CONTENT                                         |
+      | bx-error | Option '<INVALID OPTION>' requires an argument! |
+    And bx fails
+
+    Examples:
+      | BASHFILE ARGUMENT | INVALID OPTION |
+      | -f                | -f             |
+      | -f -q             | -f             |
+      | --file            | --file         |
+      | --file -q         | --file         |
+      | --file=           | --file         |
+      | --bashfile        | --bashfile     |
+      | --bashfile -q     | --bashfile     |
+      | --bashfile=       | --bashfile     |
+
   Scenario: Invoke a recipe without a Bashfile
     Given no Bashfile
     When invoking
