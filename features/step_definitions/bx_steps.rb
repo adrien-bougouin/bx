@@ -32,6 +32,10 @@ When('invoking') do |*args|
   call_bx(arguments:, stdin_data:)
 end
 
+When('invoking recipe {string}') do |invocation|
+  call_bx(arguments: [invocation])
+end
+
 # Then #########################################################################
 
 Then('bx outputs nothing to stdout') do

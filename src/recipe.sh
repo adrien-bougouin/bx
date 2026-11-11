@@ -9,11 +9,17 @@ _bx::recipe::invoke() {
 
   read -r -a invocation_tokens <<<"$1"
 
+  if [[ ${#invocation_tokens[@]} -eq 0 ]]; then
+    _bx::abort "Invalid recipe invocation \`$1\`!"
+  fi
+
   local recipe="${invocation_tokens[0]}"
   local invocation="$1"
   local canonical_invocation
 
-  canonical_invocation="$(_bx::recipe::canonicalize_invocation "$1")"
+  if ! canonical_invocation="$(_bx::recipe::canonicalize_invocation "$1")"; then
+    _bx::abort "Invalid recipe invocation \`$1\`!"
+  fi
 
   if ! _bx::recipe_registry::include "${recipe}"; then
     if [[ ${recipe} =~ ^_ ]] && declare -F "${recipe}" >/dev/null 2>&1; then
@@ -66,7 +72,9 @@ _bx::recipe::canonicalize_invocation() {
   # For instance, with invocation `recipe "arg 1" "arg 2"`
   # - invocation=("$1")       #=> ('recipe' '"arg' '1"' '"arg' '2')
   # - eval "invocation+=($1)" #=> ('recipe' 'arg 1' 'arg 2')
-  eval "invocation+=($1)"
+  eval "invocation+=($1)" 2>/dev/null
+
+  [[ ${#invocation[@]} -gt 0 ]] || return 1
 
   canonical_invocation+=("${invocation[0]}")
 

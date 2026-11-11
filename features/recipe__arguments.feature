@@ -63,3 +63,18 @@ Feature: Recipe--Arguments
       | bx-trace-in  | recipe-2 'arg-3' 'arg-4' |
       | bx-trace-out |                          |
     And bx succeeds
+
+  Scenario Outline: Invoke a recipe with malformed argument
+    When invoking
+      | RECIPE                 |
+      | <MALFORMED INVOCATION> |
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT   | CONTENT                                             |
+      | bx-error | Invalid recipe invocation `<MALFORMED INVOCATION>`! |
+    And bx fails
+
+    Examples:
+      | MALFORMED INVOCATION |
+      | recipe-1 arg-1 "     |
+      | recipe-1 arg-1 )     |

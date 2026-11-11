@@ -106,3 +106,11 @@ Feature: Recipe
       | bx-trace-out |          |
       | bx-miss      | missing  |
     And bx fails
+
+  Scenario: Invoke a whitespace-only invocation
+    When invoking recipe "     "
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT   | CONTENT                            |
+      | bx-error | Invalid recipe invocation `     `! |
+    And bx fails

@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 ### Fixed
-- Abort with an error when `-f`/`--file`/`--bashfile` is missing a value, instead of leaking an internal error.
+- Abort with an error when `-f`/`--file`/`--bashfile` is missing a value, instead of leaking internal errors.
+- Abort with an error when a recipe invocation cannot be parsed, instead of leaking internal errors.
 
 ## [0.16.1] - 2026-11-10
 ### Fixed
