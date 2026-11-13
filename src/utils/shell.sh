@@ -10,6 +10,7 @@
 #   Writes replayable set commands to stdout.
 ################################################################################
 _bx::utils::shell::current_options() {
+  local options_var="$1"
   local replayable_options=()
 
   replayable_options+=("builtin set")
@@ -35,16 +36,12 @@ _bx::utils::shell::current_options() {
     replayable_options+=(";" "builtin shopt -s" "${shopts_s[@]}")
   fi
 
-  printf "%s" "${replayable_options[*]}"
+  printf -v "${options_var}" "%s" "${replayable_options[*]}"
 }
 
-# bx original options include errexit. However, according to subshell specs, it
-# is turned off in subshells. So `set -e` must be reiterated inside this
-# subshell for computing RESTORABLE bx original options.
-__BX_ORIGINAL_SHOPTS__="$(
-  set -e
-  _bx::utils::shell::current_options
-)"
+__BX_ORIGINAL_SHOPTS__=""
+
+_bx::utils::shell::current_options __BX_ORIGINAL_SHOPTS__
 
 readonly __BX_ORIGINAL_SHOPTS__
 

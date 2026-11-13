@@ -12,6 +12,8 @@ DIST_SCRIPTS=("${ROOT_PATH}/install.sh")
 source "${ROOT_PATH}/dist.bashfile"
 source "${ROOT_PATH}/features/Bashfile"
 
+trap 'echo "coucou"' EXIT
+
 doctor() {
   @help "Check for requirements to develop bx."
 

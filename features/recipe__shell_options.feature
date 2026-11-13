@@ -140,7 +140,8 @@ Feature: Recipe--Shell Options
       | invalid-recipe |
     Then bx outputs nothing to stdout
     And bx outputs to stderr
-      | FORMAT      | CONTENT                                                 |
-      | bx-trace-in | invalid-recipe                                          |
-      |             | /Bashfile: line 2: set: -o bogus: invalid option\(s\)$/ |
+      | FORMAT      | CONTENT                                                     |
+      | bx-trace-in | invalid-recipe                                              |
+      |             | /Bashfile: line 2: set: `-o bogus`: invalid argument\(s\)$/ |
+      | bx-error    | Recipe `invalid-recipe` exited with status 1!               |
     And bx fails

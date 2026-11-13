@@ -90,8 +90,9 @@ Feature: Recipe Auto-Confirmation
       | tricky-recipe-y destructive-recipe-1 | n            |
     Then bx outputs nothing to stdout
     And bx outputs to stderr
-      | FORMAT      | CONTENT                              |
-      | bx-trace-in | tricky-recipe-y destructive-recipe-1 |
-      | bx-confirm  | destructive-recipe-1                 |
-      | bx-error    | Aborted!                             |
+      | FORMAT      | CONTENT                                                               |
+      | bx-trace-in | tricky-recipe-y destructive-recipe-1                                  |
+      | bx-confirm  | destructive-recipe-1                                                  |
+      | bx-error    | Aborted!                                                              |
+      | bx-error    | Recipe `tricky-recipe-y 'destructive-recipe-1'` exited with status 1! |
     And bx fails

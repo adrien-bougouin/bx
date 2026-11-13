@@ -7,6 +7,23 @@
 __BX_INVOCATION_STACK__=()
 
 ################################################################################
+# Get the root invocation, that is, the invocation of the recipe requested by
+# the user.
+#
+# Globals:
+#   __BX_INVOCATION_STACK__ - Stack where recipes under invocation are stored.
+#
+# Outputs:
+#   The root recipe invocation, including its arguments, or nothing when no
+#   recipe is under invocation.
+################################################################################
+_bx::invocation_stack::root() {
+  [[ ${#__BX_INVOCATION_STACK__[@]} -gt 0 ]] || return
+
+  printf "%s" "${__BX_INVOCATION_STACK__[0]}"
+}
+
+################################################################################
 # Get the number of recipes under invocation.
 #
 # Globals:

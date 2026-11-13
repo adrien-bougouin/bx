@@ -17,9 +17,9 @@
 ################################################################################
 bx::invoke() {
   {
-    local options
+    local options_ref
 
-    options="$(_bx::utils::shell::current_options)"
+    _bx::utils::shell::current_options options_ref
 
     _bx::utils::shell::reset_options
   } 2>/dev/null
@@ -46,5 +46,5 @@ bx::invoke() {
     _bx::options::disable_auto_confirm
   fi
 
-  _bx::utils::shell::restore_options "${options}"
+  _bx::utils::shell::restore_options "${options_ref}"
 }

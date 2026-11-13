@@ -257,6 +257,8 @@ Uninstall an existing \fIbx\fR installation with:
 successfully.
 A nonzero status is returned if any recipe, or \fIbx\fR itself, encountered an
 error.
+When an invoked recipe fails, \fIbx\fR prints a summary to standard error
+naming the requested recipe and its exit status.
 Errors reported by \fIbx\fR are printed to standard error with the \fBbx:\fR
 prefix; errors from recipe code are printed by Bash.
 .SH "SEE ALSO"

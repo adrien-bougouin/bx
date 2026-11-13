@@ -25,9 +25,12 @@ _bx::main() {
   source "${__BX_SRC_PATH__}/recipe_registry.sh"
   source "${__BX_SRC_PATH__}/recipe.sh"
 
+  source "${__BX_SRC_PATH__}/exit_trap.sh"
   source "${__BX_SRC_PATH__}/overrides.sh"
   source "${__BX_SRC_PATH__}/dsl.sh"
   source "${__BX_SRC_PATH__}/cli.sh"
+
+  _bx::exit_trap::install
 
   ##############################################################################
 

@@ -30,6 +30,7 @@ Feature: Recipe -- Failure Handling
       | FORMAT      | CONTENT                                                        |
       | bx-trace-in | failing-recipe                                                 |
       | bx-error    | /Bashfile: line 11: call-missing-function: command not found$/ |
+      | bx-error    | Recipe `failing-recipe` exited with status 127!                |
     And bx fails
 
   Scenario: Invoke a mix of recipes that succeed and fail
@@ -49,4 +50,5 @@ Feature: Recipe -- Failure Handling
       | bx-trace-out |                                                                |
       | bx-trace-in  | failing-recipe                                                 |
       | bx-error     | /Bashfile: line 11: call-missing-function: command not found$/ |
+      | bx-error     | Recipe `failing-recipe` exited with status 127!                |
     And bx fails
