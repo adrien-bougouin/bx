@@ -144,3 +144,36 @@ Feature: Recipe--Shell Options
       | bx-trace-in | invalid-recipe                                          |
       |             | /Bashfile: line 2: set: -o bogus: invalid option\(s\)$/ |
     And bx fails
+
+  @regression
+  Scenario: Invoke a recipe that invokes another recipe without losing errexit
+    Given the Bashfile
+      ```bash
+      composite-recipe() {
+        bx::invoke inner
+
+        if shopt -qo errexit; then
+          echo "errexit on"
+        else
+          echo "errexit off"
+        fi
+      }
+
+      inner() {
+        set +e
+      }
+      ```
+    When invoking
+      | RECIPE           |
+      | composite-recipe |
+    Then bx outputs to stdout
+      """
+      errexit on
+      """
+    And bx outputs to stderr
+      | FORMAT       | CONTENT          |
+      | bx-trace-in  | composite-recipe |
+      | bx-trace-in  | inner            |
+      | bx-trace-out |                  |
+      | bx-trace-out |                  |
+    And bx succeeds

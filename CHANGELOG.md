@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.16.3] - 2026-11-15
+### Fixed
+- Properly reset `errexit` option after nested invocations.
+
 ## [0.16.2] - 2026-11-11
 ### Fixed
 - Abort with an error when `-f`/`--file`/`--bashfile` is missing a value, instead of leaking internal errors.
@@ -192,7 +196,8 @@ Initial release.
 - Keep function recipes in the same scope and run subprocess recipes in a fork.
 - Support the `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--` options.
 
-[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.16.2...HEAD
+[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.16.3...HEAD
+[0.16.3]: https://github.com/adrien-bougouin/bx/compare/v0.16.2...v0.16.3
 [0.16.2]: https://github.com/adrien-bougouin/bx/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/adrien-bougouin/bx/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/adrien-bougouin/bx/compare/v0.15.0...v0.16.0
