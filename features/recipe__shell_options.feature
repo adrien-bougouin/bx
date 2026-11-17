@@ -143,6 +143,7 @@ Feature: Recipe--Shell Options
       | FORMAT      | CONTENT                                          |
       | bx-trace-in | invalid-recipe                                   |
       |             | /Bashfile: line 2: set -o bogus: invalid usage$/ |
+      | bx-error    | Recipe `invalid-recipe` exited with status 1!    |
     And bx fails
 
   @regression

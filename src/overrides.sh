@@ -40,3 +40,4 @@ _bx::overrides::execute_builtin() {
 }
 
 source "${__BX_OVERRIDES_PATH__}/set.sh"
+source "${__BX_OVERRIDES_PATH__}/trap.sh"

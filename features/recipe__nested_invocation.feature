@@ -98,9 +98,10 @@ Feature: Recipe--Nested Invocation
       Pre-processing...
       """
     And bx outputs to stderr
-      | FORMAT      | CONTENT          |
-      | bx-trace-in | composite-recipe |
-      | bx-miss     | missing          |
+      | FORMAT      | CONTENT                                         |
+      | bx-trace-in | composite-recipe                                |
+      | bx-miss     | missing                                         |
+      | bx-error    | Recipe `composite-recipe` exited with status 1! |
     And bx fails
 
   Scenario Outline: Invoke a recipe that invokes another recipe with arguments
