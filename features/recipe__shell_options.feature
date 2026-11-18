@@ -146,6 +146,43 @@ Feature: Recipe--Shell Options
     And bx fails
 
   @regression
+  Scenario: Invoke a recipe that calls set multiple times and sets xtrace twice
+    Given the Bashfile
+      ```bash
+      double-xtrace() {
+        echo '-----'
+
+        set -x
+        set -x
+        set -e
+
+        echo "Hello, World!"
+
+        set +x
+
+        echo '-----'
+      }
+      ```
+    When invoking
+      | RECIPE        |
+      | double-xtrace |
+    Then bx outputs to stdout
+      """
+      -----
+      Hello, World!
+      -----
+      """
+    And bx outputs to stderr
+      | FORMAT       | CONTENT              |
+      | bx-trace-in  | double-xtrace        |
+      | xtrace       | set -x               |
+      | xtrace       | set -e               |
+      | xtrace       | echo 'Hello, World!' |
+      | xtrace       | set +x               |
+      | bx-trace-out |                      |
+    And bx succeeds
+
+  @regression
   Scenario: Invoke a recipe that invokes another recipe without losing errexit
     Given the Bashfile
       ```bash
