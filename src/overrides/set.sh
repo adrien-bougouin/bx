@@ -35,7 +35,7 @@ set() {
     builtin set +x
   } 2>/dev/null
 
-  _bx::overrides::execute_builtin set "$@"
+  _bx::overrides::execute_builtin_as_caller set "$@"
 
   {
     if ! _bx::options::xtrace_enabled; then

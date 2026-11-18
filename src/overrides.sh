@@ -20,7 +20,7 @@ readonly __BX_OVERRIDES_PATH__
 #   - Suppresses the builtin's stderr.
 #   - Exits with status 1 when the builtin fails.
 ################################################################################
-_bx::overrides::execute_builtin() {
+_bx::overrides::execute_builtin_as_caller() {
   if [[ ${BASH_SOURCE[1]-} != "${__BX_OVERRIDES_PATH__}/"* ]]; then
     _bx::abort "internal error: ${FUNCNAME[0]} must be called from an override!"
   fi
