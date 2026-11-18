@@ -14,10 +14,11 @@ Run `./bin/bx doctor` to check the setup for code and documentation formatting/l
 Run `./bin/bx features::doctor` to check the setup for the test suite (which requires Ruby tools).
 
 ## Tests
+Add or update a scenario for every behavior change.
+
 Tests are Cucumber features in `features/`.
 Run `./bin/bx features::check` to run the suite.
 Ruby dependencies are installed automatically by the test recipe.
-Add or update a scenario for every behavior change.
 
 ## Coding Style
 Follow the [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html).
