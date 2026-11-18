@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.16.4] - 2026-11-18
 ### Fixed
 - Prevent bx internals from appearing in xtrace output when a recipe changes shell options.
 
@@ -198,7 +200,8 @@ Initial release.
 - Keep function recipes in the same scope and run subprocess recipes in a fork.
 - Support the `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--` options.
 
-[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.16.3...HEAD
+[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.16.4...HEAD
+[0.16.4]: https://github.com/adrien-bougouin/bx/compare/v0.16.3...v0.16.4
 [0.16.3]: https://github.com/adrien-bougouin/bx/compare/v0.16.2...v0.16.3
 [0.16.2]: https://github.com/adrien-bougouin/bx/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/adrien-bougouin/bx/compare/v0.16.0...v0.16.1
