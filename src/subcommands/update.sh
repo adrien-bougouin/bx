@@ -74,7 +74,7 @@ _bx::update::main() {
     fi
 
     _bx::display::info ""
-    _bx::display::info "# Changelog"
+    _bx::display::info "# Changelog\n"
 
     local passed_changelog_header="${__BOOL_FALSE__}"
 
