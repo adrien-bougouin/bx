@@ -15,8 +15,8 @@ __BX_DISPLAY_STYLE_NORMAL__=
 __BX_DISPLAY_STYLE_BOLD__=
 
 if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
-  __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0)"
-  __BX_DISPLAY_STYLE_BOLD__="$(tput bold)"
+  __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0 2>/dev/null || true)"
+  __BX_DISPLAY_STYLE_BOLD__="$(tput bold 2>/dev/null || true)"
 fi
 
 __BX_DISPLAY_PREFIX__="${__BX_DISPLAY_STYLE_BOLD__}install.sh:${__BX_DISPLAY_STYLE_NORMAL__}"
