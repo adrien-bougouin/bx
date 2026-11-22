@@ -217,6 +217,17 @@ recipe() {
 Shell options set from a recipe are isolated to that recipe.
 Subsequent recipe invocations, or nested recipe invocations, will not be impacted by shell option changes from another recipe, nor by those of `bx` itself.
 
+### Failed recipes
+When a recipe exits with a nonzero status, `bx` stops the invocation and reports the failure on standard error, naming the requested recipe and its exit status:
+
+```
+bx: Recipe `test` exited with status 1!
+```
+
+Recipes may define an `EXIT` trap for cleanup.
+`bx` runs it before printing the failure summary, and the trap sees the original exit status in `$?`.
+Note the summary is not suppressed by `-q`/`--quiet`; only recipe traces and `xtrace` are.
+
 ## Contributing
 Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for the setup, test, and style guidelines.
 Read [VISION.md](VISION.md) before proposing a change.

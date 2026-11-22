@@ -104,7 +104,7 @@ _bx::update::main() {
   latest_version="$(_bx::update::latest_version)"
 
   if [[ ${local_version} == "${latest_version}" ]]; then
-    _bx::display::info "${__BX_DISPLAY_PREFIX__} bx is already up-to-date!"
+    _bx::display::info "${__BX_DISPLAY_PREFIX__} bx is already up to date!"
 
     return 0
   fi

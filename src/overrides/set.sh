@@ -5,22 +5,16 @@
 _bx::recipe_registry::register_ignore_patterns "^set$"
 
 ################################################################################
-# Override the `set` builtin to keep bx internals out of xtrace output.
-#
-# The requested options are replayed silently in a subshell to detect whether
-# they leave xtrace enabled. xtrace is then disabled inside
-# `{ ... } 2>/dev/null` while the real builtin runs, suppressing bx internals'
-# xtrace output when the calling recipe already had `set -x` enabled. It is
-# re-enabled afterwards when it was already on and the requested options do not
-# turn it off.
+# Override the `set` builtin to align xtrace with bx's quiet option.
 #
 # Arguments:
 #   - The arguments to pass to the `set` builtin.
 #
 # Side effects:
-#   - Disables xtrace while the real builtin executes.
-#   - Preserves an already-enabled xtrace across unrelated option changes.
+#   - Disables xtrace while the real builtin executes, to not expose bx
+#     internals.
 #   - Forces xtrace off when `_bx::options::xtrace_enabled` returns false.
+#   - Reports invalid arguments relative to the caller.
 ################################################################################
 set() {
   {

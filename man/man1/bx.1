@@ -152,6 +152,14 @@ of its own.
 When \fB\-q\fR (or \fB\-\-quiet\fR) is in effect, an \fIxtrace\fR enabled by a
 recipe's \fBset\fR \fI\-x\fR is turned back off, without affecting the rest of
 the recipe.
+.SS "Exit traps"
+Recipes may define an \fBEXIT\fR trap for cleanup, as in plain Bash.
+Because \fIbx\fR installs its own \fBEXIT\fR trap to report failed recipes, it
+shadows the \fBtrap\fR builtin and runs the recipe's trap from there.
+The recipe's trap sees the original exit status in \fB$?\fR.
+.PP
+When a recipe fails, \fIbx\fR prints its failure summary after the recipe's
+cleanup has run.
 .SH TRACES
 Unless \fB\-q\fR (or \fB\-\-quiet\fR) is given, \fIbx\fR prints a trace line to
 standard error before and after each invoked recipe.
@@ -257,6 +265,8 @@ Uninstall an existing \fIbx\fR installation with:
 successfully.
 A nonzero status is returned if any recipe, or \fIbx\fR itself, encountered an
 error.
+When an invoked recipe fails, \fIbx\fR prints a summary to standard error
+naming the requested recipe and its exit status.
 Errors reported by \fIbx\fR are printed to standard error with the \fBbx:\fR
 prefix; errors from recipe code are printed by Bash.
 .SH "SEE ALSO"
