@@ -4,8 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.17.0] - 2026-11-22
 ### Added
-- Report failed recipes with a `bx:`-prefixed summary including the recipe and its exit status.
+- Report failed recipes with a `bx:`-prefixed summary including the recipe and its exit status, even in quiet mode.
+
+### Changed
+- Change the `bx-update` up-to-date message to `bx is already up to date!`.
 
 ## [0.16.4] - 2026-11-18
 ### Fixed
@@ -202,7 +207,8 @@ Initial release.
 - Keep function recipes in the same scope and run subprocess recipes in a fork.
 - Support the `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--` options.
 
-[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.16.4...HEAD
+[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.17.0...HEAD
+[0.17.0]: https://github.com/adrien-bougouin/bx/compare/v0.16.4...v0.17.0
 [0.16.4]: https://github.com/adrien-bougouin/bx/compare/v0.16.3...v0.16.4
 [0.16.3]: https://github.com/adrien-bougouin/bx/compare/v0.16.2...v0.16.3
 [0.16.2]: https://github.com/adrien-bougouin/bx/compare/v0.16.1...v0.16.2
