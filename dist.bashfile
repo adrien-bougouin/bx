@@ -17,7 +17,7 @@ install() {
   local config_content
   local apply_instruction
 
-  shell="$(basename "${SHELL}")"
+  shell="$(basename "${SHELL:-}")"
 
   case "${shell}" in
     sh | dash)
