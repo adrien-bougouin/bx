@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 - Improve `bx-update` changelog display.
 
+### Fixed
+- Report a precise error when an explicitly specified Bashfile is missing.
+
 ## [0.17.0] - 2026-11-22
 ### Added
 - Report failed recipes with a `bx:`-prefixed summary including the recipe and its exit status, even in quiet mode.

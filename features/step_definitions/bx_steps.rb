@@ -59,7 +59,11 @@ end
 
 Then('bx outputs to stderr') do |table_or_text|
   if table_or_text.is_a?(String)
-    assert_equal(table_or_text, bx_result.stderr)
+    assert_equal(
+      table_or_text.gsub('{{PWD}}', Dir.pwd),
+      bx_result.stderr
+    )
+
     next
   end
 
@@ -96,7 +100,7 @@ end
 
 def build_expected_output_line(data, invocation_stack: [])
   format = data.fetch('FORMAT', '')
-  content = data.fetch('CONTENT', '')
+  content = data.fetch('CONTENT', '').gsub('{{PWD}}', Dir.pwd)
 
   if content.start_with?('/') && content.end_with?('/')
     return /#{content[1..-2]}/

@@ -141,3 +141,16 @@ Feature: Bashfile
       | FORMAT   | CONTENT      |
       | bx-error | No Bashfile! |
     And bx fails
+
+  Scenario: Invoke a recipe from a specific missing Bashfile
+    When setting
+      | OPTION              |
+      | -f missing.bashfile |
+    And invoking
+      | RECIPE         |
+      | which-bashfile |
+    Then bx outputs nothing to stdout
+    And bx outputs to stderr
+      | FORMAT   | CONTENT                                         |
+      | bx-error | Bashfile not found: `{{PWD}}/missing.bashfile`! |
+    And bx fails

@@ -40,6 +40,8 @@ _bx::bashfile::load() {
 
       lookup_path="$(dirname "${lookup_path}")"
     done
+  elif [[ ! -f ${__BX_BASHFILE_PATH__} ]]; then
+    _bx::abort "Bashfile not found: \`${__BX_BASHFILE_PATH__}\`!"
   fi
 
   readonly __BX_BASHFILE_PATH__
