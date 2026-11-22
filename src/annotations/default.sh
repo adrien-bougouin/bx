@@ -6,11 +6,18 @@ _bx::annotations::register "@default"
 
 @default() {
   if [[ $(_bx::annotation_parsing_stack::size) -gt 0 ]]; then
-    if [[ -n "$(_bx::recipe_registry::default)" ]]; then
-      _bx::abort "Too many default recipes!"
+    local current_recipe
+    local existing_default
+
+    current_recipe="$(_bx::annotation_parsing_stack::last)"
+    existing_default="$(_bx::recipe_registry::default)"
+
+    if [[ -n ${existing_default} ]]; then
+      _bx::abort \
+        "Too many default recipes: \`${existing_default}\` and \`${current_recipe}\`!"
     fi
 
-    __BX_RECIPE_DEFAULT__="$(_bx::annotation_parsing_stack::last)"
+    __BX_RECIPE_DEFAULT__="${current_recipe}"
   fi
 }
 

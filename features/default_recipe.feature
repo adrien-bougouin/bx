@@ -74,8 +74,8 @@ Feature: Default Recipe
       | <RECIPE> |
     Then bx outputs nothing to stdout
     Then bx outputs to stderr
-      | FORMAT   | CONTENT                   |
-      | bx-error | Too many default recipes! |
+      | FORMAT   | CONTENT                                                              |
+      | bx-error | Too many default recipes: `default-recipe-1` and `default-recipe-2`! |
     And bx fails
 
     Examples:
