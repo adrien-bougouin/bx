@@ -86,6 +86,7 @@ dist() {
   mkdir -p "${dist_bin_path}"
 
   _changelog::without_unreleased >"${dist_bx_path}/CHANGELOG.md"
+
   cp -r "${ROOT_PATH}/LICENSE" \
     "${dist_bx_path}/LICENSE"
   cp -r "${ROOT_PATH}/dist.bashfile" \
@@ -147,7 +148,9 @@ _doctor::check() {
   return 1
 }
 
-_changelog::without_unreleased() {
+_changelog::without_unreleased() (
+  { set +x; } 2>/dev/null
+
   local line
   local in_unreleased=0
 
@@ -162,4 +165,4 @@ _changelog::without_unreleased() {
       *) [[ ${in_unreleased} == 1 ]] || printf "%s\n" "${line}" ;;
     esac
   done <"${ROOT_PATH}/CHANGELOG.md"
-}
+)
