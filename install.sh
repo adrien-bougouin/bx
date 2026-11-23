@@ -77,7 +77,11 @@ install_bx() {
   trap "rm -rf '${tmp_path}'" EXIT
 
   info "Downloading bx ${__BX_VERSION__}..."
-  curl -fL --progress-bar "${__BX_TARBALL_URL__}" -o "${tarball_path}"
+  if ! curl -fL --progress-bar "${__BX_TARBALL_URL__}" -o "${tarball_path}"; then
+    error "Could not download bx ${__BX_VERSION__}, try again!"
+
+    return 1
+  fi
 
   if ! tarball_sha256sum="$(
     curl -fsSL "${__BX_SHA256SUMS_URL__}" | grep -F "  ./${__BX_TARBALL_NAME__}"

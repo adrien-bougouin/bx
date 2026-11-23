@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [Unreleased]
 ### Fixed
 - Handle an unset `SHELL` in `bx uninstall`.
+- Report release-lookup and download failures in `bx-update` and `install.sh`.
 
 ## [0.17.1] - 2026-11-22
 ### Changed

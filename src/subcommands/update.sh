@@ -38,7 +38,8 @@ _bx::update::main() {
         -fsSL \
         --proto '=https' \
         "https://api.github.com/repos/${__BX_REPOSITORY__}/releases/latest" \
-        | grep -m 1 '"tag_name"'
+        | grep -m 1 '"tag_name"' 2>/dev/null \
+        || true
     )"
 
     if [[ ${api_info} =~ \"v([0-9]+\.[0-9]+\.[0-9]+)\" ]]; then
@@ -136,7 +137,9 @@ _bx::update::main() {
   " EXIT
 
   _bx::display::info "${__BX_DISPLAY_PREFIX__} Downloading bx ${latest_version}..."
-  curl -fL --proto '=https' --progress-bar "${tarball_url}" -o "${tarball_path}"
+  if ! curl -fL --proto '=https' --progress-bar "${tarball_url}" -o "${tarball_path}"; then
+    _bx::update::abort "Could not download bx ${latest_version}, try again!"
+  fi
 
   if ! tarball_sha256sum="$(
     curl -fsSL --proto '=https' "${sha256sums_url}" | grep -F "  ./${tarball_name}"
