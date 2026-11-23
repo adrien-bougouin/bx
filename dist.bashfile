@@ -73,7 +73,7 @@ uninstall() {
   local config_path
   local config_content
 
-  shell="$(basename "${SHELL}")"
+  shell="$(basename "${SHELL:-}")"
 
   case "${shell}" in
     sh | dash)

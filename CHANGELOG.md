@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Handle an unset `SHELL` in `bx uninstall`.
 
 ## [0.17.1] - 2026-11-22
 ### Changed
@@ -12,7 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 - Report a precise error when an explicitly specified Bashfile is missing.
 - Name both conflicting recipes in the duplicate `@default` error.
-- Handle an unset `SHELL` in `bx install` and `bx uninstall`.
+- ~~Handle an unset `SHELL` in `bx install` and `bx uninstall`.~~
+- Handle an unset `SHELL` in `bx install`.
 - Suppress potential `tput` diagnostics in the installer.
 
 ## [0.17.0] - 2026-11-22
