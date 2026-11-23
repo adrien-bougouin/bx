@@ -15,8 +15,7 @@ Feature: CLI--List
     And invoking
     Then bx outputs to stdout
       """
-      recipe-1
-          A short description of recipe-1.
+      recipe-1                    # A short description of recipe-1.
       recipe-2
 
       Sourced from {{PWD}}/Bashfile
@@ -47,12 +46,10 @@ Feature: CLI--List
     And invoking
     Then bx outputs to stdout
       """
-      recipe-1
-          A short description of recipe-1
-          that continues on multiple lines.
-      recipe-2
-          A short description of recipe-2
-          that continues on multiple lines.
+      recipe-1                    # A short description of recipe-1
+                                  # that continues on multiple lines.
+      recipe-2                    # A short description of recipe-2
+                                  # that continues on multiple lines.
 
       Sourced from {{PWD}}/Bashfile
       """
@@ -103,12 +100,42 @@ Feature: CLI--List
     And invoking
     Then bx outputs to stdout
       """
-      recipe-1 [@default]
-          Default recipe.
-      recipe-2 [@confirm]
-          Confirmable recipe.
-      recipe-3
-          Normal recipe.
+      recipe-1 [@default]         # Default recipe.
+      recipe-2 [@confirm]         # Confirmable recipe.
+      recipe-3                    # Normal recipe.
+
+      Sourced from {{PWD}}/Bashfile
+      """
+    And bx succeeds
+
+  Scenario: List available recipes with a name too long for inline help
+    Given the Bashfile
+      ```bash
+      recipe--loooooong() {
+        @default
+        @help "Default recipe."
+      }
+
+      recipe--oooooook() {
+        @confirm
+        @help "Confirmable recipe."
+      }
+
+      recipe--too000000000000-long() {
+        @help "Normal recipe."
+      }
+      ```
+    When setting
+      | OPTION |
+      | -l     |
+    And invoking
+    Then bx outputs to stdout
+      """
+      recipe--loooooong [@default]
+                                  # Default recipe.
+      recipe--oooooook [@confirm] # Confirmable recipe.
+      recipe--too000000000000-long
+                                  # Normal recipe.
 
       Sourced from {{PWD}}/Bashfile
       """

@@ -7,12 +7,14 @@ __BX_DISPLAY_INDENT__="    "
 
 __BX_DISPLAY_STYLE_NORMAL__=""
 __BX_DISPLAY_STYLE_BOLD__=""
+__BX_DISPLAY_STYLE_DIM__=""
 
 if [[ -t 1 ]] && [[ -t 2 ]]; then
   # BASH unset ${TERM} value is 'dumb'!
   if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
     __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0 2>/dev/null || true)"
     __BX_DISPLAY_STYLE_BOLD__="$(tput bold 2>/dev/null || true)"
+    __BX_DISPLAY_STYLE_DIM__="$(tput dim 2>/dev/null || true)"
   fi
 fi
 
@@ -20,6 +22,7 @@ readonly __BX_DISPLAY_INDENT__
 
 readonly __BX_DISPLAY_STYLE_NORMAL__
 readonly __BX_DISPLAY_STYLE_BOLD__
+readonly __BX_DISPLAY_STYLE_DIM__
 
 ################################################################################
 # Print an info message to stdout.
@@ -28,6 +31,7 @@ readonly __BX_DISPLAY_STYLE_BOLD__
 #   - {{indent}}: 4 space indentation
 #
 # Styling:
+#   - {{dim}}: following text renders dim (if supported)
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
 #
@@ -48,6 +52,7 @@ _bx::display::info() {
 #   - {{indent}}: 4 space indentation
 #
 # Styling:
+#   - {{dim}}: following text renders dim (if supported)
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
 #
@@ -68,6 +73,7 @@ _bx::display::warning() {
 #   - {{indent}}: 4 space indentation
 #
 # Styling:
+#   - {{dim}}: following text renders dim (if supported)
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
 #
@@ -90,6 +96,7 @@ _bx::display::error() {
 #   - {{indent}}: 4 space indentation
 #
 # Styling:
+#   - {{dim}}: following text renders dim (if supported)
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
 #
@@ -127,6 +134,7 @@ _bx::display::trace() {
 #   - {{indent}}: 4 space indentation
 #
 # Styling:
+#   - {{dim}}: following text renders dim (if supported)
 #   - {{bold}}: following text renders bold (if supported)
 #   - {{normal}}: following text style is reset to normal style
 #
@@ -143,6 +151,7 @@ _bx::display::format() {
 
   message="${message//\{\{normal\}\}/${__BX_DISPLAY_STYLE_NORMAL__}}"
   message="${message//\{\{bold\}\}/${__BX_DISPLAY_STYLE_BOLD__}}"
+  message="${message//\{\{dim\}\}/${__BX_DISPLAY_STYLE_DIM__}}"
 
   printf "%b" "${message}${__BX_DISPLAY_STYLE_NORMAL__}"
 }

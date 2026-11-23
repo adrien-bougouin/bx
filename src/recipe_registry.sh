@@ -59,15 +59,35 @@ _bx::recipe_registry::print_list() {
       help_lines+=("${help_line}")
     done < <(_bx::recipe::help "${recipe}")
 
-    _bx::display::info "${recipe}{{bold}}${annotations}{{normal}}"
+    _bx::display::format "${recipe}{{bold}}${annotations}{{normal}}"
     if [[ ${#help_lines[@]} -gt 0 ]]; then
+      local first_line="${__BOOL_TRUE__}"
+      local padding_reference="${recipe}${annotations} "
+      # Assuming a 100-column terminal and at most 70 characters per help line,
+      # the recipe name and comment marker get at most 30 columns; accounting
+      # for the 2-character "# " prefix, the padding is 28 spaces.
+      local padding="                            "
+
       for help_line in "${help_lines[@]}"; do
-        _bx::display::info "{{indent}}${help_line}"
+        if [[ ${first_line} == "${__BOOL_TRUE__}" ]] \
+          && [[ ${#padding_reference} -le ${#padding} ]]; then
+          local repadding="${padding:${#padding_reference}} "
+
+          _bx::display::format "${repadding}{{dim}}# ${help_line}{{normal}}"
+        else
+          printf "\n"
+          _bx::display::format "${padding}{{dim}}# ${help_line}{{normal}}"
+        fi
+
+        first_line="${__BOOL_FALSE__}"
       done
     fi
+
+    printf "\n"
   done
 
-  _bx::display::info "\nSourced from $(_bx::bashfile::loaded_path)"
+  printf "\n"
+  _bx::display::info "Sourced from $(_bx::bashfile::loaded_path)"
 }
 
 _bx::recipe_registry::include() {
