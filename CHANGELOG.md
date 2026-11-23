@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.17.2] - 2026-11-23
 ### Fixed
 - Handle an unset `SHELL` in `bx uninstall`.
 - Report release-lookup and download failures in `bx-update` and `install.sh`.
@@ -221,7 +223,8 @@ Initial release.
 - Keep function recipes in the same scope and run subprocess recipes in a fork.
 - Support the `-f`/`--file`/`--bashfile`, `-h`/`--help`, `-l`/`--list`, `-q`/`--quiet`, `-v`/`--version`, and `--` options.
 
-[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.17.1...HEAD
+[Unreleased]: https://github.com/adrien-bougouin/bx/compare/v0.17.2...HEAD
+[0.17.2]: https://github.com/adrien-bougouin/bx/compare/v0.17.1...v0.17.2
 [0.17.1]: https://github.com/adrien-bougouin/bx/compare/v0.17.0...v0.17.1
 [0.17.0]: https://github.com/adrien-bougouin/bx/compare/v0.16.4...v0.17.0
 [0.16.4]: https://github.com/adrien-bougouin/bx/compare/v0.16.3...v0.16.4
