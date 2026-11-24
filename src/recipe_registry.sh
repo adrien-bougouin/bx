@@ -41,8 +41,12 @@ _bx::recipe_registry::size() {
 _bx::recipe_registry::print_completion_list() {
   [[ $(_bx::recipe_registry::size) -eq 0 ]] && return
 
+  local completion_prefix="${1:-}"
+
   local recipe
   for recipe in "${__BX_RECIPES__[@]}"; do
+    [[ ${recipe} == "${completion_prefix}"* ]] || continue
+
     _bx::display::info "${recipe}"
   done
 }

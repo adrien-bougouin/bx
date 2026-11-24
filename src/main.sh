@@ -63,8 +63,11 @@ _bx::main() {
   _bx::bashfile::load
   _bx::recipe_registry::load
 
-  if _bx::cli::completion_requested; then
-    _bx::recipe_registry::print_completion_list
+  if [[ ${BX_COMPLETE:-} == 1 ]]; then
+    # For shell completion, request candidate recipes for last positional
+    # argument.
+    _bx::recipe_registry::print_completion_list \
+      "${positional_arguments_ref[@]+"${positional_arguments_ref[@]: -1}"}"
 
     exit 0
   elif [[ $(_bx::recipe_registry::size) -eq 0 ]]; then

@@ -2,30 +2,9 @@
 #
 # CLI option parsing and help output for the bx tool.
 
-__BX_CLI_COMPLETION_REQUESTED__="${__BOOL_FALSE__}"
 __BX_CLI_HELP_REQUESTED__="${__BOOL_FALSE__}"
 __BX_CLI_LIST_REQUESTED__="${__BOOL_FALSE__}"
 __BX_CLI_VERSION_REQUESTED__="${__BOOL_FALSE__}"
-
-################################################################################
-# Check whether shell completion was requested on the command line.
-#
-# Returns:
-#   0 (true) if --completion-list was given, 1 (false) otherwise.
-################################################################################
-_bx::cli::completion_requested() {
-  return "${__BX_CLI_COMPLETION_REQUESTED__}"
-}
-
-################################################################################
-# Mark shell completion as requested.
-#
-# Side effects:
-#   Sets __BX_CLI_COMPLETION_REQUESTED__ to true.
-################################################################################
-_bx::cli::request_completion() {
-  __BX_CLI_COMPLETION_REQUESTED__="${__BOOL_TRUE__}"
-}
 
 ################################################################################
 # Check whether help was requested on the command line.
@@ -113,8 +92,6 @@ _bx::cli::parse_options() {
         shift
         break
         ;;
-      # Private option, for auto-completion only.
-      --completion-list) _bx::cli::request_completion ;;
       -f | --file | --file=* | --bashfile | --bashfile=*)
         local bashfile_path=""
 
