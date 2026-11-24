@@ -58,8 +58,8 @@ Feature: Recipe
       | missing |
     Then bx outputs nothing to stdout
     And bx outputs to stderr
-      | FORMAT  | CONTENT |
-      | bx-miss | missing |
+      | FORMAT        | CONTENT |
+      | bx-miss-error | missing |
     And bx fails
 
   Scenario: Invoke a private function instead of a recipe
@@ -101,10 +101,10 @@ Feature: Recipe
       'recipe-1' invoked!
       """
     And bx outputs to stderr
-      | FORMAT       | CONTENT  |
-      | bx-trace-in  | recipe-1 |
-      | bx-trace-out |          |
-      | bx-miss      | missing  |
+      | FORMAT        | CONTENT  |
+      | bx-trace-in   | recipe-1 |
+      | bx-trace-out  |          |
+      | bx-miss-error | missing  |
     And bx fails
 
   Scenario: Invoke a whitespace-only invocation

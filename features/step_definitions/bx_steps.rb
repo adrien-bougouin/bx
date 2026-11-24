@@ -111,7 +111,7 @@ def build_expected_output_line(data, invocation_stack: [])
     build_confirmation_string(content)
   when 'bx-error'
     "bx: #{content}"
-  when 'bx-miss'
+  when 'bx-miss-error'
     canonical_recipe_invocation = canonicalize_recipe_invocation(content)
 
     "bx: No recipe `#{canonical_recipe_invocation}`!"
