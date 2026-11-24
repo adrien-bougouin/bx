@@ -127,7 +127,7 @@ _bx::update::main() {
 
   # shellcheck disable=SC2064
   trap "
-    if [[ ! -d '${__BX_PATH__}' ]] && [[ -d '${local_backup_path}' ]]; then
+    if [[ ! -d '${__BX_PATH__}' && -d '${local_backup_path}' ]]; then
       mv '${local_backup_path}' '${__BX_PATH__}'
     fi
 

@@ -6,7 +6,7 @@ __BX_RECIPE_HELPS__=()
 _bx::annotations::register "@help"
 
 @help() {
-  if [[ $# -gt 0 ]] && [[ $(_bx::annotation_parsing_stack::size) -gt 0 ]]; then
+  if [[ $# -gt 0 && $(_bx::annotation_parsing_stack::size) -gt 0 ]]; then
     __BX_RECIPE_HELPS__+=("$(_bx::annotation_parsing_stack::last)" "$#" "$@")
   fi
 }

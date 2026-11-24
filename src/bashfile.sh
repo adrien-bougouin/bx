@@ -31,7 +31,7 @@ _bx::bashfile::load() {
   if [[ -z ${__BX_BASHFILE_PATH__} ]]; then
     local lookup_path="${__BX_WORKING_DIRECTORY__}"
 
-    while [[ ${lookup_path} != "/" ]] && [[ -z ${__BX_BASHFILE_PATH__} ]]; do
+    while [[ ${lookup_path} != "/" && -z ${__BX_BASHFILE_PATH__} ]]; do
       local bashfile_candidate="${lookup_path}/Bashfile"
 
       if [[ -f ${bashfile_candidate} ]]; then

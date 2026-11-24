@@ -52,14 +52,14 @@ trap() {
 
   local signal
   for signal in "${trap_arguments[@]:$((action_index + 1))}"; do
-    if [[ ${signal} == EXIT ]] || [[ ${signal} == 0 ]]; then
+    if [[ ${signal} == EXIT || ${signal} == 0 ]]; then
       affects_exit="${__BOOL_TRUE__}"
     fi
   done
 
   if ((${#trap_arguments[@]} - action_index - 1 == 0)); then
     # Single argument is a signal spec to reset, not a trap action.
-    if [[ ${user_action} == EXIT ]] || [[ ${user_action} == 0 ]]; then
+    if [[ ${user_action} == EXIT || ${user_action} == 0 ]]; then
       affects_exit="${__BOOL_TRUE__}"
     fi
 

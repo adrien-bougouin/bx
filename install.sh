@@ -14,7 +14,7 @@ __BX_TARBALL_URL__="${__BX_DOWNLOAD_HOST__}/${__BX_TARBALL_NAME__}"
 __BX_DISPLAY_STYLE_NORMAL__=
 __BX_DISPLAY_STYLE_BOLD__=
 
-if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
+if [[ "$(command -v tput)" && ${TERM:-dumb} != "dumb" ]]; then
   __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0 2>/dev/null || true)"
   __BX_DISPLAY_STYLE_BOLD__="$(tput bold 2>/dev/null || true)"
 fi

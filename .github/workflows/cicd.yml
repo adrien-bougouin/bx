@@ -220,7 +220,7 @@ jobs:
 
       - name: Check cleaned update path
         run: |
-          if [[ -d ${HOME}/.local/opt/bx.bkp ]] || [[ -d ${HOME}/.local/opt/bx.new ]]; then
+          if [[ -d ${HOME}/.local/opt/bx.bkp || -d ${HOME}/.local/opt/bx.new ]]; then
             echo "::error::bx-update left the installation path dirty"
 
             exit 1

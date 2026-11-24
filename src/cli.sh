@@ -84,7 +84,7 @@ _bx::cli::parse_options() {
 
   shift
 
-  while [[ $# -gt 0 ]] && [[ $1 =~ ^- ]]; do
+  while [[ $# -gt 0 && $1 =~ ^- ]]; do
     local option="$1"
 
     case "${option}" in
@@ -110,7 +110,7 @@ _bx::cli::parse_options() {
             ;;
         esac
 
-        if [[ -z ${bashfile_path} ]] || [[ ${bashfile_path} == -* ]]; then
+        if [[ -z ${bashfile_path} || ${bashfile_path} == -* ]]; then
           _bx::abort "Option '${option%%=*}' requires an argument!"
         fi
 

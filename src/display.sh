@@ -9,9 +9,9 @@ __BX_DISPLAY_STYLE_NORMAL__=""
 __BX_DISPLAY_STYLE_BOLD__=""
 __BX_DISPLAY_STYLE_DIM__=""
 
-if [[ -t 1 ]] && [[ -t 2 ]]; then
+if [[ -t 1 && -t 2 ]]; then
   # BASH unset ${TERM} value is 'dumb'!
-  if [[ "$(command -v tput)" ]] && [[ ${TERM:-dumb} != "dumb" ]]; then
+  if [[ "$(command -v tput)" && ${TERM:-dumb} != "dumb" ]]; then
     __BX_DISPLAY_STYLE_NORMAL__="$(tput sgr0 2>/dev/null || true)"
     __BX_DISPLAY_STYLE_BOLD__="$(tput bold 2>/dev/null || true)"
     __BX_DISPLAY_STYLE_DIM__="$(tput dim 2>/dev/null || true)"
