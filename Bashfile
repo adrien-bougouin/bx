@@ -2,6 +2,7 @@ ROOT_PATH="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 BIN_PATH="${ROOT_PATH}/bin"
 MAN_PATH="${ROOT_PATH}/man"
+SKILLS_PATH="${ROOT_PATH}/skills"
 SRC_PATH="${ROOT_PATH}/src"
 
 # shellcheck disable=SC2207
@@ -72,10 +73,12 @@ dist() {
 
   local dist_bin_path
   local dist_man_path
+  local dist_skills_path
   local dist_src_path
 
   dist_bin_path="${dist_bx_path}/$(basename "${BIN_PATH}")"
   dist_man_path="${dist_bx_path}/$(basename "${MAN_PATH}")"
+  dist_skills_path="${dist_bx_path}/$(basename "${SKILLS_PATH}")"
   dist_src_path="${dist_bx_path}/$(basename "${SRC_PATH}")"
 
   local download_host="${1:-file://${dist_path}}"
@@ -99,6 +102,8 @@ dist() {
     "${dist_bin_path}/${bx_name}-uninstall"
   cp -r "${MAN_PATH}" \
     "${dist_man_path}"
+  cp -r "${SKILLS_PATH}" \
+    "${dist_skills_path}"
   cp -r "${SRC_PATH}" \
     "${dist_src_path}"
 
