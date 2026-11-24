@@ -23,8 +23,8 @@ Feature: Global Configuration
       Recipe invoked!
       """
     And bx outputs to stderr
-      | FORMAT | CONTENT                |
-      | xtrace | echo 'Recipe invoked!' |
+      | FORMAT       | CONTENT                |
+      | xtrace:lvl-2 | echo 'Recipe invoked!' |
     And bx succeeds
 
   Scenario: Keep recipe traces with any other value

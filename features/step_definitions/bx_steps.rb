@@ -106,6 +106,13 @@ def build_expected_output_line(data, invocation_stack: [])
     return /#{content[1..-2]}/
   end
 
+  # When recipe traces are disabled (e.g. BX_RECIPE_TRACE=0), the expected
+  # output has no `bx-trace-in` rows, so the helper cannot infer the xtrace
+  # level. Use `xtrace:lvl-N` to state the level explicitly.
+  if format =~ /^xtrace:lvl-(\d+)$/
+    return "#{'+' * Regexp.last_match(1).to_i} #{content}"
+  end
+
   case format
   when 'bx-confirm'
     build_confirmation_string(content)
@@ -128,7 +135,7 @@ def build_expected_output_line(data, invocation_stack: [])
 
     "bx: Skipping re-invocation of `#{canonical_recipe_invocation}`..."
   when 'xtrace'
-    "#{'+' * [2, invocation_stack.size + 1].max} #{content}"
+    "#{'+' * (invocation_stack.size + 1)} #{content}"
   when ''
     content
   else
