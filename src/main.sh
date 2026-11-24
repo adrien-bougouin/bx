@@ -63,7 +63,7 @@ _bx::main() {
   _bx::bashfile::load
   _bx::recipe_registry::load
 
-  if [[ ${BX_COMPLETE:-} == 1 ]]; then
+  if _bx::cli::completion_requested; then
     # For shell completion, request candidate recipes for last positional
     # argument.
     _bx::recipe_registry::print_completion_list \

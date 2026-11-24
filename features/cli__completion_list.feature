@@ -11,11 +11,10 @@ Feature: CLI--Completion List
 
       recipe-2() { :; }
       ```
-    And the shell environment
-      ```bash
-      export BX_COMPLETE=1
-      ```
-    When invoking
+    When setting
+      | OPTION            |
+      | --completion-list |
+    And invoking
     Then bx outputs to stdout
       """
       default
@@ -35,11 +34,10 @@ Feature: CLI--Completion List
 
       recipe-2() { :; }
       ```
-    And the shell environment
-      ```bash
-      export BX_COMPLETE=1
-      ```
-    When invoking recipe "re"
+    When setting
+      | OPTION            |
+      | --completion-list |
+    And invoking recipe "re"
     Then bx outputs to stdout
       """
       recipe-1
@@ -58,12 +56,9 @@ Feature: CLI--Completion List
 
       recipe-2() { :; }
       ```
-    And the shell environment
-      ```bash
-      export BX_COMPLETE=1
-      ```
     When setting
       | OPTION              |
+      | --completion-list   |
       | -f another.bashfile |
     And invoking recipe "re"
     Then bx outputs to stdout
@@ -75,11 +70,10 @@ Feature: CLI--Completion List
 
   Scenario: List available recipes when there are none
     Given an empty Bashfile
-    And the shell environment
-      ```bash
-      export BX_COMPLETE=1
-      ```
-    When invoking
+    When setting
+      | OPTION            |
+      | --completion-list |
+    And invoking
     Then bx outputs nothing to stdout
     And bx outputs nothing to stderr
     And bx succeeds
