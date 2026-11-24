@@ -48,7 +48,8 @@ _bx::main() {
   _bx::cli::parse_options positional_arguments_ref "$@"
 
   if _bx::cli::version_requested; then
-    _bx::display::info "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BX_CONSTANT_VERSION__}"
+    _bx::display::info \
+      "{{bold}}${__BX_CONSTANT_COMMAND_NAME__}:{{normal}} ${__BX_CONSTANT_VERSION__}"
 
     exit 0
   fi
@@ -62,7 +63,11 @@ _bx::main() {
   _bx::bashfile::load
   _bx::recipe_registry::load
 
-  if [[ $(_bx::recipe_registry::size) -eq 0 ]]; then
+  if _bx::cli::completion_requested; then
+    _bx::recipe_registry::print_completion_list
+
+    exit 0
+  elif [[ $(_bx::recipe_registry::size) -eq 0 ]]; then
     _bx::abort "No recipes!"
   elif _bx::cli::list_requested; then
     _bx::recipe_registry::print_list

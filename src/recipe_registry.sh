@@ -38,6 +38,15 @@ _bx::recipe_registry::size() {
   printf "%d" "${#__BX_RECIPES__[@]}"
 }
 
+_bx::recipe_registry::print_completion_list() {
+  [[ $(_bx::recipe_registry::size) -eq 0 ]] && return
+
+  local recipe
+  for recipe in "${__BX_RECIPES__[@]}"; do
+    _bx::display::info "${recipe}"
+  done
+}
+
 _bx::recipe_registry::print_list() {
   [[ $(_bx::recipe_registry::size) -eq 0 ]] && return
 

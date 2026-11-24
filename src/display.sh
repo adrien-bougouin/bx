@@ -153,5 +153,5 @@ _bx::display::format() {
   message="${message//\{\{bold\}\}/${__BX_DISPLAY_STYLE_BOLD__}}"
   message="${message//\{\{dim\}\}/${__BX_DISPLAY_STYLE_DIM__}}"
 
-  printf "%b" "${message}${__BX_DISPLAY_STYLE_NORMAL__}"
+  printf "%b" "${message}"
 }
