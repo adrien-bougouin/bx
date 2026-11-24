@@ -10,6 +10,8 @@ Feature: CLI--Completion List
       }
 
       recipe-2() { :; }
+
+      _not-a-recipe() { :; }
       ```
     When setting
       | OPTION            |
