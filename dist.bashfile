@@ -1,20 +1,22 @@
 ROOT_PATH="${ROOT_PATH:-$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 BIN_PATH="${BIN_PATH:-${ROOT_PATH}/bin}"
+COMPLETIONS_PATH="${COMPLETIONS_PATH:-${ROOT_PATH}/completions}"
 
 install() {
   @help \
-    "Add '${BIN_PATH/#${HOME}/~}' to binary path from shell config." \
-    "Supported shells: sh, dash, bash, zsh, and fish."
+    "Supported shells: sh, dash, bash, zsh, and fish." \
+    "Add ${__BX_CONSTANT_COMMAND_NAME__} binaries to binary path." \
+    "Also install ${__BX_CONSTANT_COMMAND_NAME__} completion for bash users."
 
   if command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
-    echo "${__BX_CONSTANT_COMMAND_NAME__} is already installed!" >&2
+    printf "%s\n" "${__BX_CONSTANT_COMMAND_NAME__} is already installed!" >&2
 
     return 1
   fi
 
   local shell
   local config_path
-  local config_content
+  local config_lines
   local apply_instruction
 
   shell="$(basename "${SHELL:-}")"
@@ -22,37 +24,49 @@ install() {
   case "${shell}" in
     sh | dash)
       config_path="${HOME}/.profile"
-      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      config_lines=("export PATH=${BIN_PATH}:\${PATH}")
       apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
       ;;
 
-    bash | zsh)
+    bash)
       config_path="${HOME}/.${shell}rc"
-      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      config_lines=(
+        "export PATH=${BIN_PATH}:\${PATH}"
+        "source \"${COMPLETIONS_PATH}/bx.bash\""
+      )
+      apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
+      ;;
+
+    zsh)
+      config_path="${HOME}/.${shell}rc"
+      config_lines=("export PATH=${BIN_PATH}:\${PATH}")
       apply_instruction="export PATH=\"${BIN_PATH}:\${PATH}\""
       ;;
 
     fish)
       config_path="${HOME}/.config/fish/config.fish"
-      config_content="fish_add_path ${BIN_PATH}"
+      config_lines=("fish_add_path ${BIN_PATH}")
       apply_instruction="fish_add_path \"${BIN_PATH}\""
       ;;
 
     *)
-      echo "Installing to shell '${shell}' is not supported!" >&2
+      printf "%s\n" "Installing to shell '${shell}' is not supported!" >&2
 
       return 1
       ;;
   esac
 
-  if ! grep -qsxF "${config_content}" "${config_path}" 2>/dev/null; then
-    printf "\n%s" "${config_content}" >>"${config_path}"
-  fi
+  local config_line
+  for config_line in "${config_lines[@]}"; do
+    if ! grep -qsxF "${config_line}" "${config_path}" 2>/dev/null; then
+      printf "\n%s" "${config_line}" >>"${config_path}"
+    fi
+  done
 
   cat <<-INFO
 		${__BX_CONSTANT_COMMAND_NAME__} is installed in ${config_path}
 
-		Execute this in your terminal to use ${__BX_CONSTANT_COMMAND_NAME__} right now:
+		To use ${__BX_CONSTANT_COMMAND_NAME__} right now, execute the following in your terminal:
 		  ${apply_instruction}
 	INFO
 }
@@ -60,48 +74,60 @@ install() {
 uninstall() {
   @confirm
   @help \
-    "Undo \`${__BX_CONSTANT_COMMAND_NAME__} install\`: Remove '${BIN_PATH/#${HOME}/~}' from binary path." \
-    "Supported shells: sh, dash, bash, zsh, and fish."
+    "Supported shells: sh, dash, bash, zsh, and fish." \
+    "Remove ${__BX_CONSTANT_COMMAND_NAME__} binaries from binary path, and ${__BX_CONSTANT_COMMAND_NAME__} completion."
 
   if ! command -v "${__BX_CONSTANT_COMMAND_NAME__}" &>/dev/null; then
-    echo "${__BX_CONSTANT_COMMAND_NAME__} not installed!" >&2
+    printf "%s\n" "${__BX_CONSTANT_COMMAND_NAME__} not installed!" >&2
 
     return 1
   fi
 
   local shell
   local config_path
-  local config_content
+  local config_lines
 
   shell="$(basename "${SHELL:-}")"
 
   case "${shell}" in
     sh | dash)
       config_path="${HOME}/.profile"
-      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      config_lines=("export PATH=${BIN_PATH}:\${PATH}")
       ;;
 
-    bash | zsh)
+    bash)
       config_path="${HOME}/.${shell}rc"
-      config_content="export PATH=${BIN_PATH}:\${PATH}"
+      config_lines=(
+        "export PATH=${BIN_PATH}:\${PATH}"
+        "source \"${COMPLETIONS_PATH}/bx.bash\""
+      )
+      ;;
+
+    zsh)
+      config_path="${HOME}/.${shell}rc"
+      config_lines=("export PATH=${BIN_PATH}:\${PATH}")
       ;;
 
     fish)
       config_path="${HOME}/.config/fish/config.fish"
-      config_content="fish_add_path ${BIN_PATH}"
+      config_lines=("fish_add_path ${BIN_PATH}")
       ;;
 
     *)
-      echo "Uninstalling to shell '${shell}' is not supported!" >&2
+      printf "%s\n" "Uninstalling to shell '${shell}' is not supported!" >&2
 
       return 1
       ;;
   esac
 
-  if grep -qsxF "${config_content}" "${config_path}" 2>/dev/null; then
+  if grep -qsxF "${config_lines[0]}" "${config_path}" 2>/dev/null; then
     local new_config
+    local config_line
 
-    new_config=$(grep -vxF "${config_content}" "${config_path}")
+    new_config=$(cat "${config_path}")
+    for config_line in "${config_lines[@]}"; do
+      new_config=$(grep -vxF -e "${config_line}" <<<"${new_config}" || true)
+    done
 
     printf "%s\n" "${new_config}" >"${config_path}"
   else

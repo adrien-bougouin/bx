@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 ### Added
-- Recipe completion in Bash shell.
+- Recipe completion in Bash shell. Existing users can enable it by adding `source "<install-path>/completions/bx.bash"` to `~/.bashrc`.
 
 ## [0.18.0] - 2026-11-24
 ### Added

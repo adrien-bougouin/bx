@@ -20,4 +20,4 @@ _bx::completion() {
   done < <(bx --completion-list "${COMP_WORDS[@]:1:COMP_CWORD}" 2>/dev/null)
 }
 
-complete -F _bx::completion bx
+complete -o default -F _bx::completion bx

@@ -86,6 +86,18 @@ Pass arguments to recipes by quoting the recipe name and its arguments.
 bx format 'lint --some-lint-option'
 ```
 
+### Shell completion
+On Bash, a fresh install also adds a line to `~/.bashrc` that loads recipe-name completion.
+
+Press `Tab` after `bx`, or after an already-typed recipe, to complete the next recipe name from the current `Bashfile`, or from the file selected with `-f`.
+Completion is Bash-only and has no effect on other shells (yet).
+
+For installs made before completion was available, add the following line to your shell configuration:
+
+```bash
+source "<install-path>/completions/bx.bash"
+```
+
 ### Recipe annotations
 Annotations are directives placed inside a recipe body to instruct `bx` on how to treat the recipe.
 
